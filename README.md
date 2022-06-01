@@ -33,6 +33,13 @@ The store owner page includes store information. Owners could check and edit sto
 Data structure
 ----------
 ![](https://github.com/plasmasky-hub/P3/blob/readme/README/Database_diagram.png)
+
+The following figures are the data structure of the booking system (for business). It includes the first iteration version, and the final target version.
+
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/business_serviceInfo_structure_interation1.png)
+
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/business_serviceInfo_struture_final_version.png)
+
 Tech Stack
 ---------
 Front-end: 
