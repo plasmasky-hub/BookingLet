@@ -40,14 +40,14 @@ async function addInfo(req, res) {
         } = req.body;
 
         Joi.object({
-            name: Joi.string().required().min(2).min(20),
-            category: Joi.string().required().min(2).min(20),
+            name: Joi.string().required().min(2).max(20),
+            category: Joi.string().required().min(2).max(20),
             storeCode: Joi.string().required(),
             duration: Joi.number().required().min(0.5).max(5),
             personLimit: Joi.number().required().min(1).max(50),
             serviceQuantity: Joi.number().required().min(1),
             description: Joi.string().max(200),
-            staff: Joi.string().min(1).min(20)
+            staff: Joi.string().min(1).max(20)
         });
 
         const serviceInfo = new ServiceInfo({
