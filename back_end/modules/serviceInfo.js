@@ -24,13 +24,13 @@ const schema = new mongoose.Schema({
         min:0.5,
         max:5,
     },
-    personLimit: {
+    maxPersonPerSection: {
         type: Number,
         required: true,
         min:1,
         max:50,
     },
-    serviceQuantity: {
+    maxServicePerSection: {
         type: Number,
         required: true,
         min:1,
@@ -38,11 +38,6 @@ const schema = new mongoose.Schema({
     description: {
         type: String,
         maxlength:200,
-    },
-    staff: {
-        type: String,
-        minlength:1,
-        maxlength:20,
     },
     startTime: {
         type: Object,

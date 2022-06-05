@@ -1,4 +1,4 @@
-const ServiceInfo = require('../models/serviceInfo');
+const ServiceInfo = require('../modules/serviceInfo');
 const Joi = require('joi')
 
 async function getAllInfos(req, res) {
@@ -33,10 +33,9 @@ async function addInfo(req, res) {
             category,
             storeCode,
             duration,
-            personLimit,
-            serviceQuantity,
-            description,
-            staff
+            maxPersonPerSection,
+            maxServicePerSection,
+            description
         } = req.body;
 
         Joi.object({
@@ -44,10 +43,9 @@ async function addInfo(req, res) {
             category: Joi.string().required().min(2).max(20),
             storeCode: Joi.string().required(),
             duration: Joi.number().required().min(0.5).max(5),
-            personLimit: Joi.number().required().min(1).max(50),
-            serviceQuantity: Joi.number().required().min(1),
-            description: Joi.string().max(200),
-            staff: Joi.string().min(1).max(20)
+            maxPersonPerSection: Joi.number().required().min(1).max(50),
+            maxServicePerSection: Joi.number().required().min(1),
+            description: Joi.string().max(200)
         });
 
         const serviceInfo = new ServiceInfo({
@@ -55,10 +53,9 @@ async function addInfo(req, res) {
             category,
             storeCode,
             duration,
-            personLimit,
-            serviceQuantity,
-            description,
-            staff
+            maxPersonPerSection,
+            maxServicePerSection,
+            description
         });
         await serviceInfo.save();
         res.status(201).json(serviceInfo);
@@ -76,10 +73,9 @@ async function updateInfoById(req, res) {
             category,
             storeCode,
             duration,
-            personLimit,
-            serviceQuantity,
+            maxPersonPerSection,
+            maxServicePerSection,
             description,
-            staff,
             startTime
         } = req.body;
         const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
@@ -87,10 +83,9 @@ async function updateInfoById(req, res) {
             category,
             storeCode,
             duration,
-            personLimit,
-            serviceQuantity,
+            maxPersonPerSection,
+            maxServicePerSection,
             description,
-            staff,
             startTime
         }, { new: true }).exec();
         if (!serviceInfo) {
