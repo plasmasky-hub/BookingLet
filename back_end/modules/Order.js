@@ -7,29 +7,34 @@ const Schema = new mongoose.Schema({
     },
     orderTime: {
         type : String,
-        required : true
+        // required : true
     },
     status: {
         type : Boolean,
         default:false
     },
-    // userId:{
-    //     type : String,
-    //     required : true
-    // },
-    // storeId:{
-    //     type : String,
-    //     required : true
-    // },
-    // serviceId:{
-    //     type : String,
-    //     required : true
-    // }
-    // optionInfo:{
-    //     type : String,
-    //     maxLength:
-    // }
-    //
+    userId:{
+        // type : mongoose.Schema.Types.ObjectId,
+        // ref:"User",
+        type : String,
+       
+    },
+    storeCode:{
+        // type : mongoose.Schema.Types.ObjectId,
+        // ref:"Store" 
+        type : String,
+    },
+    serviceInfoId:{
+        // type : mongoose.Schema.Types.ObjectId,
+        // ref:"ServiceInfo"
+        type : String,
+       
+    },
+    optionInfo:{
+        type : String,
+        maxlength:200
+    }
+    
 })
 
 const Model = mongoose.model('Order', Schema);
