@@ -3,9 +3,8 @@ const userRouter = require('./user');
 const serviceInfoRouter = require('./serviceInfo');
 
 const mainRouter = express.Router();
-const router = express.Router();
 
 mainRouter.use('/user', userRouter);
-router.use('/serviceInfo', serviceInfoRouter)
+mainRouter.use('/serviceInfo', serviceInfoRouter)
 
-module.exports = {mainRouter, router};
+module.exports =mainRouter;
