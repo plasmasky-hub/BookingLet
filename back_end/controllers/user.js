@@ -1,4 +1,6 @@
 const User = require('../modules/user');
+const Joi = require('joi');
+
 
 // GET all users
 async function getAllUsers(req, res){
@@ -18,6 +20,15 @@ async function getAllUsers(req, res){
 async function addUser(req, res){
     console.log('Adding a new user...');
     try{
+        const checkResult = checkUserInfo(req.body);
+        // console.log("🚀 ~ file: user.js ~ line 24 ~ addUser ~ checkResult", checkResult)
+
+        if( !(checkResult === undefined) ){
+            console.log('Invalid user info format!');
+            console.log(checkResult)
+            return res.json(checkResult);
+        }
+
         const { 
             name, 
             tel, 
@@ -35,6 +46,7 @@ async function addUser(req, res){
     }
     catch (error) {
         console.log('Error in adding user!');
+        console.log(error);
         res.status(422).json('Error in adding user!');
     }
 }
@@ -44,6 +56,13 @@ async function updateUserByID(req, res){
     console.log('Updating user\'s info...');
     try{
         const {id} = req.params;
+        const checkResult = checkUserInfo(req.body);
+
+        if( checkResult.error != undefined){
+            console.log('Invalid user info format!');
+            return res.json(checkResult);
+        }
+
         const { 
             name, 
             tel,
@@ -61,7 +80,7 @@ async function updateUserByID(req, res){
         if( !user ){
             return res.status(404).json('User not found!');
         }
-        res.json(user);
+        res.json('Update successful!');
     }
     catch{
         res.json('Error in Updating user!');
@@ -109,6 +128,43 @@ async function deleteUserByID(req, res){
     };
 
 };
+
+// User info format check
+function checkUserInfo(data){
+
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        tel: Joi.string().regex(/^\d{2}\d{4}\d{4}$/).required(),
+        email: Joi.string().email().required()
+    });
+
+    console.log("Checking user info format...");
+
+    const validation = schema.validate(data);   
+    // console.log(validation);
+
+    const errorCode = new Map([
+        ["name" , "Invalid name!"],
+        ['tel', "Invalid Tel number!"],
+        ["email", "Invalid Email address!"],
+    ]);
+
+    // console.log(validation.error.details[0].path);
+
+    // var detail = { details : undefined };
+
+    // if there is no error, the "details" key will be undefined in error
+    if( "details" in validation.error ){
+        // console.log("🚀 ~ file: user.js ~ line 155 ~ checkUserInfo ~ errorCode.get(validation.error.details[0].path)", errorCode.get(validation.error.details[0].path[0]))
+
+        return errorCode.get(validation.error.details[0].path[0]);
+    }
+    else{
+        return undefined;
+    }
+
+
+}
 
 module.exports = {
     getAllUsers,
