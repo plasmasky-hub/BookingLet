@@ -57,9 +57,11 @@ async function updateUserByID(req, res){
     try{
         const {id} = req.params;
         const checkResult = checkUserInfo(req.body);
+        // console.log("🚀 ~ file: user.js ~ line 24 ~ addUser ~ checkResult", checkResult)
 
-        if( checkResult.error != undefined){
+        if( !(checkResult === undefined) ){
             console.log('Invalid user info format!');
+            console.log(checkResult)
             return res.json(checkResult);
         }
 
