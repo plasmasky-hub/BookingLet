@@ -30,8 +30,9 @@ async function addInfo(req, res) {
     try {
         const {
             name,
-            category,
-            storeCode,
+            rootCategory,
+            subCategory,
+            store,
             duration,
             maxPersonPerSection,
             maxServicePerSection,
@@ -40,8 +41,6 @@ async function addInfo(req, res) {
 
         Joi.object({
             name: Joi.string().required().min(2).max(20),
-            category: Joi.string().required().min(2).max(20),
-            storeCode: Joi.string().required(),
             duration: Joi.number().required().min(0.5).max(5),
             maxPersonPerSection: Joi.number().required().min(1).max(50),
             maxServicePerSection: Joi.number().required().min(1),
@@ -50,8 +49,9 @@ async function addInfo(req, res) {
 
         const serviceInfo = new ServiceInfo({
             name,
-            category,
-            storeCode,
+            rootCategory,
+            subCategory,
+            store,
             duration,
             maxPersonPerSection,
             maxServicePerSection,
@@ -70,8 +70,9 @@ async function updateInfoById(req, res) {
         const { id } = req.params;
         const {
             name,
-            category,
-            storeCode,
+            rootCategory,
+            subCategory,
+            store,
             duration,
             maxPersonPerSection,
             maxServicePerSection,
@@ -80,8 +81,9 @@ async function updateInfoById(req, res) {
         } = req.body;
         const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
             name,
-            category,
-            storeCode,
+            rootCategory,
+            subCategory,
+            store,
             duration,
             maxPersonPerSection,
             maxServicePerSection,

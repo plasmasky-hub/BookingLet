@@ -1,5 +1,11 @@
 const express = require('express');
-const { getAllInfos, addInfo, getInfoById, updateInfoById, deleteInfoById } = require('../controllers/serviceInfo');
+const { 
+    getAllInfos, 
+    addInfo, 
+    getInfoById, 
+    updateInfoById, 
+    deleteInfoById 
+} = require('../controllers/serviceInfo');
 
 const serviceInfoRouter = express.Router();
 
