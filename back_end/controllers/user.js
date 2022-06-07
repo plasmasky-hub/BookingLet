@@ -1,5 +1,6 @@
 const User = require('../modules/user');
 
+// GET all users
 async function getAllUsers(req, res){
     console.log('Finding all users...');
 
@@ -13,6 +14,7 @@ async function getAllUsers(req, res){
     }
 }
 
+// ADD new user
 async function addUser(req, res){
     console.log('Adding a new user...');
     try{
@@ -37,6 +39,7 @@ async function addUser(req, res){
     }
 }
 
+// UPDATE user by ID
 async function updateUserByID(req, res){
     console.log('Updating user\'s info...');
     try{
@@ -52,7 +55,7 @@ async function updateUserByID(req, res){
         const user = await User.findByIdAndUpdate( id, {
             name,
             tel,
-            emal
+            email
         });
 
         if( !user ){
@@ -66,6 +69,7 @@ async function updateUserByID(req, res){
 
 };
 
+// GET user by ID
 async function getUserByID(req, res){
 
     console.log('Getting user\'s info...');
@@ -74,9 +78,7 @@ async function getUserByID(req, res){
         const user = await User.findById(id);
 
         if( !user ){
-            return res.status(404).json({
-                error: 'User info not found!',
-            });
+            return res.status(404).json('User info not found!');
         }
 
         res.json(user);
@@ -87,6 +89,7 @@ async function getUserByID(req, res){
 
 };
 
+// DELETE user
 async function deleteUserByID(req, res){
     console.log('Deleting user\'s info...');
     try{
@@ -104,7 +107,7 @@ async function deleteUserByID(req, res){
     catch{
         res.json('Error in deleting user!');
     };
-    
+
 };
 
 module.exports = {
