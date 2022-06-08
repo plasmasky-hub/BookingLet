@@ -1,0 +1,11 @@
+﻿Helvetica 是西方最常用的无衬线体, 由瑞士设计师 Max Miedinger 于 1975 年设计. 1983 年 LinoType 发布改进版的 Helvetica Neue, 字体家族扩充到 51 种 (其实到现在为止早已远不止 51 种了). 由于版本众多, 这里提供的是 LinoType 在 2006 年更新的 Helvetica Neue Pro 家族, 官方售价: $959.00 USD.
+
+Helvetica是由米耶丁格和爱德华德·霍夫曼（Eduard Hoffmann）在瑞士哈斯铸造所（Haas’sche Schriftgießerei）所制做。作为排版铅字制作的。当时人们熟悉的是“国际字体风格”（也称为“瑞士风格”），比如 Josef Muller-Brockmann 在1896年推广 Akzidenz Grotesk 这类在50多年前制作的无衬线字体，并由德国铸造所 Berthold 持续进行市场推广。因此哈斯希望能设计一套新的无衬线字体能够与 Akzidenz Grotesk 在瑞士市场上竞争。最初的名称是“Neue Haas Grotesk”，意为“哈斯的新无衬线铅字”，后来哈斯的德国母公司斯滕佩尔（Stempel）在1960年曾考虑将名字改为Helvetia（源自拉丁文的“瑞士”一词），不过最终改为 Helvetica，在拉丁文中意味“瑞士的”，以使其更具有国际市场竞争力。现在，Helvetica由Linotype公司所拥有，Stempel是它的子公司。
+
+纪录片电影导演盖瑞·胡斯崔特（Gary Hustwit）制作了一部关于Helvetica的同名纪录片。该片在2007年上映，纪念字体开发50周年。
+
+
+Helvetica被广泛用于全世界使用拉丁字母和西里尔字母的国家。同样的风格也被移植到希腊字母、希伯来字母和汉字。加拿大政府的联邦认证制度（corporate identity program）也使用了这个字体及其各种版本。Helvetica被大量使用在标志、电视、新闻标题以及无数的商标。 如3M、爱克发、BASF、美国航空、American Apparel、BMW、Crate & Barrel、德国汉莎航空公司、Fendi、Knoll、英特尔、无印良品、雀巢、松下、丰田、Parmalat、SAAB（Helvetica 83 粗体）、三星、Staples、Target、Texaco等数百间主要企业的标志都是使用Helvetica字体。
+
+Helvetica是Mac OS系统的默认字体。Mac OS X系统中也包含Helvetica和Helvetica Neue字体。Nimbus Sans字体（GNU/Linux系统中的默认字体）也是基于Helvetica的，Bitstream公司的Swiss 721 BT字体也是一样（从这个字体名字就可以看出）。Helvetica在政府部门和公共机构中也获得广泛使用，例如美国华盛顿和波士顿的地铁和大众交通系统采用了该字体。新的纽约地铁也将标志字体从Akzidenz Grotesk体转为Helvetica字体。
+
