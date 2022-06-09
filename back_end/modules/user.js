@@ -13,6 +13,10 @@ const Schema = new mongoose.Schema({
         type : String,
         required : true 
     },
+    orderId:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Order"
+    }]
 })
 
 const Model = mongoose.model('User', Schema);
