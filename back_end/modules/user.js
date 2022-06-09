@@ -13,9 +13,9 @@ const Schema = new mongoose.Schema({
         type : String,
         required : true 
     },
-    orderId:[{
+    orders:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Order"
+        ref:'Order',
     }]
 })
 
