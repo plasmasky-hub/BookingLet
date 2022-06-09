@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const { object, number } = require('joi');
 
 const schema = new mongoose.Schema({
     name: {
@@ -14,18 +15,39 @@ const schema = new mongoose.Schema({
         minlength: 2,
         maxlength: 20,
     },
-    rootCategory: [{
+    tel: {
+        type: String,
+        required: true,
+    },
+    location: {
+        state: { type: String, required: true },
+        city: { type: String, required: true },
+        suburb: { type: String, required: true },
+        street: { type: String, required: true },
+        number: { type: String, required: true },
+        postcode: { type: Number, required: true }
+    },
+    description: {
+        type: String,
+        maxlength: 200,
+    },
+    rootCategories: [{
         type: mongoose.Types.ObjectId,
         ref: 'RootCategory'
     }],
-    subCategory: [{
+    subCategories: [{
         type: mongoose.Types.ObjectId,
         ref: 'SubCategory'
     }],
-    serviceInfo: [{
+    serviceInfos: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'ServiceInfo'
+    }],
+    orders: [{
         type: mongoose.Types.ObjectId,
         ref: 'ServiceInfo'
     }]
+
 
 },
     {

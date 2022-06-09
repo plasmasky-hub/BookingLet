@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'RootCategory'
     },
-    subCategory: [{
+    subCategories: [{
         type: mongoose.Types.ObjectId,
         ref: 'SubCategory'
     }],
@@ -42,10 +42,14 @@ const schema = new mongoose.Schema({
         maxlength: 200,
     },
     startTime: {
-        type: Object,
-        //type: Array,   
-        //default: [{"Monday":[]},{"Tuesday":[]},{"Wednesday":[]},{"Thursday":[]},{"Friday":[]},{"Saturday":[]},{"Sunday":[]},
-        default: { "Monday": [], "Tuesday": [], "Wednesday": [], "Thursday": [], "Friday": [], "Saturday": [], "Sunday": [] }
+        Monday: { type: Array },
+        Tuesday: { type: Array },
+        Wednesday: { type: Array },
+        Thursday: { type: Array },
+        Friday: { type: Array },
+        Saturday: { type: Array },
+        Sunday: { type: Array }
+        //default: { "Monday": [], "Tuesday": [], "Wednesday": [], "Thursday": [], "Friday": [], "Saturday": [], "Sunday": [] }
     }
 },
     {

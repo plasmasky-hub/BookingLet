@@ -1,5 +1,6 @@
 const SubCategory = require('../modules/subCategory');
 const RootCategory = require('../modules/rootCategory');
+const ServiceInfo = require('../modules/serviceInfo');
 const Joi = require('joi');
 
 async function getAllSubCategories(req, res) {
@@ -9,7 +10,7 @@ async function getAllSubCategories(req, res) {
 
 async function getSubCategoryById(req, res) {
     const { id } = req.params;
-    const subCategory = await SubCategory.findById(id).exec();
+    const subCategory = await SubCategory.findById(id).populate('parentCategory').exec();
     if (!subCategory) {
         return res.status(404).json({
             error: 'Subcategory not found',
@@ -52,12 +53,19 @@ async function deleteSubCategoryId(req, res) {
             error: 'Subcategory info not found',
         });
     }
+
+    await ServiceInfo.updateMany({ subCategories: subCategory._id}, {
+        $pull:{
+            subCategories: subCategory._id
+        }
+    }).exec()
+
     res.sendStatus(204);
 }
 
-// POST  /v1/subCategories/:subCategoryId/rootCategory/:rootCategoryId   //即使是双向绑定，也只需要一个路径
+// POST  /v1/subCategory/:subCategoryId/rootCategory/:rootCategoryId   //即使是双向绑定，也只需要一个路径
 async function addRootCategoryToSubCategory(req, res) {
-    const { rootCategoryId, subCategoryId } = req.params;
+    const { subCategoryId, rootCategoryId } = req.params;
     const subCategory = await SubCategory.findById(subCategoryId).exec();
     const rootCategory = await RootCategory.findById(rootCategoryId).exec();
 
@@ -67,7 +75,25 @@ async function addRootCategoryToSubCategory(req, res) {
         });
     }
 
-    subCategory.parentCategory.addToSet(rootCategory._id);
+    subCategory.parentCategory = rootCategory._id;
+    await subCategory.save();
+
+    return res.json(subCategory);
+}
+
+async function removeRootCategoryToSubCategory(req, res) {
+    const { subCategoryId, rootCategoryId } = req.params;
+    const subCategory = await SubCategory.findById(subCategoryId).exec();
+    const rootCategory = await RootCategory.findById(rootCategoryId).exec();
+
+    if (!subCategory || !rootCategory) {
+        return res.status(404).json({
+            error: 'Category or Subcategory not found',
+        });
+    }
+
+    //await subCategory.update({subCategory},{$pull:{parentCategory:rootCategoryId}})
+    subCategory.parentCategory = undefined;
     await subCategory.save();
 
     return res.json(subCategory);
@@ -78,5 +104,7 @@ module.exports = {
     getSubCategoryById,
     addSubCategory,
     updateSubCategoryById,
-    deleteSubCategoryId
+    deleteSubCategoryId,
+    addRootCategoryToSubCategory,
+    removeRootCategoryToSubCategory
 }

@@ -1,4 +1,5 @@
 const ServiceInfo = require('../modules/serviceInfo');
+const SubCategory = require('../modules/subCategory')
 const Joi = require('joi')
 
 async function getAllInfos(req, res) {
@@ -14,7 +15,7 @@ async function getAllInfos(req, res) {
 async function getInfoById(req, res) {
     try {
         const { id } = req.params;
-        const serviceInfo = await ServiceInfo.findById(id).exec();
+        const serviceInfo = await ServiceInfo.findById(id).populate('store', 'subCategories').exec();
         if (!serviceInfo) {
             return res.status(404).json({
                 error: 'service info not found',
@@ -31,7 +32,7 @@ async function addInfo(req, res) {
         const {
             name,
             rootCategory,
-            subCategory,
+            subCategories,
             store,
             duration,
             maxPersonPerSection,
@@ -50,7 +51,7 @@ async function addInfo(req, res) {
         const serviceInfo = new ServiceInfo({
             name,
             rootCategory,
-            subCategory,
+            subCategories,
             store,
             duration,
             maxPersonPerSection,
@@ -61,7 +62,7 @@ async function addInfo(req, res) {
         res.status(201).json(serviceInfo);
 
     } catch (error) {
-        console.log('request error in addInfo, ', error);
+        console.log('Request error in addInfo, ', error);
         res.json('Service Info format incorrect!');
     }
 }
@@ -71,7 +72,7 @@ async function updateInfoById(req, res) {
         const {
             name,
             rootCategory,
-            subCategory,
+            subCategories,
             store,
             duration,
             maxPersonPerSection,
@@ -82,7 +83,7 @@ async function updateInfoById(req, res) {
         const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
             name,
             rootCategory,
-            subCategory,
+            subCategories,
             store,
             duration,
             maxPersonPerSection,
@@ -116,10 +117,45 @@ async function deleteInfoById(req, res) {
     }
 }
 
+async function addSubCategoryToServiceInfo(req, res){
+    const {serviceInfoId, subCategoryId} = req.params;
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+    const subCategory = await SubCategory.findById(subCategoryId).exec();
+
+    if (!serviceInfo || !subCategory) {            
+        return res.status(404).json({
+            error: 'serviceInfo or subCategory not found',
+        });
+    }
+
+    serviceInfo.subCategories.addToSet(subCategory._id);
+    await serviceInfo.save();
+
+    return res.json(serviceInfo);
+}
+
+async function removeSubCategoryToServiceInfo(req, res){
+    const {serviceInfoId, subCategoryId} = req.params;
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+    const subCategory = await SubCategory.findById(subCategoryId).exec();
+
+    if (!serviceInfo || !subCategory) {            
+        return res.status(404).json({
+            error: 'serviceInfo or subCategory not found',
+        });
+    }
+
+    serviceInfo.subCategories.pull(subCategory._id);
+    await serviceInfo.save();
+
+    return res.json(serviceInfo);
+}
 module.exports = {
     getAllInfos,
     getInfoById,
     addInfo,
     updateInfoById,
-    deleteInfoById
+    deleteInfoById,
+    addSubCategoryToServiceInfo,
+    removeSubCategoryToServiceInfo
 }

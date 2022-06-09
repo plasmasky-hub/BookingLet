@@ -1,4 +1,5 @@
 const RootCategory = require('../modules/rootCategory');
+const SubCategory = require('../modules/subCategory');
 const Joi = require('joi')
 
 async function getAllRootCategories(req, res) {
@@ -50,6 +51,14 @@ async function deleteRootCategoryId(req, res) {
             error: 'Category info not found',
         });
     }
+
+   // await SubCategory.updateMany({parentCategory:id}, {
+        //parentCategory : undefined
+      //  $pull:{
+       //     parentCategory:id
+       // }
+   // }).exec();
+
     res.sendStatus(204);
 
 }

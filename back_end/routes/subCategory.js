@@ -4,7 +4,9 @@ const {
     getSubCategoryById,
     addSubCategory,
     updateSubCategoryById,
-    deleteSubCategoryId 
+    deleteSubCategoryId,
+    addRootCategoryToSubCategory,
+    removeRootCategoryToSubCategory 
 } = require('../controllers/subCategory');
 
 const subCategoryRouter = express.Router();
@@ -14,5 +16,7 @@ subCategoryRouter.post('', addSubCategory);
 subCategoryRouter.get('/:id', getSubCategoryById);
 subCategoryRouter.put('/:id', updateSubCategoryById);
 subCategoryRouter.delete('/:id', deleteSubCategoryId);
+subCategoryRouter.post('/:subCategoryId/rootCategory/:rootCategoryId', addRootCategoryToSubCategory)
+subCategoryRouter.delete('/:subCategoryId/rootCategory/:rootCategoryId', removeRootCategoryToSubCategory)
 
 module.exports = subCategoryRouter;
