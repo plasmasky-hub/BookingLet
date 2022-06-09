@@ -6,7 +6,9 @@ const {
     updateInfoById, 
     deleteInfoById,
     addSubCategoryToServiceInfo,
-    removeSubCategoryToServiceInfo 
+    removeSubCategoryToServiceInfo,
+    addRootCategoryToServiceInfo,
+    removeRootCategoryToServiceInfo, 
 } = require('../controllers/serviceInfo');
 
 const serviceInfoRouter = express.Router();
@@ -18,5 +20,7 @@ serviceInfoRouter.put('/:id', updateInfoById);
 serviceInfoRouter.delete('/:id', deleteInfoById);
 serviceInfoRouter.post('/:serviceInfoId/subCategory/:subCategoryId', addSubCategoryToServiceInfo);
 serviceInfoRouter.delete('/:serviceInfoId/subCategory/:subCategoryId',removeSubCategoryToServiceInfo);
+serviceInfoRouter.post('/:serviceInfoId/rootCategory/:rootCategoryId', addRootCategoryToServiceInfo);
+serviceInfoRouter.delete('/:serviceInfoId/rootCategory/:rootCategoryId',removeRootCategoryToServiceInfo);
 
 module.exports = serviceInfoRouter;

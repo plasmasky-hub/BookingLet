@@ -4,9 +4,9 @@ const {
     getStoreById,
     addStore,
     updateStoreById,
-    deleteStoreId,
-    addServiceInfoToStore,
-    removeServiceInfoToStore,
+    deleteStoreById,
+    //addServiceInfoToStore,
+    //removeServiceInfoToStore,
     addRootCategoryToStore,
     removeRootCategoryToStore,
     addSubCategoryToStore,
@@ -19,9 +19,9 @@ storeRouter.get('', getAllStores);
 storeRouter.post('', addStore);
 storeRouter.get('/:id', getStoreById);
 storeRouter.put('/:id', updateStoreById);
-storeRouter.delete('/:id', deleteStoreId);
-storeRouter.post('/:storeId/serviceInfo/:serviceInfoId', addServiceInfoToStore);
-storeRouter.delete('/:storeId/serviceInfo/:serviceInfoId', removeServiceInfoToStore);
+storeRouter.delete('/:id', deleteStoreById);
+//storeRouter.post('/:storeId/serviceInfo/:serviceInfoId', addServiceInfoToStore);
+//storeRouter.delete('/:storeId/serviceInfo/:serviceInfoId', removeServiceInfoToStore);
 storeRouter.post('/:storeId/rootCategory/:rootCategoryId',  addRootCategoryToStore);
 storeRouter.delete('/:storeId/rootCategory/:rootCategoryId', removeRootCategoryToStore);
 storeRouter.post('/:storeId/subCategory/:subCategoryId',  addSubCategoryToStore);

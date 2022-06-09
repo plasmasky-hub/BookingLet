@@ -63,7 +63,6 @@ async function deleteSubCategoryId(req, res) {
     res.sendStatus(204);
 }
 
-// POST  /v1/subCategory/:subCategoryId/rootCategory/:rootCategoryId   //即使是双向绑定，也只需要一个路径
 async function addRootCategoryToSubCategory(req, res) {
     const { subCategoryId, rootCategoryId } = req.params;
     const subCategory = await SubCategory.findById(subCategoryId).exec();

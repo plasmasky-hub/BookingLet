@@ -1,5 +1,6 @@
 const RootCategory = require('../modules/rootCategory');
 const SubCategory = require('../modules/subCategory');
+const ServiceInfo = require('../modules/serviceInfo');
 const Joi = require('joi')
 
 async function getAllRootCategories(req, res) {
@@ -52,12 +53,17 @@ async function deleteRootCategoryId(req, res) {
         });
     }
 
-   // await SubCategory.updateMany({parentCategory:id}, {
-        //parentCategory : undefined
-      //  $pull:{
-       //     parentCategory:id
-       // }
-   // }).exec();
+    await SubCategory.updateMany({ parentCategory: rootCategory._id }, {
+        $unset: {
+            parentCategory: rootCategory._id
+        }
+    }).exec()
+
+    await ServiceInfo.updateMany({ rootCategory: rootCategory._id }, {
+        $unset: {
+            rootCategory: rootCategory._id
+        }
+    }).exec()
 
     res.sendStatus(204);
 
