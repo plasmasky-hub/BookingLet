@@ -1,34 +1,14 @@
 import './App.css';
-import HeaderWrapper from './components/Header';
-
-const SearchBar = () => {
-  return (
-    <div>SearchBar</div>
-  )
-}
-
-const Login = () => {
-  return (
-    <div>Login</div>
-  )
-}
-
-const RegisterBtn = () => {
-  return (
-    <div>Register</div>
-  )
-}
-
+import './pages/Loggedin_Header/Loggedin_Header.css';
+import Header from './pages/Login_Header/Login_Header';
+import Wrapper from './pages/Loggedin_Header/Loggedin_Header';
 
 const App = () => {
   return (
     <div>
-      <HeaderWrapper />
-      <SearchBar />
-      <Login />
-      <RegisterBtn />
+      {/* <Header /> */}
+      <Wrapper />
     </div>
-    
   )
 }
 

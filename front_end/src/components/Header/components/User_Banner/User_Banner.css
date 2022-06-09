@@ -1,0 +1,42 @@
+.UserBanner_Wrapper {
+    min-width: 180px;
+    min-height: 36px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.User_Login {
+    min-width: 76px;
+    min-height: 24px;
+    color: var(--black);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.LoginIcon {
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.Login {
+    min-width: 43px;
+    min-height: 16px;
+}
+
+.UserRegister {
+    min-width: 89px;
+    min-height: 36px;
+    background: var(--black);
+    color: var(--white);
+    border-radius: 10px;
+    border-style: none;
+    box-shadow: 0 4px 4px var(--shadow);
+    text-align: center;
+    justify-content: center;
+}
