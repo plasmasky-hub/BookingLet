@@ -32,7 +32,7 @@ export default function SelectVariants() {
         </Select>
       </FormControl>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 150, marginTop:5 }}>
-        <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
+        <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
@@ -50,7 +50,7 @@ export default function SelectVariants() {
         </Select>
       </FormControl>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 150, marginTop:5 }}>
-        <InputLabel id="demo-simple-select-standard-label">Address</InputLabel>
+        <InputLabel id="demo-simple-select-standard-label">state</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"

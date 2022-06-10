@@ -31,11 +31,11 @@
 }
 
 .button {
-  width: 150px;
-  height: 40px;
+  width: 165px;
+  height: 47px;
   margin-top: 20px;
   /* margin-left: 5px; */
-  background-color: pink;
+  background-color: #D18E8E;
   border-style:none;
   cursor: pointer;
   border-radius: 10px;
