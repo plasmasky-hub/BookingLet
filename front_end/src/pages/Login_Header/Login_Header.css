@@ -7,51 +7,6 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* .Logo {
-    min-width: 125px;
-    height: 32px;
-    font-family: var(--font);
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.SearchBar {
-    min-width: 200px;
-    min-height: 30px;
-    border-radius: 10px;
-    background: var(--grey);
-}
-
-.SearchIcon {
-    min-width: 10px;
-    min-height: 10px;
-    color: var(--black);
-}
-
-.UserBanner_Wrapper {
-    min-width: 200px;
-    min-height: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.User_Login {
-    min-width: 70px;
-    min-height: 20px;
-}
-
-.UserRegister {
-    min-width: 70px;
-    min-height: 20px;
-    background: var(--black);
-    color: var(--white);
-    border-radius: 10px;
-    padding: 10px 15px;
-    box-shadow: 0 4px 4px var(--grey);
-} */

@@ -37,6 +37,8 @@
     border-radius: 10px;
     border-style: none;
     box-shadow: 0 4px 4px var(--shadow);
-    text-align: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    text-align: center;
 }

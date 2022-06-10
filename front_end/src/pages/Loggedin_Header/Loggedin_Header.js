@@ -1,21 +1,14 @@
 import './Loggedin_Header.css';
 import Logo from '../../components/Header/components/Logo/Logo';
 import SearchBar from '../../components/Header/components/SearchBar/SearchBar';
+import { UserInfo } from '../../components/Header/components/UserInfo/UserInfo';
 
 const Wrapper = () => {
     return (
         <div className='Wrapper'>
-            <div className="Logo">
-                BookingLet
-            </div>
+            <Logo />
             <SearchBar />
-            <div className="UserLoggedBanner">
-                <div className="UserInfo">
-                    <div className='UserName'>Nicolas Cage</div>
-                    <div className='UserTitle'>Broker</div>
-                </div>
-                <div className='UserImg'></div>
-            </div>
+            <UserInfo />
         </div>
     )
 }

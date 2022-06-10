@@ -3,7 +3,8 @@ import './User_Banner.css';
 import LoginIcon from '@mui/icons-material/Login';
 
 const UserBanner = () => {
-    <div className="UserBanner_Wrapper">
+    return (
+        <div className="UserBanner_Wrapper">
         <div className="User_Login">
             <div className="LoginIcon">
                 <LoginIcon />
@@ -12,6 +13,7 @@ const UserBanner = () => {
         </div>
         <div className="UserRegister">Register</div>
     </div>
+    )
 }
 
 export default UserBanner;
