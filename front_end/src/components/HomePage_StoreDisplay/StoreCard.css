@@ -1,0 +1,61 @@
+* {
+  font-family: Helvetica, Arial, sans-serif;
+}
+.card {
+  width: 20%;
+  padding: 22px 18px;
+}
+.image-box {
+  position: relative;
+  margin-bottom: 30px;
+}
+.image {
+  width: 100%;
+  border-radius: 8px;
+}
+.save-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.label_ava {
+  display: inline-block;
+  font-size: 11px;
+  padding: 5px 14px;
+  background-color: #7b8b6f;
+  border-radius: 50px;
+  color: #fff;
+  position: absolute;
+  bottom: -8px;
+  right: 1px;
+  font-weight: 600;
+}
+.store-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: -5px;
+}
+.address {
+  font-size: 14px;
+}
+.label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  background-color: #c5b8a5;
+  color: white;
+  border-radius: 7px;
+  margin: 7px 3px 7px 0;
+}
+.add-number {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.book-now {
+  text-decoration: none;
+  color: #7b8b6f;
+  font-weight: 600;
+  display: block;
+  text-align: right;
+}

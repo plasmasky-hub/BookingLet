@@ -1,9 +1,8 @@
-import './App.css';
+import React from 'react';
+import StoreDisplay from './components/HomePage_StoreDisplay/StoreDisplay';
 
 function App() {
-  return (
-    <div>bookinglet</div>
-  );
+  return <StoreDisplay />;
 }
 
 export default App;
