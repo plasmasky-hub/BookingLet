@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllOrders, addOrder, updateOrderByID, getOrderByID, deleteOrderByID,addOrderToUser, removeOrderFromUser } = require('../controllers/order');
+const { getAllOrders, addOrder, updateOrderByID, getOrderByID, deleteOrderByID,confirmOrder,cancelOrder } = require('../controllers/order.controller');
 
 const orderRouter = express.Router();
 
@@ -8,7 +8,8 @@ orderRouter.post('', addOrder);
 orderRouter.get('/:id', getOrderByID);
 orderRouter.put('/:id', updateOrderByID);
 orderRouter.delete('/:id', deleteOrderByID);
-orderRouter.post('/:orderId/user/:userId', addOrderToUser);
-orderRouter.delete('/:orderId/user/:userId', removeOrderFromUser);
+orderRouter.put('/:id/store', confirmOrder);
+orderRouter.put('/:id/user', cancelOrder);
+
 
 module.exports = orderRouter;
