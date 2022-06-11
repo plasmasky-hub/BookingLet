@@ -8,17 +8,32 @@
 :root {
 
   /*  colors  */
+
   --white: rgb(255, 255, 255);
+
   --offwhite: rgb(251, 251, 251);
+
   --black: rgb(0, 0, 0);
+
   --shadow: rgba(0, 0, 0, 0.2);
+
   --grey: rgb(236, 236, 234);
+
   --dark-grey: rgb(214, 214, 214);
+
   --grass: rgb(123, 139, 111);
+
 
   /*  fonts  */
 
   --font: Helvetica;
+
+
+  /*  transition  */
+  --slow: ease-in-out 0.2s;
+  --medium: ease-in-out 0.15s;
+  --fast: ease-in-out 0.1s;
+
 }
 
 body {

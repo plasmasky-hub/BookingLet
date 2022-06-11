@@ -15,8 +15,14 @@
     color: var(--black);
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: var(--slow);
+}
+
+.User_Login:hover {
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .LoginIcon {
@@ -41,4 +47,10 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    cursor: pointer;
+    transition: var(--slow);
+}
+
+.UserRegister:hover {
+    background: rgba(0, 0, 0, 0.7);
 }
