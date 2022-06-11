@@ -7,36 +7,22 @@ const User =require('../models/user');
 async function addOrder(req, res){
     console.log('Adding a new order...');
     const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,optionInfo } = req.body;
-
     const newOrder = new Order({ peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,optionInfo });
     await newOrder.save();
-
+    const orderId = newOrder._id;
     // add orderId into User collection
     const user =await User.findById(userId).exec();
+    user.orders.addToSet(orderId);
     await user.save();
+    //add orderId into Store collection
+    // const store = await Store.findById(storeId).exec();
+    // store.orders.addToSet(orderId);
+    // await store.save();
 
-    // res.status(200).json(newOrder);
-    res.status(200).json({data:newOrder});
+    res.status(200).json(newOrder);
+    // res.status(200).json({data:newOrder});
 }
 
-//add  orderId into Store collection
-// async function addOrderToStore(req,res){
-//     const {orderId,storeId} =req.params;
-//     let order =await Order.findById(orderId).exec();
-//     const store =await Store.findById(storeId).exec();
-//     if(!order || !store){
-//         return res.status(404).json({error:'order or user not found'})
-//     }
-//     // return res.json ({'order id':orderId, 'user code:': userId});
-//     order = await Order.findByIdAndUpdate(
-//         orderId,
-//         {$push:{storeId:storeId}},
-//         {new:true}
-//     ).exec();
-//     store.orders.addToSet(orderId);
-//     await store.save();
-
-//     return res.json(order)
 //update
 async function updateOrderByID(req,res){
     const { id } = req.params;
@@ -49,8 +35,32 @@ async function updateOrderByID(req,res){
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    return res.json({data:order});
+    return res.json(order);
 };
+// Store confirm order ->change booking status from false to true
+async function confirmOrder(req,res){
+  const {id}=req.params;
+  const {bookingStatus}=req.body;
+  const order =await Order.findByIdAndUpdate(
+    id,{$set:{bookingStatus:true}},{new:true}
+  ).exec();
+  await order.save();
+
+  return res.json(order);
+
+}
+//Cancel Order  fake delete
+async function cancelOrder(req,res){
+  const {id}=req.params;
+  const {cancelStatus}=req.body;
+  const order =await Order.findByIdAndUpdate(
+    id,{$set:{cancelStatus:true}},{new:true}
+  ).exec();
+  await order.save();
+
+  return res.json(order);
+
+}
 //delete
 async function deleteOrderByID(req,res){
     const { id } = req.params;
@@ -58,7 +68,8 @@ async function deleteOrderByID(req,res){
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    return res.sendStatus(200).json("Order has been deleted!");
+    // return res.sendStatus(200).json("Order has been deleted!");
+    return res.sendStatus(200)
 };
 //get one
 async function getOrderByID(req,res){
@@ -67,7 +78,7 @@ async function getOrderByID(req,res){
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    return res.json({data:order});
+    return res.json(order);
 };
 //get all
 async function getAllOrders(req, res){
@@ -75,7 +86,7 @@ async function getAllOrders(req, res){
     //Order.find().sort().limit()--> pagination 分页处理
     const orders = await Order.find().exec();
 
-    return res.json({data:orders});
+    return res.json(orders);
 }
 
 
@@ -85,5 +96,7 @@ module.exports = {
     addOrder,
     updateOrderByID,
     deleteOrderByID,
+    confirmOrder,
+    cancelOrder
    
 }
