@@ -1,7 +1,7 @@
 const express = require('express');
 const { 
     getAllRootCategories,
-    getRootCategoryById,
+    //getRootCategoryById,
     addRootCategory,
     updateRootCategoryById,
     deleteRootCategoryId 
@@ -11,7 +11,7 @@ const rootCategoryRouter = express.Router();
 
 rootCategoryRouter.get('', getAllRootCategories);
 rootCategoryRouter.post('', addRootCategory);
-rootCategoryRouter.get('/:id', getRootCategoryById);
+//rootCategoryRouter.get('/:id', getRootCategoryById);
 rootCategoryRouter.put('/:id', updateRootCategoryById);
 rootCategoryRouter.delete('/:id', deleteRootCategoryId);
 

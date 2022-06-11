@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 20,
+        maxlength: 30,
     },
     rootCategory: {
         type: mongoose.Types.ObjectId,
@@ -18,7 +18,8 @@ const schema = new mongoose.Schema({
     }],
     store: {
         type: mongoose.Types.ObjectId,
-        ref: 'Store'
+        ref: 'Store',
+        required: true
     },
     duration: {
         type: Number,
@@ -30,7 +31,7 @@ const schema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1,
-        max: 50,
+        max: 200,
     },
     maxServicePerSection: {
         type: Number,

@@ -63,6 +63,11 @@ async function deleteStoreById(req, res) {
     res.sendStatus(204);
 }
 
+/*
+Commented code: This feature is currently considered redundant, since serviceInfo is 
+fixed in a ref of a store instance when it is created. This part of the functionality 
+has been moved to controller -> serviceInfo.js -> getInfoById() & deleteInfoById().
+*/
 /* 
 async function addServiceInfoToStore(req, res) {
     const { storeId, serviceInfoId } = req.params;

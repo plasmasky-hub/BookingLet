@@ -45,7 +45,7 @@ const schema = new mongoose.Schema({
     }],
     orders: [{
         type: mongoose.Types.ObjectId,
-        ref: 'ServiceInfo'
+        ref: 'Order'
     }]
 
 

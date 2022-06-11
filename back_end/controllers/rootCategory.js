@@ -8,7 +8,7 @@ async function getAllRootCategories(req, res) {
     res.json(rootCategories);
 }
 
-async function getRootCategoryById(req, res) {
+/* async function getRootCategoryById(req, res) {
     const { id } = req.params;
     const rootCategory = await RootCategory.findById(id).exec();
     if (!rootCategory) {
@@ -18,7 +18,7 @@ async function getRootCategoryById(req, res) {
     }
     res.json(rootCategory);
 
-}
+}*/
 
 async function addRootCategory(req, res) {
     const { name } = req.body;
@@ -71,7 +71,7 @@ async function deleteRootCategoryId(req, res) {
 
 module.exports = {
     getAllRootCategories,
-    getRootCategoryById,
+    //getRootCategoryById,
     addRootCategory,
     updateRootCategoryById,
     deleteRootCategoryId
