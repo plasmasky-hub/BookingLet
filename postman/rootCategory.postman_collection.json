@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "010c1510-d305-413d-b805-2dd94fef8b35",
+		"name": "rootCategory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20606313"
+	},
+	"item": [
+		{
+			"name": "getAllRootCategories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/rootCategory",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"rootCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addRootCategory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jun 13 rootC discard test 7\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/rootCategory",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"rootCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateRootCategoryById",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jun 13 rootC discard test 7kai\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/rootCategory/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"rootCategory",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62a609db1450f92caefca090"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "discardRootCategoryById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/rootCategory/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"rootCategory",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62a609db1450f92caefca090"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
