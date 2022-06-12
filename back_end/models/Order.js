@@ -18,15 +18,15 @@ const Schema = new mongoose.Schema({
         default:false
     },
     userId:{
-        type : String,
+        type : mongoose.Types.ObjectId,
         required:true  
     },
     storeId:{
-        type : String,
+        type : mongoose.Types.ObjectId,
         required:true  
     },
     serviceInfoId:{
-        type : String,
+        type : mongoose.Types.ObjectId,
         required:true  
     },
     optionInfo:{
