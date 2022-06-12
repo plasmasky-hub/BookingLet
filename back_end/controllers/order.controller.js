@@ -1,7 +1,7 @@
 
-const Order = require('../models/Order');
+const Order = require('../models/order'); 
 const User =require('../models/user');
-// const Store =require('../modules/store')
+const Store =require('../models/store')
 
 //create order
 async function addOrder(req, res){
@@ -15,9 +15,9 @@ async function addOrder(req, res){
     user.orders.addToSet(orderId);
     await user.save();
     //add orderId into Store collection
-    // const store = await Store.findById(storeId).exec();
-    // store.orders.addToSet(orderId);
-    // await store.save();
+    const store = await Store.findById(storeId).exec();
+    store.orders.addToSet(orderId);
+    await store.save();
 
     res.status(200).json(newOrder);
     // res.status(200).json({data:newOrder});
