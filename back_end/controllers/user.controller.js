@@ -1,4 +1,4 @@
-const User = require('../modules/user');
+const User = require('../models/user.model');
 const Joi = require('joi');
 
 

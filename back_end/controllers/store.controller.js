@@ -1,7 +1,5 @@
-const Store = require('../modules/store');
-const ServiceInfo = require('../modules/serviceInfo');
-const RootCategory = require('../modules/rootCategory');
-const SubCategory = require('../modules/subCategory');
+const Store = require('../models/store.model');
+const ServiceInfo = require('../models/serviceInfo.model');
 const Joi = require('joi')
 
 async function getAllStores(req, res) {
@@ -11,8 +9,8 @@ async function getAllStores(req, res) {
 
 async function getStoreById(req, res) {
     const { id } = req.params;
-    const store = await Store.findById(id)
-    .populate('serviceInfos').populate('rootCategories').populate('subCategories').exec();
+    const store = await Store.findById(id).populate('owner').populate('serviceInfos')
+        .populate('rootCategories').populate('subCategories').exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
@@ -23,9 +21,6 @@ async function getStoreById(req, res) {
 
 async function addStore(req, res) {
     const { name, owner, tel, location, description, rootCategories, subCategories } = req.body;
-    Joi.object({
-        name: Joi.string().required().min(2).max(20),
-    });
     const store = new Store({ name, owner, tel, location, description, rootCategories, subCategories });
     await store.save();
     res.status(201).json(store);
@@ -45,9 +40,9 @@ async function updateStoreById(req, res) {
     res.json(store);
 }
 
-async function deleteStoreById(req, res) {
+async function discardStoreById(req, res) {
     const { id } = req.params;
-    const store = await Store.findByIdAndDelete(id).exec();
+    const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store info not found',
@@ -55,13 +50,11 @@ async function deleteStoreById(req, res) {
     }
 
     await ServiceInfo.updateMany({ store: store._id }, {
-        $pull: {
-            store: store._id
-        }
-    }).exec()
-
+         $set: {'isDiscard': true}
+        }).exec();
     res.sendStatus(204);
 }
+
 
 /*
 Commented code: This feature is currently considered redundant, since serviceInfo is 
@@ -69,6 +62,7 @@ fixed in a ref of a store instance when it is created. This part of the function
 has been moved to controller -> serviceInfo.js -> getInfoById() & deleteInfoById().
 */
 /* 
+//storeRouter.post('/:storeId/serviceInfo/:serviceInfoId', addServiceInfoToStore);
 async function addServiceInfoToStore(req, res) {
     const { storeId, serviceInfoId } = req.params;
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
@@ -114,78 +108,12 @@ async function removeServiceInfoToStore(req, res) {
 }
 */
 
-async function addRootCategoryToStore(req, res) {
-    const { storeId, rootCategoryId } = req.params;
-    const rootCategory = await RootCategory.findById(rootCategoryId).exec();
-    const store = await Store.findById(storeId).exec();
-
-    if (!rootCategory || !store) {
-        return res.status(404).json({
-            error: 'rootCategory or store not found',
-        });
-    }
-    store.rootCategories.addToSet(rootCategory._id);
-    await store.save();
-    return res.json(store);
-}
-
-async function removeRootCategoryToStore(req, res) {
-    const { storeId, rootCategoryId } = req.params;
-    const rootCategory = await RootCategory.findById(rootCategoryId).exec();
-    const store = await Store.findById(storeId).exec();
-
-    if (!rootCategory || !store) {
-        return res.status(404).json({
-            error: 'rootCategory or store not found',
-        });
-    }
-    store.rootCategories.pull(rootCategory._id);
-    await store.save();
-    return res.json(store);
-}
-
-async function addSubCategoryToStore(req, res) {
-    const { storeId, subCategoryId } = req.params;
-    const subCategory = await SubCategory.findById(subCategoryId).exec();
-    const store = await Store.findById(storeId).exec();
-
-    if (!subCategory || !store) {
-        return res.status(404).json({
-            error: 'subCategory or store not found',
-        });
-    }
-    store.subCategories.addToSet(subCategory._id);
-    await store.save();
-    return res.json(store);
-}
-
-async function removeSubCategoryToStore(req, res) {
-    const { storeId, subCategoryId } = req.params;
-    const subCategory = await SubCategory.findById(subCategoryId).exec();
-    const store = await Store.findById(storeId).exec();
-
-    if (!subCategory || !store) {
-        return res.status(404).json({
-            error: 'subCategory or store not found',
-        });
-    }
-    store.subCategories.pull(subCategory._id);
-    await store.save();
-    return res.json(store);
-}
-
-
 module.exports = {
     getAllStores,
     getStoreById,
     addStore,
     updateStoreById,
-    deleteStoreById,
+    discardStoreById,
     //addServiceInfoToStore,
     //removeServiceInfoToStore,
-    addRootCategoryToStore,
-    removeRootCategoryToStore,
-    addSubCategoryToStore,
-    removeSubCategoryToStore,
-
 }

@@ -7,13 +7,12 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 20,
+        maxlength: 30,
     },
     owner: {
-        type: String,
-        required: true,
-        minlength: 2,
-        maxlength: 20,
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     tel: {
         type: String,
@@ -29,11 +28,12 @@ const schema = new mongoose.Schema({
     },
     description: {
         type: String,
-        maxlength: 200,
+        maxlength: 300,
     },
     rootCategories: [{
         type: mongoose.Types.ObjectId,
-        ref: 'RootCategory'
+        ref: 'RootCategory',
+        required: true
     }],
     subCategories: [{
         type: mongoose.Types.ObjectId,
@@ -46,7 +46,11 @@ const schema = new mongoose.Schema({
     orders: [{
         type: mongoose.Types.ObjectId,
         ref: 'Order'
-    }]
+    }],
+    isDiscard: {
+        type: Boolean,
+        default: false
+    }
 
 
 },

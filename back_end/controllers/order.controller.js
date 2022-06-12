@@ -1,6 +1,6 @@
 
-const Order = require('../models/Order');
-const User =require('../models/user');
+const Order = require('../models/order.model');
+const User =require('../models/user.model');
 // const Store =require('../modules/store')
 
 //create order

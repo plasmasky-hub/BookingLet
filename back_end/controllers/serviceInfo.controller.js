@@ -1,7 +1,5 @@
-const ServiceInfo = require('../modules/serviceInfo');
-const RootCategory = require('../modules/rootCategory');
-const SubCategory = require('../modules/subCategory');
-const Store = require('../modules/store');
+const ServiceInfo = require('../models/serviceInfo.model');
+const Store = require('../models/store.model');
 const Joi = require('joi');
 
 async function getAllInfos(req, res) {
@@ -38,7 +36,7 @@ async function addInfo(req, res) {
         name,
         rootCategory,
         subCategories,
-        store,  
+        store,
         duration,
         maxPersonPerSection,
         maxServicePerSection,
@@ -57,16 +55,13 @@ async function addInfo(req, res) {
         description
     });
     await serviceInfo.save();
-
-    const storeInstance = await Store.findById(store).exec();
-    storeInstance.serviceInfos.addToSet(serviceInfo._id);
-    await storeInstance.save()
+    Store.findByIdAndUpdate(store, { $addToSet: { serviceInfos: serviceInfo._id } }).exec();
 
     res.status(201).json({
-        "serviceInfo": serviceInfo,
-        "store": store
+        "serviceInfo": serviceInfo
     });
 }
+
 async function updateInfoById(req, res) {
     const { id } = req.params;
     const {
@@ -97,13 +92,12 @@ async function updateInfoById(req, res) {
             error: 'service info not found',
         });
     }
-
     res.json(serviceInfo);
 }
 
-async function deleteInfoById(req, res) {
+async function discardInfoById(req, res) {
     const { id } = req.params;
-    const serviceInfo = await ServiceInfo.findByIdAndDelete(id).exec();
+    const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
     if (!serviceInfo) {
         return res.status(404).json({
             error: 'service info not found',
@@ -117,74 +111,6 @@ async function deleteInfoById(req, res) {
     }).exec();
 
     res.sendStatus(204);
-}
-
-async function addRootCategoryToServiceInfo(req, res) {
-    const { serviceInfoId, rootCategoryId } = req.params;
-    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    const rootCategory = await RootCategory.findById(rootCategoryId).exec();
-
-    if (!serviceInfo || !rootCategory) {
-        return res.status(404).json({
-            error: 'serviceInfo or rootCategory not found',
-        });
-    }
-
-    serviceInfo.rootCategory = rootCategory._id;
-    await serviceInfo.save();
-
-    return res.json(serviceInfo);
-}
-
-async function removeRootCategoryToServiceInfo(req, res) {
-    const { serviceInfoId, rootCategoryId } = req.params;
-    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    const rootCategory = await RootCategory.findById(rootCategoryId).exec();
-
-    if (!serviceInfo || !rootCategory) {
-        return res.status(404).json({
-            error: 'serviceInfo or rootCategory not found',
-        });
-    }
-
-    serviceInfo.rootCategory = undefined;
-    await serviceInfo.save();
-
-    return res.json(serviceInfo);
-}
-
-async function addSubCategoryToServiceInfo(req, res) {
-    const { serviceInfoId, subCategoryId } = req.params;
-    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    const subCategory = await SubCategory.findById(subCategoryId).exec();
-
-    if (!serviceInfo || !subCategory) {
-        return res.status(404).json({
-            error: 'serviceInfo or subCategory not found',
-        });
-    }
-
-    serviceInfo.subCategories.addToSet(subCategory._id);
-    await serviceInfo.save();
-
-    return res.json(serviceInfo);
-}
-
-async function removeSubCategoryToServiceInfo(req, res) {
-    const { serviceInfoId, subCategoryId } = req.params;
-    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    const subCategory = await SubCategory.findById(subCategoryId).exec();
-
-    if (!serviceInfo || !subCategory) {
-        return res.status(404).json({
-            error: 'serviceInfo or subCategory not found',
-        });
-    }
-
-    serviceInfo.subCategories.pull(subCategory._id);
-    await serviceInfo.save();
-
-    return res.json(serviceInfo);
 }
 
 async function checkServiceInfo(data) {
@@ -207,19 +133,13 @@ async function checkServiceInfo(data) {
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
     return validatedData;
-   
+
 }
-
-
 
 module.exports = {
     getAllInfos,
     getInfoById,
     addInfo,
     updateInfoById,
-    deleteInfoById,
-    addSubCategoryToServiceInfo,
-    removeSubCategoryToServiceInfo,
-    addRootCategoryToServiceInfo,
-    removeRootCategoryToServiceInfo,
+    discardInfoById,
 }

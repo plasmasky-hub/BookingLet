@@ -1,6 +1,6 @@
-const RootCategory = require('../modules/rootCategory');
-const SubCategory = require('../modules/subCategory');
-const ServiceInfo = require('../modules/serviceInfo');
+const RootCategory = require('../models/rootCategory.model');
+const SubCategory = require('../models/subCategory.model');
+const ServiceInfo = require('../models/serviceInfo.model');
 const Joi = require('joi')
 
 async function getAllRootCategories(req, res) {
@@ -17,7 +17,6 @@ async function getAllRootCategories(req, res) {
         });
     }
     res.json(rootCategory);
-
 }*/
 
 async function addRootCategory(req, res) {
@@ -30,8 +29,8 @@ async function addRootCategory(req, res) {
     res.status(201).json(rootCategory);
 }
 
+//This function is used for renaming (and does not affect the association)
 async function updateRootCategoryById(req, res) {
-
     const { id } = req.params;
     const { name } = req.body;
     const rootCategory = await RootCategory.findByIdAndUpdate(id, { name }, { new: true }).exec();
@@ -41,12 +40,11 @@ async function updateRootCategoryById(req, res) {
         });
     }
     res.json(rootCategory);
-
 }
 
-async function deleteRootCategoryId(req, res) {
+async function discardRootCategoryById(req, res) {
     const { id } = req.params;
-    const rootCategory = await RootCategory.findByIdAndDelete(id).exec();
+    const rootCategory = await RootCategory.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
     if (!rootCategory) {
         return res.status(404).json({
             error: 'Category info not found',
@@ -54,9 +52,7 @@ async function deleteRootCategoryId(req, res) {
     }
 
     await SubCategory.updateMany({ parentCategory: rootCategory._id }, {
-        $unset: {
-            parentCategory: rootCategory._id
-        }
+        $set: {'isDiscard': true}
     }).exec()
 
     await ServiceInfo.updateMany({ rootCategory: rootCategory._id }, {
@@ -74,5 +70,5 @@ module.exports = {
     //getRootCategoryById,
     addRootCategory,
     updateRootCategoryById,
-    deleteRootCategoryId
+    discardRootCategoryById
 }
