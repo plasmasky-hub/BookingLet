@@ -5,11 +5,16 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 20,
+        maxlength: 30,
     },
     parentCategory: {
         type: mongoose.Types.ObjectId,
-        ref: 'RootCategory'
+        ref: 'RootCategory',
+        required: true
+    },
+    isDiscard: {
+        type: Boolean,
+        default: false
     }
 },
     {
