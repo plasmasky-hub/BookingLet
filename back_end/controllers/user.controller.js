@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Store = require('../models/store');
 const Joi = require('joi');
 
 // GET all users
@@ -6,7 +7,7 @@ async function getAllUsers(req, res) {
   console.log('Finding all users...');
 
   try {
-    const users = await User.find();
+    const users = await User.find().populate('stores');
 
     res.json(users);
   } catch {
@@ -131,21 +132,44 @@ async function getUserStores(req, res){
       });
     }
 
-    const { stores } = user.stores.populate('stores');
-    console.log("🚀 ~ file: user.controller.js ~ line 128 ~ getUserStores ~ user.stores", user.stores)
+    // const storeId = user.stores[0];
+    // console.log("🚀 ~ file: user.controller.js ~ line 136 ~ getUserStores ~ storeId", storeId)
+    const users  = await User.findById(id).populate('stores').exec();
+    // console.log("🚀 ~ file: user.controller.js ~ line 136 ~ getUserStores ~ stores", stores)
 
-    if(!stores){
-      res.status(404).json({
-        error : 'No store found!'
-      });
-    }
+    // if(!stores){
+    //   res.status(404).json({
+    //     error : 'No store found!'
+    //   });
+    // }
 
-    res.json(stores);
+    res.json(users);
   }
-  catch{
-    res.json('Error in finding user\'s store!');
+  catch(Error){
+    // res.json('Error in finding user\'s store!');
+    console.log(Error);
+    res.json(Error);
   }
 }
+
+// async function addStoreToUser(req, res){
+//   console.log('Adding store to user...');
+//   const { id } = req.params;
+
+//   const user = await User.findById(id);
+//   console.log("🚀 ~ file: user.controller.js ~ line 156 ~ addStoreToUser ~ user", user)
+//   const { storeId } = await req.body;
+//   console.log("🚀 ~ file: user.controller.js ~ line 158 ~ addStoreToUser ~ storeId", storeId)
+  
+//   const store = await Store.findById(storeId);
+//   user.stores.addToSet(store._id);
+//   console.log("🚀 ~ file: user.controller.js ~ line 166 ~ addStoreToUser ~ user.stores", user.stores)
+//   console.log("🚀 ~ file: user.controller.js ~ line 167 ~ addStoreToUser ~ store._id", store._id)
+  
+//   await user.save();
+
+//   res.json(user);
+// }
 
 // User info format check
 function checkUserInfo(data) {
@@ -189,4 +213,5 @@ module.exports = {
   updateUserByID,
   deleteUserByID,
   getUserStores,
+  addStoreToUser,
 };

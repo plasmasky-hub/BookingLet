@@ -23,7 +23,7 @@ const Schema = new mongoose.Schema({
     },
     stores : [{
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'store'
+        ref : 'Store'
     }]
 
 })
