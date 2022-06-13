@@ -1,0 +1,24 @@
+* {
+  font-family: Helvetica, Arial, sans-serif;
+}
+.container {
+  width: 90%;
+  margin: 60px auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.view-all {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  gap: 3px;
+}
+.cards {
+  display: flex;
+  justify-content: space-between;
+}
