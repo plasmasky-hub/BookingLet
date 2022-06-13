@@ -7,27 +7,28 @@ const Schema = new mongoose.Schema({
     },
     orderTime: {
         type : String,
-        // required : true
+        required : true
     },
-    status: {
+    bookingStatus: {
+        type : Boolean,
+        default:false
+    },
+    cancelStatus: {
         type : Boolean,
         default:false
     },
     userId:{
-        // type : mongoose.Schema.Types.ObjectId,
-        // ref:"User",
-        type : String,
-       
+
+        type : mongoose.Types.ObjectId,
+        required:true  
     },
-    storeCode:{
-        // type : mongoose.Schema.Types.ObjectId,
-        // ref:"Store" 
-        type : String,
+    storeId:{
+        type : mongoose.Types.ObjectId,
+        required:true  
     },
     serviceInfoId:{
-        // type : mongoose.Schema.Types.ObjectId,
-        // ref:"ServiceInfo"
-        type : String,
+        type : mongoose.Types.ObjectId,
+        required:true  
        
     },
     optionInfo:{
