@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card } from '@mui/material';
-import food from './food.jpg';
+import food from '../food.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import './StoreCard.css';
 

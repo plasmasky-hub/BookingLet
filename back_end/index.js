@@ -1,21 +1,10 @@
-const express = require('express');
-// import express from 'express';
-
-const app = express()
-const port = 8000
-
 require('dotenv').config();
-const morgan = require('morgan');
-const mainRouter = require('./routes');
-const { connectToDB } = require('./utils/db');
-
-app.use(morgan('dev'));
-app.use(express.json());
-
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.use('/', mainRouter);
+const app = require('./app');
+const { connectToDB } = require('./database/connect');
 
 connectToDB();
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`server listening on port ${PORT}`);
+});

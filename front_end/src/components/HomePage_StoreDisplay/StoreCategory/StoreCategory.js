@@ -1,5 +1,5 @@
 import React from 'react';
-import StoreCard from './StoreCard';
+import StoreCard from '../StoreCard/StoreCard';
 import './StoreCategory.css';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 

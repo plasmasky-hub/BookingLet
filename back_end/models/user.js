@@ -13,10 +13,19 @@ const Schema = new mongoose.Schema({
         type : String,
         required : true 
     },
-    orderId:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Order"
+    orders:[{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Order',
+    }],
+    role : {
+        type : String,
+        default : 'Customer'
+    },
+    stores : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Store'
     }]
+
 })
 
 const Model = mongoose.model('User', Schema);

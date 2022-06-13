@@ -1,5 +1,5 @@
 import React from 'react';
-import StoreCategory from './StoreCategory';
+import StoreCategory from './StoreCategory/StoreCategory';
 
 function StoreDisplay() {
   return (

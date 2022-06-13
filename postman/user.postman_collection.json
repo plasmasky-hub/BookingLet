@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "b4ebed25-66c6-40a6-8754-d06c0157804c",
+		"name": "user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20711587"
+	},
+	"item": [
+		{
+			"name": "GET all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all stores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/store",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all stores Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/store",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/user/629eebcde5b7d5774b39b47e",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"629eebcde5b7d5774b39b47e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE user by id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Yvone\",\n    \"tel\" : \"0433331111\",\n    \"email\" : \"yvone@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/user/629eebcde5b7d5774b39b47e",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"629eebcde5b7d5774b39b47e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Yvone\",\n    \"tel\" : \"999999\",\n    \"email\" : \"yvone@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/user/629efb0c9929bbde3b508467",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"629efb0c9929bbde3b508467"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"shawn\",\r\n    \"tel\" : \"0233334444\",\r\n    \"email\" : \"andy.@com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user's all stores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/user/62971082feab058de9b66def/stores",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"user",
+						"62971082feab058de9b66def",
+						"stores"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add store to user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Yvone\",\n    \"tel\" : \"0433331111\",\n    \"email\" : \"yvone@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/user/629eebcde5b7d5774b39b47e/store/62a1a9e92c9f493974ea830c",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"user",
+						"629eebcde5b7d5774b39b47e",
+						"store",
+						"62a1a9e92c9f493974ea830c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
