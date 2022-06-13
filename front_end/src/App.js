@@ -8,9 +8,9 @@ import { showSideBar } from './pages/User_Login_SideBar/User_Login_SideBar';
 const App = () => {
   return (
     <div className='UserLoggedin_Banner'>
-      {/* <Header /> */}
-      <Wrapper />
-      <User_SideBar />
+      <Header />
+      {/* <Wrapper />
+      <User_SideBar /> */}
     </div>
   )
 }
