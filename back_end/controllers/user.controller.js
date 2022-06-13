@@ -69,8 +69,11 @@ async function updateUserByID(req, res) {
     });
 
     if (!user) {
-      return res.status(404).json('User not found!');
+      return res.status(404).json({
+        error : 'User not found!'
+      });
     }
+
     res.json('Update successful!');
   } catch {
     res.json('Error in Updating user!');
@@ -85,7 +88,9 @@ async function getUserByID(req, res) {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json('User info not found!');
+      return res.status(404).json({
+        error : 'User info not found!'
+      });
     }
 
     res.json(user);
@@ -110,6 +115,35 @@ async function deleteUserByID(req, res) {
     res.json(user);
   } catch {
     res.json('Error in deleting user!');
+  }
+}
+
+async function getUserStores(req, res){
+  console.log('Getting user\'s stores...');
+  try{
+    const { id } = req.params;
+    const user = await User.findById(id);
+    console.log("🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user", user)
+
+    if (!user) {
+      return res.status(404).json({
+        error: 'User info not found!',
+      });
+    }
+
+    const { stores } = user.stores.populate('stores');
+    console.log("🚀 ~ file: user.controller.js ~ line 128 ~ getUserStores ~ user.stores", user.stores)
+
+    if(!stores){
+      res.status(404).json({
+        error : 'No store found!'
+      });
+    }
+
+    res.json(stores);
+  }
+  catch{
+    res.json('Error in finding user\'s store!');
   }
 }
 
@@ -154,4 +188,5 @@ module.exports = {
   addUser,
   updateUserByID,
   deleteUserByID,
+  getUserStores,
 };
