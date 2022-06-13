@@ -18,6 +18,7 @@ const Schema = new mongoose.Schema({
         default:false
     },
     userId:{
+
         type : mongoose.Types.ObjectId,
         required:true  
     },
@@ -28,6 +29,7 @@ const Schema = new mongoose.Schema({
     serviceInfoId:{
         type : mongoose.Types.ObjectId,
         required:true  
+       
     },
     optionInfo:{
         type : String,
