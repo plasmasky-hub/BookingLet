@@ -18,23 +18,17 @@ const Schema = new mongoose.Schema({
         default:false
     },
     userId:{
-        // type : mongoose.Schema.Types.ObjectId,
-        type : String,
-        ref:'User',
-        // required:true
-       
+
+        type : mongoose.Types.ObjectId,
+        required:true  
     },
     storeId:{
-        // type : mongoose.Schema.Types.ObjectId,
-        type : String,
-        ref:"Store", 
-        // required:true
+        type : mongoose.Types.ObjectId,
+        required:true  
     },
     serviceInfoId:{
-        // type : mongoose.Schema.Types.ObjectId,
-        type : String,
-        ref:"ServiceInfo",
-        // required:true
+        type : mongoose.Types.ObjectId,
+        required:true  
        
     },
     optionInfo:{
