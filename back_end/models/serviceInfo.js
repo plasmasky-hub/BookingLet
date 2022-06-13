@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const { boolean } = require('joi');
 
 const schema = new mongoose.Schema({
     name: {
@@ -10,7 +11,8 @@ const schema = new mongoose.Schema({
     },
     rootCategory: {
         type: mongoose.Types.ObjectId,
-        ref: 'RootCategory'
+        ref: 'RootCategory',
+        required: true
     },
     subCategories: [{
         type: mongoose.Types.ObjectId,
@@ -26,32 +28,34 @@ const schema = new mongoose.Schema({
         required: true,
         min: 0.5,
         max: 5,
+        default: 1
     },
     maxPersonPerSection: {
         type: Number,
         required: true,
         min: 1,
-        max: 200,
+        max: 1000,
+        default: 1
     },
     maxServicePerSection: {
         type: Number,
         required: true,
         min: 1,
+        default: 1
     },
     description: {
         type: String,
-        maxlength: 200,
+        maxlength: 300,
     },
-    startTime: {
-        Monday: { type: Array },
-        Tuesday: { type: Array },
-        Wednesday: { type: Array },
-        Thursday: { type: Array },
-        Friday: { type: Array },
-        Saturday: { type: Array },
-        Sunday: { type: Array }
-        //default: { "Monday": [], "Tuesday": [], "Wednesday": [], "Thursday": [], "Friday": [], "Saturday": [], "Sunday": [] }
+    startTime: [{
+        dayOfWeek: String,
+        openHours: [String]
+    }],
+    isDiscard: {
+        type: Boolean,
+        default: false
     }
+
 },
     {
         toJSON: {
