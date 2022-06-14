@@ -12,17 +12,15 @@
 .User_Login {
     min-width: 76px;
     min-height: 24px;
-    color: var(--black);
+    color: #000;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: var(--slow);
-}
-
-.User_Login:hover {
-    color: rgba(0, 0, 0, 0.8);
+    margin-right: 50px;
+    cursor: pointer;
 }
 
 .LoginIcon {
@@ -33,16 +31,21 @@
 .Login {
     min-width: 43px;
     min-height: 16px;
+    padding-left: 10px;
+}
+
+.Login:hover {
+    color: rgba(0, 0, 0, 0.75);
 }
 
 .UserRegister {
     min-width: 89px;
     min-height: 36px;
-    background: var(--black);
-    color: var(--white);
+    background: #000;
+    color: #fff;
     border-radius: 10px;
     border-style: none;
-    box-shadow: 0 4px 4px var(--shadow);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -52,5 +55,5 @@
 }
 
 .UserRegister:hover {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
 }

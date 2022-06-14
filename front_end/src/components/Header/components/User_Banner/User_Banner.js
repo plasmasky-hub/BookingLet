@@ -5,14 +5,14 @@ import LoginIcon from '@mui/icons-material/Login';
 const UserBanner = () => {
     return (
         <div className="UserBanner_Wrapper">
-        <div className="User_Login">
-            <div className="LoginIcon">
-                <LoginIcon />
+            <div className="User_Login">
+                <div className="LoginIcon">
+                    <LoginIcon />
+                </div>
+                <div className="Login">Log in</div>
             </div>
-            <div>Login</div>
+            <div className="UserRegister">Register</div>
         </div>
-        <div className="UserRegister">Register</div>
-    </div>
     )
 }
 
