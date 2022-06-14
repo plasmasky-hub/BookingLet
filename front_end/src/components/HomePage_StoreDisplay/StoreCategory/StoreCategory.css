@@ -2,7 +2,7 @@
   font-family: Helvetica, Arial, sans-serif;
 }
 .store-container {
-  width: 90%;
+  width: 80%;
   margin: 60px auto;
 }
 .store-header {
@@ -19,7 +19,6 @@
   gap: 3px;
 }
 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  display: flex;
+  justify-content: space-between;
 }
