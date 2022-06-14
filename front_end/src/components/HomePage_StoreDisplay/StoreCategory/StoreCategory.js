@@ -5,9 +5,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const StoreCategory = (props) => {
   return (
-    <div className="container">
-      <div className="header">
-        <p className="title">{props.category}</p>
+    <div className="store-container">
+      <div className="store-header">
+        <p className="store-title">{props.category}</p>
         <div className="view-all">
           <p>view</p>
           <ArrowForwardIcon className="icon" />
