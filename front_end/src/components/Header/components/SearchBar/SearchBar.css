@@ -2,7 +2,7 @@
     min-width: 470px;
     min-height: 39px;
     border-radius: 10px;
-    background: var(--grey);
+    background: rgb(236, 236, 234);
     display: flex;
     flex-direction: row;
     justify-content: flex-end;

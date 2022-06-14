@@ -1,25 +1,32 @@
 import './UserInfo.css';
+import * as React from 'react';
+import { User_SideBar } from '../../../../components/User_SideBar/User_SideBar';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
-export const UserImg = () => {
+export default function ClickAway() {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen((prev) => !prev);
+    };
+
+    const handleClickAway = () => {
+        setOpen(false);
+    };
+
     return (
-        <div className='UserImg'></div>
-    )
-}
-
-export const UserName = () => {
-    return(
-        <div className='UserName'>Nicolas Cage</div>
-    )
-}
-
-export const UserInfo = () => {
-    return (
-        <div className="UserLoggedBanner">
-            <div className="UserInfo">
-                {UserName()}
-                <div className='UserTitle'>Broker</div>
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <div className="UserLoggedInBanner">
+                <div className="UserInfo">
+                    <div className='UserName'>Nicolas Cage</div>
+                    <div className='UserTitle'>Broker</div>
+                </div>
+                <div className='UserImg' onClick={handleClick}>
+                    {open ? (
+                        <User_SideBar />
+                    ) : null}
+                </div>
             </div>
-            {UserImg()}
-        </div>
-    )
+        </ClickAwayListener>
+    );
 }
