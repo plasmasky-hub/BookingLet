@@ -7,7 +7,6 @@ import StoreDisplay from "../../components/HomePage_StoreDisplay/StoreDisplay";
 import Header from "../Login_Header/Login_Header";
 
 const LandingPage = () => (
-  <div className="wrapper">
     <div>
       <div>
         <Header />
@@ -17,7 +16,6 @@ const LandingPage = () => (
         <Footer />
       </div>
     </div>
-  </div>
 );
 
 export default LandingPage;
