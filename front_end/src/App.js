@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import Footer from "./components/Footer";
 import ClickAway from './components/Header/components/UserInfo/UserInfo';
 import { Wrapper } from "./components/Header/Loggedin_Header/Loggedin_Header";
+import { User_SideBar } from "./components/User_SideBar/User_SideBar";
 
 function App() {
   return (
