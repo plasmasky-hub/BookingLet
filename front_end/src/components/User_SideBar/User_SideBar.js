@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './User_SideBar.css';
-import { UserImg, UserName } from '../Header/components/UserInfo/UserInfo';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -17,8 +16,8 @@ export const User_SideBar = () => {
     return (
         <div className='user_sidebar_wrapper'>
             <div className='user_profile_header'>
-                <UserImg />
-                <UserName />
+                <div className='UserImg' />
+                <p className='UserName'>Nicolas Cage</p>
             </div>
             <Divider />
 
