@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './User_SideBar.css';
+import CloseIcon from '@mui/icons-material/Close';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -15,6 +16,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 export const User_SideBar = () => {
     return (
         <div className='user_sidebar_wrapper'>
+            <CloseIcon sx={{color: '#000', px: 3, my:3}}/>
             <div className='user_profile_header'>
                 <div className='UserImg' />
                 <p className='UserName'>Nicolas Cage</p>
@@ -24,35 +26,35 @@ export const User_SideBar = () => {
             <List>
                 <ListItem disablePadding>
                     <ListItemButton>
-                        <InfoIcon sx={{ color: '#7F96AF', marginRight: 1 }} />
+                        <InfoIcon sx={{ color: '#7F96AF', mr: 1 }} />
                         <ListItemText primary="Information" />
                     </ListItemButton>
                 </ListItem>
                 <Divider variant="middle" />
                 <ListItem disablePadding>
                     <ListItemButton>
-                        <ListIcon sx={{ color: '#7F96AF', marginRight: 1 }} />
+                        <ListIcon sx={{ color: '#7F96AF', mr: 1 }} />
                         <ListItemText primary="My Bookings" />
                     </ListItemButton>
                 </ListItem>
                 <Divider variant="middle" />
                 <ListItem disablePadding>
                     <ListItemButton>
-                        <MenuBookIcon sx={{ color: '#7F96AF', marginRight: 1 }} />
+                        <MenuBookIcon sx={{ color: '#7F96AF', mr: 1 }} />
                         <ListItemText primary="My Booklet" />
                     </ListItemButton>
                 </ListItem>
                 <Divider variant="middle" />
                 <ListItem disablePadding>
                     <ListItemButton>
-                        <AppRegistrationIcon sx={{ color: '#7F96AF', marginRight: 1 }} />
+                        <AppRegistrationIcon sx={{ color: '#7F96AF', mr: 1 }} />
                         <ListItemText primary="Register My Store" />
                     </ListItemButton>
                 </ListItem>
                 <Divider variant="middle" />
                 <ListItem disablePadding>
                     <ListItemButton>
-                        <HelpIcon sx={{ color: '#7F96AF', marginRight: 1 }} />
+                        <HelpIcon sx={{ color: '#7F96AF', mr: 1 }} />
                         <ListItemText primary="Help" />
                     </ListItemButton>
                 </ListItem>

@@ -2,6 +2,7 @@ import './UserInfo.css';
 import * as React from 'react';
 import { User_SideBar } from '../../../../components/User_SideBar/User_SideBar';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function ClickAway() {
     const [open, setOpen] = React.useState(false);
