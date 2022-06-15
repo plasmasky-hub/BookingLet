@@ -55,6 +55,27 @@ async function discardStoreById(req, res) {
     res.sendStatus(204);
 }
 
+//search
+async function search(req, res){
+    const {date,rootCategories, location,query} = req.body;
+
+    const qRegExp = new RegExp(`.*${query}.*`,'i');
+
+    const condition = {
+        $or:[
+            {name : qRegExp},
+            {description: qRegExp}
+        ],
+        $and:[
+            {isDiscard:false}
+        ]
+    }
+
+    const stores = await Store.find(condition).exec();
+
+    res.json(stores);
+}
+
 
 /*
 Commented code: This feature is currently considered redundant, since serviceInfo is 
@@ -108,12 +129,14 @@ async function removeServiceInfoToStore(req, res) {
 }
 */
 
+
 module.exports = {
     getAllStores,
     getStoreById,
     addStore,
     updateStoreById,
     discardStoreById,
+    search,
     //addServiceInfoToStore,
     //removeServiceInfoToStore,
 }
