@@ -19,7 +19,7 @@
     "joi": "^17.6.0",
     "joi-objectid": "^4.0.2",
     "joi-oid": "^1.1.2",
-    "mongoose": "^6.3.3",
+    "mongoose": "^6.3.8",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.16"
   }
