@@ -5,7 +5,7 @@ const {
     addRootCategory,
     updateRootCategoryById,
     discardRootCategoryById 
-} = require('../controllers/rootCategory.controller');
+} = require('../controllers/category.controller');
 
 const rootCategoryRouter = express.Router();
 
