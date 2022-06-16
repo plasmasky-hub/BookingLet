@@ -8,6 +8,8 @@ const schema = new mongoose.Schema({
         required: true,
         minlength: 2,
         maxlength: 30,
+        unique: true,
+        dropDups: true
     },
     owner: {
         type: mongoose.Types.ObjectId,
@@ -24,7 +26,7 @@ const schema = new mongoose.Schema({
         suburb: { type: String, required: true },
         street: { type: String, required: true },
         number: { type: String, required: true },
-        postcode: { type: Number, required: true }
+        postcode: { type: String, required: true }
     },
     description: {
         type: String,

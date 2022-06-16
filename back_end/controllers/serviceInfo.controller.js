@@ -3,7 +3,7 @@ const Store = require('../models/store');
 const Joi = require('joi');
 
 async function getAllInfos(req, res) {
-    const Infos = await ServiceInfo.find().exec();
+    const Infos = await ServiceInfo.find({ isDiscard: false }).exec();
     res.json(Infos);
 }
 
@@ -20,17 +20,9 @@ async function getInfoById(req, res) {
 }
 
 async function addInfo(req, res) {
-    /*
-    const validatedData = await checkServiceInfo(req.body)  //Without await, promise status will be <pending>. 
-    console.log('test point',validatedData.error)
-    return res.json(validatedData)
 
-    if(validatedData.error !== undefined){
-        return res.status(404).json(validation.error)
-    }
-    console.log('within addInfo function', validation)
-    return res.json(validation)
-    */
+    const validatedData = await checkServiceInfo(req.body);  //Without await, promise status will be <pending>. 
+    if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
     const {
         name,
@@ -41,8 +33,8 @@ async function addInfo(req, res) {
         maxPersonPerSection,
         maxServicePerSection,
         description
-    } = req.body;
-    //} = validation;
+        //} = req.body;
+    } = validatedData;
 
     const serviceInfo = new ServiceInfo({
         name,
@@ -63,6 +55,9 @@ async function addInfo(req, res) {
 }
 
 async function updateInfoById(req, res) {
+    const validatedData = await checkServiceInfo(req.body);
+    if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
+
     const { id } = req.params;
     const {
         name,
@@ -74,7 +69,8 @@ async function updateInfoById(req, res) {
         maxServicePerSection,
         description,
         startTime
-    } = req.body;
+        //} = req.body;
+    } = validatedData;
     const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
         name,
         rootCategory,
@@ -113,28 +109,31 @@ async function discardInfoById(req, res) {
     res.sendStatus(204);
 }
 
+async function getDiscardedInfos(req, res) {
+    const Infos = await ServiceInfo.find({ isDiscard: true }).exec();
+    res.json(Infos);
+}
+
 async function checkServiceInfo(data) {
     const schema = Joi.object({
         name: Joi.string().required().min(2).max(30),
+        rootCategory: Joi.required(),
+        subCategories: Joi.array(),
+        store: Joi.required(),
         duration: Joi.number().required().min(0.5).max(5),
         maxPersonPerSection: Joi.number().required().min(1).max(200),
         maxServicePerSection: Joi.number().required().min(1),
-        description: Joi.string().max(200),
-        startTime: {
-            Monday: Joi.array(),
-            Tuesday: Joi.array(),
-            Wednesday: Joi.array(),
-            Thursday: Joi.array(),
-            Friday: Joi.array(),
-            Saturday: Joi.array(),
-            Sunday: Joi.array()
-        }
+        description: Joi.string().max(300),
+        startTime: [{
+            dayOfWeek: Joi.string(),
+            openHours: [Joi.string()]
+        }],
     });
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
     return validatedData;
-
 }
+
 
 module.exports = {
     getAllInfos,
@@ -142,4 +141,5 @@ module.exports = {
     addInfo,
     updateInfoById,
     discardInfoById,
+    getDiscardedInfos
 }
