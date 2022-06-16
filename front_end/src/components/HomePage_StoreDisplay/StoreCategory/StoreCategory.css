@@ -1,0 +1,25 @@
+* {
+  font-family: Helvetica, Arial, sans-serif;
+}
+.store-container {
+  width: 90%;
+  margin: 60px auto;
+}
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.view-all {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  gap: 3px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}

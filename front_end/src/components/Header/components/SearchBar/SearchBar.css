@@ -1,0 +1,18 @@
+.SearchBar {
+    min-width: 470px;
+    min-height: 39px;
+    border-radius: 10px;
+    background: var(--grey);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.SearchBarIcon {
+    min-width: 20px;
+    min-height: 20px;
+    color: var(--black);
+    padding-right: 15px;
+    cursor: pointer;
+}
