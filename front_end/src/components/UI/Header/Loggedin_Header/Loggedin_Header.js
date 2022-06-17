@@ -1,7 +1,7 @@
 import './Loggedin_Header.css';
 import Logo from '../components/Logo/Logo';
 import SearchBar from '../components/SearchBar/SearchBar';
-import ClickAway from '../../Header/components/UserInfo/UserInfo';
+import ClickAway from '../components/UserInfo/UserInfo';
 
 export const Wrapper = () => {
     return (
