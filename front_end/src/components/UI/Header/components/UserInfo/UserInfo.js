@@ -1,5 +1,7 @@
-import './UserInfo.css';
 import * as React from 'react';
+import { theme } from "../../../theme";
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
 import { User_SideBar } from '../../../User_SideBar/User_SideBar';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
