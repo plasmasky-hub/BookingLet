@@ -7,15 +7,48 @@ async function getAllStores(req, res) {
     res.json(stores);
 }
 
+// async function getStoreById(req, res) {
+//     const { id } = req.params;
+//     const store = await Store.findById(id).populate('owner').populate('serviceInfos')
+//         .populate('rootCategories').populate('subCategories').exec();
+//     if (!store) {
+//         return res.status(404).json({
+//             error: 'Store not found',
+//         });
+//     }
+//     res.json(store);
+//}
+function getStoreBasicById(id) {
+    return Store.findById(id, {
+        name: 1,
+        description: 1,
+        location: 1
+    }).exec();
+}
+
+function getStoreDetailById(id) {
+    return Store.findById(id).populate('owner').populate('serviceInfos')
+    .populate('rootCategories').populate('subCategories').exec();
+}
+
 async function getStoreById(req, res) {
     const { id } = req.params;
-    const store = await Store.findById(id).populate('owner').populate('serviceInfos')
-        .populate('rootCategories').populate('subCategories').exec();
+    const {isBasic} = req.query;
+
+    let store = {};
+
+    if (isBasic) {
+        store = await getStoreBasicById(id);
+    } else {
+        store = await getStoreDetailById(id);
+    }
+
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
         });
     }
+
     res.json(store);
 }
 
