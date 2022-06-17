@@ -5,7 +5,7 @@
   max-height: 650px;
   box-sizing: border-box;
   /* background-color: yellow; */
-  background-image: url(../../assets/img/home-bg.jpg);
+  background-image: url(../../../assets/home-bg.jpg);
   background-repeat: no-repeat;
 }
 
@@ -36,7 +36,7 @@
   margin-top: 20px;
   /* margin-left: 5px; */
   background-color: #D18E8E;
-  border-style:none;
+  border-style: none;
   cursor: pointer;
   border-radius: 10px;
 }

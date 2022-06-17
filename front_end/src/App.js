@@ -1,4 +1,4 @@
-import Banner from "./components/HomePage-banner/index";
+import Banner from "./components/UI/HomePage-banner/index";
 import Highlights from "./components/UI/filter/index";
 import Register from "./components/UI/Register";
 import Footer from "./components/UI/Footer";

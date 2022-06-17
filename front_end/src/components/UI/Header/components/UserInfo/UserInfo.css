@@ -22,7 +22,7 @@
 }
 
 .UserImg {
-    background: url(../../../../assets/Image/UserImg.png) no-repeat;
+    background: url(../../../../../assets/UserImg.png) no-repeat;
     min-width: 55px;
     min-height: 55px;
 }
