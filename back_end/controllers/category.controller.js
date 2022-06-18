@@ -1,7 +1,9 @@
 const RootCategory = require('../models/rootCategory');
 const SubCategory = require('../models/subCategory');
 const ServiceInfo = require('../models/serviceInfo');
+const Store = require('../models/store');
 const Joi = require('joi')
+
 
 /** 
  * @swagger
@@ -66,6 +68,7 @@ async function getAllRootCategories(req, res) {
     res.json(rootCategories);
 }
 
+
 /* async function getRootCategoryById(req, res) {
     const { id } = req.params;
     const rootCategory = await RootCategory.findById(id).exec();
@@ -75,7 +78,10 @@ async function getAllRootCategories(req, res) {
         });
     }
     res.json(rootCategory);
-}*/
+}
+*/
+
+
 /** 
  * @swagger
  *  /v1/rootCategory:
@@ -104,7 +110,7 @@ async function getAllRootCategories(req, res) {
  *                          properties: 
  *                              message:
  *                                  type: string                        
-*/                        
+*/
 async function addRootCategory(req, res) {
     const validatedData = await checkRootCategory(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
@@ -117,6 +123,7 @@ async function addRootCategory(req, res) {
     await rootCategory.save();
     res.status(201).json(rootCategory);
 }
+
 
 /** 
  * @swagger
@@ -155,7 +162,7 @@ async function addRootCategory(req, res) {
  *                              message:
  *                                  type: string     
  *                      
-*/   
+*/
 //This function is used for renaming (and does not affect the association)
 async function updateRootCategoryById(req, res) {
     const validatedData = await checkRootCategory(req.body);
@@ -172,11 +179,12 @@ async function updateRootCategoryById(req, res) {
     res.json(rootCategory);
 }
 
+
 /** 
  * @swagger
  *   /v1/rootCategory/{rootCategoryId}:
  *    delete:
- *      summary: pseudo-delete a rootCategory by ID. It will no longer appear in the list, but will still exist in the database and be recoverable.
+ *      summary: pseudo-delete a rootCategory by ID, if it doesn't associate with other collections
  *      tags: [Root-category]
  *      parameters:
  *          - in: path
@@ -197,34 +205,49 @@ async function updateRootCategoryById(req, res) {
  *                          type: object 
  *                          properties: 
  *                              message:
- *                                  type: string                                          
+ *                                  type: string    
+ *          403:
+ *              description: Server refused to delete because the data has an associated item.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                              associatedItem:
+ *                                  type: object or array                                         
 */
 async function discardRootCategoryById(req, res) {
     const { id } = req.params;
-    const rootCategory = await RootCategory.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-    if (!rootCategory) {
-        return res.status(404).json({
-            error: 'Category info not found',
+    const refSubCategory = await SubCategory.find({ parentCategory: id, isDiscard: false }).exec();
+    const refServiceInfo = await ServiceInfo.find({ rootCategory: id, isDiscard: false }).exec();
+    const refStore = await Store.find({ rootCategories: id, isDiscard: false }).exec();
+
+    if (refSubCategory.length !== 0 || refServiceInfo.length !== 0 || refStore.length !== 0) {
+        return res.status(403).json({
+            error: 'Deletion failed, this root-Category has associated items',
+            refSubCategory,
+            refServiceInfo,
+            refStore
         });
-    }
-
-    await SubCategory.updateMany({ parentCategory: rootCategory._id }, {
-        $set: { 'isDiscard': true }
-    }).exec()
-
-    await ServiceInfo.updateMany({ rootCategory: rootCategory._id }, {
-        $unset: {
-            rootCategory: rootCategory._id
+    } else {
+        const rootCategory = await RootCategory.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+        if (!rootCategory) {
+            return res.status(404).json({
+                error: 'Category info not found',
+            });
         }
-    }).exec()
-
-    res.sendStatus(204);
+        res.sendStatus(204);
+    }
 }
+
 
 async function getDiscardedRootCategories(req, res) {
     const rootCategories = await RootCategory.find({ isDiscard: true }).exec();
     res.json(rootCategories);
 }
+
 
 /** 
  * @swagger
@@ -256,6 +279,7 @@ async function getAllSubCategories(req, res) {
     res.json(subCategories);
 }
 
+
 /*async function getSubCategoryById(req, res) {
     const { id } = req.params;
     const subCategory = await SubCategory.findById(id).populate('parentCategory').exec();
@@ -267,6 +291,8 @@ async function getAllSubCategories(req, res) {
     res.json(subCategory);
 }
 */
+
+
 /** 
  * @swagger
  *  /v1/subCategory:
@@ -295,7 +321,7 @@ async function getAllSubCategories(req, res) {
  *                          properties: 
  *                              message:
  *                                  type: string                        
-*/  
+*/
 async function addSubCategory(req, res) {
     const validatedData = await checkSubCategory(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
@@ -307,6 +333,7 @@ async function addSubCategory(req, res) {
     await subCategory.save();
     res.status(201).json(subCategory);
 }
+
 
 /** 
  * @swagger
@@ -345,7 +372,7 @@ async function addSubCategory(req, res) {
  *                              message:
  *                                  type: string     
  *                      
-*/   
+*/
 //This function is used to rename and change the parentCategory (and does not affect the association)
 async function updateSubCategoryById(req, res) {
     const validatedData = await checkSubCategory(req.body);
@@ -362,11 +389,12 @@ async function updateSubCategoryById(req, res) {
     res.json(subCategory);
 }
 
+
 /** 
  * @swagger
  *   /v1/subCategory/{subCategoryId}:
  *    delete:
- *      summary: pseudo-delete a subCategory by ID. It will no longer appear in the list, but will still exist in the database and be recoverable.
+ *      summary: pseudo-delete a subCategory by ID, if it doesn't associate with other collections
  *      tags: [Subcategory]
  *      parameters:
  *          - in: path
@@ -387,25 +415,39 @@ async function updateSubCategoryById(req, res) {
  *                          type: object 
  *                          properties: 
  *                              message:
- *                                  type: string                                          
-*/
+ *                                  type: string     
+ *          403:
+ *              description: Server refused to delete because the data has an associated item.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                              associatedItem:
+ *                                  type: object or array                          
+*/          
 async function discardSubCategoryById(req, res) {
     const { id } = req.params;
-    const subCategory = await SubCategory.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-    if (!subCategory) {
-        return res.status(404).json({
-            error: 'Subcategory info not found',
+    const refServiceInfo = await ServiceInfo.find({ subCategories: id, isDiscard: false }).exec();
+
+    if (refServiceInfo.length !== 0) {
+        return res.status(403).json({
+            error: 'Deletion failed, this subcategory has associated items',
+            refServiceInfo
         });
-    }
-
-    await ServiceInfo.updateMany({ subCategories: subCategory._id }, {
-        $pull: {
-            subCategories: subCategory._id
+    } else {
+        const subCategory = await SubCategory.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+        if (!subCategory) {
+            return res.status(404).json({
+                error: 'Subcategory info not found',
+            });
         }
-    }).exec()
-
-    res.sendStatus(204);
+        res.sendStatus(204);
+    }
 }
+
 
 async function checkRootCategory(data) {
     const schema = Joi.object({
@@ -415,6 +457,7 @@ async function checkRootCategory(data) {
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
     return validatedData;
 }
+
 
 async function checkSubCategory(data) {
     const schema = Joi.object({
@@ -426,10 +469,12 @@ async function checkSubCategory(data) {
     return validatedData;
 }
 
+
 async function getDiscardedSubCategories(req, res) {
     const subCategories = await SubCategory.find({ isDiscard: true }).populate('parentCategory').exec();
     res.json(subCategories);
 }
+
 
 module.exports = {
     getAllRootCategories,
@@ -438,7 +483,7 @@ module.exports = {
     updateRootCategoryById,
     discardRootCategoryById,
     getDiscardedRootCategories,
-    
+
     getAllSubCategories,
     addSubCategory,
     updateSubCategoryById,

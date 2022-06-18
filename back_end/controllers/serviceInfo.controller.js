@@ -1,6 +1,8 @@
 const ServiceInfo = require('../models/serviceInfo');
 const Store = require('../models/store');
+const Order = require('../models/order');
 const Joi = require('joi');
+
 
 /** 
  * @swagger
@@ -77,6 +79,7 @@ async function getAllInfos(req, res) {
     res.json(Infos);
 }
 
+
 /** 
  * @swagger
  *   /v1/serviceInfo/{serviceInfoId}:
@@ -111,7 +114,7 @@ async function getAllInfos(req, res) {
 async function getInfoById(req, res) {
     const { id } = req.params;
     const serviceInfo = await ServiceInfo.findById(id)
-        .populate('store', 'name').populate('rootCategory').populate('subCategories').exec();
+        .populate('store', 'name').populate('rootCategory', 'name').populate('subCategories', 'name').exec();
     if (!serviceInfo) {
         return res.status(404).json({
             error: 'service info not found',
@@ -119,6 +122,7 @@ async function getInfoById(req, res) {
     }
     res.json(serviceInfo);
 }
+
 
 /** 
  * @swagger
@@ -149,7 +153,7 @@ async function getInfoById(req, res) {
  *                              message:
  *                                  type: string     
  *                      
-*/                          
+*/
 async function addInfo(req, res) {
     const validatedData = await checkServiceInfo(req.body);  //Without await, promise status will be <pending>. 
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
@@ -183,6 +187,7 @@ async function addInfo(req, res) {
         "serviceInfo": serviceInfo
     });
 }
+
 
 /** 
  * @swagger
@@ -219,9 +224,8 @@ async function addInfo(req, res) {
  *                          type: object 
  *                          properties: 
  *                              message:
- *                                  type: string     
- *                      
-*/   
+ *                                  type: string                       
+*/
 async function updateInfoById(req, res) {
     const validatedData = await checkServiceInfo(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
@@ -259,11 +263,12 @@ async function updateInfoById(req, res) {
     res.json(serviceInfo);
 }
 
+
 /** 
  * @swagger
  *   /v1/serviceInfo/{serviceInfoId}:
  *    delete:
- *      summary: pseudo-delete a service info by ID. It will no longer appear in the list, but will still exist in the database and be recoverable.
+ *      summary: pseudo-delete a service info by ID, if it doesn't associate with other collections
  *      tags: [ServiceInfo]
  *      parameters:
  *          - in: path
@@ -284,30 +289,47 @@ async function updateInfoById(req, res) {
  *                          type: object 
  *                          properties: 
  *                              message:
- *                                  type: string                                          
+ *                                  type: string 
+ *          403:
+ *              description: Server refused to delete because the data has an associated item.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                              associatedItem:
+ *                                  type: object or array                                            
 */
 async function discardInfoById(req, res) {
     const { id } = req.params;
-    const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-    if (!serviceInfo) {
-        return res.status(404).json({
-            error: 'service info not found',
+    const refOrder = await Order.find({ serviceInfoId: id, cancelStatus: false }).exec();
+
+    //I don't test order existence verification logic, because mongodb has no data in order collection
+    if (refOrder.length !== 0) {
+        return res.status(403).json({
+            error: 'Deletion failed, this service info has associated items',
+            refOrder
         });
-    }
-
-    await Store.updateMany({ serviceInfo: serviceInfo._id }, {
-        $pull: {
-            serviceInfo: serviceInfo._id
+    } else {
+        const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+        if (!serviceInfo) {
+            return res.status(404).json({
+                error: 'service info not found',
+            });
         }
-    }).exec();
-
-    res.sendStatus(204);
+        await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
+        res.sendStatus(204);
+    }
 }
+
 
 async function getDiscardedInfos(req, res) {
     const Infos = await ServiceInfo.find({ isDiscard: true }).exec();
     res.json(Infos);
 }
+
 
 async function checkServiceInfo(data) {
     const schema = Joi.object({
