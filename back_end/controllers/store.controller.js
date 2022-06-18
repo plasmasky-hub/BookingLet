@@ -120,6 +120,29 @@ const Joi = require('joi')
  *    get:
  *      summary: return all store information (except discarded)
  *      tags: [Store]
+ *      requestBody:
+ *          description: The request body is used for conditional query, retrieval, and sorting. if body is empty, all stores in database will be returned.
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties: 
+ *                          category:
+ *                              type: objectId
+ *                          sortMethod:
+ *                              type: string
+ *                          state:
+ *                              type: string
+ *                          city:
+ *                              type: string
+ *                          resultQuantity:
+ *                              type: number
+ *                      example:
+ *                          category: "629f0bc95abd87303b5dcb17"
+ *                          sortMethod: 'orderSize'
+ *                          state: "NT"
+ *                          city: "Hobart"
+ *                          resultQuantity: 4
  *      responses:
  *          200:
  *              description: array of stores
@@ -140,7 +163,14 @@ const Joi = require('joi')
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    const stores = await Store.find({ isDiscard: false }).exec();
+    let { category, sortMethod = 'orderSize', state, city, resultQuantity = 999999 } = req.body;
+
+    let searchQuery = { isDiscard: false };
+    if (category !== undefined) { searchQuery.rootCategories = category };
+    if (state !== undefined) { searchQuery['location.state'] = state };
+    if (city !== undefined) { searchQuery['location.city'] = city };
+
+    const stores = await Store.find(searchQuery).sort({ [sortMethod]: -1 }).limit(resultQuantity).exec();
     res.json(stores);
 }
 
@@ -179,7 +209,7 @@ async function getAllStores(req, res) {
 async function getStoreById(req, res) {
     const { id } = req.params;
     const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
-    .populate({path: 'serviceInfos', match: {isDiscard:false}, select: 'name'}).exec();
+        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name' }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
@@ -218,13 +248,13 @@ async function getStoreById(req, res) {
  *                              message:
  *                                  type: string     
  *                      
-*/                          
+*/
 async function addStore(req, res) {
     const validatedData = await checkStore(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
-    const { name, owner, tel, location, description, rootCategories}  = validatedData;  //= req.body;
-    const store = new Store({ name, owner, tel, location, description, rootCategories});
+    const { name, owner, tel, location, description, rootCategories } = validatedData;  //= req.body;
+    const store = new Store({ name, owner, tel, location, description, rootCategories });
     await store.save();
     res.status(201).json(store);
 }
@@ -271,7 +301,7 @@ async function addStore(req, res) {
 async function updateStoreById(req, res) {
     const validatedData = await checkStore(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
-    
+
     const { id } = req.params;
     const { name, owner, tel, location, description, rootCategories, serviceInfos, orders } = validatedData;  //= req.body;
     const store = await Store.findByIdAndUpdate(id, {
