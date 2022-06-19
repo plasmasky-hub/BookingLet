@@ -2,6 +2,7 @@ const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
 const Joi = require('joi')
 
+
 /** 
  * @swagger
  *   components:
@@ -42,9 +43,6 @@ const Joi = require('joi')
  *                  rootCategories:
  *                      type: Array
  *                      description: business category
- *                  subCategories:
- *                      type: Array
- *                      description: business subcategory
  *              example:
  *                  name: Best Massage t1
  *                  owner: "62971082feab058de9b66def"
@@ -58,7 +56,6 @@ const Joi = require('joi')
  *                      postcode: "7005"
  *                  description: 'an ordinary massage parlour'
  *                  rootCategories: ["629f0bc95abd87303b5dcb17"]
- *                  subCategories:  ["629f715cf1598f79a02aef99", "62a5f852767e8fc45aad5a23"] 
  *          storeUpdate:
  *              type: Object
  *              required:
@@ -95,9 +92,6 @@ const Joi = require('joi')
  *                  rootCategories:
  *                      type: Array
  *                      description: business category
- *                  subCategories:
- *                      type: Array
- *                      description: business subcategory
  *                  serviceInfos:
  *                      type: Array
  *                      description: in-store service information list
@@ -117,7 +111,6 @@ const Joi = require('joi')
  *                      postcode: "7005"
  *                  description: 'an ordinary massage parlour'
  *                  rootCategories: ["629f0bc95abd87303b5dcb17"]
- *                  subCategories:  ["629f715cf1598f79a02aef99", "62a5f852767e8fc45aad5a23"]  
  *                  serviceInfos: ["62aafdb10b339b2e4c917e95"]
  *                  orders: []     
 */
@@ -150,6 +143,7 @@ async function getAllStores(req, res) {
     const stores = await Store.find({ isDiscard: false }).exec();
     res.json(stores);
 }
+
 
 /** 
  * @swagger
@@ -184,8 +178,8 @@ async function getAllStores(req, res) {
 */
 async function getStoreById(req, res) {
     const { id } = req.params;
-    const store = await Store.findById(id).populate('owner').populate('serviceInfos')
-        .populate('rootCategories').populate('subCategories').exec();
+    const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
+    .populate({path: 'serviceInfos', match: {isDiscard:false}, select: 'name'}).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
@@ -193,6 +187,7 @@ async function getStoreById(req, res) {
     }
     res.json(store);
 }
+
 
 /** 
  * @swagger
@@ -228,11 +223,12 @@ async function addStore(req, res) {
     const validatedData = await checkStore(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
-    const { name, owner, tel, location, description, rootCategories, subCategories }  = validatedData;  //= req.body;
-    const store = new Store({ name, owner, tel, location, description, rootCategories, subCategories });
+    const { name, owner, tel, location, description, rootCategories}  = validatedData;  //= req.body;
+    const store = new Store({ name, owner, tel, location, description, rootCategories});
     await store.save();
     res.status(201).json(store);
 }
+
 
 /** 
  * @swagger
@@ -277,9 +273,9 @@ async function updateStoreById(req, res) {
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
     
     const { id } = req.params;
-    const { name, owner, tel, location, description, rootCategories, subCategories, serviceInfos, orders } = validatedData;  //= req.body;
+    const { name, owner, tel, location, description, rootCategories, serviceInfos, orders } = validatedData;  //= req.body;
     const store = await Store.findByIdAndUpdate(id, {
-        name, owner, tel, location, description, rootCategories, subCategories, serviceInfos, orders
+        name, owner, tel, location, description, rootCategories, serviceInfos, orders
     }, { new: true }).exec();
     if (!store) {
         return res.status(404).json({
@@ -289,26 +285,12 @@ async function updateStoreById(req, res) {
     res.json(store);
 }
 
-async function discardStoreById(req, res) {
-    const { id } = req.params;
-    const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-    if (!store) {
-        return res.status(404).json({
-            error: 'Store info not found',
-        });
-    }
-
-    await ServiceInfo.updateMany({ store: store._id }, {
-        $set: { 'isDiscard': true }
-    }).exec();
-    res.sendStatus(204);
-}
 
 /** 
  * @swagger
  *   /v1/store/{storeId}:
  *    delete:
- *      summary: pseudo-delete a store by ID. It will no longer appear in the list, but will still exist in the database and be recoverable.
+ *      summary: pseudo-delete a store by ID, if it doesn't associate with other collections
  *      tags: [Store]
  *      parameters:
  *          - in: path
@@ -331,10 +313,30 @@ async function discardStoreById(req, res) {
  *                              message:
  *                                  type: string                                          
 */
+async function discardStoreById(req, res) {
+    const { id } = req.params;
+
+    await ServiceInfo.updateMany({ store: id }, {
+        $set: { 'isDiscard': true }
+    }).exec();
+
+    const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+    if (!store) {
+        return res.status(404).json({
+            error: 'store not found',
+        });
+    }
+
+    res.sendStatus(204);
+
+}
+
+
 async function getDiscardedStores(req, res) {
     const stores = await Store.find({ isDiscard: true }).exec();
     res.json(stores);
 }
+
 
 async function checkStore(data) {
     const schema = Joi.object({
@@ -351,7 +353,6 @@ async function checkStore(data) {
         },
         description: Joi.string().max(300),
         rootCategories: Joi.array(),
-        subCategories: Joi.array(),
         serviceInfos: Joi.array(),
         orders: Joi.array()
     });
@@ -360,57 +361,6 @@ async function checkStore(data) {
     return validatedData;
 }
 
-/*
-Commented code: This feature is currently considered redundant, since serviceInfo is 
-fixed in a ref of a store instance when it is created. This part of the functionality 
-has been moved to controller -> serviceInfo.js -> getInfoById() & deleteInfoById().
-*/
-/* 
-//storeRouter.post('/:storeId/serviceInfo/:serviceInfoId', addServiceInfoToStore);
-async function addServiceInfoToStore(req, res) {
-    const { storeId, serviceInfoId } = req.params;
-    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    const store = await Store.findById(storeId).exec();
-
-    if (!serviceInfo || !store) {
-        return res.status(404).json({
-            error: 'serviceInfo or store not found',
-        });
-    }
-
-    store.serviceInfos.addToSet(serviceInfo._id);
-    serviceInfo.store = store._id;
-
-    await store.save();
-    await serviceInfo.save();
-    return res.json({
-        'store': store,
-        'service info': serviceInfo
-    });
-}
-
-async function removeServiceInfoToStore(req, res) {
-    const { storeId, serviceInfoId } = req.params;
-    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    const store = await Store.findById(storeId).exec();
-
-    if (!serviceInfo || !store) {
-        return res.status(404).json({
-            error: 'serviceInfo or store not found',
-        });
-    }
-
-    store.serviceInfos.pull(serviceInfo._id);
-    serviceInfo.store = undefined;
-
-    await store.save();
-    await serviceInfo.save();
-    return res.json({
-        'store': store,
-        'service info': serviceInfo
-    });
-}
-*/
 
 module.exports = {
     getAllStores,
@@ -418,7 +368,5 @@ module.exports = {
     addStore,
     updateStoreById,
     discardStoreById,
-    getDiscardedStores,
-    //addServiceInfoToStore,
-    //removeServiceInfoToStore,
+    getDiscardedStores
 }

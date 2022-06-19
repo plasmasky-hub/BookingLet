@@ -37,10 +37,6 @@ const schema = new mongoose.Schema({
         ref: 'RootCategory',
         required: true
     }],
-    subCategories: [{
-        type: mongoose.Types.ObjectId,
-        ref: 'SubCategory'
-    }],
     serviceInfos: [{
         type: mongoose.Types.ObjectId,
         ref: 'ServiceInfo'
