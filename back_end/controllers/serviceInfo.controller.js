@@ -289,39 +289,22 @@ async function updateInfoById(req, res) {
  *                          type: object 
  *                          properties: 
  *                              message:
- *                                  type: string 
- *          403:
- *              description: Server refused to delete because the data has an associated item.
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                              associatedItem:
- *                                  type: object or array                                            
+ *                                  type: string                                          
 */
 async function discardInfoById(req, res) {
     const { id } = req.params;
     const refOrder = await Order.find({ serviceInfoId: id, cancelStatus: false }).exec();
 
     //I don't test order existence verification logic, because mongodb has no data in order collection
-    if (refOrder.length !== 0) {
-        return res.status(403).json({
-            error: 'Deletion failed, this service info has associated items',
-            refOrder
+    const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+    if (!serviceInfo) {
+        return res.status(404).json({
+            error: 'service info not found',
         });
-    } else {
-        const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-        if (!serviceInfo) {
-            return res.status(404).json({
-                error: 'service info not found',
-            });
-        }
-        await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
-        res.sendStatus(204);
     }
+    await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
+    res.sendStatus(204);
+
 }
 
 

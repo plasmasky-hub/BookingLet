@@ -311,37 +311,24 @@ async function updateStoreById(req, res) {
  *                          type: object 
  *                          properties: 
  *                              message:
- *                                  type: string 
- *          403:
- *              description: Server refused to delete because the data has an associated item.
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                              associatedItem:
- *                                  type: object or array                                            
+ *                                  type: string                                          
 */
 async function discardStoreById(req, res) {
     const { id } = req.params;
-    const refServiceInfo = await ServiceInfo.find({ store: id, isDiscard: false }).exec();
 
-    if (refServiceInfo.length !== 0) {
-        return res.status(403).json({
-            error: 'Deletion failed, this store has associated items',
-            refServiceInfo
+    await ServiceInfo.updateMany({ store: id }, {
+        $set: { 'isDiscard': true }
+    }).exec();
+
+    const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+    if (!store) {
+        return res.status(404).json({
+            error: 'store not found',
         });
-    } else {
-        const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-        if (!store) {
-            return res.status(404).json({
-                error: 'store not found',
-            });
-        }
-        res.sendStatus(204);
     }
+
+    res.sendStatus(204);
+
 }
 
 
