@@ -293,7 +293,6 @@ async function updateInfoById(req, res) {
 */
 async function discardInfoById(req, res) {
     const { id } = req.params;
-    const refOrder = await Order.find({ serviceInfoId: id, cancelStatus: false }).exec();
 
     //I don't test order existence verification logic, because mongodb has no data in order collection
     const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
