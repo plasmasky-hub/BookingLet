@@ -8,26 +8,26 @@ pipeline {
             }
         }
         
-        stage('npm install') {
+        stage('npm build') {
             steps{
                 dir('./front_end/') {
                     sh 'npm install'
                 }
             }
         }
-        stage('npm build') {
+        stage('npm test') {
             steps{
                 dir('./front_end/') {
-                    sh 'npm run build'
+                    sh 'npm run test'
                 }
             }
         }
         stage('artifacts to s3') {
             steps{
-                withAWS(region: 'ap-southeast-2'), credentials : 'christina'
+                withAWS(region: 'ap-southeast-2', credentials : 'christina'){
                 dir('./front_end/') {
                   sh 'aws s3 ls'
-                  sh 'aws s3 sync /var/lib/jenkins/jobs/frontend/builds s3://www.she-can.tech'
+                  sh 'aws s3 sync /var/lib/jenkins/jobs/frontend/builds s3://www.she-can.tech'}
                 }
             }
         }
