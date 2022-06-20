@@ -26,9 +26,7 @@ pipeline {
     stage('Building image') {
       steps{
         dir('./back_end'){
-        script {
-          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"}
-        }
+          sh 'docker build -t demo .'
       }
     }
    
@@ -36,10 +34,8 @@ pipeline {
     stage('Pushing to ECR') {
      steps{  
         dir('./back_end'){
-         script {
-			docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
-                    	dockerImage.push()
-                	}
+           sh 'docker tag demo:latest 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
+           sh 'docker push 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
          }
          }
         }
@@ -47,9 +43,10 @@ pipeline {
       
     stage('Deploy') {
      steps{
+        dir('./back_end'){
             withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
                 script {
-			sh './script.sh'
+			sh './script.sh' }
                 }
             } 
         }
