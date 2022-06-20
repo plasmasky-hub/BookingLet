@@ -36,7 +36,7 @@ pipeline {
             steps{
                 withCredentials([usernameColonPassword(credentialsId: 'github', variable: 'AWS_CREDENTIALS')]) {
     // some block
-}
+
                 dir('./front_end/') {
                   sh 'aws s3 ls'
                   sh 'aws s3 sync /var/lib/jenkins/jobs/frontend/builds s3://www.she-can.tech'
