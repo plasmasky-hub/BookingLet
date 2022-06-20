@@ -14,16 +14,14 @@ pipeline {
     }
    
     stages {
-
-    // Tests
-    stage('Unit Tests') {
+      stage('Unit Tests') {
        steps{
          script {
             sh 'npm install'
 	        sh 'npm run test -- --watchAll=false'
-       // }
-      //}
-    //}
+           }
+        }
+    }
         
     // Building Docker images
     stage('Building image') {
@@ -53,7 +51,6 @@ pipeline {
                 }
             } 
         }
-      }      
-      
+      }       
     }
 }
