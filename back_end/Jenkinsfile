@@ -14,11 +14,9 @@ pipeline {
     }
    
     stages {
-      stage('Unit Tests') {
+      stage('Unit build') {
        steps{
-         script {
             sh 'npm install'
-           }
         }
     }
         
