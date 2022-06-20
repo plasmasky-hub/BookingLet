@@ -14,17 +14,20 @@ pipeline {
     }
    
     stages {
-      stage('Unit build') {
-       steps{
-            sh 'npm install'
+      stage('npm install') {
+            steps{
+                dir('./front_end/') {
+                    sh 'npm install'
+                }
+            }
         }
-    }
         
     // Building Docker images
     stage('Building image') {
       steps{
+        dir('./back_end'){
         script {
-          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"}
         }
       }
     }
@@ -32,10 +35,12 @@ pipeline {
     // Uploading Docker images into AWS ECR
     stage('Pushing to ECR') {
      steps{  
+        dir('./back_end'){
          script {
 			docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
                     	dockerImage.push()
                 	}
+         }
          }
         }
       }
