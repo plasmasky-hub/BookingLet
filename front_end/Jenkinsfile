@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim' 
+            args '-u root:root'
+        }
+    }
+
+    stages {
+        stage('Git checkout') {
+            steps{
+                // Get source code from a GitHub repository
+                git branch:'main', url:'https://github.com/Christina-29/BookingLet.git'
+            }
+        }
+        
+        stage('npm install') {
+            steps{
+                dir('/front_end/') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('npm build') {
+            steps{
+                dir('/front_end/') {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('install aws cli') {
+            steps{
+                dir('./front_end/') {
+                  sh 'apt update'
+                  sh 'apt-get install awscli'
+                  echo 'aws --version'
+                }
+            }
+        }
+        stage('artifacts to s3') {
+            steps{
+                withCredentials([usernameColonPassword(credentialsId: 'github', variable: 'AWS_CREDENTIALS')]) {
+    // some block
+}
+                dir('./front_end/') {
+                  sh 'aws s3 ls'
+                  sh 'aws s3 sync /var/lib/jenkins/jobs/frontend/builds s3://www.she-can.tech'
+                }
+            }
+        }
+    }
+}
