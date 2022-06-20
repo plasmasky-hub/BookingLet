@@ -4,16 +4,16 @@ import Box from '@mui/material/Box';
 const StyledLogo = styled(Box)`
     flex-grow: 1;
     font-family: Helvetica, sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    padding: 5px;
     color: #000;
+    padding-left: 50px;
     cursor: pointer;
 `;
 
 export const Logo = () => {
-  return(
-    <Logo>Bookinglet</Logo>
+  return (
+    <StyledLogo>Bookinglet</StyledLogo>
   )
 }
 
