@@ -30,7 +30,7 @@ pipeline {
                 withAWS(region: 'ap-southeast-2', credentials : 'christina'){
                 dir('./front_end/') {
                   sh 'aws s3 ls'
-                  sh 'aws s3 sync /var/lib/jenkins/jobs/frontend/builds s3://www.she-can.tech'}
+                  sh 'aws s3 sync /var/lib/jenkins/workspace/frontend/front_end/builds s3://www.she-can.tech'}
                 }
             }
         }
