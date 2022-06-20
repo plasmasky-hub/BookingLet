@@ -16,11 +16,11 @@ pipeline {
     stages {
 
     // Tests
-    //stage('Unit Tests') {
-     // steps{
-       // script {
-        //  sh 'npm install'
-	  //sh 'npm test -- --watchAll=false'
+    stage('Unit Tests') {
+       steps{
+         script {
+            sh 'npm install'
+	        sh 'npm run test -- --watchAll=false'
        // }
       //}
     //}
