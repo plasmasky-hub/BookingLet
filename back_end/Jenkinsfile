@@ -5,7 +5,7 @@ pipeline {
         AWS_DEFAULT_REGION="ap-southeast-2" 
 	    CLUSTER_NAME="default1"
 	    SERVICE_NAME="backend-container-service"
-	    TASK_DEFINITION_NAME="first-run-task-definition:6"
+	    TASK_DEFINITION_NAME="first-run-task-definition"
 	    DESIRED_COUNT="1"
         IMAGE_REPO_NAME="demo"
         IMAGE_TAG="latest"
