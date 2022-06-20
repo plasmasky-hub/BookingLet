@@ -35,6 +35,7 @@ pipeline {
      steps{  
         dir('./back_end'){
             withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
+           sh 'aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com'
            sh 'docker tag demo:latest 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
            sh 'docker push 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest' }
         }
