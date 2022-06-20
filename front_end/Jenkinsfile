@@ -8,17 +8,17 @@ pipeline {
             }
         }
         
-        stage('npm build') {
+        stage('npm install') {
             steps{
                 dir('./front_end/') {
                     sh 'npm install'
                 }
             }
         }
-        stage('npm test') {
+        stage('npm build') {
             steps{
                 dir('./front_end/') {
-                    sh 'npm run test'
+                    sh 'npm run build'
                 }
             }
         }
