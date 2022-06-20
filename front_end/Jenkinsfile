@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        CI = false
+    }
     stages {
         //stage('Git checkout') {
          //   steps{
