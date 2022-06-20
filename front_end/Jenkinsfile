@@ -22,21 +22,9 @@ pipeline {
                 }
             }
         }
-
-        stage('install aws cli') {
-            steps{
-                dir('./front_end/') {
-                  sh 'apt update'
-                  sh 'apt-get install awscli'
-                  echo 'aws --version'
-                }
-            }
-        }
         stage('artifacts to s3') {
             steps{
-                withCredentials([usernameColonPassword(credentialsId: 'github', variable: 'AWS_CREDENTIALS')]) {
-    // some block
-
+                withAWS(region: 'ap-southeast-2'), credentials : 'christina'
                 dir('./front_end/') {
                   sh 'aws s3 ls'
                   sh 'aws s3 sync /var/lib/jenkins/jobs/frontend/builds s3://www.she-can.tech'
