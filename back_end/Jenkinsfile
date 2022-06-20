@@ -16,7 +16,7 @@ pipeline {
     stages {
       stage('npm install') {
             steps{
-                dir('./front_end/') {
+                dir('./back_end/') {
                     sh 'npm install'
                 }
             }
