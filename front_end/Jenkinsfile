@@ -1,12 +1,12 @@
 pipeline {
     agent any
     stages {
-        stage('Git checkout') {
-            steps{
+        //stage('Git checkout') {
+         //   steps{
                 // Get source code from a GitHub repository
-                git branch:'main', url:'https://github.com/Christina-29/BookingLet.git'
-            }
-        }
+         //       git branch:'main', url:'https://github.com/Christina-29/BookingLet.git'
+           // }
+        //}
         
         stage('npm install') {
             steps{
