@@ -1,11 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts-bullseye-slim' 
-            args '-u root:root'
-        }
-    }
-
+    agent any
     stages {
         stage('Git checkout') {
             steps{
