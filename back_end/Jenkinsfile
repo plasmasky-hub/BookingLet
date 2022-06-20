@@ -34,11 +34,12 @@ pipeline {
     stage('Pushing to ECR') {
      steps{  
         dir('./back_end'){
+            withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
            sh 'docker tag demo:latest 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
            sh 'docker push 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest' }
         }
     }
-      
+}     
     stage('Deploy') {
      steps{
         dir('./back_end'){
