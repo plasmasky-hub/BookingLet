@@ -27,7 +27,8 @@ pipeline {
         }
         stage('artifacts to s3') {
             steps{
-                withAWS(region: 'ap-southeast-2', credentials : 'christina'){
+                withCredentials([usernameColonPassword(credentialsId: 'github', variable: 'AWS')]) {
+    // some block
                 dir('./front_end/') {
                   sh 'aws s3 ls'
                   sh 'aws s3 sync /var/lib/jenkins/workspace/frontend/front_end/builds s3://www.she-can.tech'}
