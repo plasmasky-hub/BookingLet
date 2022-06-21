@@ -8,8 +8,8 @@ const Schema = new mongoose.Schema({
         default:1
     },
     orderTime:  {
-        type:Date, 
-        required:true
+        date:{type:Date, required:true,default:()=>{new Date().format("YYYY-MM-DD")}},
+        time:{type:String, required:true,default:()=>{new Date().format("HH:mm:ss")}}
     },
     bookingStatus: {
         type : Boolean,
@@ -30,7 +30,6 @@ const Schema = new mongoose.Schema({
     serviceInfoId:{
         type : mongoose.Types.ObjectId,
         required:true  
-       
     },
     tel : {
         type : String,
@@ -39,6 +38,11 @@ const Schema = new mongoose.Schema({
     optionInfo:{
         type : String,
         maxlength:200
+    },
+    bookingTime:{
+        type:Date, 
+        default:Date.now
+        
     }
     
 })
