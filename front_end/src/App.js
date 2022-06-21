@@ -1,12 +1,15 @@
-import LandingPage from "./pages/LandingPage";
+// import LandingPage from "./pages/LandingPage";
+import React from 'react';
+import StoreDisplay from './pages/StoreListPage/components/StoreDisplay';
 
 function App() {
   return (
-    <div>
-      <div>
-        <LandingPage />
-      </div>
-    </div>
+    <StoreDisplay />
+    // <div>
+    //   <div>
+    //     <LandingPage />
+    //   </div>
+    // </div>
   );
 }
 
