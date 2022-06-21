@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,10 +13,12 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Divider from '@mui/material/Divider';
 import UserImg from '../../assets/UserImg.png';
-import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const StyledSideBar = styled(Box)`
+import { UserInfo } from '../UI/UserData';
+
+
+const StyledSideBar = styled(Paper)`
     width: 295px;
     height: 960px;
     background: #ECECEA;
@@ -42,7 +45,7 @@ const StyledAvatar = styled.img`
 
 const Space = styled(Box)`
     width: 295px;
-    height: 295px;
+    height: 320px;
 `;
 
 const UserLogOut = styled.button`
@@ -56,22 +59,23 @@ const UserLogOut = styled.button`
     font-weight: 700;
     font-size: 1rem;
     border-style: none;
-    margin: 30px 0 0 8px;
+    background: none;
+    margin: 16px 0 0 8px;
     cursor: pointer;
 `
 
 export const SelectedListItem = () => {
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(null);
 
     const handleListItemClick = (event, index) => {
       setSelectedIndex(index);
     };
-
+    
     return(
         <StyledSideBar>
             <UserProfile>
                 <StyledAvatar src={UserImg}/>
-                Nicolas Cage
+                {UserInfo.name}
             </UserProfile>
             <Divider />
 
@@ -139,8 +143,6 @@ export const SelectedListItem = () => {
             <LogoutIcon />
             Log out
             </UserLogOut>
-            
-
         </StyledSideBar>
     )
 };

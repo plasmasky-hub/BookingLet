@@ -14,6 +14,7 @@ const StyledHeader = styled(Box)`
   justify-content: space-between;
   align-items: center;
   position: fixed;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
 `
 
 const StyledButton = styled.div`
