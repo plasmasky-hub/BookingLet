@@ -4,10 +4,14 @@ import { UserBanner } from './components/UI/UserData';
 
 function App() {
   return (
+<<<<<<< Updated upstream
     <div>
       <Header />
       <Banner />
     </div>
+=======
+    <header></header>
+>>>>>>> Stashed changes
   );
 }
 
