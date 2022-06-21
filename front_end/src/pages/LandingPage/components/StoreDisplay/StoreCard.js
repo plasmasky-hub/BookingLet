@@ -4,7 +4,7 @@ import AddIcon from '../../../../components/shared/AddIcon';
 import styled from '@emotion/styled';
 
 const CardWrapper = styled(Card)`
-  width: 23%;
+  width: 260px;
   padding: 22px 18px;
   box-sizing: border-box;
 `;
