@@ -10,7 +10,22 @@ faker.setLocale('en_AU');
 // const randomLocation = faker.address.state('AU');
 
 // console.log(randomName, randomLocation);
-async function randomUser(){}
+async function randomUser(req, res){
+
+    const name = faker.name.findName();
+    const spliteName = name.split(' ');
+    const tel = faker.phone.phoneNumber();
+    const email = faker.internet.email(spliteName[ spliteName.length - 2 ], spliteName[ spliteName.length - 1 ]);
+
+    const user = new User({
+        name : name,
+        tel : tel,
+        email : email,
+    })
+
+    res.status(200).json(user); 
+};
+
 async function randomRootCate(){}
 async function randomSubCate(){}
 
