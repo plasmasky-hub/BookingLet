@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Avatar from '@mui/material/Avatar';
+import { useState } from "react";
+import { SelectedListItem } from "./UserSideBar";
 
 const ProfileBanner = styled.div`
   width: 152px;
@@ -18,6 +20,7 @@ const UserBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  font-family: Helvetica, sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   padding: 15px 0;
@@ -33,6 +36,10 @@ const StyledUserTitle = styled.p`
     color: #7B8B6F;
 `;
 
+const OpenSideBar = () => {
+    const [isOPen, setOsOpen] = useState(false);
+};
+
 export const UserBanner = () => {
     return (
         <ProfileBanner>
@@ -40,7 +47,7 @@ export const UserBanner = () => {
                 <StyledUserName>{userName}</StyledUserName>
                 <StyledUserTitle>{userTitle}</StyledUserTitle>
             </UserBox>
-            <Avatar src="../../../UserImg.png" alt="user-image">
+            <Avatar>
             </Avatar>
         </ProfileBanner>
     )
