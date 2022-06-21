@@ -2,14 +2,11 @@ const { faker } =  require('@faker-js/faker/locale/en_AU');
 const Store = require('../models/store');
 const User = require('../models/user');
 const rootCategory = require('../models/rootCategory');
-const subCategory = require('../models/subCategory')
+const subCategory = require('../models/subCategory');
+const serviceInfoRouter = require('../routes/serviceInfo.route');
 
 faker.setLocale('en_AU');
 
-// const randomName = faker.name.findName();
-// const randomLocation = faker.address.state('AU');
-
-// console.log(randomName, randomLocation);
 async function randomUser(req, res){
 
     const name = faker.name.findName();
@@ -132,11 +129,78 @@ async function randomStore(req, res){
     // return store;
 }
 
+async function randomOder(req, res){
+
+    /* ---------------------- random people number in order --------------------- */
+    const peopleNumber = faker.random.numeric();
+
+    /* --------------------------- random ordered time -------------------------- */
+    const soonDate = faker.date.soon();
+    const orderDate = toString(soonDate.getFullYear()) + toString(soonDate.getMonth())  + toString(soonDate.getDate() );
+    const orderTime = toString(soonDate.getHours()) + toString(soonDate.getMinutes())  + toString(soonDate.getSeconds() );
+
+    /* ----------------------- random user from user list ----------------------- */
+    const userList = await User.aggregate([
+        {
+            $project : {
+                "_id" : 1,
+            }
+        }
+    ]);
+
+    const nameList = [];
+    for( var i in userList ){
+        nameList.push(userList[i]._id);
+    }
+
+    const userId = faker.helpers.arrayElement(nameList);
+    // console.log("🚀 ~ file: faker.controller.js ~ line 157 ~ randomOder ~ userId", userId)
+
+    /* ---------------------- random store from store list ---------------------- */
+    const stores = await Store.aggregate([
+        {
+            $project : {
+                "_id" : 1,
+            }
+        }
+    ]);
+
+    const storeList = [];
+    for( var i in stores ){
+        storeList.push(stores[i]._id);
+    }
+    // console.log("🚀 ~ file: faker.controller.js ~ line 170 ~ randomOder ~ storeList", storeList)
+
+
+    const storeId = faker.helpers.arrayElements(storeList, 1);
+    console.log("🚀 ~ file: faker.controller.js ~ line 173 ~ randomOder ~ storeId", storeId)
+
+    /* ----------------- random service info linked to the store ---------------- */
+    // const orderStore = await Store.find(storeId[0]) ;
+    // console.log("🚀 ~ file: faker.controller.js ~ line 180 ~ randomOder ~ orderStore", orderStore)
+    // const serviceList = orderStore[0].serviceInfos;
+    // console.log("🚀 ~ file: faker.controller.js ~ line 176 ~ randomOder ~ serviceList", serviceList);
+    // const orderService = faker.helpers.arrayElements(serviceList, 1);
+    // console.log("🚀 ~ file: faker.controller.js ~ line 183 ~ randomOder ~ orderService", orderService)
+
+
+
+
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+
+    
+}
+
 module.exports = {
     randomUser,
     randomRootCate,
     randomSubCate,
     randomStore,
+    randomOder,
 }
 
 
