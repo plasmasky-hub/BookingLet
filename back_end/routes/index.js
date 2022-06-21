@@ -5,6 +5,7 @@ const serviceInfoRouter = require('./serviceInfo.route');
 const storeRouter = require('./store.route');
 const rootCategoryRouter = require('./rootCategory.route');
 const subCategoryRouter = require('./subCategory.route');
+const fakerRouter = require('./faker.route');
 
 const mainRouter = express.Router();
 
@@ -14,5 +15,6 @@ mainRouter.use('/store', storeRouter);
 mainRouter.use('/rootCategory', rootCategoryRouter);
 mainRouter.use('/subCategory', subCategoryRouter);
 mainRouter.use('/orders', orderRouter);
+mainRouter.use('/faker', fakerRouter);
 
 module.exports = mainRouter;

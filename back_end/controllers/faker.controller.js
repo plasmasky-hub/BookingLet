@@ -1,9 +1,8 @@
 const { faker } =  require('@faker-js/faker/locale/en_AU');
 const Store = require('../models/store');
 const User = require('../models/user');
-const Category = require('../models/rootCategory');
+const rootCategory = require('../models/rootCategory');
 
-const { connectToDB } = require('../database/connect');
 
 faker.setLocale('en_AU');
 
@@ -11,6 +10,9 @@ faker.setLocale('en_AU');
 // const randomLocation = faker.address.state('AU');
 
 // console.log(randomName, randomLocation);
+async function randomUser(){}
+async function randomRootCate(){}
+async function randomSubCate(){}
 
 async function randomStore(req, res){
     
@@ -62,7 +64,7 @@ async function randomStore(req, res){
 
     /* -------------------------------- Category -------------------------------- */
     // Get all categories' names
-    const categories = await Category.aggregate(
+    const categories = await rootCategory.aggregate(
         [{
             $project : {
                     "_id" : 1,
@@ -95,16 +97,16 @@ async function randomStore(req, res){
     });
     console.log("🚀 ~ file: faker.js ~ line 97 ~ randomStore ~ store", store)
     // await store.save();
-    // res.status(201).json(store);
+    res.status(200).json(store);
+    // return store;
 }
 
-async function main(){
-    await connectToDB();
-    await randomStore();
-    process.exit();
+module.exports = {
+    randomUser,
+    randomRootCate,
+    randomSubCate,
+    randomStore,
 }
-
-main();
 
 
 
