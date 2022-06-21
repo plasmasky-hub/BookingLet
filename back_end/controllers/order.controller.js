@@ -1,24 +1,57 @@
 
 const Order = require('../models/order'); 
 const User =require('../models/user');
-const Store =require('../models/store')
+const Store =require('../models/store');
+const ServiceInfo =require('../models/serviceInfo')
+const { any } = require('joi');
 
 //create order
 async function addOrder(req, res){
     console.log('Adding a new order...');
-    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,optionInfo } = req.body;
-    const newOrder = new Order({ peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,optionInfo });
-    await newOrder.save();
-    const orderId = newOrder._id;
+    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime } = req.body;
+    const newOrder = new Order({ peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime });
+    const orderId =newOrder._id;
+    const serviceId = newOrder.serviceInfoId;
+    const newOrderTime =newOrder.orderTime;
+    const usersId=newOrder.userId;
+   
+    //get orders with the same services ID and same order time
+    const userExist =await Order.find({"orderTime":newOrderTime ,"userId":usersId,"serviceInfoId":serviceId,})
+
+    //Object.key(orders).length ===0  JSON.stringify(orders)==='{}'
+
+    if(JSON.stringify(userExist)!=='[]'){
+      return res.status(200).json('You have already booked the same time, pleas check your order list')
+     }
+
+    //check Service Number
+     //get the number of max Services 
+     const services = await ServiceInfo.findById(serviceId);
+     const maxServicesNumber= services.maxServicePerSection;
+     console.log(maxServicesNumber);
+     //Already have number
+     const existServicesNumber = await Order.count({"orderTime":newOrderTime ,"serviceInfoId":serviceId})
+     console.log(existServicesNumber)
+
+     if(existServicesNumber +1 > maxServicesNumber){
+      return res.status(200).json('Booking number is  full, please find another time')
+     }
+   
     // add orderId into User collection
+
     const user =await User.findById(userId).exec();
+    if(user.orders.indexOf(orderId) !== -1){
+      return res.status(400).json({ error: 'Order already exists' });}
+      else{
     user.orders.addToSet(orderId);
-    await user.save();
+    await user.save();}
+   
     //add orderId into Store collection
     const store = await Store.findById(storeId).exec();
     store.orders.addToSet(orderId);
     await store.save();
 
+    await newOrder.save();
     res.status(200).json(newOrder);
     // res.status(200).json({data:newOrder});
 }
@@ -26,10 +59,10 @@ async function addOrder(req, res){
 //update
 async function updateOrderByID(req,res){
     const { id } = req.params;
-    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,optionInfo } = req.body;
+    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime } = req.body;
     const order = await Order.findByIdAndUpdate(
       id,
-      {peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,optionInfo },
+      {peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime },
       { new: true }
     ).exec();
     if (!order) {
@@ -100,3 +133,6 @@ module.exports = {
     cancelOrder
    
 }
+
+
+
