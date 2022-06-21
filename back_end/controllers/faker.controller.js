@@ -2,7 +2,7 @@ const { faker } =  require('@faker-js/faker/locale/en_AU');
 const Store = require('../models/store');
 const User = require('../models/user');
 const rootCategory = require('../models/rootCategory');
-
+const subCategory = require('../models/subCategory')
 
 faker.setLocale('en_AU');
 
@@ -26,8 +26,24 @@ async function randomUser(req, res){
     res.status(200).json(user); 
 };
 
-async function randomRootCate(){}
-async function randomSubCate(){}
+async function randomRootCate(req, res){
+
+    const cateName = faker.name.jobArea();
+    const rootCate = new rootCategory({
+        name : cateName,
+    })
+
+    res.status(200).json(rootCate);
+}
+
+async function randomSubCate(req, res){
+    const cateName = faker.name.jobArea();
+    const subCate = new subCategory({
+        name : cateName,
+    })
+
+    res.status(200).json(subCate);
+}
 
 async function randomStore(req, res){
     
