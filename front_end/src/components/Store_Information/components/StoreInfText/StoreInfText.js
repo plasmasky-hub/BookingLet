@@ -1,16 +1,17 @@
-import { TextField } from "@mui/material";
-import React, { Fragment } from "react";
-import styled from "styled-components";
+import { TextField } from '@mui/material';
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
 import InputAdornment from '@mui/material/InputAdornment';
-import { ModeEditOutline } from "@mui/icons-material";
-
+import { ModeEditOutline } from '@mui/icons-material';
+import Visibility from '@mui/icons-material/Visibility';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const StoreName = styled.div`
   width: 84px;
   height: 20px;
   left: 184px;
   top: 250px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -41,21 +42,24 @@ const StoreInfText = () => (
       id="input-with-icon-textfield"
       defaultValue="Han’s Massage"
       variant="filled"
-      endAdornment= {
-        <InputAdornment position="end">
-          <ModeEditOutline />
-        </InputAdornment>
-      }
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <ModeEditOutline />
+          </InputAdornment>
+        ),
+      }}
+
       // inputProps={{
       //   endAdornment: (
       //     <InputAdornment position="end">
       //       <ModeEditOutline />
       //     </InputAdornment>
       //   ),
-      //   style:{
-      //     height:"13px",
-      //     paddingTop:"20px"
-      //   }
+      // style: {
+      //   height: '13px',
+      //   paddingTop: '20px',
+      // },
       // }}
     />
   </Fragment>
