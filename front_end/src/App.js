@@ -1,11 +1,12 @@
-import LandingPage from "./pages/LandingPage";
+import TemporaryDrawer from './ServiceList'
+import {ServiceDetailList} from './ServiceInfoDetails';
+
 
 function App() {
   return (
     <div>
-      <div>
-        <LandingPage />
-      </div>
+      <TemporaryDrawer />
+      <ServiceDetailList />
     </div>
   );
 }
