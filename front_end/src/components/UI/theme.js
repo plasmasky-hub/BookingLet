@@ -1,4 +1,4 @@
-export const createTheme = {
+export const Theme = [
     palette: {
         primary: {
             main: '#D76D6D',
@@ -16,20 +16,7 @@ export const createTheme = {
             primary: '#000000',
             secondary: '#FFFFFF',
         },
-        business: {
-            primary: '#397CC2',
-            secondary: '#D3AC72',
-        },
-        select: {
-            main: '#848484',
-        },
-        chip: {
-            main: '#E5E5E5',
-        },
-        card: {
-            main: '#595959',
-        },
-    },
+
     typography: {
         fontSize: 14,
         fontWeightLight: 300,
@@ -70,5 +57,22 @@ export const createTheme = {
         subtitle1: {
             fontWeight: 500,
         },
-    },
-};
+    };
+
+    const ButtonTheme = {
+        palette: {
+            business: {
+                primary: '#397CC2',
+                secondary: '#D3AC72',
+            },
+            select: {
+                main: '#848484',
+            },
+            chip: {
+                main: '#E5E5E5',
+            },
+            card: {
+                main: '#595959',
+            },
+        }
+    };
