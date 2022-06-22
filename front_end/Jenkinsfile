@@ -31,7 +31,7 @@ pipeline {
     // some block
                 dir('./front_end/') {
                   sh 'aws s3 ls'
-                  sh 'aws s3 sync /var/lib/jenkins/workspace/frontend/front_end/build s3://www.she-can.tech'}
+                  sh 'aws s3 sync /var/lib/jenkins/workspace/frontend/front_end/build s3://she-can.tech'}
                 }
             }
         }
