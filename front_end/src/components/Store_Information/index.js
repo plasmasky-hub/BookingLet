@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import StoreText from "./components/StoreInfText/StoreInfText";
 import StoreSmallText from "./components/StoreInfSmallText/StoreSmallText";
+import StoreInfFilter from "./components/StoreInfFilter/StoreInfFilter";
 
 const Wrapper = styled.div`
   width: 1233px;
@@ -56,7 +57,7 @@ const StoreInf = () => (
 
     <ContainerSmallText>
       <StoreSmallText />
-      
+      <StoreInfFilter />
     </ContainerSmallText>
   </Wrapper>
 );

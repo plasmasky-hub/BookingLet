@@ -41,22 +41,17 @@ const StoreInfText = () => (
       id="input-with-icon-textfield"
       defaultValue="Han’s Massage"
       variant="filled"
-      endAdornment= {
-        <InputAdornment position="end">
-          <ModeEditOutline />
-        </InputAdornment>
-      }
-      // inputProps={{
-      //   endAdornment: (
-      //     <InputAdornment position="end">
-      //       <ModeEditOutline />
-      //     </InputAdornment>
-      //   ),
-      //   style:{
-      //     height:"13px",
-      //     paddingTop:"20px"
-      //   }
-      // }}
+      inputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <ModeEditOutline />
+          </InputAdornment>
+        ),
+        style:{
+          height:"13px",
+          paddingTop:"20px"
+        }
+      }}
     />
   </Fragment>
 );
