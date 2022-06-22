@@ -18,13 +18,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { UserInfo } from '../UI/UserData';
 
 
-const StyledSideBar = styled(Paper)`
+export const StyledSideBar = styled(Paper)`
     width: 295px;
     height: 960px;
     background: #ECECEA;
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 1;
+    transition: ease-in-out 0.2s;
 `;
 
 const UserProfile = styled(Box)`
@@ -65,16 +67,16 @@ const UserLogOut = styled.button`
 `
 
 export const SelectedListItem = () => {
-    const [selectedIndex, setSelectedIndex] = React.useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(null);
 
     const handleListItemClick = (event, index) => {
-      setSelectedIndex(index);
+        setSelectedIndex(index);
     };
-    
-    return(
+
+    return (
         <StyledSideBar>
             <UserProfile>
-                <StyledAvatar src={UserImg}/>
+                <StyledAvatar src={UserImg} />
                 {UserInfo.name}
             </UserProfile>
             <Divider />
@@ -85,63 +87,63 @@ export const SelectedListItem = () => {
                     onClick={(event) => handleListItemClick(event, 0)}
                 >
                     <ListItemIcon>
-                    <InfoIcon />
+                        <InfoIcon />
                     </ListItemIcon>
                     <ListItemText primary="Infomation" />
                 </ListItemButton>
-                <Divider variant="middle"/>
+                <Divider variant="middle" />
 
                 <ListItemButton
                     selected={selectedIndex === 1}
                     onClick={(event) => handleListItemClick(event, 1)}
                 >
                     <ListItemIcon>
-                    <ListIcon />
+                        <ListIcon />
                     </ListItemIcon>
                     <ListItemText primary="My Bookings" />
                 </ListItemButton>
-                <Divider variant="middle"/>
+                <Divider variant="middle" />
 
                 <ListItemButton
                     selected={selectedIndex === 2}
                     onClick={(event) => handleListItemClick(event, 2)}
                 >
                     <ListItemIcon>
-                    <MenuBookIcon />
+                        <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="My Booklet" />
                 </ListItemButton>
-                <Divider variant="middle"/>
+                <Divider variant="middle" />
 
                 <ListItemButton
                     selected={selectedIndex === 3}
                     onClick={(event) => handleListItemClick(event, 3)}
                 >
                     <ListItemIcon>
-                    <EmojiEventsIcon />
+                        <EmojiEventsIcon />
                     </ListItemIcon>
                     <ListItemText primary="Register My Store" />
                 </ListItemButton>
-                <Divider variant="middle"/>
-            
+                <Divider variant="middle" />
+
                 <ListItemButton
                     selected={selectedIndex === 4}
                     onClick={(event) => handleListItemClick(event, 4)}
                 >
                     <ListItemIcon>
-                    <HelpOutlineIcon />
+                        <HelpOutlineIcon />
                     </ListItemIcon>
                     <ListItemText primary="Help" />
                 </ListItemButton>
-                <Divider/>
+                <Divider />
             </ List>
 
             <Space />
-            <Divider variant="middle"/>
+            <Divider variant="middle" />
 
             < UserLogOut>
-            <LogoutIcon />
-            Log out
+                <LogoutIcon />
+                Log out
             </UserLogOut>
         </StyledSideBar>
     )

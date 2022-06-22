@@ -7,7 +7,7 @@ function App() {
   return (
     <div>
       <Header />
-      <SelectedListItem />
+      {/* <SelectedListItem /> */}
       <Banner />
     </div>
   );

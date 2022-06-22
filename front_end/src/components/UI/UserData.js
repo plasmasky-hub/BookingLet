@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import Avatar from '@mui/material/Avatar';
 import UserImg from '../../assets/UserImg.png';
 import { useState } from "react";
-import { SelectedListItem } from "./UserSideBar";
+import { StyledSideBar } from "./UserSideBar";
 
 export const UserInfo = {
     name: 'Nicolas Cage',
@@ -50,18 +49,28 @@ const StyledUserImg = styled.img`
     }
 `;
 
-const OpenSideBar = () => {
-    const [isOPen, setOsOpen] = useState(false);
-};
-
 export const UserBanner = () => {
+    const [isOPen, setIsOpen] = useState(false);
+    const handleSideBarClick = () => {
+        setIsOpen((prev) => !prev);
+    };
+    const handleSideBarClose = () => {
+        setIsOpen(false);
+    };
+
     return (
         <ProfileBanner>
             <UserBox>
                 <StyledUserName>{UserInfo.name}</StyledUserName>
                 <StyledUserTitle>{UserInfo.title}</StyledUserTitle>
             </UserBox>
-            <StyledUserImg src={UserImg} />
+            <StyledUserImg
+                src={UserImg}
+                onClick={handleSideBarClick}
+                {...open ? (
+                    <StyledSideBar sx={SideBarTransition} />
+                ) : <StyledSideBar sx={SideBarTransitionHover} />}
+            />
         </ProfileBanner>
     )
 };
