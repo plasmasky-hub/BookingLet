@@ -64,3 +64,6 @@ Function
 ----------
 search function
 ![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/filtering%20and%20sorting.jpg)
+
+check order availability
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/checkOrderAvailability.jpg)
