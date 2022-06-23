@@ -42,7 +42,7 @@ const Schema = new mongoose.Schema({
     bookingTime:{
         type:Date, 
         default:Date.now
-        
+   
     }
     
 })

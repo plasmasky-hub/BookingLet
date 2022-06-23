@@ -120,15 +120,15 @@ async function checkServiceInfo(data) {
         maxPersonPerSection: Joi.number().required().min(1).max(200),
         maxServicePerSection: Joi.number().required().min(1),
         description: Joi.string().max(200),
-        startTime: {
-            Monday: Joi.array(),
-            Tuesday: Joi.array(),
-            Wednesday: Joi.array(),
-            Thursday: Joi.array(),
-            Friday: Joi.array(),
-            Saturday: Joi.array(),
-            Sunday: Joi.array()
-        }
+        // startTime: {
+        //     Monday: Joi.array(),
+        //     Tuesday: Joi.array(),
+        //     Wednesday: Joi.array(),
+        //     Thursday: Joi.array(),
+        //     Friday: Joi.array(),
+        //     Saturday: Joi.array(),
+        //     Sunday: Joi.array()
+        // }
     });
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
