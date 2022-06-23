@@ -5,6 +5,65 @@ const Store =require('../models/store');
 const ServiceInfo =require('../models/serviceInfo')
 const { any } = require('joi');
 
+async function repeatVerification(req,res){
+  console.log('repeatedly verification...');
+  const {orderTime,serviceInfoId}=req.body;
+  //change  the date formate and  day of week
+  const orderTimeDate=orderTime.date
+  let orderDay= new Date(orderTimeDate);
+  // console.log(orderDay)
+  
+  let dayInWeekIndex=orderDay.getDay();
+  // console.log(dayInWeekIndex);
+  let dayInWeek = undefined;
+  switch(dayInWeekIndex){
+    case 0:  dayInWeek ="Sunday"; break;
+    case 1:  dayInWeek ="Monday"; break;
+    case 2:  dayInWeek ="Tuesday"; break;
+    case 3:  dayInWeek ="Wednesday"; break;
+    case 4:  dayInWeek ="Thursday"; break;
+    case 5:  dayInWeek ="Friday"; break;
+    case 6:  dayInWeek ="Saturday"; break;
+  }
+ console.log(dayInWeek);
+
+
+// get open hours from serviceInfo time
+const service = await ServiceInfo.findById(serviceInfoId).exec();
+const maxService=service.maxServicePerSection;
+const startTimeArr=service.startTime;
+
+let openHourArr= undefined;
+for(i=0;i<startTimeArr.length;i++){
+  if(startTimeArr[i].dayOfWeek=== dayInWeek){
+   openHourArr= startTimeArr[i].openHours;
+  }
+}
+//new Order Time 
+let orderTimeObjArr=openHourArr.map((element)=>{
+   return {date:orderDay,time:element}
+})
+
+
+
+let availableTime=[];
+for(j=0;j<orderTimeObjArr.length;j++){
+ 
+   b = await Order.count({"orderTime":orderTimeObjArr[j],"serviceInfoId":serviceInfoId})
+  //  a.push(...b)
+  //  if(b< maxService){
+  //    availableTime.push({orderTime:orderTimeObjArr[j].time,availability:true})
+  //  }else{
+  //   availableTime.push({orderTime:orderTimeObjArr[j].time,availability:false})
+  //  }
+   availableTime.push({orderTime:orderTimeObjArr[j].time,availability:(b< maxService)?true:false})
+ 
+}
+res.status(200).json(availableTime);
+
+
+}
+
 //create order
 async function addOrder(req, res){
     console.log('Adding a new order...');
@@ -26,16 +85,16 @@ async function addOrder(req, res){
 
     //check Service Number
      //get the number of max Services 
-     const services = await ServiceInfo.findById(serviceId);
-     const maxServicesNumber= services.maxServicePerSection;
-     console.log(maxServicesNumber);
-     //Already have number
-     const existServicesNumber = await Order.count({"orderTime":newOrderTime ,"serviceInfoId":serviceId})
-     console.log(existServicesNumber)
+    //  const services = await ServiceInfo.findById(serviceId);
+    //  const maxServicesNumber= services.maxServicePerSection;
+    //  console.log(maxServicesNumber);
+    //  //Already have number
+    //  const existServicesNumber = await Order.count({"orderTime":newOrderTime ,"serviceInfoId":serviceId})
+    //  console.log(existServicesNumber)
 
-     if(existServicesNumber +1 > maxServicesNumber){
-      return res.status(200).json('Booking number is  full, please find another time')
-     }
+    //  if(existServicesNumber +1 > maxServicesNumber){
+    //   return res.status(200).json('Booking number is  full, please find another time')
+    //  }
    
     // add orderId into User collection
 
@@ -130,7 +189,8 @@ module.exports = {
     updateOrderByID,
     deleteOrderByID,
     confirmOrder,
-    cancelOrder
+    cancelOrder,
+    repeatVerification
    
 }
 
