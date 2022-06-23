@@ -13,20 +13,20 @@ export default function SelectName() {
 
   return (
     <div>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <FormControl sx={{ m: 1, minWidth: 145 }} size="small">
             <InputLabel id="demo-select-name">Service</InputLabel>
             <Select
-              labelId="demo-select-name"
-              id="demo-select-name"
+              labelId="demo-select-category"
+              id="demo-select-category"
               value={service}
-              label="Service"
+              label="Category"
               onChange={handleChange}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={10}>Foot Massage</MenuItem>
-            </Select>
+              <MenuItem value={1}>Foot Massage</MenuItem>
+              </Select>
         </FormControl>
     </div>
   );

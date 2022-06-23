@@ -27,14 +27,6 @@ export const ServiceDetailList = () => {
                     main: '#fff'
                 }
             },
-            button: {
-                primary: {
-                    main: '#397CC2'
-                },
-                secondary: {
-                    main: '#D3AC72'
-                },
-            }
         },
 
         typography: {
@@ -55,13 +47,7 @@ export const ServiceDetailList = () => {
                 fontSize: '1rem',
                 fontWeight: 400,
             },
-            button: {
-                fontSize: '1rem',
-                fontWeight: 700,
-                padding: 1,
-            },
         },
-        boxShadow: '-3px 0 5px rgba(0,0,0,0.4)'
     });
 
     const StyledServiceList = styled(Paper)`

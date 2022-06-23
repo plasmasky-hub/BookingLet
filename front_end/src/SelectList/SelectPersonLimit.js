@@ -14,20 +14,19 @@ export default function SelectPersonLimit() {
     return (
         <div>
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="demo-select-personLimit">Person</InputLabel>
-                <Select
-                    labelId="demo-select-personLimit"
-                    id="demo-select-personLimit"
-                    value={personLimit}
-                    label="personLimit"
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                </Select>
+            <InputLabel id="demo-select-limit">Limit</InputLabel>
+            <Select
+              labelId="demo-select-limit"
+              id="demo-select-limit"
+              value={personLimit}
+              label="Limit"
+              onChange={handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={1}>1</MenuItem>
+            </Select>
             </FormControl>
         </div>
     );
