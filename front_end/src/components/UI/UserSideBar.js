@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from "styled-components";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,7 +14,6 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Divider from '@mui/material/Divider';
 import UserImg from '../../assets/UserImg.png';
 import LogoutIcon from '@mui/icons-material/Logout';
-
 import { UserInfo } from '../UI/UserData';
 
 

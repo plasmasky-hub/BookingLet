@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import UserImg from '../../assets/UserImg.png';
 import { useState } from "react";
-import { StyledSideBar } from "./UserSideBar";
+import { SelectedListItem } from './UserSideBar';
+
 
 export const UserInfo = {
     name: 'Nicolas Cage',
@@ -67,9 +68,9 @@ export const UserBanner = () => {
             <StyledUserImg
                 src={UserImg}
                 onClick={handleSideBarClick}
-                {...open ? (
-                    <StyledSideBar sx={SideBarTransition} />
-                ) : <StyledSideBar sx={SideBarTransitionHover} />}
+                {...setIsOpen ? (
+                    <SelectedListItem />
+                ) : null}
             />
         </ProfileBanner>
     )
