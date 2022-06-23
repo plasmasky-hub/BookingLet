@@ -213,5 +213,5 @@ module.exports = {
   updateUserByID,
   deleteUserByID,
   getUserStores,
-  // addStoreToUser,
+  //addStoreToUser,
 };

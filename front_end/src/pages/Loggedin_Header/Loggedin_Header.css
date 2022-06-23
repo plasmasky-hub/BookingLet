@@ -1,0 +1,10 @@
+.Wrapper {
+    width: 100%;
+    min-height: 72px;
+    background: var(--offwhite);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
