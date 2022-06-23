@@ -323,10 +323,11 @@ async function checkServiceInfo(data) {
         maxPersonPerSection: Joi.number().required().min(1).max(200),
         maxServicePerSection: Joi.number().required().min(1),
         description: Joi.string().max(300),
-        startTime: [{
+        /*startTime: [{
             dayOfWeek: Joi.string(),
             openHours: [Joi.string()]
-        }],
+        }],*/
+        startTime: Joi.array()
     });
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });

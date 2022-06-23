@@ -1,6 +1,6 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
-const Joi = require('joi')
+const Joi = require('joi');
 
 
 /** 
@@ -140,8 +140,86 @@ const Joi = require('joi')
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    const stores = await Store.find({ isDiscard: false }).exec();
-    res.json(stores);
+    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', resultQuantity = 999 } = req.body;
+
+    let qRegExp = new RegExp(`.*${query}.*`, 'i');
+    let optionalMatchQuery = {};
+    let startTimeDateQuery = {};
+
+    //if (category !== undefined) { optionalMatchQuery.rootCategories = category };  //invalid here. The reason should be array != string.
+    if (state !== undefined) { optionalMatchQuery['location.state'] = state };
+    if (city !== undefined) { optionalMatchQuery['location.city'] = city };
+    if (dateInWeek !== undefined) {
+        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] };
+        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] };
+    }
+
+    let aimedStores = await Store.aggregate([
+        {
+            $lookup: {
+                from: "serviceinfos",
+                let: { id: "$_id" },
+                pipeline: [
+                    {  //Filter the sub-table 1st time, and return main tables which contain the specified day in its sub-table.
+                        $project:
+                        {
+                            store: 1, name: 1, maxPersonPerSection: 1,
+                            "startTime": {
+                                $filter: {
+                                    input: "$startTime.dayOfWeek",
+                                    as: "startTimeDay",
+                                    cond: startTimeDateQuery  //If there is no 'dateInWeek' in filter, select *
+                                }
+                            }
+                        }
+                    },
+                    {  //Filter the sub-table 2nd time, and return main tables which {$maxPersonPerSection > person} in its sub-table.
+                        $match:
+                        {
+                            $expr:
+                            {
+                                $and:
+                                    [
+                                        { isDiscard: false },
+                                        { $eq: ["$store", "$$id"] },
+                                        { $gte: ["$maxPersonPerSection", person] }
+                                    ]
+                            }
+                        }
+                    }
+                ],
+                as: "serviceInfoDetails"
+            }
+        },
+        {
+            $match: {
+                $and:
+                    [
+                        { isDiscard: false },
+                        { "serviceInfoDetails": { $ne: [] } },
+                        optionalMatchQuery,
+                        // { "rootCategories": { $elemMatch: {$eq: "629f0bc95abd87303b5dcb17"} } }  //incorrect, but I don't know why
+                        // { rootCategories: { $all: ["629f0bc95abd87303b5dcb17"] } }  //incorrect, but I don't know why
+                    ],
+                $or: [
+                    { name: qRegExp },
+                    { description: qRegExp }
+                ]
+            }
+        },
+        {
+            $sort: { [sortMethod]: -1 }
+        },
+        {
+            $limit: resultQuantity
+        }
+
+
+    ]).then((result) => {
+        res.json(result)
+    }).catch((error) => {
+        res.json(error)
+    })
 }
 
 
@@ -179,7 +257,7 @@ async function getAllStores(req, res) {
 async function getStoreById(req, res) {
     const { id } = req.params;
     const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
-    .populate({path: 'serviceInfos', match: {isDiscard:false}, select: 'name'}).exec();
+        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name' }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
@@ -218,13 +296,13 @@ async function getStoreById(req, res) {
  *                              message:
  *                                  type: string     
  *                      
-*/                          
+*/
 async function addStore(req, res) {
     const validatedData = await checkStore(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
-    const { name, owner, tel, location, description, rootCategories}  = validatedData;  //= req.body;
-    const store = new Store({ name, owner, tel, location, description, rootCategories});
+    const { name, owner, tel, location, description, rootCategories } = validatedData;  //= req.body;
+    const store = new Store({ name, owner, tel, location, description, rootCategories });
     await store.save();
     res.status(201).json(store);
 }
@@ -271,7 +349,7 @@ async function addStore(req, res) {
 async function updateStoreById(req, res) {
     const validatedData = await checkStore(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
-    
+
     const { id } = req.params;
     const { name, owner, tel, location, description, rootCategories, serviceInfos, orders } = validatedData;  //= req.body;
     const store = await Store.findByIdAndUpdate(id, {
