@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import UserImg from '../../assets/UserImg.png';
+import UserImg from '../../../assets/UserImg.png';
 import { useState } from "react";
 import { SelectedListItem } from './UserSideBar';
 

@@ -12,9 +12,9 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Divider from '@mui/material/Divider';
-import UserImg from '../../assets/UserImg.png';
+import UserImg from '../../../assets/UserImg.png';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { UserInfo } from '../UI/UserData';
+import { UserInfo } from './UserData';
 
 
 export const StyledSideBar = styled(Paper)`
