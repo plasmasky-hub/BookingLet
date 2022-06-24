@@ -16,6 +16,7 @@ import UserImg from '../../../assets/UserImg.png';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { UserInfo } from './UserData';
 import Modal from '@mui/material/Modal';
+import { useEffect } from 'react';
 
 
 export const StyledSideBar = styled(Paper)`
@@ -66,31 +67,25 @@ const UserLogOut = styled.button`
     cursor: pointer;
 `
 
-const CloseIcon = styled.button`
-    width:50px;
-    height:50px;
-    background-color: pink;
-`;
-
 export const SelectedListItem = (props) => {
     const [selectedIndex, setSelectedIndex] = useState(null);
-    const [isOpen, setIsOpen]= useState(props.isOpen)
-
+    const [open, setOpen]=useState(props.isOpen)
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
+    useEffect(()=>{
+        if(props.isOpen==true){
+            handleOpen();
+        }
+    },[props])
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    const handleSideBarClose = () => {
-        setIsOpen(false);
-    };
-    console.log('isOpen',isOpen)
 
     return (
-        <Modal open={isOpen}>
+        <Modal open={open}  onClose={handleClose} sx={{border: 'none'}}>
             <StyledSideBar>
-            <CloseIcon onClick={handleSideBarClose}>x</CloseIcon>
-
             <UserProfile>
                 <StyledAvatar src={UserImg} />
                 {UserInfo.name}

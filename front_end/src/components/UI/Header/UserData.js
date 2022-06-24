@@ -57,7 +57,7 @@ export const UserBanner = () => {
     const handleSideBarClick = () => {
         setIsOpen(true);
     };
-    console.log('isOpen',isOpen)
+    
 
     return (
         <ProfileBanner>
@@ -69,8 +69,7 @@ export const UserBanner = () => {
                 src={UserImg}
                 onClick={handleSideBarClick}
             />
-            {isOpen?<SelectedListItem isOpen={isOpen}/>:null}
-
+            <SelectedListItem isOpen={isOpen}/>
         </ProfileBanner>
     )
 };
