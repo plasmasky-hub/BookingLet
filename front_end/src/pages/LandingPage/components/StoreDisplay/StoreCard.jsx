@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card } from '@mui/material';
-import AddIcon from '../../../../components/shared/AddIcon';
+import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
+import Button from '@mui/material/Button';
 
 const CardWrapper = styled(Card)`
-  width: 260px;
+  width: 258px;
   padding: 22px 18px;
   box-sizing: border-box;
 `;
@@ -26,7 +27,6 @@ const ImgWrapper = styled.div`
     position: absolute;
     bottom: -8px;
     right: 1px;
-    font-weight: 600;
   }
 `;
 
@@ -43,7 +43,6 @@ const Address = styled.p`
 const Label = styled.span`
   display: inline-block;
   font-size: 12px;
-  font-weight: 600;
   padding: 5px 10px;
   background-color: #c5b8a5;
   color: white;
@@ -56,18 +55,19 @@ const AddPpl = styled.p`
   margin-bottom: 20px;
 `;
 
-const CardButton = styled.a`
+const CardButton = styled(Button)`
   color: #7b8b6f;
   font-weight: 600;
-  display: block;
-  text-align: right;
-  text-decoration: none;
+  float: right;
+  padding: 0;
+  font-size: 14px;
 `;
 
 const StoreCard = ({
   data: { image, avl, name, address, svList, maxPpl, addPpl },
 }) => {
   console.log(maxPpl, addPpl);
+
   return (
     <CardWrapper>
       <ImgWrapper>

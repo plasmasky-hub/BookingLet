@@ -1,7 +1,7 @@
 import { Card, CardContent, CardMedia, Button } from '@mui/material';
 import React from 'react';
 import styled from '@emotion/styled';
-import AddIcon from '../../../../components/shared/AddIcon';
+import AddIcon from './AddIcon';
 
 const StyledCard = styled(Card)`
   display: flex;
