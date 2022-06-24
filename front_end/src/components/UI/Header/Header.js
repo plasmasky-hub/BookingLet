@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import LoginIcon from '@mui/icons-material/Login';
 import { Logo } from '../../shared/Logo/Logo';
 import React, { useState } from 'react';
-import { UserBanner } from "./UserData";
+import {UserBanner} from './UserData';
+
+// import SwipeableTemporaryDrawer from "./UserData";
 
 const StyledHeader = styled(Box)`
   width: 100vw;

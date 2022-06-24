@@ -50,14 +50,14 @@ const StyledUserImg = styled.img`
     }
 `;
 
+
+
 export const UserBanner = () => {
-    const [isOPen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const handleSideBarClick = () => {
-        setIsOpen((prev) => !prev);
+        setIsOpen(true);
     };
-    const handleSideBarClose = () => {
-        setIsOpen(false);
-    };
+    console.log('isOpen',isOpen)
 
     return (
         <ProfileBanner>
@@ -68,10 +68,9 @@ export const UserBanner = () => {
             <StyledUserImg
                 src={UserImg}
                 onClick={handleSideBarClick}
-                {...setIsOpen ? (
-                    <SelectedListItem />
-                ) : null}
             />
+            {isOpen?<SelectedListItem isOpen={isOpen}/>:null}
+
         </ProfileBanner>
     )
 };

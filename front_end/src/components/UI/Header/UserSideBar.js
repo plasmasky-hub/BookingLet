@@ -15,6 +15,7 @@ import Divider from '@mui/material/Divider';
 import UserImg from '../../../assets/UserImg.png';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { UserInfo } from './UserData';
+import Modal from '@mui/material/Modal';
 
 
 export const StyledSideBar = styled(Paper)`
@@ -65,15 +66,31 @@ const UserLogOut = styled.button`
     cursor: pointer;
 `
 
-export const SelectedListItem = () => {
+const CloseIcon = styled.button`
+    width:50px;
+    height:50px;
+    background-color: pink;
+`;
+
+export const SelectedListItem = (props) => {
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [isOpen, setIsOpen]= useState(props.isOpen)
+
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
 
+    const handleSideBarClose = () => {
+        setIsOpen(false);
+    };
+    console.log('isOpen',isOpen)
+
     return (
-        <StyledSideBar>
+        <Modal open={isOpen}>
+            <StyledSideBar>
+            <CloseIcon onClick={handleSideBarClose}>x</CloseIcon>
+
             <UserProfile>
                 <StyledAvatar src={UserImg} />
                 {UserInfo.name}
@@ -145,5 +162,6 @@ export const SelectedListItem = () => {
                 Log out
             </UserLogOut>
         </StyledSideBar>
+        </Modal>
     )
 };
