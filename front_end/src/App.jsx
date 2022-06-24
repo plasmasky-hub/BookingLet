@@ -2,13 +2,14 @@
 import React from 'react';
 // import StoreListPage from './pages/StoreListPage';
 // import BookingPage from './pages/BookingPage';
-import StoreDisplay from './pages/LandingPage/components/StoreDisplay';
+import LandingPage from './pages/LandingPage';
+import StoreListPage from './pages/StoreListPage';
 
 function App() {
   return (
     // <StoreListPage />
     // <BookingPage />
-    <StoreDisplay />
+    <LandingPage />
     //     // <div>
     //     //   <div>
     //     //     <LandingPage />
