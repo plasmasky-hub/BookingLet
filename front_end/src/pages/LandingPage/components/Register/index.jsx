@@ -31,7 +31,7 @@ const RegisterFont = styled.div`
   margin-left: 40px;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   display: relative;
   width: 152px;
   height: 51px;
