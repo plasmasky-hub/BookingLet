@@ -7,7 +7,7 @@ const Joi = require('joi');
  * @swagger
  *   components:
  *      schemas:
- *          store:
+ *          fullStore:
  *              type: Object
  *              required:
  *                  - name
@@ -16,6 +16,69 @@ const Joi = require('joi');
  *                      type: string
  *                  _id:
  *                      type: objectId
+ *                      description: auto generated unique identifier
+ *                  owner:
+ *                      type: objectId
+ *                      description: user who own this store
+ *                  tel:
+ *                      type: string
+ *                  location:
+ *                      type: Object
+ *                      properties:
+ *                          state: 
+ *                              type: string
+ *                          city:
+ *                              type: string
+ *                          suburb:
+ *                              type: string
+ *                          street:
+ *                              type: string
+ *                          number:
+ *                              type: string
+ *                          postcode:
+ *                              type: string
+ *                  description:
+ *                      type: string
+ *                      description: store details
+ *                  rootCategories:
+ *                      type: Array
+ *                      description: business category
+ *                  serviceInfos:
+ *                      type: Array
+ *                      description: save serviceInfos id array
+ *                  orders:
+ *                      type: Array
+ *                      description: save orders id array
+ *                  favoriteUsers:
+ *                      type: Array
+ *                      description: save users id array who follow this store
+ *              example:
+ *                  name: Best Massage t1
+ *                  owner: "62971082feab058de9b66def"
+ *                  tel: "0452345111"
+ *                  location: 
+ *                      state: "NT"
+ *                      city: "Hobart"
+ *                      suburb: "Parkville"
+ *                      street: "Captain Matthew Flinders"
+ *                      number: "50"
+ *                      postcode: "7005"
+ *                  description: 'an ordinary massage parlour'
+ *                  rootCategories: ["629f0bc95abd87303b5dcb17"]
+ *                  serviceInfos: []
+ *                  orders: []
+ *                  favoriteUsers: []
+ *          store:
+ *              type: Object
+ *              required:
+ *                  - name
+ *                  - owner
+ *                  - tel
+ *                  - location
+ *                  - rootCategories
+ *              properties:
+ *                  name:  
+ *                      type: string
  *                      description: auto generated unique identifier
  *                  owner:
  *                      type: objectId
@@ -58,17 +121,9 @@ const Joi = require('joi');
  *                  rootCategories: ["629f0bc95abd87303b5dcb17"]
  *          storeUpdate:
  *              type: Object
- *              required:
- *                  - name
  *              properties:
  *                  name:  
  *                      type: string
- *                  _id:
- *                      type: objectId
- *                      description: auto generated unique identifier
- *                  owner:
- *                      type: objectId
- *                      description: user who own this store
  *                  tel:
  *                      type: string
  *                  location:
@@ -92,15 +147,8 @@ const Joi = require('joi');
  *                  rootCategories:
  *                      type: Array
  *                      description: business category
- *                  serviceInfos:
- *                      type: Array
- *                      description: in-store service information list
- *                  orders:
- *                      type: Array
- *                      description: all orders in store
  *              example:
  *                  name: Best Massage t1
- *                  owner: "62971082feab058de9b66def"
  *                  tel: "0452345111"
  *                  location: 
  *                      state: "NT"
@@ -111,15 +159,46 @@ const Joi = require('joi');
  *                      postcode: "7005"
  *                  description: 'an ordinary massage parlour'
  *                  rootCategories: ["629f0bc95abd87303b5dcb17"]
- *                  serviceInfos: ["62aafdb10b339b2e4c917e95"]
- *                  orders: []     
 */
 /** 
  * @swagger
  *   /v1/store:
  *    get:
- *      summary: return all store information (except discarded)
+ *      summary: return all store information when the request body does not contain parameters(except discarded); returns filtered and sorted stores when the request body contains filter and sorting parameters
  *      tags: [Store]
+ *      requestBody:
+ *          required: false
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: Object
+ *                      description: All parameters are optional. And, in practice, so many filters are not used at the same time. Because this request integrates the search function of multiple pages.
+ *                      properties:
+ *                          sortMethod:  
+ *                              type: string
+ *                          person:
+ *                              type: number
+ *                          category: 
+ *                              type: objectId
+ *                          state:
+ *                              type: string
+ *                          city:
+ *                              type: string
+ *                          dateInWeek:
+ *                              type: string
+ *                          query:
+ *                              type: string
+ *                          resultQuantity:
+ *                              type: number
+ *                      example:
+ *                          sortMethod: 'orderSize'
+ *                          person: 2
+ *                          category: "62a612b87645da1c405c0daa"
+ *                          state: "TAS"
+ *                          city: "Hobart"
+ *                          dateInWeek: "Tuesday"
+ *                          query: "traditional food"
+ *                          resultQuantity: 4
  *      responses:
  *          200:
  *              description: array of stores
@@ -128,7 +207,7 @@ const Joi = require('joi');
  *                      schema:
  *                          type: array
  *                          items: 
- *                              $ref: '#/components/schemas/store'
+ *                              $ref: '#/components/schemas/fullStore'
  *          400:
  *              description: Invalid request
  *              content:
@@ -213,8 +292,6 @@ async function getAllStores(req, res) {
         {
             $limit: resultQuantity
         }
-
-
     ]).then((result) => {
         res.json(result)
     }).catch((error) => {
@@ -243,7 +320,7 @@ async function getAllStores(req, res) {
  *              content:
  *                  application/json:
  *                      schema: 
- *                          $ref: '#/components/schemas/store'     
+ *                          $ref: '#/components/schemas/fullStore'     
  *          400:
  *              description: Invalid request
  *              content:
@@ -285,7 +362,7 @@ async function getStoreById(req, res) {
  *              content:
  *                  application/json:
  *                      schema: 
- *                          $ref: '#/components/schemas/store'     
+ *                          $ref: '#/components/schemas/fullStore'     
  *          400:
  *              description: Invalid request
  *              content:
@@ -334,7 +411,7 @@ async function addStore(req, res) {
  *              content:
  *                  application/json:
  *                      schema: 
- *                          $ref: '#/components/schemas/storeUpdate'     
+ *                          $ref: '#/components/schemas/fullStore'     
  *          400:
  *              description: Invalid request
  *              content:
@@ -347,13 +424,13 @@ async function addStore(req, res) {
  *                      
 */
 async function updateStoreById(req, res) {
-    const validatedData = await checkStore(req.body);
+    const validatedData = await checkStoreUpdate(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
     const { id } = req.params;
-    const { name, owner, tel, location, description, rootCategories, serviceInfos, orders } = validatedData;  //= req.body;
+    const { name, tel, location, description, rootCategories } = validatedData;  //= req.body;
     const store = await Store.findByIdAndUpdate(id, {
-        name, owner, tel, location, description, rootCategories, serviceInfos, orders
+        name, tel, location, description, rootCategories
     }, { new: true }).exec();
     if (!store) {
         return res.status(404).json({
@@ -430,14 +507,33 @@ async function checkStore(data) {
             postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
         },
         description: Joi.string().max(300),
-        rootCategories: Joi.array(),
-        serviceInfos: Joi.array(),
-        orders: Joi.array()
+        rootCategories: Joi.array()
     });
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
     return validatedData;
 }
+
+async function checkStoreUpdate(data) {
+    const schema = Joi.object({
+        name: Joi.string().required().min(2).max(30),
+        tel: Joi.string().regex(/^\d{2}\d{4}\d{4}$/).required(),
+        location: {
+            state: Joi.string().required(),
+            city: Joi.string().required(),
+            suburb: Joi.string().required(),
+            street: Joi.string().required(),
+            number: Joi.string().required(),
+            postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
+        },
+        description: Joi.string().max(300),
+        rootCategories: Joi.array()
+    });
+
+    const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
+    return validatedData;
+}
+
 
 
 module.exports = {
