@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import pp from "../../../../assets/p.jpg";
-import "./register.css";
 
 const RegisterWrapper = styled.div`
   height: 355px;
@@ -51,9 +50,9 @@ const Register = () => (
     <RegisterFont>
       Register your business in Bookinglet to customize yourbooking service?
     </RegisterFont>
-    <button className="registerButton" onClick={() => {}}>
+    <Button onClick={() => {}}>
       Join Now
-    </button>
+    </Button>
   </RegisterWrapper>
 );
 

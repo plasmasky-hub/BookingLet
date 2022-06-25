@@ -6,20 +6,22 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
+import styled from "styled-components";
+
+const SearchPaper = styled(Paper)({
+  padding: "2px 4px",
+  display: "flex",
+  alignItems: "center",
+  width: 476,
+  marginTop: 2,
+  marginLeft: 0.31,
+  opacity: 0.6,
+});
 
 export default function CustomizedInputBase() {
   return (
-    <Paper
+    <SearchPaper
       component="form"
-      sx={{
-        p: "2px 4px",
-        display: "flex",
-        alignItems: "center",
-        width: 476,
-        marginTop: 2,
-        marginLeft: 0.31,
-        opacity: 0.6,
-      }}
     >
       <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
         <SearchIcon />
@@ -29,6 +31,6 @@ export default function CustomizedInputBase() {
         placeholder="Name, service ..."
         inputProps={{ "aria-label": "Name, service ..." }}
       />
-    </Paper>
+    </SearchPaper>
   );
 }
