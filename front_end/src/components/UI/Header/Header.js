@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import Box from '@mui/material/Box';
-import LoginIcon from '@mui/icons-material/Login';
+// import LoginIcon from '@mui/icons-material/Login';
 import { Logo } from '../../shared/Logo/Logo';
-import React, { useState } from 'react';
-import {UserBanner} from './UserData';
-
-// import SwipeableTemporaryDrawer from "./UserData";
+import SwipeableTemporaryDrawer from "./UserBanner";
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -75,7 +72,7 @@ export const Header = () => {
         </StyledLoginButton>
         < RegisterButton>Register</RegisterButton>
       </StyledButton> */}
-      <UserBanner />
+      <SwipeableTemporaryDrawer />
     </StyledHeader>
   )
 };
