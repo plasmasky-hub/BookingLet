@@ -1,11 +1,11 @@
 import React from "react";
-import SelectVariants from "../filter/index";
+import SelectVariants from "../Filter";
 import CustomizedInputBase from "../searchBar";
 import styled from "styled-components";
 import homebg from "../../../../assets/home-bg.jpg";
 import "./styles.css";
 
-const Wrapper = styled.div`
+const WrapperHomePage = styled.div`
   height: calc(100vh - 120px);
   width: 100vw;
   padding: 0 20px;
@@ -16,12 +16,12 @@ const Wrapper = styled.div`
   background-repeat: no-repeat;
 `;
 
-const Container = styled.div`
+const ContainerHomePage = styled.div`
   margin-left: 200px;
   padding-top: 200px;
 `;
 
-const Font = styled.div`
+const LabelHomePage = styled.div`
   color: rgb(41, 43, 50);
   font-family: museo-bold, "Helvetica Neue", Helvetica, Arial, "Lucida Grande",
     sans-serif;
@@ -47,9 +47,9 @@ const ButtonHomePage = styled.button`
 `;
 
 const Banner = () => (
-  <Wrapper>
-    <Container>
-      <Font>What would you like to book today?</Font>
+  <WrapperHomePage>
+    <ContainerHomePage>
+      <LabelHomePage>What would you like to book today?</LabelHomePage>
 
       <SelectVariants />
       <CustomizedInputBase />
@@ -57,8 +57,8 @@ const Banner = () => (
       <button type="button" className="button" onClick={() => {}}>
         SEARCH
       </button>
-    </Container>
-  </Wrapper>
+    </ContainerHomePage>
+  </WrapperHomePage>
 );
 
 export default Banner;
