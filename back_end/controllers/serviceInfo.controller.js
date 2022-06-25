@@ -192,8 +192,20 @@ const Joi = require('joi');
  * @swagger
  *   /v1/serviceInfo:
  *    get:
- *      summary: return all service infos (except discarded)
+ *      summary: return all service infos (except discarded). It you declaim a store Id in req.body, it will return service infos which belongs to this store. swagger does not support carrying parameters in the request body of GET. therefore. If you need to test this functionality, you must use postman.
  *      tags: [ServiceInfo]
+ *      requestBody:
+ *          required: false
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: Object
+ *                      description: All parameters are optional. And, in practice, so many filters are not used at the same time. Because this request integrates the search function of multiple pages.
+ *                      properties:
+ *                          storeId:  
+ *                              type: objectId
+ *                      example:
+ *                          storeId: "62a6149f7645da1c405c0dca"
  *      responses:
  *          200:
  *              description: array of serviceInfos
@@ -214,7 +226,11 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllInfos(req, res) {
-    const Infos = await ServiceInfo.find({ isDiscard: false }).exec();
+    let { storeId } = req.body;
+    let searchQuery = { isDiscard: false };
+    if (storeId !== undefined) { searchQuery.store = storeId };
+
+    const Infos = await ServiceInfo.find(searchQuery).exec();
     res.json(Infos);
 }
 

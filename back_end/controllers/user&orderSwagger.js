@@ -352,7 +352,7 @@
  * @swagger
  *  /v1/repeatVerification:
  *   get:
- *      summary: View a list of order times and availability for the specified service at the specified store on the specified date.
+ *      summary: View a list of order times and availability for the specified service at the specified store on the specified date. swagger does not support carrying parameters in the request body of GET. therefore. If you need to test this functionality, you must use postman.
  *      tags: [Order]
  *      requestBody:
  *          required: true
@@ -441,6 +441,8 @@
  *                  favouriteStores:  
  *                      type: Array
  *                      description: an array of objectId
+ *                  _id: 
+ *                      type: objectId
  *              example:
  *                  name: "Tony"
  *                  tel: "0451238275"
@@ -450,7 +452,34 @@
  *                  role: "Customer"
  *                  stores: ["62b0804e6a846f06c1c52c63"]
  *                  favouriteStores: ["62b08820cfa4b204b6fc0d5c", "62b088a0cfa4b204b6fc0d67"]
+ *                  _id: "62971082feab058de9b66def"
  *          user:
+ *              type: Object
+ *              required:
+ *                  - name
+ *                  - tel
+ *                  - email
+ *              properties:
+ *                  name:  
+ *                      type: String
+ *                      description: user name
+ *                  tel:
+ *                      type: String
+ *                  email:
+ *                      type: String
+ *                  password: 
+ *                      type: String
+ *                      description: at least 6 chars
+ *                  role:
+ *                      type: String
+ *                      description: user is a customer or business owner
+ *              example:
+ *                  name: "Tony"
+ *                  tel: "0451238275"
+ *                  email: "s1234556@gmail.com"
+ *                  password: "123456"
+ *                  role: "Customer"
+ *          userStore:
  *              type: Object
  *              required:
  *                  - name
@@ -476,6 +505,47 @@
  *                  stores:
  *                      type: Array
  *                      description: an array of objectId
+ *                      properties:
+ *                          name:  
+ *                              type: string
+ *                          _id:
+ *                              type: objectId
+ *                              description: auto generated unique identifier
+ *                          owner:
+ *                              type: objectId
+ *                              description: user who own this store
+ *                          tel:
+ *                              type: string
+ *                          location:
+ *                              type: Object
+ *                              properties:
+ *                                  state: 
+ *                                      type: string
+ *                                  city:
+ *                                      type: string
+ *                                  suburb:
+ *                                      type: string
+ *                                  street:
+ *                                      type: string
+ *                                  number:
+ *                                      type: string
+ *                                  postcode:
+ *                                      type: string
+ *                          description:
+ *                              type: string
+ *                              description: store details
+ *                          rootCategories:
+ *                              type: Array
+ *                              description: business category
+ *                          serviceInfos:
+ *                              type: Array
+ *                              description: save serviceInfos id array
+ *                          orders:
+ *                              type: Array
+ *                              description: save orders id array
+ *                          favoriteUsers:
+ *                              type: Array
+ *                              description: save users id array who follow this store
  *                  favouriteStores:  
  *                      type: Array
  *                      description: an array of objectId
@@ -488,8 +558,193 @@
  *                  password: "123456"
  *                  orders: ["62b07fc86a846f06c1c52c61"]
  *                  role: "Customer"
- *                  stores: ["62b0804e6a846f06c1c52c63"]
+ *                  stores: [{name: Best Massage t1, owner: "62971082feab058de9b66def", tel: "0452345111", location: {state: "NT", city: "Hobart", suburb: "Parkville", street: "Captain Matthew Flinders", number: "50", postcode: "7005"}, description: 'an ordinary massage parlour', rootCategories: ["629f0bc95abd87303b5dcb17"], serviceInfos: [], orders: [], favoriteUsers: []}]
  *                  favouriteStores: ["62b08820cfa4b204b6fc0d5c", "62b088a0cfa4b204b6fc0d67"]
  *                  _id: "62971082feab058de9b66def"
- *          
+*/
+
+/** 
+ * @swagger
+ *   /v1/user:
+ *    get:
+ *      summary: return all users (except discarded)
+ *      tags: [User]
+ *      responses:
+ *          200:
+ *              description: array of users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items: 
+ *                              $ref: '#/components/schemas/fullUser'
+ *          400:
+ *              description: Invalid request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object 
+ *                          properties: 
+ *                              message:
+ *                                  type: string                          
+*/
+
+/** 
+ * @swagger
+ *   /v1/user/{userId}:
+ *    get:
+ *      summary: return an user by ID
+ *      tags: [User]
+ *      parameters:
+ *          - in: path
+ *            name: userId
+ *            required: true
+ *            schema: 
+ *                type: string
+ *            description: Unique ID automatically generated by mongodb
+ *            example: '62971082feab058de9b66def'
+ *      responses:
+ *          200:
+ *              description: Successfully returned an user
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          $ref: '#/components/schemas/fullUser'     
+ *          400:
+ *              description: Invalid request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object 
+ *                          properties: 
+ *                              message:
+ *                                  type: string                                          
+*/
+
+/** 
+ * @swagger
+ *  /v1/user:
+ *   post:
+ *      summary: add a new user to database 
+ *      tags: [User]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/user'
+ *      responses:
+ *          201:
+ *              description: Successfully create an user
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          $ref: '#/components/schemas/fullUser'     
+ *          422:
+ *              description: Invalid request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object 
+ *                          properties: 
+ *                              message:
+ *                                  type: string     
+ *                      
+*/
+
+/** 
+ * @swagger
+ *  /v1/user/{userId}:
+ *   put:
+ *      summary: modify an user in database. 
+ *      tags: [User]
+ *      parameters:
+ *          - in: path
+ *            name: userId
+ *            required: true
+ *            schema: 
+ *                type: string
+ *            description: Unique ID automatically generated by mongodb
+ *            example: '629710aefeab058de9b66df2'
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/user'
+ *      responses:
+ *          200:
+ *              description: Successfully update an user
+ *              content:
+ *                  application/json:
+ *                      example: {message: 'Update successful!'}    
+ *          404:
+ *              description: Invalid request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object 
+ *                          properties: 
+ *                              message:
+ *                                  type: string                       
+*/
+
+/** 
+ * @swagger
+ *   /v1/user/{userId}:
+ *    delete:
+ *      summary: delete an user by ID
+ *      tags: [User]
+ *      parameters:
+ *          - in: path
+ *            name: userId
+ *            required: true
+ *            schema: 
+ *                type: string
+ *            description: Unique ID automatically generated by mongodb
+ *            example: '629eee8d54d42a60b5abee35'
+ *      responses:
+ *          204:
+ *              description: Successfully delete a user
+ *          404:
+ *              description: Invalid request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object 
+ *                          properties: 
+ *                              message:
+ *                                  type: string                                          
+*/
+
+/** 
+ * @swagger
+ *   /v1/user/{userId}/stores:
+ *    get:
+ *      summary: return an user by ID
+ *      tags: [User]
+ *      parameters:
+ *          - in: path
+ *            name: userId
+ *            required: true
+ *            schema: 
+ *                type: string
+ *            description: Unique ID automatically generated by mongodb
+ *            example: '62971082feab058de9b66def'
+ *      responses:
+ *          200:
+ *              description: Successfully returned an user and its owned store
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          $ref: '#/components/schemas/userStore'     
+ *          404:
+ *              description: User info not found!
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object 
+ *                          properties: 
+ *                              message:
+ *                                  type: string                                          
 */

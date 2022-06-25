@@ -164,7 +164,7 @@ const Joi = require('joi');
  * @swagger
  *   /v1/store:
  *    get:
- *      summary: return all store information when the request body does not contain parameters(except discarded); returns filtered and sorted stores when the request body contains filter and sorting parameters
+ *      summary: return all store information when the request body does not contain parameters(except discarded); returns filtered and sorted stores when the request body contains filter and sorting parameters. swagger does not support carrying parameters in the request body of GET. therefore. If you need to test this functionality, you must use postman.
  *      tags: [Store]
  *      requestBody:
  *          required: false
