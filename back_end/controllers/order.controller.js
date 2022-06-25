@@ -8,13 +8,9 @@ const { any } = require('joi');
 async function repeatVerification(req,res){
   console.log('repeatedly verification...');
   const {orderTime,serviceInfoId}=req.body;
-  //change  the date formate and  day of week
   const orderTimeDate=orderTime.date
   let orderDay= new Date(orderTimeDate);
-  // console.log(orderDay)
-  
   let dayInWeekIndex=orderDay.getDay();
-  // console.log(dayInWeekIndex);
   let dayInWeek = undefined;
   switch(dayInWeekIndex){
     case 0:  dayInWeek ="Sunday"; break;
@@ -25,9 +21,6 @@ async function repeatVerification(req,res){
     case 5:  dayInWeek ="Friday"; break;
     case 6:  dayInWeek ="Saturday"; break;
   }
- console.log(dayInWeek);
-
-
 // get open hours from serviceInfo time
 const service = await ServiceInfo.findById(serviceInfoId).exec();
 const maxService=service.maxServicePerSection;
@@ -44,43 +37,28 @@ let orderTimeObjArr=openHourArr.map((element)=>{
    return {date:orderDay,time:element}
 })
 
-
-
 let availableTime=[];
 for(j=0;j<orderTimeObjArr.length;j++){
- 
    b = await Order.count({"orderTime":orderTimeObjArr[j],"serviceInfoId":serviceInfoId})
-  //  a.push(...b)
-  //  if(b< maxService){
-  //    availableTime.push({orderTime:orderTimeObjArr[j].time,availability:true})
-  //  }else{
-  //   availableTime.push({orderTime:orderTimeObjArr[j].time,availability:false})
-  //  }
    availableTime.push({orderTime:orderTimeObjArr[j].time,availability:(b< maxService)?true:false})
- 
 }
 res.status(200).json(availableTime);
-
-
 }
 
 //create order
 async function addOrder(req, res){
     console.log('Adding a new order...');
-    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime } = req.body;
-    const newOrder = new Order({ peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime });
+    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime  } = req.body;
+    const newOrder = new Order({ peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime  });
     const orderId =newOrder._id;
     const serviceId = newOrder.serviceInfoId;
     const newOrderTime =newOrder.orderTime;
     const usersId=newOrder.userId;
-   
     //get orders with the same services ID and same order time
     const userExist =await Order.find({"orderTime":newOrderTime ,"userId":usersId,"serviceInfoId":serviceId,})
-
     //Object.key(orders).length ===0  JSON.stringify(orders)==='{}'
-
     if(JSON.stringify(userExist)!=='[]'){
-      return res.status(200).json('You have already booked the same time, pleas check your order list')
+      return res.status(201).json('You have already booked the same time, pleas check your order list')
      }
 
     //check Service Number
@@ -118,51 +96,59 @@ async function addOrder(req, res){
 //update
 async function updateOrderByID(req,res){
     const { id } = req.params;
-    const { peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime } = req.body;
+    const { peopleNumber, orderTime,tel,optionInfo,bookingTime } = req.body;
     const order = await Order.findByIdAndUpdate(
       id,
-      {peopleNumber, orderTime, bookingStatus,cancelStatus,userId,storeId,serviceInfoId,tel,optionInfo,bookingTime },
+      {peopleNumber, orderTime,tel,optionInfo,bookingTime },
       { new: true }
     ).exec();
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    return res.json(order);
+    return res.status(200).json(order);
 };
 // Store confirm order ->change booking status from false to true
 async function confirmOrder(req,res){
+  console.log('Confirm Order');
   const {id}=req.params;
   const {bookingStatus}=req.body;
   const order =await Order.findByIdAndUpdate(
     id,{$set:{bookingStatus:true}},{new:true}
   ).exec();
+  if (!order) {
+    return res.status(404).json({ error: 'Order not found' });
+  }
   await order.save();
-
-  return res.json(order);
+  return res.status(200).json(order);
 
 }
 //Cancel Order  fake delete
 async function cancelOrder(req,res){
+  console.log('Cancel Order');
   const {id}=req.params;
   const {cancelStatus}=req.body;
   const order =await Order.findByIdAndUpdate(
     id,{$set:{cancelStatus:true}},{new:true}
   ).exec();
-  await order.save();
 
-  return res.json(order);
+  if (!order) {
+    return res.status(404).json({ error: 'Order not found' });
+  }
+
+  await order.save();
+  return res.status(200).json(order);
 
 }
-//delete
-async function deleteOrderByID(req,res){
-    const { id } = req.params;
-    const order = await Order.findByIdAndDelete(id).exec();
-    if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
-    }
-    // return res.sendStatus(200).json("Order has been deleted!");
-    return res.sendStatus(200)
-};
+//delete 
+// async function deleteOrderByID(req,res){
+//     const { id } = req.params;
+//     const order = await Order.findByIdAndDelete(id).exec();
+//     if (!order) {
+//       return res.status(404).json({ error: 'Order not found' });
+//     }
+//     // return res.sendStatus(200).json("Order has been deleted!");
+//     return res.sendStatus(200)
+// };
 //get one
 async function getOrderByID(req,res){
     const { id } = req.params;
@@ -170,15 +156,14 @@ async function getOrderByID(req,res){
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    return res.json(order);
+    return res.status(200).json(order);
 };
 //get all
 async function getAllOrders(req, res){
     console.log('Finding all orders...');
     //Order.find().sort().limit()--> pagination 分页处理
     const orders = await Order.find().exec();
-
-    return res.json(orders);
+    return res.status(200).json(order);
 }
 
 
@@ -187,7 +172,7 @@ module.exports = {
     getOrderByID,
     addOrder,
     updateOrderByID,
-    deleteOrderByID,
+    // deleteOrderByID,
     confirmOrder,
     cancelOrder,
     repeatVerification
