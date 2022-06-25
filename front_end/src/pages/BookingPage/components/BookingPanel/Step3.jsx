@@ -43,7 +43,7 @@ const Step3 = ({ FormData, setFormData, FakeData }) => {
       <StyledTextField
         value={FormData.mobile}
         onChange={(event) => {
-          setFormData({ ...FormData, mobile: event.target.checked });
+          setFormData({ ...FormData, mobile: event.target.value });
         }}
         variant="outlined"
         size="small"

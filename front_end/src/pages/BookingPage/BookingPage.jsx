@@ -7,10 +7,8 @@ import Layout from '../../components/shared/Layout';
 
 const Container = styled.div`
   width: 1233px;
-  height: 100vh;
   margin: 30px auto;
   box-sizing: border-box;
-  overflow: hidden;
 `;
 
 const Wrapper = styled.div`
