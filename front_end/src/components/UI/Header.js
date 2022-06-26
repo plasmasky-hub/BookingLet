@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { useState } from 'react';
 import Box from '@mui/material/Box';
-// import LoginIcon from '@mui/icons-material/Login';
-import { Logo } from '../../shared/Logo/Logo';
-import SwipeableTemporaryDrawer from "./UserBanner";
+import LoginIcon from '@mui/icons-material/Login';
+import { Logo } from '../shared/Logo/Logo';
+import { UserPanel } from "./UserPanel";
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -57,22 +58,24 @@ const RegisterButton = styled.button`
   }
 `
 
-// const UserLoginStatus = () => {
-//   const [isLogin, setIsLogin] = useState(false);
-// };
+
 
 export const Header = () => {
+  const UserLoginStatus = () => {
+    const [Loggedin, setLoggedin] = useState(false);
+  };
+
   return (
     <StyledHeader>
       <Logo />
-      {/* <StyledButton>
+      <StyledButton>
         <StyledLoginButton variant="text">
           <LoginIcon />
           Log in
         </StyledLoginButton>
         < RegisterButton>Register</RegisterButton>
-      </StyledButton> */}
-      <SwipeableTemporaryDrawer />
+      </StyledButton>
+      {/* <UserPanel /> */}
     </StyledHeader>
   )
 };
