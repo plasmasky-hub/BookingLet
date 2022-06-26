@@ -1,10 +1,10 @@
 const express = require('express');
-const {  repeatVerification } = require('../controllers/order.controller');
+const {  callRepeatVerification } = require('../controllers/order.controller');
 
 const orderRouter = express.Router();
 
 
-orderRouter.get('', repeatVerification); //??
+orderRouter.get('', callRepeatVerification); //??
 
 
 module.exports = orderRouter;
