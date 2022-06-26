@@ -33,11 +33,6 @@ const LabelHomePage = styled.div`
   width: 374px;
   height: 46px;
 `;
-// const BannerButton = styled(Button)({
-//   marginTop: 15,
-//   width: 165,
-//   height: 47,
-// });
 
 const BannerButton = styled(Button)`
   width: 165px;
@@ -48,23 +43,6 @@ const BannerButton = styled(Button)`
   cursor: pointer;
   border-radius: 10px;
 `;
-
-// const BannerButton = styled(Button)({
-//   width: 165,
-//   height: 47,
-//   marginTop: 100,
-// });
-
-// const BannerButton = styled.button`
-//   width: 165px;
-//   height: 47px;
-//   margin-top: 20px;
-//   /* margin-left: 5px; */
-//   background-color: #D18E8E;
-//   border-style:none;
-//   cursor: pointer;
-//   border-radius: 10px;
-// `;
 
 const Banner = () => (
   <BannerWrapper>
@@ -78,13 +56,11 @@ const Banner = () => (
         variant="contained"
         disableRipple
         sx={{
-          bgcolor: "#D18E8E",
-          marginTop: "50"
+          mt: 3
         }}
       >
         SEARCH
       </BannerButton>
-
       {/* <BannerButton onClick={() => {}}>SEARCH</BannerButton> */}
     </BannerContainer>
   </BannerWrapper>
