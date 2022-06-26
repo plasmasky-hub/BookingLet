@@ -5,7 +5,7 @@ const Store =require('../models/store');
 const ServiceInfo =require('../models/serviceInfo')
 const { any } = require('joi');
 
-async function repeatVerification(orderDate,serviceId){
+async function checkTimeAvailability(orderDate,serviceId){
   console.log('repeatedly verification...1');
   // const {orderTime,serviceInfoId}=req.body;
   const orderTimeDate=orderDate.date
@@ -49,7 +49,7 @@ return availableTime;
 
 }
 
-async function callRepeatVerification(req,res){
+async function callCheckTimeAvailability(req,res){
   console.log('repeatedly verification...2');
   const {orderTime,serviceInfoId}=req.body;
   const availableTime= await repeatVerification(orderTime,serviceInfoId);
@@ -233,7 +233,9 @@ module.exports = {
     // deleteOrderByID,
     confirmOrder,
     cancelOrder,
-    callRepeatVerification
+    checkTimeAvailability,
+    callCheckTimeAvailability
+
    
 }
 
