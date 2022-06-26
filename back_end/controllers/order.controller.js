@@ -52,7 +52,7 @@ return availableTime;
 async function callCheckTimeAvailability(req,res){
   console.log('repeatedly verification...2');
   const {orderTime,serviceInfoId}=req.body;
-  const availableTime= await repeatVerification(orderTime,serviceInfoId);
+  const availableTime= await checkTimeAvailability(orderTime,serviceInfoId);
   if (!availableTime) {
     return res.status(404).json({ error });
   }
