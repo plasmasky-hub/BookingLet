@@ -43,7 +43,7 @@ const BannerButton = styled(Button)`
   width: 165px;
   height: 47px;
   margin-top: 30px;
-  background-color: #d18e8e;
+  background-color: #6a3030;
   border-style: none;
   cursor: pointer;
   border-radius: 10px;
@@ -74,11 +74,17 @@ const Banner = () => (
       <SelectVariants />
       <CustomizedInputBase />
 
-      <Stack>
-        <BannerButton variant="contained" disableRipple>
-          Contained
-        </BannerButton>
-      </Stack>
+      <BannerButton
+        variant="contained"
+        disableRipple
+        sx={{
+          bgcolor: "#D18E8E",
+          marginTop: "50"
+        }}
+      >
+        SEARCH
+      </BannerButton>
+
       {/* <BannerButton onClick={() => {}}>SEARCH</BannerButton> */}
     </BannerContainer>
   </BannerWrapper>
