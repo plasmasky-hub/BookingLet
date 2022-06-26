@@ -58,7 +58,7 @@ async function addOrder(req, res){
     const userExist =await Order.find({"orderTime":newOrderTime ,"userId":usersId,"serviceInfoId":serviceId,})
     //Object.key(orders).length ===0  JSON.stringify(orders)==='{}'
     if(JSON.stringify(userExist)!=='[]'){
-      return res.status(201).json('You have already booked the same time, pleas check your order list')
+      return res.status(200).json('You have already booked the same time, pleas check your order list')
      }
 
     //check Service Number
@@ -89,7 +89,7 @@ async function addOrder(req, res){
     await store.save();
 
     await newOrder.save();
-    res.status(200).json(newOrder);
+    res.status(201).json(newOrder);
     // res.status(200).json({data:newOrder});
 }
 
@@ -132,11 +132,11 @@ async function cancelOrder(req,res){
   ).exec();
 
   if (!order) {
-    return res.status(404).json({ error: 'Order not found' });
+    return res.status(400).json({ error: 'Order not found' });
   }
 
   await order.save();
-  return res.status(200).json(order);
+  return res.status(204).json(order);
 
 }
 //delete 
@@ -154,7 +154,7 @@ async function getOrderByID(req,res){
     const { id } = req.params;
     const order = await Order.findById(id).exec();
     if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+      return res.status(400).json({ error: 'Order not found' });
     }
     return res.status(200).json(order);
 };
@@ -163,7 +163,14 @@ async function getAllOrders(req, res){
     console.log('Finding all orders...');
     //Order.find().sort().limit()--> pagination 分页处理
     const orders = await Order.find().exec();
-    return res.status(200).json(order);
+    if (!orders) {
+      return res.status(400).json({ error: 'Order not found' });
+    }
+    if(JSON.stringify(orders)==='[]'){
+      return res.status(404).json({ error: 'Order data is empty in database' });
+
+    }
+    return res.status(200).json(orders);
 }
 
 
