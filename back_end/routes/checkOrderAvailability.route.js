@@ -1,10 +1,10 @@
 const express = require('express');
-const {  callRepeatVerification } = require('../controllers/order.controller');
+const {  callCheckTimeAvailability} = require('../controllers/order.controller');
 
 const orderRouter = express.Router();
 
 
-orderRouter.get('', callRepeatVerification); //??
+orderRouter.get('', callCheckTimeAvailability); //??
 
 
 module.exports = orderRouter;
