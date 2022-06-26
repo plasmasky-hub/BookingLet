@@ -12,7 +12,6 @@ const BannerWrapper = styled.div`
   padding: 0 20px;
   max-height: 650px;
   box-sizing: border-box;
-  /* background-color: yellow; */
   background-image: url(${homebg});
   background-repeat: no-repeat;
 `;
