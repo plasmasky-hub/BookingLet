@@ -5,10 +5,10 @@ const Store =require('../models/store');
 const ServiceInfo =require('../models/serviceInfo')
 const { any } = require('joi');
 
-async function repeatVerification(req,res){
-  console.log('repeatedly verification...');
-  const {orderTime,serviceInfoId}=req.body;
-  const orderTimeDate=orderTime.date
+async function repeatVerification(orderDate,serviceId){
+  console.log('repeatedly verification...1');
+  // const {orderTime,serviceInfoId}=req.body;
+  const orderTimeDate=orderDate.date
   let orderDay= new Date(orderTimeDate);
   let dayInWeekIndex=orderDay.getDay();
   let dayInWeek = undefined;
@@ -21,13 +21,15 @@ async function repeatVerification(req,res){
     case 5:  dayInWeek ="Friday"; break;
     case 6:  dayInWeek ="Saturday"; break;
   }
+  // return console.log(dayInWeek)
 // get open hours from serviceInfo time
-const service = await ServiceInfo.findById(serviceInfoId).exec();
+// console.log(id);
+const service = await ServiceInfo.findById(serviceId);
 const maxService=service.maxServicePerSection;
 const startTimeArr=service.startTime;
 
 let openHourArr= undefined;
-for(i=0;i<startTimeArr.length;i++){
+for(i=0;i<startTimeArr.length; i++){
   if(startTimeArr[i].dayOfWeek=== dayInWeek){
    openHourArr= startTimeArr[i].openHours;
   }
@@ -39,10 +41,59 @@ let orderTimeObjArr=openHourArr.map((element)=>{
 
 let availableTime=[];
 for(j=0;j<orderTimeObjArr.length;j++){
-   b = await Order.count({"orderTime":orderTimeObjArr[j],"serviceInfoId":serviceInfoId})
-   availableTime.push({orderTime:orderTimeObjArr[j].time,availability:(b< maxService)?true:false})
+   orderCount = await Order.count({"orderTime":orderTimeObjArr[j],"serviceInfoId":serviceId})
+   availableTime.push({orderTime:orderTimeObjArr[j].time,availability:(orderCount< maxService)?true:false})
 }
-res.status(200).json(availableTime);
+return availableTime;
+// return res.status(200).json(availableTime);
+
+}
+
+async function callRepeatVerification(req,res){
+  console.log('repeatedly verification...2');
+  const {orderTime,serviceInfoId}=req.body;
+  const availableTime= await repeatVerification(orderTime,serviceInfoId);
+  if (!availableTime) {
+    return res.status(404).json({ error });
+  }
+  return res.status(200).json(availableTime);
+
+  // const {orderTime,serviceInfoId}=req.body;
+  // const orderTimeDate=orderTime.date
+  // let orderDay= new Date(orderTimeDate);
+  // let dayInWeekIndex=orderDay.getDay();
+  // let dayInWeek = undefined;
+  // switch(dayInWeekIndex){
+  //   case 0:  dayInWeek ="Sunday"; break;
+  //   case 1:  dayInWeek ="Monday"; break;
+  //   case 2:  dayInWeek ="Tuesday"; break;
+  //   case 3:  dayInWeek ="Wednesday"; break;
+  //   case 4:  dayInWeek ="Thursday"; break;
+  //   case 5:  dayInWeek ="Friday"; break;
+//     case 6:  dayInWeek ="Saturday"; break;
+//   }
+// // get open hours from serviceInfo time
+// const service = await ServiceInfo.findById(serviceInfoId).exec();
+// const maxService=service.maxServicePerSection;
+// const startTimeArr=service.startTime;
+
+// let openHourArr= undefined;
+// for(i=0;i<startTimeArr.length;i++){
+//   if(startTimeArr[i].dayOfWeek=== dayInWeek){
+//    openHourArr= startTimeArr[i].openHours;
+//   }
+// }
+// //new Order Time 
+// let orderTimeObjArr=openHourArr.map((element)=>{
+//    return {date:orderDay,time:element}
+// })
+
+// let availableTime=[];
+// for(j=0;j<orderTimeObjArr.length;j++){
+//    b = await Order.count({"orderTime":orderTimeObjArr[j],"serviceInfoId":serviceInfoId})
+//    availableTime.push({orderTime:orderTimeObjArr[j].time,availability:(b< maxService)?true:false})
+// }
+// res.status(200).json(availableTime);
 }
 
 //create order
@@ -182,7 +233,7 @@ module.exports = {
     // deleteOrderByID,
     confirmOrder,
     cancelOrder,
-    repeatVerification
+    callRepeatVerification
    
 }
 
