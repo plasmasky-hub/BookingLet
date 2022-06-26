@@ -13,7 +13,7 @@ const SearchPaper = styled(Paper)({
   display: "flex",
   alignItems: "center",
   width: 476,
-  marginTop: 2,
+  marginTop: 15,
   marginLeft: 0.31,
   opacity: 0.6,
 });

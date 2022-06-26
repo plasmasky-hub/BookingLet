@@ -3,7 +3,8 @@ import SelectVariants from "../Filter";
 import CustomizedInputBase from "../searchBar";
 import styled from "styled-components";
 import homebg from "../../../../assets/home-bg.jpg";
-import Button from '@mui/material/Button';
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const BannerWrapper = styled.div`
   height: calc(100vh - 120px);
@@ -32,14 +33,18 @@ const LabelHomePage = styled.div`
   width: 374px;
   height: 46px;
 `;
-
+// const BannerButton = styled(Button)({
+//   marginTop: 15,
+//   width: 165,
+//   height: 47,
+// });
 
 const BannerButton = styled(Button)`
   width: 165px;
   height: 47px;
   margin-top: 30px;
-  background: #D18E8E;
-  border-style:none;
+  background-color: #d18e8e;
+  border-style: none;
   cursor: pointer;
   border-radius: 10px;
 `;
@@ -49,7 +54,6 @@ const BannerButton = styled(Button)`
 //   height: 47,
 //   marginTop: 100,
 // });
-
 
 // const BannerButton = styled.button`
 //   width: 165px;
@@ -70,9 +74,12 @@ const Banner = () => (
       <SelectVariants />
       <CustomizedInputBase />
 
-      <BannerButton onClick={() => {}}>
-        SEARCH
-      </BannerButton>
+      <Stack>
+        <BannerButton variant="contained" disableRipple>
+          Contained
+        </BannerButton>
+      </Stack>
+      {/* <BannerButton onClick={() => {}}>SEARCH</BannerButton> */}
     </BannerContainer>
   </BannerWrapper>
 );
