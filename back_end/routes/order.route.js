@@ -10,7 +10,7 @@ orderRouter.put('/:id', updateOrderByID);
 orderRouter.delete('/:id',  cancelOrder);
 orderRouter.put('/:id/store', confirmOrder);
 // orderRouter.put('/:id/user', cancelOrder);
-orderRouter.post('/serviceInfo', callRepeatVerification); 
+
 
 
 module.exports = orderRouter;
