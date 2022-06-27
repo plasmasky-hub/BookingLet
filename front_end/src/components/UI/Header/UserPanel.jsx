@@ -1,3 +1,4 @@
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -16,6 +17,18 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ececea',
+    },
+    secondary: {
+      main: '#7f96af',
+    },
+  },
+});
+
 
 export const UserInfo = {
   name: 'Nicolas Cage',
@@ -61,13 +74,13 @@ const StyledAvatar = styled(Avatar)`
 
 const StyledSideBar = styled(Paper)`
   width: 295px;
-  height: 960px;
+  height: 100vh;
   background: #ececea;
 `;
 
 const UserProfile = styled(Box)`
   width: 295px;
-  height: 295px;
+  height: 280px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -78,15 +91,25 @@ const UserProfile = styled(Box)`
 const StyledUserImg = styled(Avatar)`
   width: 70px;
   height: 70px;
+  margin: 15px 0 2px 0;
+`;
+
+const StyledName = styled.p`
+  font-size: 1.2rem;
 `;
 
 const Space = styled(Box)`
   width: 295px;
-  height: 320px;
+  height: 590px;
+`;
+
+const UserLogOutBox = styled(Box)`
+  width: 29px;
+  height: 80px;  
 `;
 
 const UserLogOut = styled(Button)`
-  width: 120px;
+  width: 150px;
   height: 50px;
   display: flex;
   flex-direction: row;
@@ -94,10 +117,8 @@ const UserLogOut = styled(Button)`
   align-items: center;
   color: #e27777;
   font-weight: 700;
-  font-size: 1rem;
-  border-style: none;
-  background: none;
-  margin: 16px 0 0 8px;
+  font-size: 0.8rem;
+  margin-top: 20px;
   cursor: pointer;
 `;
 
@@ -105,7 +126,8 @@ export const UserPanel = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <ProfileBox>
+    <ThemeProvider theme={theme}>
+      <ProfileBox>
       <UserInfoBox>
         <StyledUserName>{UserInfo.name}</StyledUserName>
         <StyledUserTitle>{UserInfo.title}</StyledUserTitle>
@@ -117,58 +139,60 @@ export const UserPanel = () => {
         onOpen={() => {}}
         onClose={() => setOpen(false)}
       >
-        <StyledSideBar>
+        <StyledSideBar color="primary">
           <UserProfile>
-            <StyledUserImg />
-            {UserInfo.name}
+            <StyledUserImg/>
+            <StyledName>{UserInfo.name}</StyledName>
           </UserProfile>
           <Divider />
           <List>
-            <Divider />
             <ListItemButton>
               <ListItemIcon>
-                <InfoOutlinedIcon />
+                <InfoOutlinedIcon color="secondary"/>
               </ListItemIcon>
               <ListItemText primary={'My Info'} />
             </ListItemButton>
             <Divider variant="middle" />
             <ListItemButton>
               <ListItemIcon>
-                <BookmarkAddedOutlinedIcon />
+                <BookmarkAddedOutlinedIcon color="secondary"/>
               </ListItemIcon>
               <ListItemText primary={'My Bookings'} />
             </ListItemButton>
             <Divider variant="middle" />
             <ListItemButton>
               <ListItemIcon>
-                <MenuBookOutlinedIcon />
+                <MenuBookOutlinedIcon color="secondary"/>
               </ListItemIcon>
               <ListItemText primary={'My Booklet'} />
             </ListItemButton>
             <Divider variant="middle" />
             <ListItemButton>
               <ListItemIcon>
-                <HowToRegOutlinedIcon />
+                <HowToRegOutlinedIcon color="secondary"/>
               </ListItemIcon>
               <ListItemText primary={'Register My Store'} />
             </ListItemButton>
             <Divider variant="middle" />
             <ListItemButton>
               <ListItemIcon>
-                <HelpOutlineOutlinedIcon />
+                <HelpOutlineOutlinedIcon color="secondary"/>
               </ListItemIcon>
               <ListItemText primary={'Help'} />
             </ListItemButton>
             <Divider />
             <Space />
             <Divider />
-            <UserLogOut>
-              <LogoutIcon />
-              Log out
-            </UserLogOut>
+            <UserLogOutBox>
+              <UserLogOut>
+                <LogoutIcon />
+                Log out
+              </UserLogOut>
+            </UserLogOutBox>
           </List>
         </StyledSideBar>
       </SwipeableDrawer>
     </ProfileBox>
+    </ThemeProvider>
   );
 };

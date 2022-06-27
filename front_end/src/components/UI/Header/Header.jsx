@@ -16,7 +16,7 @@ const StyledHeader = styled(Box)`
   align-items: center;
   position: fixed;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
-`
+`;
 
 const ButtonWrapper = styled(Box)`
   width: 220px;
