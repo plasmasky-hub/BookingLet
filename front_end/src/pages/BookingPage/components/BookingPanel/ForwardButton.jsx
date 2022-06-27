@@ -4,21 +4,17 @@ import styled from '@emotion/styled';
 
 const StyledButton = styled(Button)`
   background-color: #7b8b6f;
-  font-size: 10px;
+  font-size: 11px;
   border-radius: 10px;
   font-weight: 600;
-  padding: 5px 25px 2px 25px;
+  padding: 7px 25px 4px 25px;
 `;
 
 const ForwardButton = ({ step, setStep, Forms }) => {
   const text = ['Find', 'Next', 'Next', 'Submit'];
 
   return step < Forms.length - 1 ? (
-    <StyledButton
-      onClick={() => setStep(step + 1)}
-      variant="contained"
-      size="small"
-    >
+    <StyledButton onClick={() => setStep(step + 1)} variant="contained">
       {text[step]}
     </StyledButton>
   ) : null;

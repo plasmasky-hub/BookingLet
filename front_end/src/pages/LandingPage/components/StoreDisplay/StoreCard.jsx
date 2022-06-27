@@ -8,6 +8,10 @@ const CardWrapper = styled(Card)`
   width: 258px;
   padding: 22px 18px;
   box-sizing: border-box;
+  :hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
 `;
 
 const ImgWrapper = styled.div`

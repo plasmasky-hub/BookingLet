@@ -40,7 +40,8 @@ const ContentWrapper = styled.div`
 
 const StoreIntro = styled.div`
   width: 335px;
-  font-size: 15px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
 `;
 
 const StoreImg = styled.div`
@@ -51,7 +52,7 @@ const StoreImg = styled.div`
 `;
 
 const BookingButton = styled(Button)`
-  font-size: 10px;
+  font-size: 11px;
   background-color: #7b8b6f;
   border-radius: 10px;
   position: absolute;
@@ -61,9 +62,10 @@ const BookingButton = styled(Button)`
 `;
 
 const ExpandButton = styled(Button)`
-  font-size: 11px;
+  font-size: 12px;
   color: #d76d6d;
   font-weight: 600;
+  padding-left: 0;
 `;
 
 const StoreInfo = () => {
@@ -80,7 +82,7 @@ const StoreInfo = () => {
       <hr />
       <ContentWrapper>
         <StoreIntro>
-          <Collapse in={expand} collapsedSize={120}>
+          <Collapse in={expand} collapsedSize={125}>
             {data.intro}
           </Collapse>
           <ExpandButton onClick={handleClick}>
@@ -91,7 +93,7 @@ const StoreInfo = () => {
           <img src={data.image} alt="StoreImage" />
         </StoreImg>
       </ContentWrapper>
-      <BookingButton variant="contained" size="small">
+      <BookingButton variant="contained">
         <BookmarkIcon fontSize="inherit" />
         &nbsp;Add to my favourite
       </BookingButton>

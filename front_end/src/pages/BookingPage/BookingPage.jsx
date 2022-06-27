@@ -5,13 +5,13 @@ import StoreIntro from './components/StoreInfo';
 import BookingPanel from './components/BookingPanel/BookingPanel';
 import Layout from '../../components/shared/Layout';
 
-const Container = styled.div`
+const PageContainer = styled.div`
   width: 1233px;
   margin: 30px auto;
   box-sizing: border-box;
 `;
 
-const Wrapper = styled.div`
+const StoreInfoWrapper = styled.div`
   width: 95%;
   margin: -25px auto;
   display: flex;
@@ -23,13 +23,13 @@ const BookingPage = () => {
   return (
     <Layout>
       header
-      <Container>
+      <PageContainer>
         <Banner />
-        <Wrapper>
+        <StoreInfoWrapper>
           <StoreIntro />
           <BookingPanel />
-        </Wrapper>
-      </Container>
+        </StoreInfoWrapper>
+      </PageContainer>
     </Layout>
   );
 };
