@@ -1,12 +1,12 @@
-import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import * as React from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import styled from 'styled-components';
 
-export default function SelectVariants() {
-  const [age, setAge] = React.useState("");
+const BanerInputs = () => {
+  const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -22,9 +22,8 @@ export default function SelectVariants() {
         variant="standard"
         sx={{ m: 1, minWidth: 150, marginTop: 5 }}
       >
-        <InputLabel id="demo-simple-select-standard-label">Calendar</InputLabel>
+        <InputLabel>Calendar</InputLabel>
         <Select
-          labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
           value={age}
           onChange={handleChange}
@@ -83,4 +82,6 @@ export default function SelectVariants() {
       </FormControl>
     </WrapperFilter>
   );
-}
+};
+
+export default BanerInputs;

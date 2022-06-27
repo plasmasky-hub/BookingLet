@@ -1,10 +1,10 @@
-import React from "react";
-import SelectVariants from "../FilterLandingPage/Filter";
-import CustomizedInputBase from "../searchBar";
-import styled from "styled-components";
-import homebg from "../../../../assets/home-bg.jpg";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import React from 'react';
+import BanerInputs from './BannerInputs';
+import CustomizedInputBase from '../searchBar';
+import styled from 'styled-components';
+import homebg from '../../../../assets/home-bg.jpg';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 const BannerWrapper = styled.div`
   height: calc(100vh - 120px);
@@ -23,7 +23,7 @@ const BannerContainer = styled.div`
 
 const LabelHomePage = styled.div`
   color: rgb(41, 43, 50);
-  font-family: museo-bold, "Helvetica Neue", Helvetica, Arial, "Lucida Grande",
+  font-family: museo-bold, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande',
     sans-serif;
   font-size: 24px;
   font-weight: bold;
@@ -40,19 +40,19 @@ const BannerButton = styled(Button)`
   cursor: pointer;
 `;
 
-const Banner = () => (
+const LandingBanner = () => (
   <BannerWrapper>
     <BannerContainer>
       <LabelHomePage>What would you like to book today?</LabelHomePage>
 
-      <SelectVariants />
+      <BanerInputs />
       <CustomizedInputBase />
 
       <BannerButton
         variant="contained"
         disableRipple
         sx={{
-          mt: 3
+          mt: 3,
         }}
       >
         SEARCH
@@ -62,4 +62,4 @@ const Banner = () => (
   </BannerWrapper>
 );
 
-export default Banner;
+export default LandingBanner;
