@@ -1,5 +1,5 @@
 import React from "react";
-import SelectVariants from "../Filter";
+import SelectVariants from "../FilterLandingPage/Filter";
 import CustomizedInputBase from "../searchBar";
 import styled from "styled-components";
 import homebg from "../../../../assets/home-bg.jpg";
