@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import theme from '../../../theme';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -18,35 +18,24 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#ececea',
-    },
-    secondary: {
-      main: '#7f96af',
-    },
-  },
-});
-
 export const UserInfo = {
   name: 'Nicolas Cage',
   title: 'Booker',
 };
 
 const ProfileBox = styled.div`
-  width: 170px;
-  height: 50px;
+  width: 200px;
+  height: 45px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-start;
-  padding-right: 50px;
+  padding: 5px 50px 5px 0;
 `;
 
 const UserInfoBox = styled.div`
   width: 120px;
-  height: 50px;
+  height: 45px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,12 +43,12 @@ const UserInfoBox = styled.div`
   font-family: Helvetica, sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  padding: 12px 0;
+  margin: 16px 0;
   cursor: pointer;
 `;
 
 const StyledUserName = styled.p`
-  margin: -15px 0;
+  margin: -20px 0;
 `;
 
 const StyledUserTitle = styled.p`
@@ -72,14 +61,14 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const StyledSideBar = styled(Paper)`
-  width: 295px;
-  height: 100vh;
-  background: #ececea;
+  width: 250px;
+  height: 960px;
+  background: ${({ theme }) => theme.palette.primary.main};
 `;
 
 const UserProfile = styled(Box)`
-  width: 295px;
-  height: 280px;
+  width: 250px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -99,7 +88,7 @@ const StyledName = styled.p`
 
 const Space = styled(Box)`
   width: 295px;
-  height: 590px;
+  height: 380px;
 `;
 
 const UserLogOutBox = styled(Box)`
@@ -117,7 +106,7 @@ const UserLogOut = styled(Button)`
   color: #e27777;
   font-weight: 700;
   font-size: 0.8rem;
-  margin-top: 20px;
+  margin-top: 12px;
   cursor: pointer;
 `;
 
@@ -135,10 +124,10 @@ export const UserPanel = () => {
         <SwipeableDrawer
           anchor="right"
           open={open}
-          onOpen={() => {}}
+          onOpen={() => { }}
           onClose={() => setOpen(false)}
         >
-          <StyledSideBar color="primary">
+          <StyledSideBar>
             <UserProfile>
               <StyledUserImg />
               <StyledName>{UserInfo.name}</StyledName>

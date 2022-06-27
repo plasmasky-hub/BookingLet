@@ -19,7 +19,7 @@ const StyledHeader = styled(Box)`
 `;
 
 const ButtonWrapper = styled(Box)`
-  width: 220px;
+  width: 250px;
   height: 36px;
   display: flex;
   justify-content: space-between;
@@ -28,10 +28,12 @@ const ButtonWrapper = styled(Box)`
 `;
 
 const StyledLoginButton = styled(Button)`
+  width: 125px;
+  height: 36px;
   color: #000;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   font-weight: 600;
-  padding-right: 40px;
+  margin-right: 20px;
   cursor: pointer;
   transition: ease-in-out 0.2s;
   &:hover {
@@ -42,9 +44,10 @@ const StyledLoginButton = styled(Button)`
 const RegisterButton = styled(Button)`
   background: #000;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
+  font-weight: 700;
   border-radius: 8px;
-  padding: 6px 13px;
+  padding: 6px 15px;
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: ease-in-out 0.2s;
@@ -54,32 +57,19 @@ const RegisterButton = styled(Button)`
 `;
 
 export const Header = () => {
-  const [loggedIn, setloggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   return (
     <StyledHeader>
       <Logo />
-<<<<<<< HEAD
-      {
-        loggedIn ? (<UserPanel />) : (
-          <ButtonWrapper>
-            <StyledLoginButton variant="text" startIcon={<LoginIcon />}>
-              Log in
-            </StyledLoginButton>
-            < RegisterButton variant="contained">Register</RegisterButton>
-          </ButtonWrapper>)
-      }
-=======
       {loggedIn ? (
         <UserPanel />
       ) : (
         <ButtonWrapper>
-          <LoginIcon />
-          <StyledLoginButton variant="text">Log in</StyledLoginButton>
+          <StyledLoginButton variant="text" startIcon={<LoginIcon />}>Log in</StyledLoginButton>
           <RegisterButton variant="contained">Register</RegisterButton>
         </ButtonWrapper>
       )}
->>>>>>> fc4f6478c57201ff7f2446771374ec8fe8978036
     </StyledHeader>
   );
 };
