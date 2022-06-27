@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import LoginIcon from '@mui/icons-material/Login';
 import { Logo } from '../../shared/Logo/Logo';
-import { UserPanel } from "./UserPanel";
-import { Button } from "@mui/material";
+import { UserPanel } from './UserPanel';
+import { Button } from '@mui/material';
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -34,7 +34,7 @@ const StyledLoginButton = styled(Button)`
   padding-right: 40px;
   cursor: pointer;
   transition: ease-in-out 0.2s;
-  &:hover{
+  &:hover {
     color: rgba(0, 0, 0, 0.7);
   }
 `;
@@ -48,27 +48,26 @@ const RegisterButton = styled(Button)`
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: ease-in-out 0.2s;
-  &:hover{
+  &:hover {
     background: rgba(0, 0, 0, 0.8);
   }
 `;
 
 export const Header = () => {
-  const [loggedIn, setloggedIn] = useState(false);
+  const [loggedIn, setloggedIn] = useState(true);
 
   return (
     <StyledHeader>
       <Logo />
-      {
-        loggedIn ? (<UserPanel />) : (
-          <ButtonWrapper>
-            <LoginIcon />
-            <StyledLoginButton variant="text">
-              Log in
-            </StyledLoginButton>
-            < RegisterButton variant="contained">Register</RegisterButton>
-          </ButtonWrapper>)
-      }
+      {loggedIn ? (
+        <UserPanel />
+      ) : (
+        <ButtonWrapper>
+          <LoginIcon />
+          <StyledLoginButton variant="text">Log in</StyledLoginButton>
+          <RegisterButton variant="contained">Register</RegisterButton>
+        </ButtonWrapper>
+      )}
     </StyledHeader>
-  )
+  );
 };
