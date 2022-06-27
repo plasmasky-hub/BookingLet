@@ -61,9 +61,7 @@ const RegisterButton = styled.button`
 
 
 export const Header = () => {
-  const UserLoginStatus = () => {
-    const [Loggedin, setLoggedin] = useState(false);
-  };
+  const [Loggedin, setLoggedin] = useState(false);
 
   return (
     <StyledHeader>
