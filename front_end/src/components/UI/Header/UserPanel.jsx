@@ -29,7 +29,6 @@ const theme = createTheme({
   },
 });
 
-
 export const UserInfo = {
   name: 'Nicolas Cage',
   title: 'Booker',
@@ -105,7 +104,7 @@ const Space = styled(Box)`
 
 const UserLogOutBox = styled(Box)`
   width: 29px;
-  height: 80px;  
+  height: 80px;
 `;
 
 const UserLogOut = styled(Button)`
@@ -126,73 +125,73 @@ export const UserPanel = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <ProfileBox>
-      <UserInfoBox>
-        <StyledUserName>{UserInfo.name}</StyledUserName>
-        <StyledUserTitle>{UserInfo.title}</StyledUserTitle>
-      </UserInfoBox>
-      <StyledAvatar onClick={() => setOpen(true)} aria-label="open drawer" />
-      <SwipeableDrawer
-        anchor="right"
-        open={open}
-        onOpen={() => {}}
-        onClose={() => setOpen(false)}
-      >
-        <StyledSideBar color="primary">
-          <UserProfile>
-            <StyledUserImg/>
-            <StyledName>{UserInfo.name}</StyledName>
-          </UserProfile>
-          <Divider />
-          <List>
-            <ListItemButton>
-              <ListItemIcon>
-                <InfoOutlinedIcon color="secondary"/>
-              </ListItemIcon>
-              <ListItemText primary={'My Info'} />
-            </ListItemButton>
-            <Divider variant="middle" />
-            <ListItemButton>
-              <ListItemIcon>
-                <BookmarkAddedOutlinedIcon color="secondary"/>
-              </ListItemIcon>
-              <ListItemText primary={'My Bookings'} />
-            </ListItemButton>
-            <Divider variant="middle" />
-            <ListItemButton>
-              <ListItemIcon>
-                <MenuBookOutlinedIcon color="secondary"/>
-              </ListItemIcon>
-              <ListItemText primary={'My Booklet'} />
-            </ListItemButton>
-            <Divider variant="middle" />
-            <ListItemButton>
-              <ListItemIcon>
-                <HowToRegOutlinedIcon color="secondary"/>
-              </ListItemIcon>
-              <ListItemText primary={'Register My Store'} />
-            </ListItemButton>
-            <Divider variant="middle" />
-            <ListItemButton>
-              <ListItemIcon>
-                <HelpOutlineOutlinedIcon color="secondary"/>
-              </ListItemIcon>
-              <ListItemText primary={'Help'} />
-            </ListItemButton>
+        <UserInfoBox>
+          <StyledUserName>{UserInfo.name}</StyledUserName>
+          <StyledUserTitle>{UserInfo.title}</StyledUserTitle>
+        </UserInfoBox>
+        <StyledAvatar onClick={() => setOpen(true)} aria-label="open drawer" />
+        <SwipeableDrawer
+          anchor="right"
+          open={open}
+          onOpen={() => {}}
+          onClose={() => setOpen(false)}
+        >
+          <StyledSideBar color="primary">
+            <UserProfile>
+              <StyledUserImg />
+              <StyledName>{UserInfo.name}</StyledName>
+            </UserProfile>
             <Divider />
-            <Space />
-            <Divider />
-            <UserLogOutBox>
-              <UserLogOut>
-                <LogoutIcon />
-                Log out
-              </UserLogOut>
-            </UserLogOutBox>
-          </List>
-        </StyledSideBar>
-      </SwipeableDrawer>
-    </ProfileBox>
-    </ThemeProvider>
+            <List>
+              <ListItemButton>
+                <ListItemIcon>
+                  <InfoOutlinedIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={'My Info'} />
+              </ListItemButton>
+              <Divider variant="middle" />
+              <ListItemButton>
+                <ListItemIcon>
+                  <BookmarkAddedOutlinedIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={'My Bookings'} />
+              </ListItemButton>
+              <Divider variant="middle" />
+              <ListItemButton>
+                <ListItemIcon>
+                  <MenuBookOutlinedIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={'My Booklet'} />
+              </ListItemButton>
+              <Divider variant="middle" />
+              <ListItemButton>
+                <ListItemIcon>
+                  <HowToRegOutlinedIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={'Register My Store'} />
+              </ListItemButton>
+              <Divider variant="middle" />
+              <ListItemButton>
+                <ListItemIcon>
+                  <HelpOutlineOutlinedIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={'Help'} />
+              </ListItemButton>
+              <Divider />
+              <Space />
+              <Divider />
+              <UserLogOutBox>
+                <UserLogOut>
+                  <LogoutIcon />
+                  Log out
+                </UserLogOut>
+              </UserLogOutBox>
+            </List>
+          </StyledSideBar>
+        </SwipeableDrawer>
+      </ProfileBox>
+    </>
   );
 };
