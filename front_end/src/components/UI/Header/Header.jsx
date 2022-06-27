@@ -62,8 +62,7 @@ export const Header = () => {
       {
         loggedIn ? (<UserPanel />) : (
           <ButtonWrapper>
-            <LoginIcon />
-            <StyledLoginButton variant="text">
+            <StyledLoginButton variant="text" startIcon={<LoginIcon />}>
               Log in
             </StyledLoginButton>
             < RegisterButton variant="contained">Register</RegisterButton>
