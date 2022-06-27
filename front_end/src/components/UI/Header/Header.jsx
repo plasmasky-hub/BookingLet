@@ -54,7 +54,7 @@ const RegisterButton = styled(Button)`
 `;
 
 export const Header = () => {
-  const [Loggedin, setLoggedin] = useState(false);
+  const [loggedIn, setloggedIn] = useState(false);
 
   return (
     <StyledHeader>
