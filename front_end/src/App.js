@@ -1,4 +1,4 @@
-import { Header } from './components/UI/Header';
+import { Header } from './components/UI/Header/Header';
 import Banner from './components/UI/HomePage-banner/index';
 
 function App() {
@@ -6,7 +6,6 @@ function App() {
     <div>
       <Header />
       <Banner />
-
     </div>
   );
 }
