@@ -13,7 +13,7 @@ export default function SelectCategory() {
 
   return (
     <div>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <FormControl sx={{ m: 1, minWidth: 130 }} size="small">
             <InputLabel id="demo-select-category">Category</InputLabel>
             <Select
               labelId="demo-select-category"

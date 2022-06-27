@@ -1,16 +1,14 @@
 import styled from '@emotion/styled';
-import { createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { ThemeProvider } from "@mui/system";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { Typography } from "@mui/material";
-import SelectName from './SelectList/ServiceName';
-import SelectCategory from "./SelectList/SelectCategory";
-import SelectDuration from "./SelectList/SelectTime";
-import SelectPersonLimit from "./SelectList/SelectPersonLimit";
-import SelectQuantity from "./SelectList/SelectQuantity";
+import SelectCategory from "../../SelectList/SelectCategory";
+import SelectDuration from "../../SelectList/SelectTime";
+import SelectPersonLimit from "../../SelectList/SelectPersonLimit";
+import SelectQuantity from "../../SelectList/SelectQuantity";
 
 export const ServiceDetailList = () => {
     const theme = createTheme({
@@ -84,15 +82,15 @@ export const ServiceDetailList = () => {
         width: 390px;
         height: 500px;
         display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: start;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: start;
         padding-left: 50px;
     `;
 
     const SelectListTitleBox = styled.div`
-        width: 200px;
-        height: 300px;
+        width: 195px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -100,20 +98,32 @@ export const ServiceDetailList = () => {
     `;
 
     const SelectListBox = styled.div`
-        width: 100px;
+        width: 195px;
         height: 300px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
         align-content: start;
     `;
 
+    const OptionalText = [
+        '---',
+        'Anna',
+        '$50 per hour'
+    ];
+
     const StyledTextArea = styled(Box)`
-    background: #C1CBD7;
-    border: 1px solid #989898;
-    border-radius: 5px;
-    padding: 5px 15px;
+        width: 120px;
+        height: 30px;
+        display: flex;
+        justify-content: start;
+        background: transparent;
+        border: 1px solid #989898;
+        text-align: center;
+        align-items: center;
+        border-radius: 4px;
+        padding: 5px;
 `;
 
     const StyledButtonGroup = styled(Button)`
@@ -148,6 +158,32 @@ export const ServiceDetailList = () => {
                         <Typography variant="subtitle1">{SelectTitle[6]}</Typography>
                         <Typography variant="subtitle1">{SelectTitle[7]}</Typography>
                     </SelectListTitleBox>
+                    <SelectListBox>
+                        <div>
+                            <StyledTextArea>
+                            <Typography variant="subtitle1">Oil Massage</Typography>
+                            </StyledTextArea>
+                            <SelectCategory />
+                            <SelectDuration />
+                            <StyledTextArea>
+                            <Typography variant="subtitle1">1</Typography>
+                            </StyledTextArea>
+                            <StyledTextArea>
+                            <Typography variant="subtitle1">1</Typography>
+                            </StyledTextArea>
+                        </div>
+                        <div>
+                        <StyledTextArea>
+                            <Typography variant="subtitle1">{OptionalText[0]}</Typography>
+                            </StyledTextArea>
+                            <StyledTextArea>
+                            <Typography variant="subtitle1">{OptionalText[1]}</Typography>
+                            </StyledTextArea>
+                            <StyledTextArea>
+                            <Typography variant="subtitle1">{OptionalText[2]}</Typography>
+                            </StyledTextArea>
+                        </div>
+                    </SelectListBox>
                 </SelectListWrapper>
             </StyledServiceList>
         </ThemeProvider>
