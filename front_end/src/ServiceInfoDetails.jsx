@@ -1,6 +1,8 @@
-import styled from "styled-components";
+import styled from '@emotion/styled';
 import { createTheme } from '@mui/material/styles';
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import { ThemeProvider } from "@mui/system";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { Typography } from "@mui/material";
@@ -36,16 +38,17 @@ export const ServiceDetailList = () => {
                 fontWeight: 700,
                 lineHeight: 5,
                 paddingLeft: 50,
-
             },
             h5: {
                 fontSize: '1rem',
                 fontWeight: 700,
-                paddingLeft: 50,
+                lineHeight: 4,
             },
             subtitle1: {
                 fontSize: '1rem',
                 fontWeight: 400,
+                lineHeight: 2,
+                padding: 8,
             },
         },
     });
@@ -53,16 +56,19 @@ export const ServiceDetailList = () => {
     const StyledServiceList = styled(Paper)`
         width: 390px;
         height: 100vh;
+        background: #C1CBD7;
         top: 0;
         right: 0;
         position: absolute;
     `;
 
     const ListTitle = 'Service Details';
+
     const ListSubtitle = [
         'Required Field',
         'Optional Field'
     ];
+
     const SelectTitle = [
         'Service :',
         'Category :',
@@ -76,31 +82,48 @@ export const ServiceDetailList = () => {
 
     const SelectListWrapper = styled.div`
         width: 390px;
-        height: 300px;
+        height: 500px;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: start;
-       padding-left: 50px;
+        padding-left: 50px;
+    `;
+
+    const SelectListTitleBox = styled.div`
+        width: 200px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
     `;
 
     const SelectListBox = styled.div`
-        width: 390;
-        height: 15px;
+        width: 100px;
+        height: 300px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-    `
+        align-content: start;
+    `;
 
-    const StyledButtonGroup = styled.button`
+    const StyledTextArea = styled(Box)`
+    background: #C1CBD7;
+    border: 1px solid #989898;
+    border-radius: 5px;
+    padding: 5px 15px;
+`;
+
+    const StyledButtonGroup = styled(Button)`
         width: 390px;
         height: 50px;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
-    `
+    `;
 
     const ButtonText = [
         'Save',
@@ -109,64 +132,23 @@ export const ServiceDetailList = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <StyledServiceList
-                elevation={8}
-                sx={{ background: theme.palette.primary.main, }}
-            >
-
+            <StyledServiceList elevation={8}>
                 <ArrowBackOutlinedIcon sx={{ width: 30, height: 30, pt: 6, pl: 5.5 }} />
-                <Typography variant="h3">
-                    {ListTitle}
-                </Typography>
-
-                <Typography variant="h5">
-                    {ListSubtitle[0]}
-                </Typography>
+                <Typography variant="h3">{ListTitle}</Typography>
                 <SelectListWrapper>
-                    <SelectListBox>
+                    <SelectListTitleBox>
+                        <Typography variant="h5">{ListSubtitle[0]}</Typography>
                         <Typography variant="subtitle1">{SelectTitle[0]}</Typography>
-                        <SelectName />
-                    </SelectListBox>
-
-                    <SelectListBox>
                         <Typography variant="subtitle1">{SelectTitle[1]}</Typography>
-                        <SelectCategory />
-                    </SelectListBox>
-
-                    <SelectListBox>
                         <Typography variant="subtitle1">{SelectTitle[2]}</Typography>
-                        <SelectDuration />
-                    </SelectListBox>
-
-                    <SelectListBox>
                         <Typography variant="subtitle1">{SelectTitle[3]}</Typography>
-                        <SelectPersonLimit />
-                    </SelectListBox>
-
-                    <SelectListBox>
                         <Typography variant="subtitle1">{SelectTitle[4]}</Typography>
-                        <SelectQuantity />
-                    </SelectListBox>
-                </SelectListWrapper>
-
-                <Typography variant="h5">
-                    {ListSubtitle[1]}
-                </Typography>
-                <SelectListWrapper>
-                    <SelectListBox>
+                        <Typography variant="h5">{ListSubtitle[1]}</Typography>
                         <Typography variant="subtitle1">{SelectTitle[5]}</Typography>
-                    </SelectListBox>
-
-                    <SelectListBox>
                         <Typography variant="subtitle1">{SelectTitle[6]}</Typography>
-                    </SelectListBox>
-
-                    <SelectListBox>
                         <Typography variant="subtitle1">{SelectTitle[7]}</Typography>
-                    </SelectListBox>
+                    </SelectListTitleBox>
                 </SelectListWrapper>
-
-                {/* <Button></Button> */}
             </StyledServiceList>
         </ThemeProvider>
     )
