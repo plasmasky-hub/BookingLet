@@ -15,7 +15,7 @@ const RegisterWrapper = styled.div`
   background-repeat: no-repeat;
   margin-bottom: 30px;
 `;
-const RegisterFont = styled.div`
+const RegisterLabel = styled.div`
   display: absolute;
   color: rgb(24, 26, 31);
   font-family: museo-bold, "Helvetica Neue", Helvetica, Arial, "Lucida Grande",
@@ -47,9 +47,9 @@ const Button = styled.button`
 
 const Register = () => (
   <RegisterWrapper>
-    <RegisterFont>
+    <RegisterLabel>
       Register your business in Bookinglet to customize yourbooking service?
-    </RegisterFont>
+    </RegisterLabel>
     <Button onClick={() => {}}>
       Join Now
     </Button>
