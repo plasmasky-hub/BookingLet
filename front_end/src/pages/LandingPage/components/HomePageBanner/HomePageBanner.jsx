@@ -52,8 +52,7 @@ const Banner = () => (
         variant="contained"
         disableRipple
         sx={{
-          mt: 3,
-          bgcolor: 'warning.main'
+          mt: 3
         }}
       >
         SEARCH
