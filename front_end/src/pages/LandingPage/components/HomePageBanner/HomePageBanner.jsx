@@ -36,11 +36,8 @@ const LabelHomePage = styled.div`
 const BannerButton = styled(Button)`
   width: 165px;
   height: 47px;
-  margin-top: 30px;
-  background-color: #6a3030;
   border-style: none;
   cursor: pointer;
-  border-radius: 10px;
 `;
 
 const Banner = () => (
@@ -55,7 +52,8 @@ const Banner = () => (
         variant="contained"
         disableRipple
         sx={{
-          mt: 3
+          mt: 3,
+          bgcolor: 'warning.main'
         }}
       >
         SEARCH
