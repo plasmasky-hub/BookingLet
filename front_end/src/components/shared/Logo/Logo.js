@@ -7,7 +7,7 @@ const StyledLogo = styled(Box)`
     font-size: 2rem;
     font-weight: 700;
     color: #000;
-    padding-left: 50px;
+    padding-left: 80px;
     cursor: pointer;
 `;
 

@@ -1,8 +1,9 @@
-import styled from "styled-components";
+import styled from '@emotion/styled';
 import React, { useState } from "react";
-import { Avatar } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -41,7 +42,7 @@ const UserInfoBox = styled.div`
   font-family: Helvetica, sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  padding: 15px 0;
+  padding: 12px 0;
   cursor: pointer;
 `;
 
@@ -52,6 +53,11 @@ const StyledUserName = styled.p`
 const StyledUserTitle = styled.p`
     color: #7B8B6F;
 `;
+
+const StyledAvatar = styled(Avatar)`
+    width: 45px;
+    height: 45px;
+`
 
 const StyledSideBar = styled(Paper)`
     width: 295px;
@@ -74,10 +80,9 @@ const UserProfile = styled(Box)`
         font-family: Helvetica, sans-serif;
     `;
 
-const StyledUserImg = styled.img`
+const StyledUserImg = styled(Avatar)`
     width: 70px;
     height: 70px;
-
 `;
 
 const Space = styled(Box)`
@@ -85,7 +90,7 @@ const Space = styled(Box)`
         height: 320px;
 `;
 
-const UserLogOut = styled.button`
+const UserLogOut = styled(Button)`
         width: 120px;
         height: 50px;
         display: flex;
@@ -112,7 +117,7 @@ export const UserPanel = () => {
                 <StyledUserName>{UserInfo.name}</StyledUserName>
                 <StyledUserTitle>{UserInfo.title}</StyledUserTitle>
             </UserInfoBox>
-            <Avatar
+            <StyledAvatar
                 onClick={() => setOpen(true)}
                 aria-label="open drawer"
             />
