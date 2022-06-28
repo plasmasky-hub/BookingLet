@@ -7,7 +7,7 @@ const Schema = new mongoose.Schema({
         max:100,
         default:1
     },
-    orderTime:  {
+    orderTime: {
         date:{type:Date, required:true},
         time:{type:String, required:true}
     },
