@@ -176,7 +176,7 @@ function checkUserInfo(data) {
   const schema = Joi.object({
     name: Joi.string().required(),
     tel: Joi.string()
-      .regex(/^\d{2}\d{4}\d{4}$/)
+      .regex(/^\d{4}\d{3}\d{3}$/)
       .required(),
     email: Joi.string().email().required(),
   });
@@ -197,13 +197,13 @@ function checkUserInfo(data) {
   // var detail = { details : undefined };
 
   // if there is no error, the "details" key will be undefined in error
-  // if ('details' in validation.error) {
-  //   // console.log("🚀 ~ file: user.js ~ line 155 ~ checkUserInfo ~ errorCode.get(validation.error.details[0].path)", errorCode.get(validation.error.details[0].path[0]))
+  if ('details' in validation.error) {
+    // console.log("🚀 ~ file: user.js ~ line 155 ~ checkUserInfo ~ errorCode.get(validation.error.details[0].path)", errorCode.get(validation.error.details[0].path[0]))
 
-  //   return errorCode.get(validation.error.details[0].path[0]);
-  // } else {
-  //   return undefined;
-  // }
+    return errorCode.get(validation.error.details[0].path[0]);
+  } else {
+    return undefined;
+  }
 }
 
 module.exports = {
@@ -213,5 +213,5 @@ module.exports = {
   updateUserByID,
   deleteUserByID,
   getUserStores,
-  // addStoreToUser,
+  //addStoreToUser,
 };

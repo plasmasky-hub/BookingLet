@@ -59,3 +59,11 @@ Future features
 The searching function will only have keyword searching. Will add the sorts and filters.
 Store evaluation will show the number of customers who liked the store. Will add star evaluation, favorite, or comment features in the future.
 Planing to add notification features to inform customers and store owners.
+
+Function
+----------
+search function
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/filtering%20and%20sorting.jpg)
+
+check order availability
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/checkOrderAvailability.jpg)

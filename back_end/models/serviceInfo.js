@@ -8,6 +8,8 @@ const schema = new mongoose.Schema({
         required: true,
         minlength: 2,
         maxlength: 30,
+        unique: true,
+        dropDups: true
     },
     rootCategory: {
         type: mongoose.Types.ObjectId,
@@ -42,6 +44,11 @@ const schema = new mongoose.Schema({
         required: true,
         min: 1,
         default: 1
+    },
+    price: {
+        type: Number,
+        min: 0,
+        max: 9999
     },
     description: {
         type: String,
