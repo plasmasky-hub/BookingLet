@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const Schema = new mongoose.Schema({
     peopleNumber:{
         type : Number,
+        min:1,
+        max:100,
         default:1
     },
-    orderTime: {
-        type : String,
-        required : true
+    orderTime: { 
+        date:{type:Date, required:true}, 
+        time:{type:String, required:true} 
     },
     bookingStatus: {
         type : Boolean,
@@ -18,7 +20,6 @@ const Schema = new mongoose.Schema({
         default:false
     },
     userId:{
-
         type : mongoose.Types.ObjectId,
         required:true  
     },
@@ -29,11 +30,19 @@ const Schema = new mongoose.Schema({
     serviceInfoId:{
         type : mongoose.Types.ObjectId,
         required:true  
-       
+    },
+    tel : {
+        type : String,
+        required : true 
     },
     optionInfo:{
         type : String,
         maxlength:200
+    },
+    bookingTime:{
+        type:Date, 
+        default:Date.now
+   
     }
     
 })

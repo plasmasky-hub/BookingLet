@@ -25,6 +25,7 @@ const Joi = require('joi')
  *              type: Object
  *              required:
  *                  - name
+ *                  - parentCategory
  *              properties:
  *                  name:
  *                      type: string

@@ -8,21 +8,18 @@ const Joi = require('joi');
  * @swagger
  *   components:
  *      schemas:
- *          serviceInfo:
+ *          fullServiceInfo:
  *              type: Object
- *              required:
- *                  - name
  *              properties:
  *                  name:
  *                      type: string
  *                  _id:
  *                      type: objectId
- *                      description: auto generated unique identifier
  *                  rootCategory:
  *                      type: objectId
  *                      description: type of service
  *                  subCategories:
- *                      type: objectId
+ *                      type: Array
  *                      description: subtype of service
  *                  store:
  *                      type: objectId
@@ -36,6 +33,61 @@ const Joi = require('joi');
  *                  maxServicePerSection:
  *                      type: Number
  *                      description: The maximum number of services that can be booked at the same time
+ *                  price:
+ *                      type: Number
+ *                      description: Service price in AUD. 0-9999 AUD
+ *                  description:
+ *                      type: String
+ *                      description: Service details
+ *                  startTime:
+ *                      type: Array
+ *                      description: elements are object. There objects includes 2 attributes, "dayOfWeek" has a value of string, and "openHours" has a value of time array, like [0800, 0900, ...]
+ * 
+ *              example:
+ *                  name: Standard service 1
+ *                  _id: "62a6ca699095c03945813d90"
+ *                  rootCategory: "629f0bc95abd87303b5dcb17"
+ *                  subCategories:  ["629f715cf1598f79a02aef99", "62a5f852767e8fc45aad5a23"]
+ *                  store: "62a1aa0a2c9f493974ea830e"
+ *                  duration: 1
+ *                  maxPersonPerSection: 5
+ *                  maxServicePerSection: 10 
+ *                  price: 80          
+ *                  description: 'Standard service in this store'
+ *                  startTime: []
+ *          serviceInfo:
+ *              type: Object
+ *              required: 
+ *                  - name
+ *                  - rootCategory
+ *                  - store
+ *                  - duration
+ *                  - maxPersonPerSection
+ *                  - maxServicePerSection
+ *              properties: 
+ *                  name:
+ *                      type: string
+ *                  rootCategory:
+ *                      type: objectId
+ *                      description: type of service
+ *                  subCategories:
+ *                      type: Array
+ *                      description: subtype of service
+ *                  store:
+ *                      type: objectId
+ *                      description: Store to which the service belongs
+ *                  duration:
+ *                      type: Number
+ *                      description: service duration, 0.5-5 hours
+ *                  maxPersonPerSection:
+ *                      type: Number
+ *                      description: Maximum number of people for this service, 1-1000 people
+ *                  maxServicePerSection:
+ *                      type: Number
+ *                      description: The maximum number of services that can be booked at the same time
+ *                  price:
+ *                      type: Number
+ *                      description: Service price in AUD. 0-9999 AUD
  *                  description:
  *                      type: String
  *                      description: Service details
@@ -46,15 +98,114 @@ const Joi = require('joi');
  *                  store: "62a1aa0a2c9f493974ea830e"
  *                  duration: 1
  *                  maxPersonPerSection: 5
- *                  maxServicePerSection: 10           
+ *                  maxServicePerSection: 10   
+ *                  price: 50        
  *                  description: 'Standard service in this store'
+ *          fullServiceInfoUpdate:
+ *              type: Object
+ *              properties:
+ *                  name:
+ *                      type: string
+ *                  _id:
+ *                      type: objectId
+ *                  rootCategory:
+ *                      type: objectId
+ *                      description: type of service
+ *                  subCategories:
+ *                      type: Array
+ *                      description: subtype of service
+ *                  store:
+ *                      type: objectId
+ *                      description: Store to which the service belongs
+ *                  duration:
+ *                      type: Number
+ *                      description: service duration, 0.5-5 hours
+ *                  maxPersonPerSection:
+ *                      type: Number
+ *                      description: Maximum number of people for this service, 1-1000 people
+ *                  maxServicePerSection:
+ *                      type: Number
+ *                      description: The maximum number of services that can be booked at the same time
+ *                  price:
+ *                      type: Number
+ *                      description: Service price in AUD. 0-9999 AUD
+ *                  description:
+ *                      type: String
+ *                      description: Service details
+ *                  startTime:
+ *                      type: Array
+ *                      description: elements are object. There objects includes 2 attributes, "dayOfWeek" has a value of string, and "openHours" has a value of time array, like [0800, 0900, ...]
+ * 
+ *              example:
+ *                  name: Standard service 1
+ *                  _id: "62a6ca699095c03945813d90"
+ *                  rootCategory: "629f0bc95abd87303b5dcb17"
+ *                  subCategories:  ["629f715cf1598f79a02aef99", "62a5f852767e8fc45aad5a23"]
+ *                  store: "62a1aa0a2c9f493974ea830e"
+ *                  duration: 1
+ *                  maxPersonPerSection: 5
+ *                  maxServicePerSection: 10 
+ *                  price: 80          
+ *                  description: 'Standard service in this store'
+ *                  startTime: [{dayOfWeek: "Tuesday", openHours: [0800, 1000, 1430]}, {dayOfWeek: "Friday", openHours: [0920, 1100, 1530, 1640]}] 
+ *          serviceInfoUpdate:
+ *              type: Object
+ *              properties:
+ *                  name:
+ *                      type: string
+ *                  rootCategory:
+ *                      type: objectId
+ *                      description: type of service
+ *                  subCategories:
+ *                      type: Array
+ *                      description: subtype of service
+ *                  duration:
+ *                      type: Number
+ *                      description: service duration, 0.5-5 hours
+ *                  maxPersonPerSection:
+ *                      type: Number
+ *                      description: Maximum number of people for this service, 1-1000 people
+ *                  maxServicePerSection:
+ *                      type: Number
+ *                      description: The maximum number of services that can be booked at the same time
+ *                  price:
+ *                      type: Number
+ *                      description: Service price in AUD. 0-9999 AUD
+ *                  description:
+ *                      type: String
+ *                      description: Service details
+ *                  startTime:
+ *                      type: Array
+ *                      description: elements are object. There objects includes 2 attributes, "dayOfWeek" has a value of string, and "openHours" has a value of time array, like [0800, 0900, ...]
+ *              example:
+ *                  name: Standard service 1
+ *                  rootCategory: "629f0bc95abd87303b5dcb17"
+ *                  subCategories:  ["629f715cf1598f79a02aef99", "62a5f852767e8fc45aad5a23"]
+ *                  duration: 2
+ *                  maxPersonPerSection: 4
+ *                  maxServicePerSection: 8     
+ *                  price: 80      
+ *                  description: 'Standard service update in this store'
+ *                  startTime: [{dayOfWeek: "Tuesday", openHours: [0800, 1000, 1430]}, {dayOfWeek: "Friday", openHours: [0920, 1100, 1530, 1640]}] 
 */
 /** 
  * @swagger
  *   /v1/serviceInfo:
  *    get:
- *      summary: return all service infos (except discarded)
+ *      summary: return all service infos (except discarded). It you declaim a store Id in req.body, it will return service infos which belongs to this store. swagger does not support carrying parameters in the request body of GET. therefore. If you need to test this functionality, you must use postman.
  *      tags: [ServiceInfo]
+ *      requestBody:
+ *          required: false
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: Object
+ *                      description: All parameters are optional. And, in practice, so many filters are not used at the same time. Because this request integrates the search function of multiple pages.
+ *                      properties:
+ *                          storeId:  
+ *                              type: objectId
+ *                      example:
+ *                          storeId: "62a6149f7645da1c405c0dca"
  *      responses:
  *          200:
  *              description: array of serviceInfos
@@ -75,7 +226,11 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllInfos(req, res) {
-    const Infos = await ServiceInfo.find({ isDiscard: false }).exec();
+    let { storeId } = req.body;
+    let searchQuery = { isDiscard: false };
+    if (storeId !== undefined) { searchQuery.store = storeId };
+
+    const Infos = await ServiceInfo.find(searchQuery).exec();
     res.json(Infos);
 }
 
@@ -100,7 +255,7 @@ async function getAllInfos(req, res) {
  *              content:
  *                  application/json:
  *                      schema: 
- *                          $ref: '#/components/schemas/serviceInfo'     
+ *                          $ref: '#/components/schemas/fullServiceInfoUpdate'     
  *          400:
  *              description: Invalid request
  *              content:
@@ -166,6 +321,7 @@ async function addInfo(req, res) {
         duration,
         maxPersonPerSection,
         maxServicePerSection,
+        price,
         description
         //} = req.body;
     } = validatedData;
@@ -178,6 +334,7 @@ async function addInfo(req, res) {
         duration,
         maxPersonPerSection,
         maxServicePerSection,
+        price,
         description
     });
     await serviceInfo.save();
@@ -208,14 +365,14 @@ async function addInfo(req, res) {
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/serviceInfo'
+ *                      $ref: '#/components/schemas/serviceInfoUpdate'
  *      responses:
  *          200:
  *              description: Successfully update a serviceInfo
  *              content:
  *                  application/json:
  *                      schema: 
- *                          $ref: '#/components/schemas/serviceInfo'     
+ *                          $ref: '#/components/schemas/fullServiceInfoUpdate'     
  *          400:
  *              description: Invalid request
  *              content:
@@ -227,7 +384,7 @@ async function addInfo(req, res) {
  *                                  type: string                       
 */
 async function updateInfoById(req, res) {
-    const validatedData = await checkServiceInfo(req.body);
+    const validatedData = await checkServiceInfoUpdate(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
     const { id } = req.params;
@@ -235,10 +392,10 @@ async function updateInfoById(req, res) {
         name,
         rootCategory,
         subCategories,
-        store,
         duration,
         maxPersonPerSection,
         maxServicePerSection,
+        price,
         description,
         startTime
         //} = req.body;
@@ -247,10 +404,10 @@ async function updateInfoById(req, res) {
         name,
         rootCategory,
         subCategories,
-        store,
         duration,
         maxPersonPerSection,
         maxServicePerSection,
+        price,
         description,
         startTime
     }, { new: true }).exec();
@@ -322,6 +479,23 @@ async function checkServiceInfo(data) {
         duration: Joi.number().required().min(0.5).max(5),
         maxPersonPerSection: Joi.number().required().min(1).max(200),
         maxServicePerSection: Joi.number().required().min(1),
+        price: Joi.number().min(0).max(9999),
+        description: Joi.string().max(300)
+    });
+
+    const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
+    return validatedData;
+}
+
+async function checkServiceInfoUpdate(data) {
+    const schema = Joi.object({
+        name: Joi.string().required().min(2).max(30),
+        rootCategory: Joi.required(),
+        subCategories: Joi.array(),
+        duration: Joi.number().required().min(0.5).max(5),
+        maxPersonPerSection: Joi.number().required().min(1).max(200),
+        maxServicePerSection: Joi.number().required().min(1),
+        price: Joi.number().min(0).max(9999),
         description: Joi.string().max(300),
         /*startTime: [{
             dayOfWeek: Joi.string(),
