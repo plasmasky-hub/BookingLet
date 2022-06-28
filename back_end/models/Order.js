@@ -7,9 +7,9 @@ const Schema = new mongoose.Schema({
         max:100,
         default:1
     },
-    orderTime:  {
-        date:{type:Date, required:true,default:()=>{new Date().format("YYYY-MM-DD")}},
-        time:{type:String, required:true,default:()=>{new Date().format("HH:mm:ss")}}
+    orderTime: { 
+        date:{type:Date, required:true}, 
+        time:{type:String, required:true} 
     },
     bookingStatus: {
         type : Boolean,

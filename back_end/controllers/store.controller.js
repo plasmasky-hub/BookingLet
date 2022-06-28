@@ -517,7 +517,7 @@ async function checkStore(data) {
 async function checkStoreUpdate(data) {
     const schema = Joi.object({
         name: Joi.string().required().min(2).max(30),
-        tel: Joi.string().regex(/^\d{2}\d{4}\d{4}$/).required(),
+        tel: Joi.string().regex(/^\d{4}\d{3}\d{3}$/).required(),
         location: {
             state: Joi.string().required(),
             city: Joi.string().required(),
