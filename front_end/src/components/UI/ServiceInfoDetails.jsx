@@ -79,18 +79,17 @@ export const ServiceDetailList = () => {
     ];
 
     const SelectListWrapper = styled.div`
-        width: 390px;
         height: 500px;
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         align-content: start;
         padding-left: 50px;
     `;
 
     const SelectListTitleBox = styled.div`
-        width: 195px;
+        width: 150px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -98,7 +97,7 @@ export const ServiceDetailList = () => {
     `;
 
     const SelectListBox = styled.div`
-        width: 195px;
+        width: 240px;
         height: 300px;
         display: flex;
         flex-direction: column;
@@ -161,7 +160,7 @@ export const ServiceDetailList = () => {
                     <SelectListBox>
                         <div>
                             <StyledTextArea>
-                            <Typography variant="subtitle1">Oil Massage</Typography>
+                            <Typography variant="subtitle1">Foot Massage</Typography>
                             </StyledTextArea>
                             <SelectCategory />
                             <SelectDuration />
