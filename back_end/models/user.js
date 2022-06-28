@@ -13,6 +13,10 @@ const Schema = new mongoose.Schema({
         type : String,
         required : true 
     },
+    password : {
+        type : String,
+        min : 6,
+    },
     orders:[{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Order',
@@ -24,7 +28,11 @@ const Schema = new mongoose.Schema({
     stores : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Store'
-    }]
+    }],
+    favouriteStores : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Store'
+    }],
 
 })
 
