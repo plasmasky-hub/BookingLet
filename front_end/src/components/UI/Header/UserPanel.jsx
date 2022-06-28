@@ -2,7 +2,6 @@ import theme from '../../../theme';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -60,14 +59,15 @@ const StyledAvatar = styled(Avatar)`
   height: 45px;
 `;
 
-const StyledSideBar = styled(Paper)`
+const StyledSideBar = styled.div`
   background: ${({ theme }) => theme.palette.primary.main};
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  flex-flow: column nowrap;
+  justify-content: center;
   align-items: flex-start;
   width: 295px;
-  height: 100%;
+  height: 100vh;
 `;
 
 const UserProfile = styled(Box)`
@@ -76,6 +76,7 @@ const UserProfile = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex-grow: 1;
   align-items: center;
   font-family: Helvetica, sans-serif;
   padding: 20px;
@@ -96,29 +97,20 @@ const ListWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
+  flex-grow: 1.5;
 `
 
 const Space = styled(Box)`
   width: 295px;
-  height: 600px;
-`;
-
-const UserLogOutBox = styled(Box)`
-  width: 29px;
-  height: 60px;
+  height: 50vh;
+  flex-grow: 3;
 `;
 
 const UserLogOut = styled(Button)`
-  width: 150px;
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
   color: #e27777;
   font-weight: 700;
   font-size: 0.8rem;
-  margin-top: 12px;
+  margin: 15px 10px;
   cursor: pointer;
 `;
 
@@ -184,12 +176,7 @@ export const UserPanel = () => {
               <Divider />
               <Space />
               <Divider />
-              <UserLogOutBox>
-                <UserLogOut>
-                  <LogoutIcon />
-                  Log out
-                </UserLogOut>
-              </UserLogOutBox>
+              <UserLogOut variant="text" startIcon={<LogoutIcon />}>Log out</UserLogOut>
             </List>
             </ListWrapper>
           </StyledSideBar>
