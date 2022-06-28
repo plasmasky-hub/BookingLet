@@ -64,7 +64,7 @@ const StyledSideBar = styled.div`
   display: flex;
   flex-direction: column;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
   width: 295px;
   height: 100vh;
@@ -72,7 +72,7 @@ const StyledSideBar = styled.div`
 
 const UserProfile = styled(Box)`
   width: 295px;
-  height: 295px;
+  height: 255px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -97,21 +97,21 @@ const ListWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
-  flex-grow: 1.5;
-`
-
-const Space = styled(Box)`
-  width: 295px;
-  height: 50vh;
-  flex-grow: 3;
 `;
 
-const UserLogOut = styled(Button)`
+const UserContent = styled(Box)`
+  width: 295px;
+`;
+
+const UserLogOutBtn = styled(Button)`
   color: #e27777;
+  width: 295px;
   font-weight: 700;
   font-size: 0.8rem;
-  margin: 15px 10px;
+  padding: 15px 0;
   cursor: pointer;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 0;
 `;
 
 export const UserPanel = () => {
@@ -128,57 +128,59 @@ export const UserPanel = () => {
         <SwipeableDrawer
           anchor="right"
           open={open}
-          onOpen={() => { }}
+          onOpen={() => {}}
           onClose={() => setOpen(false)}
         >
           <StyledSideBar>
-            <UserProfile>
-              <StyledUserImg />
-              <StyledName>{UserInfo.name}</StyledName>
-            </UserProfile>
-            <ListWrapper>
-            <List>
-            <Divider />
-              <ListItemButton>
-                <ListItemIcon>
-                  <InfoOutlinedIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={'My Info'} />
-              </ListItemButton>
-              <Divider variant="middle" />
-              <ListItemButton>
-                <ListItemIcon>
-                  <BookmarkAddedOutlinedIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={'My Bookings'} />
-              </ListItemButton>
-              <Divider variant="middle" />
-              <ListItemButton>
-                <ListItemIcon>
-                  <MenuBookOutlinedIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={'My Booklet'} />
-              </ListItemButton>
-              <Divider variant="middle" />
-              <ListItemButton>
-                <ListItemIcon>
-                  <HowToRegOutlinedIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={'Register My Store'} />
-              </ListItemButton>
-              <Divider variant="middle" />
-              <ListItemButton>
-                <ListItemIcon>
-                  <HelpOutlineOutlinedIcon color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={'Help'} />
-              </ListItemButton>
-              <Divider />
-              <Space />
-              <Divider />
-              <UserLogOut variant="text" startIcon={<LogoutIcon />}>Log out</UserLogOut>
-            </List>
-            </ListWrapper>
+            <UserContent>
+              <UserProfile>
+                <StyledUserImg />
+                <StyledName>{UserInfo.name}</StyledName>
+              </UserProfile>
+              <ListWrapper>
+                <List sx={{ width: 295 }}>
+                  <Divider />
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <InfoOutlinedIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={'My Info'} />
+                  </ListItemButton>
+                  <Divider variant="middle" />
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <BookmarkAddedOutlinedIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={'My Bookings'} />
+                  </ListItemButton>
+                  <Divider variant="middle" />
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <MenuBookOutlinedIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={'My Booklet'} />
+                  </ListItemButton>
+                  <Divider variant="middle" />
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <HowToRegOutlinedIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={'Register My Store'} />
+                  </ListItemButton>
+                  <Divider variant="middle" />
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <HelpOutlineOutlinedIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={'Help'} />
+                  </ListItemButton>
+                  <Divider />
+                </List>
+              </ListWrapper>
+            </UserContent>
+            <UserLogOutBtn variant="text" startIcon={<LogoutIcon />}>
+              Log out
+            </UserLogOutBtn>
           </StyledSideBar>
         </SwipeableDrawer>
       </ProfileBox>
