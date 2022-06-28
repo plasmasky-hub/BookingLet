@@ -61,19 +61,24 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const StyledSideBar = styled(Paper)`
-  width: 250px;
-  height: 960px;
   background: ${({ theme }) => theme.palette.primary.main};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 295px;
+  height: 100%;
 `;
 
 const UserProfile = styled(Box)`
-  width: 250px;
-  height: 250px;
+  width: 295px;
+  height: 295px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: Helvetica, sans-serif;
+  padding: 20px;
 `;
 
 const StyledUserImg = styled(Avatar)`
@@ -86,14 +91,21 @@ const StyledName = styled.p`
   font-size: 1.2rem;
 `;
 
+const ListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+`
+
 const Space = styled(Box)`
   width: 295px;
-  height: 380px;
+  height: 600px;
 `;
 
 const UserLogOutBox = styled(Box)`
   width: 29px;
-  height: 80px;
+  height: 60px;
 `;
 
 const UserLogOut = styled(Button)`
@@ -132,8 +144,9 @@ export const UserPanel = () => {
               <StyledUserImg />
               <StyledName>{UserInfo.name}</StyledName>
             </UserProfile>
-            <Divider />
+            <ListWrapper>
             <List>
+            <Divider />
               <ListItemButton>
                 <ListItemIcon>
                   <InfoOutlinedIcon color="secondary" />
@@ -178,6 +191,7 @@ export const UserPanel = () => {
                 </UserLogOut>
               </UserLogOutBox>
             </List>
+            </ListWrapper>
           </StyledSideBar>
         </SwipeableDrawer>
       </ProfileBox>
