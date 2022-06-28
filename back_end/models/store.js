@@ -45,6 +45,18 @@ const schema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Order'
     }],
+    orderSize: {
+        type: Number,
+        default: 0
+    },
+    favoriteUsers: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    favoriteUsersSize: {
+        type: Number,
+        default: 0
+    },
     isDiscard: {
         type: Boolean,
         default: false
