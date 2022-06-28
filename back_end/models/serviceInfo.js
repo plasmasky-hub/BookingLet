@@ -45,6 +45,11 @@ const schema = new mongoose.Schema({
         min: 1,
         default: 1
     },
+    price: {
+        type: Number,
+        min: 0,
+        max: 9999
+    },
     description: {
         type: String,
         maxlength: 300,
