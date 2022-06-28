@@ -11,9 +11,10 @@ require('dotenv').config();
 faker.setLocale('en_AU');
 
 async function randomStore(){
+    const today = new Date();
     
     /* ------------------------------ Name of store ----------------------------- */
-    const name = faker.name.findName();
+    const name = faker.name.findName() + ' (' + (today.getMonth() + 1) + '-' + today.getDate() + ')' ;
     // console.log("🚀 ~ file: faker.js ~ line 26 ~ randomStore ~ name", name)
 
     /* ------------------------------- Owner name ------------------------------- */
@@ -106,7 +107,7 @@ connectToDB().then(async function() {
         console.log('Add random store successful!');
 
     }
-    catch{
+    catch(error){
         console.log('Error in adding store!');
         console.log(error);
     }

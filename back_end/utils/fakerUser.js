@@ -10,7 +10,7 @@ async function randomUser(){
 
     const name = faker.name.findName();
     const spliteName = name.split(' ');
-    const tel = faker.phone.phoneNumber();
+    const tel = faker.phone.phoneNumber('04## ### ###');
     const email = faker.internet.email(spliteName[ spliteName.length - 2 ], spliteName[ spliteName.length - 1 ]);
 
     const user = new User({
