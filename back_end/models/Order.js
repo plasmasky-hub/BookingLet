@@ -9,7 +9,7 @@ const Schema = new mongoose.Schema({
     },
     orderTime: { 
         date:{type:Date, required:true}, 
-        time:{type:String, required:true} 
+        time:{type:String, required:true}
     },
     bookingStatus: {
         type : Boolean,
@@ -42,7 +42,6 @@ const Schema = new mongoose.Schema({
     bookingTime:{
         type:Date, 
         default:Date.now
-   
     }
     
 })
