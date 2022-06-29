@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import styled from "styled-components";
 
-export default function StoreInfFilter() {
+export default function CategoryFilter() {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
@@ -23,25 +23,25 @@ export default function StoreInfFilter() {
     font-size: 15px;
     line-height: 20px;
     padding-bottom: 20px;
+    /* margin-left: 30px; */
   `;
 
   const SelectStoreInf = styled(Select)`
-    width: 108px;
-    height: 56px;
+    width: 397px;
+    height: 34px;
     background: #d9d9d9;
     border-radius: 5px;
-    padding: 0;
-    /* padding-top: 30px; */
+    /* margin-left: 30px; */
   `;
 
   return (
     <div className="wrapper_filter">
       <FormControl
         variant="standard"
-        sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:-0.0001 }}
+        sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:2, marginLeft:11.5 }}
         // sx={{ m: 1, minWidth: 108, marginLeft: -30, marginTop:-0.02 }}
       >
-        <StoreName>State</StoreName>
+        <StoreName>Category</StoreName>
         <SelectStoreInf
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
@@ -52,11 +52,11 @@ export default function StoreInfFilter() {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>NSW</MenuItem>
-          <MenuItem value={20}>VIC</MenuItem>
+          <MenuItem value={10}>Dining</MenuItem>
+          {/* <MenuItem value={20}>VIC</MenuItem>
           <MenuItem value={30}>SA</MenuItem>
           <MenuItem value={40}>TAS</MenuItem>
-          <MenuItem value={50}>WA</MenuItem>
+          <MenuItem value={50}>WA</MenuItem> */}
         </SelectStoreInf>
       </FormControl>
     </div>

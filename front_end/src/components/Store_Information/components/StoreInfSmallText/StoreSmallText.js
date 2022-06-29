@@ -27,6 +27,7 @@ const Text = styled(TextField)`
   background: #d9d9d9;
   border-radius: 5px;
   padding: 0;
+  /* margin-left: 10px; */
   /* padding-top: 30px; */
 `;
 
@@ -47,9 +48,22 @@ const StoreSmallText = () => (
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
-      defaultValue="Han’s Massage"
+      defaultValue="Sydney"
       variant="filled"
-      inputProps={{
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <ModeEditOutline />
+          </InputAdornment>
+        ),
+      }}
+    />
+    {/* <Text
+      hiddenLabel
+      id="input-with-icon-textfield"
+      defaultValue="Sydney"
+      variant="filled"
+      InputProps={{
         startAdornment: (
           <InputAdornment position="end">
             <ModeEditOutline />
@@ -60,7 +74,7 @@ const StoreSmallText = () => (
           paddingTop:"20px"
         }
       }}
-    />
+    /> */}
   </Wrapper>
 );
 
