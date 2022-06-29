@@ -9,7 +9,7 @@ import { Button } from '@mui/material';
 const StyledHeader = styled(Box)`
   width: 100vw;
   height: 72px;
-  background: #fefefe;
+  background-color: #fefefe;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -43,7 +43,7 @@ const StyledLoginButton = styled(Button)`
 `;
 
 const RegisterButton = styled(Button)`
-  background: #000;
+  background-color: #000;
   color: #fff;
   font-size: 0.6rem;
   font-weight: 700;

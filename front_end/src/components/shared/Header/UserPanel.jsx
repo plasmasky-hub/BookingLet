@@ -62,7 +62,7 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const StyledSideBar = styled.div`
-  background: ${newtheme.palette.primary.main};
+  background-color: ${newtheme.palette.primary.main};
   display: flex;
   flex-direction: column;
   flex-flow: column nowrap;
