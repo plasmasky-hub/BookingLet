@@ -6,6 +6,8 @@ const schema = new mongoose.Schema({
         required: true,
         minlength: 2,
         maxlength: 30,
+        unique: true,
+        dropDups: true
     },
     isDiscard: {
         type: Boolean,
