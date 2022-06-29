@@ -1,6 +1,6 @@
 import React from 'react';
 import BanerInputs from './BannerInputs';
-import CustomizedInputBase from '../searchBar';
+import CustomizedInputBase from '../SearchBar';
 import styled from 'styled-components';
 import homebg from '../../../../assets/home-bg.jpg';
 import Stack from '@mui/material/Stack';
