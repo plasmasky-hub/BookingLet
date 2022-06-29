@@ -22,7 +22,7 @@ export const UserInfo = {
   title: 'Booker',
 };
 
-const newtheme = {...theme, iconColor: '#7F96AF'};
+const newtheme = { ...theme, iconColor: '#7F96AF' };
 
 const ProfileBox = styled.div`
   width: 200px;
@@ -71,8 +71,6 @@ const StyledSideBar = styled.div`
   width: 295px;
   height: 100vh;
 `;
-
-console.log(newtheme.iconColor);
 
 const UserProfile = styled(Box)`
   width: 295px;
@@ -132,7 +130,7 @@ export const UserPanel = () => {
         <SwipeableDrawer
           anchor="right"
           open={open}
-          onOpen={() => {}}
+          onOpen={() => { }}
           onClose={() => setOpen(false)}
         >
           <StyledSideBar>
@@ -146,35 +144,35 @@ export const UserPanel = () => {
                   <Divider />
                   <ListItemButton>
                     <ListItemIcon>
-                      <InfoOutlinedIcon sx={{color: `${newtheme.palette.secondary.main}`}} />
+                      <InfoOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
                     </ListItemIcon>
                     <ListItemText primary={'My Info'} />
                   </ListItemButton>
                   <Divider variant="middle" />
                   <ListItemButton>
                     <ListItemIcon>
-                      <BookmarkAddedOutlinedIcon sx={{color: `${newtheme.palette.secondary.main}`}} />
+                      <BookmarkAddedOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
                     </ListItemIcon>
                     <ListItemText primary={'My Bookings'} />
                   </ListItemButton>
                   <Divider variant="middle" />
                   <ListItemButton>
                     <ListItemIcon>
-                      <MenuBookOutlinedIcon sx={{color: `${newtheme.palette.secondary.main}`}} />
+                      <MenuBookOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
                     </ListItemIcon>
                     <ListItemText primary={'My Booklet'} />
                   </ListItemButton>
                   <Divider variant="middle" />
                   <ListItemButton>
                     <ListItemIcon>
-                      <HowToRegOutlinedIcon sx={{color: `${newtheme.palette.secondary.main}`}} />
+                      <HowToRegOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
                     </ListItemIcon>
                     <ListItemText primary={'Register My Store'} />
                   </ListItemButton>
                   <Divider variant="middle" />
                   <ListItemButton>
                     <ListItemIcon>
-                      <HelpOutlineOutlinedIcon sx={{color: `${newtheme.palette.secondary.main}`}} />
+                      <HelpOutlineOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
                     </ListItemIcon>
                     <ListItemText primary={'Help'} />
                   </ListItemButton>
