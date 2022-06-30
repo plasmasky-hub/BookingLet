@@ -4,7 +4,8 @@ import React from 'react';
 // import BookingPage from './pages/BookingPage';
 import LandingPage from './pages/LandingPage';
 import StoreListPage from './pages/StoreListPage';
-import { UserBookingPage } from './pages/UserBookingPage/components/Header';
+import { UserBookingPage } from './pages/UserBookingPage/components/Header/Header';
+import { BookingPage } from './pages/UserBookingPage/components/BookingPage/BookingPage';
 
 function App() {
   return (
@@ -16,7 +17,11 @@ function App() {
     //     //     <LandingPage />
     //     //   </div>
     //     // </div>
-    <UserBookingPage />
+    <div>
+      <UserBookingPage />
+      <BookingPage />
+    </div>
+    
   );
 }
 
