@@ -88,6 +88,7 @@ const schema = new mongoose.Schema({
             reservations: [Number]
         }],
     },
+    latestAutoUpdate: Date,
     isDiscard: {
         type: Boolean,
         default: false

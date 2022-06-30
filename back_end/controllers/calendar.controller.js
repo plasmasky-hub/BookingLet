@@ -35,13 +35,13 @@ async function deleteStoreBusinessTimeById(req, res) {
     let { dayOfWeek, openHour, closingHour } = req.body;
     const store = await Store.findById(id).exec();
 
-    openHour = parseInt(openHour);         
+    openHour = parseInt(openHour);
     closingHour = parseInt(closingHour);
 
-    for (let i = openHour; i < closingHour; i += 5) {   
-        if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) > -1) {  
+    for (let i = openHour; i < closingHour; i += 5) {
+        if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) > -1) {
             let j = store.businessHours[dayOfWeek].length;
-            while(j--) {
+            while (j--) {
                 if (store.businessHours[dayOfWeek][j] === i) {
                     store.businessHours[dayOfWeek].splice(j, 1)
                 }
@@ -49,7 +49,7 @@ async function deleteStoreBusinessTimeById(req, res) {
         };
     };
     await store.save();
-    if(req.body.openHourBefore === undefined) {res.json(store)};
+    if (req.body.openHourBefore === undefined) { res.json(store) };
 }
 
 
@@ -64,13 +64,26 @@ async function updateStoreBusinessTimeById(req, res) {
 
 
 async function SyncStoreCalendarToService(req, res) {
-    //取store的calender
-    //加工每一项
-    //注入serviceInfo的calendar
     const { storeId, serviceInfoId } = req.params;
     const store = await Store.findById(storeId).exec();
-    //检测serviceInfoId是否隶属storeId
-    res.json(store.businessHours.Tuesday)
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };
+
+    Object.keys(serviceInfo.businessHours).forEach((key) => {   //验证serviceInfo.businessHours是否全为空，如果不为空无法同步并报错。
+        if (serviceInfo.businessHours[key].length > 0) {
+            res.json({ Error: 'Could not sync because serviceInfo.businessHours is not null!' })
+        }
+    })
+
+    Object.keys(store.businessHours).forEach((key) => {   //将改装后的store.businessHours数组注入serviceInfo.BusinessHours
+        let serviceInfoBusinessHours = store.businessHours[key].map((element) => {
+            return { differentialTime: element, reservations: new Array(13).fill(0) }
+        });
+        serviceInfo.businessHours[key].push(...serviceInfoBusinessHours);
+    })
+    serviceInfo.save();
+
+    res.json(serviceInfo);
 }
 
 
