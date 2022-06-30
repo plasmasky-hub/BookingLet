@@ -58,6 +58,36 @@ const schema = new mongoose.Schema({
         dayOfWeek: String,
         openHours: [String]
     }],
+    businessHours: {
+        Monday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+        Tuesday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+        Wednesday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+        Thursday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+        Friday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+        Saturday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+        Sunday: [{
+            differentialTime: Number,
+            reservations: [Number]
+        }],
+    },
     isDiscard: {
         type: Boolean,
         default: false
