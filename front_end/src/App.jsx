@@ -7,15 +7,6 @@ import StoreListPage from "./pages/StoreListPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
-    // <StoreListPage />
-    // <BookingPage />
-    // <LandingPage />
-    //     // <div>
-    //     //   <div>
-    //     //     <LandingPage />
-    //     //   </div>
-    //     // </div>
-
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />}></Route>
