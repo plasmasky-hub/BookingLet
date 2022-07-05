@@ -3,6 +3,7 @@ import { Card } from '@mui/material';
 import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
+import food from '../../../../assets/food.jpg';
 
 const CardWrapper = styled(Card)`
   width: 258px;
@@ -24,7 +25,7 @@ const ImgWrapper = styled.div`
 
   span {
     font-size: 11px;
-    padding: 5px 14px;
+    padding: 5px 14px 3px 14px;
     background-color: #7b8b6f;
     border-radius: 50px;
     color: #fff;
@@ -67,23 +68,27 @@ const CardButton = styled(Button)`
   font-size: 14px;
 `;
 
-const StoreCard = ({
-  data: { image, avl, name, address, svList, maxPpl, addPpl },
-}) => {
-  console.log(maxPpl, addPpl);
+const StoreCard = ({ store: { name, location, favoriteUsersSize } }) => {
+  const { state, city, postcode } = location;
+  const address = `${postcode} ${city} ${state}`;
 
   return (
     <CardWrapper>
       <ImgWrapper>
-        <img src={image} alt="food" />
+        {/* need data */}
+        <img src={food} alt="food" />
+        {/* need user data and function */}
         <AddIcon />
-        <span style={{ display: `${avl}` }}>AVAILABLE TODAY</span>
+        {/* need data */}
+        <span style={{ display: true }}>AVAILABLE TODAY</span>
       </ImgWrapper>
       <StoreName>{name}</StoreName>
       <Address>{address}</Address>
-      <Label style={{ display: `${svList}` }}>Service list available</Label>
-      <Label>Max {maxPpl} ppl.</Label>
-      <AddPpl>{addPpl} people add to booklet</AddPpl>
+      {/* need data */}
+      <Label style={{ display: true }}>Service list available</Label>
+      {/* need data */}
+      <Label>Max 8 ppl.</Label>
+      <AddPpl>{favoriteUsersSize} people add to booklet</AddPpl>
       <CardButton variant="text" href="#">
         Book Now
       </CardButton>

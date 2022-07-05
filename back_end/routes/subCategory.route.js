@@ -4,7 +4,7 @@ const {
     addSubCategory,
     discardSubCategoryById,
     updateSubCategoryById,
-} = require('../controllers/subCategory.controller');
+} = require('../controllers/category.controller');
 
 const subCategoryRouter = express.Router();
 

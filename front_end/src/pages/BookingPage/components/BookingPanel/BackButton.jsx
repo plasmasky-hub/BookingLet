@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 
 const StyledButton = styled(Button)`
   background-color: #d76d6d;
+  color: #fff;
   font-size: 11px;
   border-radius: 10px;
   font-weight: 600;

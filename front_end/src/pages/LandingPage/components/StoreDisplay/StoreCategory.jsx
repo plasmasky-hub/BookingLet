@@ -35,10 +35,8 @@ const CardsWrapper = styled.div`
 `;
 
 const StoreCategory = ({ category, cardData }) => {
-  const renderedCard = cardData.map((data) => {
-    return <StoreCard data={data} />;
-  });
-
+  const { data, isLoading, isSuccess, isError, error } = cardData;
+  const stores = data;
   return (
     <Container>
       <Header>
@@ -47,7 +45,17 @@ const StoreCategory = ({ category, cardData }) => {
           view all <ArrowForwardIcon fontSize="small" />
         </ViewButton>
       </Header>
-      <CardsWrapper>{renderedCard}</CardsWrapper>
+      <CardsWrapper>
+        {isError && <p>{error}</p>}
+        {isLoading && <p>Loading...</p>}
+        {isSuccess && (
+          <>
+            {stores.slice(0, 4).map((store) => {
+              return <StoreCard id={store.id} key={store.id} store={store} />;
+            })}
+          </>
+        )}
+      </CardsWrapper>
     </Container>
   );
 };

@@ -4,10 +4,11 @@ import Banner from './components/Banner';
 import StoreIntro from './components/StoreInfo';
 import BookingPanel from './components/BookingPanel/BookingPanel';
 import Layout from '../../components/shared/Layout';
+import { Header } from '../../components/shared/Header/Header';
 
 const PageContainer = styled.div`
   width: 1233px;
-  margin: 30px auto;
+  margin: 100px auto;
   box-sizing: border-box;
 `;
 
@@ -22,7 +23,7 @@ const StoreInfoWrapper = styled.div`
 const BookingPage = () => {
   return (
     <Layout>
-      header
+      <Header />
       <PageContainer>
         <Banner />
         <StoreInfoWrapper>

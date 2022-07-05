@@ -17,7 +17,7 @@ const Step1 = ({ FormData, setFormData, FakeData }) => {
             setFormData({ ...FormData, date: newValue });
           }}
           renderInput={(params) => (
-            <StyledTextField {...params} variant="standard" P1 />
+            <StyledTextField {...params} variant="standard" p1 />
           )}
         />
       </LocalizationProvider>
@@ -30,7 +30,7 @@ const Step1 = ({ FormData, setFormData, FakeData }) => {
           setFormData({ ...FormData, people: event.target.value });
         }}
         variant="standard"
-        P1
+        p1
       >
         {FakeData.PeopleOptions.map((option) => (
           <MenuItem key={option} value={option} className="menuItem">
@@ -47,7 +47,7 @@ const Step1 = ({ FormData, setFormData, FakeData }) => {
           setFormData({ ...FormData, service: event.target.value });
         }}
         variant="standard"
-        P1
+        p1
       >
         {FakeData.ServiceOptions.map((option) => (
           <MenuItem key={option} value={option} className="menuItem">

@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 
 const StyledTextField = styled(TextField)`
   width: 100%;
-  margin: ${(props) => (props.P1 ? '10px 0' : '')};
+  margin: ${(props) => (props.p1 ? '10px 0' : '')};
   & label {
     font-size: 19px;
     color: #323232;

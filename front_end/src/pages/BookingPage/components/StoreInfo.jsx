@@ -54,6 +54,7 @@ const StoreImg = styled.div`
 const BookingButton = styled(Button)`
   font-size: 11px;
   background-color: #7b8b6f;
+  color: #fff;
   border-radius: 10px;
   position: absolute;
   left: 50%;

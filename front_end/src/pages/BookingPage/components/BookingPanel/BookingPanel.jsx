@@ -17,7 +17,7 @@ const Wrapper = styled(Paper)`
   width: 392px;
   text-align: center;
   box-sizing: border-box;
-  padding: 20px 40px 25px 40px;
+  padding: 25px 40px 25px 40px;
   h2 {
     font-size: 20px;
   }
