@@ -5,22 +5,38 @@ We plan to create an online booking website for massage/nail stores. The main fe
 Group members:
 -----
 Developer:
+
 Xiang Ji (Team leader)
+
 Jet Zhang
+
 Derek Zhu
+
 Xiaoman Li
+
 XR LIU
+
 Longcan
+
 Yvonne
+
 Lin
 
+
 Devops:
+
 YiFan Yang
+
 Sonia Ni
+
 Xinglin Chen
+
 Xiaoyu Fan
+
 Andy
+
 Christina Chen
+
 
 Features
 ----------
