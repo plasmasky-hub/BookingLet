@@ -10,12 +10,14 @@ const {
 	login,
 	//addStoreToUser,
 } = require('../controllers/user.controller');
+const authGuard = require('../middleware/authGuard');
+const roleGuard = require('../middleware/roleGuard');
 
 const userRouter = express.Router();
 
 userRouter.post('/register', register);
 userRouter.get('/login', login);
-userRouter.get('', getAllUsers);
+userRouter.get('', authGuard, roleGuard, getAllUsers);
 userRouter.post('', addUser);
 userRouter.get('/:id', getUserByID);
 userRouter.put('/:id', updateUserByID);

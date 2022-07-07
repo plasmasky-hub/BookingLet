@@ -6,6 +6,7 @@ const storeRouter = require('./store.route');
 const rootCategoryRouter = require('./rootCategory.route');
 const subCategoryRouter = require('./subCategory.route');
 const checkOrderAvailabilityRouter =require('./checkOrderAvailability.route');
+const authGuard = require('../middleware/authGuard');
 
 const mainRouter = express.Router();
 

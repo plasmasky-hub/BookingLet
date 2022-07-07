@@ -218,7 +218,7 @@ async function register(req, res) {
 
 	await newUser.hashPassword();
 	await newUser.save();
-	const token = await generateToken({name});
+	const token = await generateToken({name: name, role: newUser.role});
 
 	return res.status(200).json({user: newUser, token: token});
 
@@ -240,7 +240,7 @@ async function login(req, res) {
 
 	// const userId = currentUser._id;
 
-	const token = await generateToken({name});
+	const token = await generateToken({name: name, role: currentUser.role});
 
 	return res.status(200).json({user: currentUser, token: token});
 }
