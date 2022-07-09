@@ -2,10 +2,9 @@
 import React from 'react';
 // import StoreListPage from './pages/StoreListPage';
 // import BookingPage from './pages/BookingPage';
-import LandingPage from './pages/LandingPage';
-import StoreListPage from './pages/StoreListPage';
-import { UserBookingPage } from './pages/UserBookingPage/components/Header/Header';
-import { BookingPage } from './pages/UserBookingPage/components/BookingPage/BookingPage';
+// import LandingPage from './pages/LandingPage';
+// import StoreListPage from './pages/StoreListPage';
+import { UserBookingPage } from './pages/UserBookingPage/UserBookingPage';
 
 function App() {
   return (
@@ -15,13 +14,11 @@ function App() {
     //     // <div>
     //     //   <div>
     //     //     <LandingPage />
+    <UserBookingPage />
     //     //   </div>
     //     // </div>
-    <div>
-      <UserBookingPage />
-      <BookingPage />
-    </div>
-    
+
+
   );
 }
 

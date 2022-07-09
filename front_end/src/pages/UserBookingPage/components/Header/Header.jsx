@@ -1,6 +1,6 @@
 import UserBookingPageHeader from '../../../../assets/UserBookingPageHeader.png';
 import styled from '@emotion/styled';
-import { Avatar, Button, Box, Grid } from '@mui/material';
+import { Avatar, Box, Grid } from '@mui/material';
 import { UserInfo } from '../../../../components/shared/Header/UserPanel';
 
 const UserBookingPageWrapper = styled(Box)({
@@ -63,23 +63,24 @@ const UploadButton = styled('Button')({
     padding: '5px 20px',
     borderRadius: '5px',
     border: '1px solid #A4A4A4',
+    cursor: 'pointer',
 });
 
-export const UserBookingPage = () => {
+export const UserBookingHeader = () => {
     return (
         <UserBookingPageWrapper>
             <UserPageHeader>
                 <ProfileWrapper>
                     <StyledAvatar />
-                        <UserInfoBox>
-                            <h3 style={{paddingBottpm: '10px'}}>{UserInfo.name}</h3>
-                            <UserInfoContent>
+                    <UserInfoBox>
+                        <h3 style={{ paddingBottpm: '10px' }}>{UserInfo.name}</h3>
+                        <UserInfoContent>
                             <span><strong>{UserDataArr[0]}</strong>: {UserData.mobile}</span>
                             <span><strong>{UserDataArr[1]}</strong>: {UserData.email}</span>
                             <span><strong>{UserDataArr[2]}</strong>: {UserData.location}</span>
-                            </UserInfoContent>
-                            <UploadButton variant="outlined" component="span">Upload My Profile</UploadButton>
-                        </UserInfoBox>
+                        </UserInfoContent>
+                        <UploadButton variant="outlined" component="span">Upload My Profile</UploadButton>
+                    </UserInfoBox>
                 </ProfileWrapper>
             </UserPageHeader>
         </UserBookingPageWrapper>
