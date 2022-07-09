@@ -38,7 +38,7 @@ const StoreName = styled.div`
 
 const ContainerAll = styled.div`
   padding-top: 50px;
-  margin-left: 95px;
+  margin-left: 90px;
 `;
 
 const ContainerSmallText = styled.div`
