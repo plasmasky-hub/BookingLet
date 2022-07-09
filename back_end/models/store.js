@@ -37,6 +37,15 @@ const schema = new mongoose.Schema({
         ref: 'RootCategory',
         required: true
     }],
+    businessHours: {
+        Monday: [Number],
+        Tuesday: [Number],
+        Wednesday: [Number],
+        Thursday: [Number],
+        Friday: [Number],
+        Saturday: [Number],
+        Sunday: [Number]
+    },
     serviceInfos: [{
         type: mongoose.Types.ObjectId,
         ref: 'ServiceInfo'

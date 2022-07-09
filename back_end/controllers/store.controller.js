@@ -543,4 +543,5 @@ module.exports = {
     updateStoreById,
     discardStoreById,
     getDiscardedStores
+
 }
