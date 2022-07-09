@@ -62,6 +62,7 @@ export const BookingTable = () => {
                     <h4>{TableHead.status}</h4>
                     <Typography
                         varient='p'
+                        sx={{ color: '#CEA02C' }}
                     >
                         {TableFoot.status}
                     </Typography>
