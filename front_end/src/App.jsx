@@ -5,6 +5,8 @@ import React from "react";
 import LandingPage from "./pages/LandingPage";
 import StoreListPage from "./pages/StoreListPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import StoreInfPage from "./pages/LandingPage/components/Store_Information";
+
 function App() {
   return (
     <BrowserRouter>
@@ -12,6 +14,7 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/LandingPage" element={<LandingPage />}></Route>
         <Route path="/StoreListPage" element={<StoreListPage />}></Route>
+        <Route path="/StoreInfPage" element={<StoreInfPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
