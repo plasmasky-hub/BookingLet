@@ -1,7 +1,6 @@
 import React from 'react';
 import StoreCategory from './StoreCategory';
-import food from '../../../../assets/food.jpg';
-import { useGetStoresQuery } from '../../../../api/apiSlice';
+import { useGetStoresQuery } from '../../../../store/api/apiSlice';
 
 const StoreDisplay = () => {
   const cardData = useGetStoresQuery();
