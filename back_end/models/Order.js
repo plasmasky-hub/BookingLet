@@ -9,7 +9,8 @@ const Schema = new mongoose.Schema({
     },
     orderTime: { 
         date:{type:Date, required:true}, 
-        time:{type:String, required:true}
+        startTime:{type:String, required:true},
+        endTime:{type:String, required:true}
     },
     bookingStatus: {
         type : Boolean,
@@ -24,8 +25,8 @@ const Schema = new mongoose.Schema({
         required:true  
     },
     storeId:{
-        type : mongoose.Types.ObjectId,
-        required:true  
+        type : mongoose.Types.ObjectId, //可删
+        // required:true  
     },
     serviceInfoId:{
         type : mongoose.Types.ObjectId,
