@@ -400,6 +400,37 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
     decision.message = 'Booking successful!';
 }
 
+async function bookingWithdraw(serviceInfoId, orderTime) {
+    // { serviceInfoId, orderTime } = order;
+    let weekMonday = getWeekMonday(orderTime.date);
+    let dayOfWeek = getDayOfWeek(orderTime.date);
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
+    const bookingRecord = bookingRecordArr[0];
+
+    let startHour = parseInt(orderTime.startTime);
+    let endHour = parseInt(orderTime.endTime);
+    let timeSliceArr = [];
+    for (let i = startHour; i < endHour; i += 5) {
+        if (i % 100 < 60) { timeSliceArr.push(i); };
+    }
+
+    if (bookingRecordArr.length === 1) {
+        bookingRecord.serviceHours[dayOfWeek] = bookingRecord.serviceHours[dayOfWeek].map((element) => {
+            let newElement = {};
+            (timeSliceArr.indexOf(element.timeSlice) === -1) ? (
+                newElement = { ...element }
+            ) : (
+                newElement.timeSlice = element.timeSlice,
+                newElement.reservation = (element.reservation > 0) ? (element.reservation - 1) : element.reservation,
+                newElement.availability = (newElement.reservation < serviceInfo.maxServicePerSection) ? true : false 
+            );
+            return newElement;
+        });
+        await bookingRecord.save();
+    }
+}
+
 
 
 //营业时间锁：
@@ -436,6 +467,7 @@ module.exports = {
     deleteServiceInfoCalendarById,
     updateServiceInfoCalendarById,
     checkTimeIntervalAndBook,
+    bookingWithdraw,
 
 
     getAllRecords,

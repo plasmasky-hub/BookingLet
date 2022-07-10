@@ -3,7 +3,7 @@ const Order = require('../models/order');
 const User = require('../models/user');
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo')
-const { checkTimeIntervalAndBook } = require('./calendar.controller');
+const { checkTimeIntervalAndBook, bookingWithdraw } = require('./calendar.controller');
 const { any } = require('joi');
 
 //create order
@@ -22,7 +22,7 @@ async function addOrder(req, res) {
     if (i % 100 < 60) { timeSliceArr.push(i); };
   }
 
-  const orderArr = await Order.find({ "orderTime.date": orderTime.date, "serviceInfoId": serviceInfoId, "userId": userId }).exec();
+  const orderArr = await Order.find({ "orderTime.date": orderTime.date, "serviceInfoId": serviceInfoId, "userId": userId, cancelStatus: false }).exec();
   let permission = true;
 
   for (let i = 0; i < orderArr.length; i++) {
@@ -100,19 +100,21 @@ async function confirmOrder(req, res) {
 }
 //Cancel Order  fake delete
 async function cancelOrder(req, res) {
-  console.log('Cancel Order');
   const { id } = req.params;
-  const { cancelStatus } = req.body;
   const order = await Order.findByIdAndUpdate(
     id, { $set: { cancelStatus: true } }, { new: true }
   ).exec();
 
+  const { serviceInfoId, orderTime } = order;
+
   if (!order) {
     return res.status(400).json({ error: 'Order not found' });
+  } else {
+    await bookingWithdraw(serviceInfoId, orderTime);
   }
 
   await order.save();
-  return res.status(204).json(order);
+  res.send(order)
 
 }
 //delete 
