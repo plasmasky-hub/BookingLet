@@ -265,11 +265,9 @@ async function checkTimeIntervalAndBook(req, res) {
     *
     * * [bookingDate所在周]的周一日期。type为Date，由getWeekMonday(bookingDate)获得。
     */
-    const { id } = req.params;
-    let { date, startHour, endHour } = req.body;
+    let { date, startHour, endHour, serviceInfoId } = req.body;
     let bookingDate = new Date(date);
     let weekMonday = getWeekMonday(bookingDate);  //output: "2022-07-11T00:00:00.000Z"
-    let serviceInfoId = id;
 
     startHour = parseInt(startHour);
     endHour = parseInt(endHour);
@@ -278,13 +276,15 @@ async function checkTimeIntervalAndBook(req, res) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
     }
 
-    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: weekMonday }).exec();
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
 
     if (bookingRecordArr.length === 0) { bookingResult = await createBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceArr); };
     if (bookingRecordArr.length === 1) { bookingResult = await checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceArr); };
     if (bookingRecordArr.length > 1) { bookingResult = { Error: 'Database error!' } };
 
-    res.json(bookingResult)
+    res.json(bookingResult);
+    return bookingResult;
+
 }
 
 
@@ -364,8 +364,8 @@ function getWeekMonday(bookingDate) { //此处有问题，时间有时不准。�
         case 5: dayGap = 1000 * 60 * 60 * 24 * 4; break;
         case 6: dayGap = 1000 * 60 * 60 * 24 * 5; break;
     }
-    let timeZoneCorrection = 10 * 60 * 60 * 1000;
-    return new Date(bookingDate - dayGap + timeZoneCorrection);
+    //let timeZoneCorrection = 10 * 60 * 60 * 1000;
+    return new Date(bookingDate - dayGap);
 }
 
 
@@ -436,11 +436,6 @@ module.exports = {
     deleteServiceInfoCalendarById,
     updateServiceInfoCalendarById,
     checkTimeIntervalAndBook,
-    createBookingRecordAndBook,
-    checkBookingRecordAndBook,
-    getWeekMonday,
-    getDayOfWeek,
-    bookWithPermission,
 
 
     getAllRecords,
