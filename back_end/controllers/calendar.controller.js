@@ -436,6 +436,12 @@ module.exports = {
     deleteServiceInfoCalendarById,
     updateServiceInfoCalendarById,
     checkTimeIntervalAndBook,
+    createBookingRecordAndBook,
+    checkBookingRecordAndBook,
+    getWeekMonday,
+    getDayOfWeek,
+    bookWithPermission,
+
 
     getAllRecords,
     deleteAllRecords
