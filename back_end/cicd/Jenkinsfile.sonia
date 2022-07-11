@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Authentication token for ecr'){
             steps {
-                dir('../../back_end/'){
+                dir('./back_end/'){
                     sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
                 }
             }
@@ -21,7 +21,7 @@ pipeline {
 
         stage('Building image') {
             steps {
-                dir('../../back_end/'){
+                dir('./back_end/'){
                     sh 'docker build -t ${IMAGE_REPO_NAME} .'
                 }             
             }
