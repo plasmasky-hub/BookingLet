@@ -1,8 +1,9 @@
-import React from 'react';
-import StoreCard from './StoreCard';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import styled from '@emotion/styled';
-import Button from '@mui/material/Button';
+import React from "react";
+import StoreCard from "./StoreCard";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import styled from "@emotion/styled";
+import Button from "@mui/material/Button";
+import { BrowserRouter as Router, Link, withRouter } from "react-router-dom";
 
 const Container = styled.div`
   width: 1065px;
@@ -42,7 +43,7 @@ const StoreCategory = ({ category, cardData }) => {
       <Header>
         <h2>{category}</h2>
         <ViewButton href="#">
-          view all <ArrowForwardIcon fontSize="small" />
+          <Link to="StoreListPage">view all</Link><ArrowForwardIcon fontSize="small" />
         </ViewButton>
       </Header>
       <CardsWrapper>
