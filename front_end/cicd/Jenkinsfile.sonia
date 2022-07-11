@@ -1,0 +1,66 @@
+pipeline {
+    agent {
+        docker {
+            image 'node:14.14.0'
+            args '-u root:root'
+        }
+    }
+
+    environment {
+        S3_REGION = 'ap-southeast-2'
+        BUCKET_NAME = 'nini-dev.click'
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/Bookinglet/front_end/build' 
+        CI = false
+    }
+
+    stages {
+        stage('--- Install AWS CLI ---'){
+            steps {
+                sh 'apt-get update'
+                sh 'apt install python3-pip -y'
+                sh 'pip3 install awscli --upgrade'
+            }
+        }
+
+        stage('npm install') {
+            steps { 
+                dir("../../front_end/") {
+                    sh 'npm install'
+                } 
+            }
+        }
+
+        stage('npm build') {
+            steps {
+                dir("../../front_end/") {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Copy Build folder to s3 bucket') {
+            steps {
+                withAWS(credentials: 'demo-admin-user', region: 'ap-southeast-2'){
+                    sh 'aws s3 cp ${WORKSPACE_PATH} s3://${BUCKET_NAME}/ --recursive'
+                }    
+            }
+        } 
+
+        
+    }
+
+        post {
+        always {
+            cleanWs()
+        }
+
+        success {
+            emailext body: 'Frontend deploy success', subject: 'Frontend success', to: 'yean1108@gmail.com'
+        }
+
+        failure {
+            emailext body: 'Frontend deploy failed', subject: 'Frontend failed', to: 'yean1108@gmail.com', attachLog: true
+        }
+         
+    }
+}
