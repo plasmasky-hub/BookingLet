@@ -51,7 +51,7 @@ const StoreCategory = ({ category, cardData }) => {
         {isSuccess && (
           <>
             {stores.slice(0, 4).map((store) => {
-              return <StoreCard id={store.id} key={store.id} store={store} />;
+              return <StoreCard id={store.id} key={store._id} store={store} />;
             })}
           </>
         )}
