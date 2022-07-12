@@ -220,7 +220,7 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', resultQuantity = 999 } = req.body;
+    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', opening = false, resultQuantity = 999 } = req.body;
 
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
@@ -232,6 +232,7 @@ async function getAllStores(req, res) {
         optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] };
         startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] };
     }
+    if (opening) { optionalMatchQuery["serviceInfoDetails"] = { $ne: [] }; }
 
     await Store.aggregate([
         {
@@ -285,7 +286,6 @@ async function getAllStores(req, res) {
                 $and:
                     [
                         { isDiscard: false },
-                        { "serviceInfoDetails": { $ne: [] } },
                         optionalMatchQuery,
                     ],
                 $or: [
@@ -300,6 +300,7 @@ async function getAllStores(req, res) {
         {
             $limit: resultQuantity
         }
+
     ]).then((result) => {
         const today = new Date();
         const dayOfWeekToday = getDayOfWeek(today);
@@ -308,35 +309,29 @@ async function getAllStores(req, res) {
             result = result.filter((element) => {
                 let matched = false;
                 for (let i = 0; i < element.rootCategoryDetails.length; i++) {
-                    if ({ ...element.rootCategoryDetails[0] }._id == category) { matched = true; }
+                    if ({ ...element.rootCategoryDetails[i] }._id == category) { matched = true; }
                 }
                 return matched;
             })
         }
 
+        if (opening) {
+            result.map((element) => {
+                let maxPersonPerSectionArr = [];
+                element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
+                element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
 
-        result.map((element) => {
-            let maxPersonPerSectionArr = [];
-            element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
-            element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
-
-            if (element.businessHours) {
-                element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
-            } else { element.isAvailableToday = false; }
-        })
+                if (element.businessHours !== undefined) {
+                    element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
+                } else { element.isAvailableToday = false; }
+            })
+        }
 
         res.json(result)
     }).catch((error) => {
         res.json(error)
     })
 }
-
-/*
-async function getAllStores(req, res) {
-    const stores = await Store.find().exec();
-    res.json(stores);
-}
-*/
 
 
 /** 
