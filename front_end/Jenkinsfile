@@ -8,7 +8,7 @@ pipeline {
     
     environment {
         ENVIRONMENT = 'uat'
-        S3_CREDENTIAL = 'AWS credential-frontend'
+//         S3_CREDENTIAL = 'AWS credential-frontend'
         S3_REGION = 'ap-southeast-2'
         BUCKET_NAME = 'bookinglet'
         WORKSPACE_PATH = '/var/lib/jenkins/workspace/bookinglet-frontend/front_end/build' 
@@ -47,7 +47,7 @@ pipeline {
         stage('Deploy to UAT') {
               steps {
                   echo 'Deploying to ' + environment + ' ...'
-                  withAWS(region: 'S3_REGION', credentials: 'S3_CREDENTIAL') {
+                  withAWS(credentials: 'AWS credential-frontend', region: 'ap-southeast-2') {
 //                     sh 'aws s3 rm "${BUCKET_NAME}" --recursive'
                     sh 'aws s3 cp ${WORKSPACE_PATH} s3://${BUCKET_NAME} --recursive'
                   }
