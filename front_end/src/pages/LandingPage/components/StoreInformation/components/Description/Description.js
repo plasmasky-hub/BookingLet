@@ -6,10 +6,6 @@ import styled from "styled-components";
 export default function Description() {
   const [value, setValue] = React.useState("Controlled");
 
-  // const handleChange = (event) => {
-  //   setValue(event.target.value);
-  // };
-
   const DescriptionField = styled(TextField)`
     width: 397px;
     height: 152px;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import InputAdornment from '@mui/material/InputAdornment';
 import { ModeEditOutline } from "@mui/icons-material";
 
-const Wrapper = styled.div`
+const WrapperSmallText = styled.div`
   width: 400px;
   height: 60px;
 `;
@@ -30,7 +30,7 @@ const Text = styled(TextField)`
 `;
 
 const StoreSmallText = () => (
-  <Wrapper>
+  <WrapperSmallText>
     <StoreName>City</StoreName>
     <Text
       hiddenLabel
@@ -46,7 +46,7 @@ const StoreSmallText = () => (
         disableUnderline:true
       }}
     />
-  </Wrapper>
+  </WrapperSmallText>
 );
 
 export default StoreSmallText;

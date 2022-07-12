@@ -5,7 +5,7 @@ import React from "react";
 import LandingPage from "./pages/LandingPage";
 import StoreListPage from "./pages/StoreListPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import StoreInfPage from "./pages/LandingPage/components/Store_Information";
+import StoreInfPage from "./pages/LandingPage/components/StoreInformation";
 
 function App() {
   return (

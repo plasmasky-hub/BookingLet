@@ -9,7 +9,7 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 
-const Wrapper = styled.div`
+const WrapperStoreInf = styled.div`
   width: 1233px;
   height: 1204px;
   background-color: #fbfbfb;
@@ -134,7 +134,7 @@ const CheckboxContainer = styled(Button)`
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const StoreInfPage = () => (
-  <Wrapper>
+  <WrapperStoreInf>
     <ContainerAll>
       <Title>Store Information</Title>
       <PhotoContainer>
@@ -178,7 +178,7 @@ const StoreInfPage = () => (
         <StoreInfButton2 variant="contained">Save</StoreInfButton2>
       </ButtonContainer>
     </ContainerAll>
-  </Wrapper>
+  </WrapperStoreInf>
 );
 
 export default StoreInfPage;

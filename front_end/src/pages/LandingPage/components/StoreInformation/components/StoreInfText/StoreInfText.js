@@ -26,7 +26,6 @@ const Text = styled(TextField)`
 
 const StoreInfText = () => (
   <Fragment>
-    {/* <StoreName>Store Name</StoreName> */}
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
