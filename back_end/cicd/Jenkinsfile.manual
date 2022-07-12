@@ -42,7 +42,7 @@ pipeline {
          stage('Building back_end image'){
              steps {
                  dir("./back_end/"){
-                     sh 'docker build -t bookinglet-docker-test .'
+                     sh 'docker build -t demo .'
                  }
              }
          }
@@ -51,8 +51,8 @@ pipeline {
          stage('Pushing to ECR'){
              steps{
                  dir("./back_end/"){   
-                     sh 'docker tag bookinglet-docker-test:latest 988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-docker-test:latest'
-                     sh 'docker push 988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-docker-test:latest'
+                     sh 'docker tag demo:latest 988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
+                     sh 'docker push 988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
                  }
              }
          }   
