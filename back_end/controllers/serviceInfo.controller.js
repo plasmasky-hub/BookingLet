@@ -230,8 +230,8 @@ async function getAllInfos(req, res) {
     let searchQuery = { isDiscard: false };
     if (storeId !== undefined) { searchQuery.store = storeId };
 
-    const Infos = await ServiceInfo.find(searchQuery).exec();
-    res.json(Infos);
+    const infos = await ServiceInfo.find(searchQuery).exec();
+    res.json(infos);
 }
 
 
