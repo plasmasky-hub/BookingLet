@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCOUNT_ID="770523761001"
+        AWS_DEFAULT_REGION="ap-southeast-2" 
+	CLUSTER_NAME="bookinglet-backend"
+	SERVICE_NAME="bookinglet-backend-containers-service"
+	TASK_DEFINITION_NAME="first-run-task-definition"
+	DESIRED_COUNT="1"
+        IMAGE_REPO_NAME="770523761001.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-backend"
+        IMAGE_TAG="${env.BUILD_ID}"
+        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+	registryCredential = "bookinglet-backendadmin"
+    }
+   
+    stages {
+
+    // Tests
+    stage('Unit Tests') {
+      steps{
+	dir("./back_end/"){
+        script {
+          sh 'npm install'
+	}	
+        }
+      }
+    }
+        
+    // Building Docker images
+    stage('Building image') {
+      steps{
+	dir("./back_end/"){
+        script {
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+	}	
+        }
+      }
+    }
+   
+    // Uploading Docker images into AWS ECR
+    stage('Pushing to ECR') {
+     steps{  
+         script {
+			docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
+                    	dockerImage.push()
+                	}
+         }
+        }
+      }
+      
+    stage('Deploy') {
+     steps{
+	    dir("./back_end/"){
+            withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
+                script {
+			sh 'chmod +x -R /var/lib/jenkins/workspace/bookinglet-backend/back_end/script.sh'
+			sh './script.sh'
+		}	
+                }
+            } 
+        }
+      }      
+      
+    }
+}
