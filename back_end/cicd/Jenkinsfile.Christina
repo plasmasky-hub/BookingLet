@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCOUNT_ID="544863999112"
+        AWS_DEFAULT_REGION="ap-southeast-2" 
+	    CLUSTER_NAME="default1"
+	    SERVICE_NAME="backend-container-service"
+	    TASK_DEFINITION_NAME="first-run-task-definition"
+	    DESIRED_COUNT="1"
+        IMAGE_REPO_NAME="demo"
+        IMAGE_TAG="latest"
+        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+	registryCredential = "christina"
+    }
+   
+    stages {
+        stage('npm install') {
+            steps{
+                dir('./back_end/') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Building image') {
+            steps{
+                dir('./back_end'){
+                    sh 'docker build -t demo .' }
+            }
+        }
+        stage('Pushing to ECR') {
+            steps{  
+                dir('./back_end'){
+                    withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
+                        sh 'aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com'
+                        sh 'docker tag demo:latest 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
+                        sh 'docker push 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest' }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps{
+                dir('./back_end'){
+                    withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
+                    sh './script.sh' }
+                } 
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            emailext attachLog: true, 
+            body: 'Successful back_end pipeline', 
+            mimeType: 'text/HTML', 
+            subject: ' Successful back_end pipeline', 
+            to: 'connie0972001@gmail.com',
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+        } 
+    }
+}
