@@ -23,7 +23,7 @@ export default function CategoryFilter() {
     margin-bottom: 10px;
   `;
 
-  const ContainerCategory = styled.div`
+  const CategoryContainer = styled.div`
     margin-left: -5px;
   `;
 
@@ -35,7 +35,7 @@ export default function CategoryFilter() {
   `;
 
   return (
-    <ContainerCategory>
+    <CategoryContainer>
       <FormControl
         variant="standard"
         sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:2, marginLeft:11.5 }}
@@ -54,6 +54,6 @@ export default function CategoryFilter() {
           <MenuItem value={10}>Dining</MenuItem>
         </SelectStoreInf>
       </FormControl>
-    </ContainerCategory>
+    </CategoryContainer>
   );
 }

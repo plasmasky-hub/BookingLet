@@ -15,12 +15,12 @@ export default function Description() {
     border: none;
   `;
 
-  const Container = styled.div`
+  const DescriptionContainer = styled.div`
     margin-left: 90px;
   `;
 
   return (
-    <Container>
+    <DescriptionContainer>
       <DescriptionField
         id="filled-multiline-static"
         multiline
@@ -34,6 +34,6 @@ export default function Description() {
           disableUnderline:true
         }}
       />
-    </Container>
+    </DescriptionContainer>
   );
 }

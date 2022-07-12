@@ -25,7 +25,7 @@ export default function StoreInfFilter() {
     margin-bottom: 5px;
   `;
 
-  const SelectStoreInf = styled(Select)`
+  const StoreInfFilter = styled(Select)`
     width: 108px;
     height: 56px;
     background: #d9d9d9;
@@ -40,7 +40,7 @@ export default function StoreInfFilter() {
         sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:-0.0001 }}
       >
         <StoreName>State</StoreName>
-        <SelectStoreInf
+        <StoreInfFilter
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
           value={age}
@@ -55,7 +55,7 @@ export default function StoreInfFilter() {
           <MenuItem value={30}>SA</MenuItem>
           <MenuItem value={40}>TAS</MenuItem>
           <MenuItem value={50}>WA</MenuItem>
-        </SelectStoreInf>
+        </StoreInfFilter>
       </FormControl>
     </div>
   );

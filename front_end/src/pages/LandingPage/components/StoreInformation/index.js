@@ -17,7 +17,7 @@ const StoreInfWrapper = styled.div`
   margin-top: 38px;
 `;
 
-const NameContainer = styled.div`
+const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -36,12 +36,12 @@ const StoreName = styled.div`
   line-height: 20px;
 `;
 
-const ContainerAll = styled.div`
+const WholeContainer = styled.div`
   padding-top: 50px;
   margin-left: 90px;
 `;
 
-const ContainerSmallText = styled.div`
+const SmallTextContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-left: 87px;
@@ -64,21 +64,12 @@ const Title = styled.div`
   color: #000000;
 `;
 
-const StoreInfButton1 = styled(Button)`
+const StoreInfButton = styled(Button)`
   width: 92px;
   height: 34px;
-  background-color: #d3ac72;
+  background-color: ${(props) => (props.left ? '#d3ac72' : '#397cc2')};
   &:hover {
-    background: #d3ac72;
-  }
-`;
-
-const StoreInfButton2 = styled(Button)`
-  width: 92px;
-  height: 34px;
-  background-color: #397cc2;
-  &:hover {
-    background: #397cc2;
+    background: ${(props) => (props.left ? '#d3ac72' : '#397cc2')};
   }
 `;
 
@@ -135,26 +126,26 @@ const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const StoreInfPage = () => (
   <StoreInfWrapper>
-    <ContainerAll>
+    <WholeContainer>
       <Title>Store Information</Title>
       <PhotoContainer>
         <StoreInfName>Photo</StoreInfName>
         <Photo />
       </PhotoContainer>
-      <ContainerName>
+      <TopContainer>
         <StoreName>Store Name</StoreName>
         <StoreText />
         <StoreName>Address Line 1</StoreName>
         <StoreText />
         <StoreName>Address Line 2 （Optional）</StoreName>
         <StoreText />
-      </ContainerName>
+      </TopContainer>
 
-      <ContainerSmallText>
+      <SmallTextContainer>
         <StoreSmallText />
         <StoreInfFilter />
         <StoreSmallText />
-      </ContainerSmallText>
+      </SmallTextContainer>
 
       <CategoryFilter />
 
@@ -169,15 +160,15 @@ const StoreInfPage = () => (
         & Conditions of Bookinglet
       </CheckboxContainer>
       <ButtonContainer>
-        <StoreInfButton1
+        <StoreInfButton left
           variant="contained"
         >
           Preview
-        </StoreInfButton1>
+        </StoreInfButton>
 
-        <StoreInfButton2 variant="contained">Save</StoreInfButton2>
+        <StoreInfButton variant="contained">Save</StoreInfButton>
       </ButtonContainer>
-    </ContainerAll>
+    </WholeContainer>
   </StoreInfWrapper>
 );
 
