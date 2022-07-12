@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    environment {
+        ENVIRONMENT = 'uat'
+        BUCKET_NAME = "www.shecan.link"
+        REGION      = "ap-southeast-2"
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/Frontend-Prod/front_end/build'
+
+    }
+    stages {
+        stage('npm install') {
+            steps{
+                dir('./front_end/') {
+                    sh 'npm install'
+                    sh 'node --version'
+                }
+            }
+        }
+        stage('npm build') {
+            steps{
+                dir('./front_end/') {
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('artifacts to s3') {
+            steps{
+                withCredentials([usernameColonPassword(credentialsId: 'github', variable: 'AWS')]) {
+    // some block
+                dir('./front_end/') {
+                //   sh 'aws s3 mb s3://${BUCKET_NAME} --region ${REGION}' 
+                  sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'  
+                //   sh 'aws s3api put-bucket-policy --bucket ${BUCKET_NAME} --policy file://policy.json'
+                //   sh 'aws s3 website s3://${BUCKET_NAME}/ --index-document index.html --error-document error.html'
+                  sh 'aws s3 sync ${WORKSPACE_PATH} s3://${BUCKET_NAME}'}
+                }
+            }
+        }
+    }
+    post {
+        // clean after build
+        always {
+            cleanWs()
+        }
+        success {
+            emailext attachLog: true, 
+            body: 'Successful front_end pipeline', 
+            mimeType: 'text/HTML', 
+            subject: ' Successful front_end pipeline', 
+            to: 'connie0972001@gmail.com',
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+        } 
+    }
+}
