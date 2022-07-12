@@ -5,9 +5,11 @@ const storeApi = apiSlice.injectEndpoints({
     getStores: builder.query({
       query: () => '/store',
     }),
+
     getStore: builder.query({
-      query: (id) => `/store/${id}`,
+      query: (_id) => `/store/${_id}`,
     }),
+
     addStore: builder.mutation({
       query: (store) => ({
         url: '/store',
@@ -15,6 +17,7 @@ const storeApi = apiSlice.injectEndpoints({
         body: store,
       }),
     }),
+
     updateStore: builder.mutation({
       query: (store) => ({
         url: `/todos/${store.id}`,
@@ -22,6 +25,7 @@ const storeApi = apiSlice.injectEndpoints({
         body: store,
       }),
     }),
+
     deleteStore: builder.mutation({
       query: (id) => ({
         url: `/store/${id}`,

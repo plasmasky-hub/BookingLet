@@ -6,7 +6,6 @@ import { MenuItem } from '@mui/material';
 import StyledTextField from './StyledTextField';
 
 const Step1 = ({ FormData, setFormData, FakeData }) => {
-  console.log(FormData);
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -17,7 +16,7 @@ const Step1 = ({ FormData, setFormData, FakeData }) => {
             setFormData({ ...FormData, date: newValue });
           }}
           renderInput={(params) => (
-            <StyledTextField {...params} variant="standard" p1 />
+            <StyledTextField {...params} variant="standard" p1="true" />
           )}
         />
       </LocalizationProvider>
@@ -30,7 +29,7 @@ const Step1 = ({ FormData, setFormData, FakeData }) => {
           setFormData({ ...FormData, people: event.target.value });
         }}
         variant="standard"
-        p1
+        p1="true"
       >
         {FakeData.PeopleOptions.map((option) => (
           <MenuItem key={option} value={option} className="menuItem">
@@ -47,7 +46,7 @@ const Step1 = ({ FormData, setFormData, FakeData }) => {
           setFormData({ ...FormData, service: event.target.value });
         }}
         variant="standard"
-        p1
+        p1="true"
       >
         {FakeData.ServiceOptions.map((option) => (
           <MenuItem key={option} value={option} className="menuItem">

@@ -1,9 +1,9 @@
-import React from "react";
-import StoreCard from "./StoreCard";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import styled from "@emotion/styled";
-import Button from "@mui/material/Button";
-import { BrowserRouter as Router, Link, withRouter } from "react-router-dom";
+import React from 'react';
+import StoreCard from './StoreCard';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import styled from '@emotion/styled';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 1065px;
@@ -38,12 +38,17 @@ const CardsWrapper = styled.div`
 const StoreCategory = ({ category, cardData }) => {
   const { data, isLoading, isSuccess, isError, error } = cardData;
   const stores = data;
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Header>
         <h2>{category}</h2>
-        <ViewButton href="#">
-          <Link to="StoreListPage">view all</Link><ArrowForwardIcon fontSize="small" />
+        <ViewButton
+          onClick={() => navigate('/StoreListPage', { state: { stores } })}
+        >
+          view all
+          <ArrowForwardIcon fontSize="small" />
         </ViewButton>
       </Header>
       <CardsWrapper>

@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "0960e98c-c1c8-4b1b-adae-582dabb327e4",
 		"name": "P3/BookingLet",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20606455"
 	},
 	"item": [
@@ -13,14 +13,25 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"peopleNumber\":5,\n\t\"orderTime\":\"2022-06-04 18:00\",\n\t\"userId\":\"62a412e28db50cb95ee178fe\",\n\t\"storeId\":\"1234456\",\n\t\"serviceInfoId\":\"123456\",\n\t\"optionInfo\":\"more spicy\"\n}",
+					"raw": "{\n\t\"peopleNumber\":3,\n    \"orderTime\":{\n        \"date\":\"2022-07-30\",\n        \"startTime\":\"1520\",\n        \"endTime\":\"1525\"\n    },\n\t\"userId\":\"62a58a92e2d52933d59e2ba2\",\n\t\"serviceInfoId\":\"62b411858b032e6e9ab2997e\",\n    \"tel\":\"0401234567\",\n\t\"optionInfo\":\"more spicy\"\n    \n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "localhost:8000/orders"
+				"url": {
+					"raw": "localhost:8000/v1/orders/",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"orders",
+						""
+					]
+				}
 			},
 			"response": []
 		},
@@ -29,25 +40,17 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "localhost:8000/orders"
-			},
-			"response": []
-		},
-		{
-			"name": "Create User",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\":\"Jet\",\n\t\"tel\":\"0400000\",\n\t\"email\":\"Jet123@hotmail.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "localhost:8000/user"
+				"url": {
+					"raw": "localhost:8000/v1/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"orders"
+					]
+				}
 			},
 			"response": []
 		},
@@ -65,7 +68,18 @@
 						}
 					}
 				},
-				"url": "localhost:8000/orders/62a413488db50cb95ee17900"
+				"url": {
+					"raw": "localhost:8000/v1/orders/62a413488db50cb95ee17900",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"orders",
+						"62a413488db50cb95ee17900"
+					]
+				}
 			},
 			"response": []
 		},
@@ -74,16 +88,17 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "localhost:8000/orders/62a1f322fdec3f2ceddf7aef"
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Order",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": "localhost:8000/orders/629c32857f838bf8747ee93c"
+				"url": {
+					"raw": "localhost:8000/v1orders/62a1f322fdec3f2ceddf7aef",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1orders",
+						"62a1f322fdec3f2ceddf7aef"
+					]
+				}
 			},
 			"response": []
 		},
@@ -92,16 +107,27 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
-				"url": "localhost:8000/orders/62a413488db50cb95ee17900/store"
+				"url": {
+					"raw": "localhost:8000/v1/orders/62a413488db50cb95ee17900/store",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"orders",
+						"62a413488db50cb95ee17900",
+						"store"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "Cancel order from User side",
+			"name": "cancel order",
 			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": "localhost:8000/orders/62a413488db50cb95ee17900/user"
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}

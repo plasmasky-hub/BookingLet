@@ -2,6 +2,8 @@ import { Card, CardContent, CardMedia, Button } from '@mui/material';
 import React from 'react';
 import styled from '@emotion/styled';
 import AddIcon from './AddIcon';
+import food from '../../../../assets/food.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)`
   display: flex;
@@ -38,18 +40,31 @@ const CardButton = styled(Button)`
   position: absolute;
   bottom: 0;
   right: 0;
+  color: white;
 `;
 
-const StoreCard = ({ item: { image, name, address, addPpl, desc, link } }) => {
+const StoreCard = ({
+  item: { _id, name, location, favoriteUsersSize, description },
+}) => {
+  const { state, city, postcode } = location;
+  const address = `${postcode} ${city} ${state}`;
+
+  const navigate = useNavigate();
+
   return (
     <StyledCard variant="outlined">
-      <Img component="img" image={image} alt="" />
+      {/* need data */}
+      <Img component="img" image={food} alt="" />
       <Content>
         <h4>{name}</h4>
-        <span>{`${address} | ${addPpl}`}</span>
-        <p>{desc}</p>
+        <span>{`${address} | ${favoriteUsersSize} people add to booklet`}</span>
+        <p>{description}</p>
         <AddIcon />
-        <CardButton variant="contained" href={link} size="small">
+        <CardButton
+          onClick={() => navigate(`/BookingPage/${_id}`)}
+          variant="contained"
+          size="small"
+        >
           Learn more
         </CardButton>
       </Content>

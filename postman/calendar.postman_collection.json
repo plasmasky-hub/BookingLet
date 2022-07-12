@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "f211971a-4da9-4a4c-be5b-f92dd4ab28a5",
+		"name": "calendar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20606313"
+	},
+	"item": [
+		{
+			"name": "getStoreBusinessTimeById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/calendar/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62ca950e7ce3cb7363616970"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addStoreBusinessTimeById",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dayOfWeek\": \"Tuesday\",\r\n    \"openHour\": \"600\",\r\n    \"closingHour\": \"650\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62ca950e7ce3cb7363616970"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteStoreBusinessTimeById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dayOfWeek\": \"Tuesday\",\r\n    \"openHour\": \"1600\",\r\n    \"closingHour\": \"1630\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62c406f94a6a6b7731d6e45a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateStoreBusinessTimeById",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dayOfWeek\": \"Tuesday\",\r\n    \"openHourBefore\": \"1500\",\r\n    \"closingHourBefore\": \"1730\",\r\n    \"openHourAfter\": \"800\",\r\n    \"closingHourAfter\": \"820\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62c406f94a6a6b7731d6e45a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SyncStoreCalendarToService",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/calendar/store/:storeId/serviceInfo/:serviceInfoId",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"store",
+						":storeId",
+						"serviceInfo",
+						":serviceInfoId"
+					],
+					"variable": [
+						{
+							"key": "storeId",
+							"value": "62ca950e7ce3cb7363616970"
+						},
+						{
+							"key": "serviceInfoId",
+							"value": "62ca955b7ce3cb7363616975"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getServiceInfoCalendarById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/calendar/serviceInfo/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"serviceInfo",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62ca955b7ce3cb7363616975"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addServiceInfoCalendarById",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dayOfWeek\": \"Sunday\",\r\n    \"openHour\": \"800\",\r\n    \"closingHour\": \"815\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/serviceInfo/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"serviceInfo",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62ca955b7ce3cb7363616975"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteServiceInfoCalendarById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dayOfWeek\": \"Sunday\",\r\n    \"openHour\": \"800\",\r\n    \"closingHour\": \"815\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/serviceInfo/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"serviceInfo",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62c407f24a6a6b7731d6e47e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateServiceInfoCalendarById",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dayOfWeek\": \"Tuesday\",\r\n    \"openHourBefore\": \"800\",\r\n    \"closingHourBefore\": \"1000\",\r\n    \"openHourAfter\": \"1900\",\r\n    \"closingHourAfter\": \"1920\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/serviceInfo/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"serviceInfo",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62c407f24a6a6b7731d6e47e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkTimeIntervalAndBook",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"date\": \"2022-7-12\",\r\n    \"startHour\": \"600\",\r\n    \"endHour\": \"630\",\r\n    \"serviceInfoId\": \"62ca955b7ce3cb7363616975\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/calendar/checkTimeIntervalAndBook",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"checkTimeIntervalAndBook"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

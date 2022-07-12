@@ -12,12 +12,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/rootCategory",
+					"raw": "localhost:8000/v1/rootCategory",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
+						"v1",
 						"rootCategory"
 					]
 				}
@@ -31,7 +32,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 rootC discard test 7\"\r\n}",
+					"raw": "{\r\n    \"name\": \"beauty\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,7 +60,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 rootC discard test 7kai\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Jun 13 rootC discard test 7kai1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -67,19 +68,20 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8000/rootCategory/:id",
+					"raw": "localhost:8000/v1/rootCategory/:id",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
+						"v1",
 						"rootCategory",
 						":id"
 					],
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a609db1450f92caefca090"
+							"value": "62a6ca039095c03945813d86"
 						}
 					]
 				}

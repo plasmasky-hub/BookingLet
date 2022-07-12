@@ -4,6 +4,7 @@ import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import food from '../../../../assets/food.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const CardWrapper = styled(Card)`
   width: 258px;
@@ -68,9 +69,10 @@ const CardButton = styled(Button)`
   font-size: 14px;
 `;
 
-const StoreCard = ({ store: { name, location, favoriteUsersSize } }) => {
+const StoreCard = ({ store: { _id, name, location, favoriteUsersSize } }) => {
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
+  const navigate = useNavigate();
 
   return (
     <CardWrapper>
@@ -89,7 +91,11 @@ const StoreCard = ({ store: { name, location, favoriteUsersSize } }) => {
       {/* need data */}
       <Label>Max 8 ppl.</Label>
       <AddPpl>{favoriteUsersSize} people add to booklet</AddPpl>
-      <CardButton variant="text" href="#">
+      <CardButton
+        onClick={() => navigate(`/BookingPage/${_id}`)}
+        variant="text"
+        href="#"
+      >
         Book Now
       </CardButton>
     </CardWrapper>

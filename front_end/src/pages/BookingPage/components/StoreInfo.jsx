@@ -6,14 +6,6 @@ import { Paper } from '@mui/material';
 import food from '../../../assets/food.jpg';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
-const data = {
-  image: food,
-  name: 'Lucky Sushi & Ramen Bar',
-  address: '35 Pitt Street, Sydney, New South Whales 2000',
-  intro:
-    'Named after the Japanese word for rainbow, Niji Sushi Bar presents a colourful, contemporary take on Japanese cuisine. Located in the heart of Kingsford, we offer a fresh, modern Japanese menu infused with traditional Izakaya-style dishes, perfect for sharing. Stop by and sample some of our sushi train favourites or take a seat at one of our indoor or outdoor tables and choose from the extensive a la carté menu. We are Fully Licensed and BYO Wine Only!Stop by and sample some of our sushi train favourites or take a seat at one of our indoor or outdoor tables and choose from the extensive a la carté menu. We are Fully Licensed and BYO Wine Only!',
-};
-
 const StoreInfoWrapper = styled(Paper)`
   width: 714px;
   padding: 20px 60px;
@@ -69,7 +61,11 @@ const ExpandButton = styled(Button)`
   padding-left: 0;
 `;
 
-const StoreInfo = () => {
+const StoreInfo = ({ store: { name, description, location } }) => {
+  const { number, street, city, state, postcode } = location;
+
+  const address = `${number} ${street}, ${city}, ${state} ${postcode}`;
+
   const [expand, setExpand] = React.useState(false);
 
   const handleClick = () => {
@@ -78,20 +74,20 @@ const StoreInfo = () => {
 
   return (
     <StoreInfoWrapper elevation={3}>
-      <h2>{data.name}</h2>
-      <p>{data.address}</p>
+      <h2>{name}</h2>
+      <p>{address}</p>
       <hr />
       <ContentWrapper>
         <StoreIntro>
           <Collapse in={expand} collapsedSize={125}>
-            {data.intro}
+            {description}
           </Collapse>
           <ExpandButton onClick={handleClick}>
             {expand ? '- Read Less' : '+ Read More'}
           </ExpandButton>
         </StoreIntro>
         <StoreImg>
-          <img src={data.image} alt="StoreImage" />
+          <img src={food} alt="StoreImage" />
         </StoreImg>
       </ContentWrapper>
       <BookingButton variant="contained">
