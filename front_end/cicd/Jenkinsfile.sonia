@@ -9,7 +9,7 @@ pipeline {
     environment {
         S3_REGION = 'ap-southeast-2'
         BUCKET_NAME = 'nini-dev.click'
-        WORKSPACE_PATH = '/var/lib/jenkins/workspace/Bookinglet/front_end/build' 
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/P3-Project-Bookinglet/P3-UAT-Frontend/front_end/build' 
         CI = false
     }
 
