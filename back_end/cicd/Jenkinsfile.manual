@@ -1,0 +1,72 @@
+pipeline {
+     agent any
+
+     environment {
+         AWS_ACCOUNT_ID="988898134629"
+         AWS_DEFAULT_REGION="ap-southeast-2" 
+ 	    CLUSTER_NAME="bookinglet-cluster"
+ 	    SERVICE_NAME="nodejs-container-service"
+ 	    TASK_DEFINITION_NAME="first-run-task-definition"
+ 	    DESIRED_COUNT="1"
+         IMAGE_REPO_NAME="988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-docker-test"
+         // IMAGE_TAG="${env.BUILD_ID}"
+         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+ 	    registryCredential = "demo-admin-user"
+     }
+
+     stages {
+         // stage('Git checkout') {
+         //     steps {
+         //         // Get source code from Austin's Repo
+         //         git branch:'S3', url:'https://github.com/xinglinchen666/p3Test.git'
+         //     }
+         // }
+
+         stage('npm install') {
+             steps {
+                 dir("./back_end/"){
+                 sh 'npm install'
+                 }
+             }
+         }
+         // stage('npm run dev'){
+         //     steps {
+         //         dir("./back_end/"){
+         //         sh 'npm run dev'
+         //     }
+         // }
+         // }
+
+
+         //Buidling Docker Images
+         stage('Building back_end image'){
+             steps {
+                 dir("./back_end/"){
+                     sh 'docker build -t bookinglet-docker-test .'
+                 }
+             }
+         }
+
+         //Uploading Docker Images into AWS ECR
+         stage('Pushing to ECR'){
+             steps{
+                 dir("./back_end/"){   
+                     sh 'docker tag bookinglet-docker-test:latest 988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-docker-test:latest'
+                     sh 'docker push 988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-docker-test:latest'
+                 }
+             }
+         }   
+
+         stage('Deploy') {
+              steps{
+                 withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
+                   script {
+                     sh 'chmod +x -R /var/lib/jenkins/workspace/back_end/back_end/script.sh'
+  		        	sh './back_end/script.sh'
+                     }
+              } 
+           }
+       }      
+
+     }
+ }

@@ -1,0 +1,85 @@
+pipeline {
+    agent {
+        docker {
+            image 'node:14.14.0'
+            args  '-u root:root'
+        }
+    }
+
+    environment {
+        // ENVIRONMENT = 'uat'
+        // BRANCH_UAT = 'master'
+        // S3_CREDENTIAL = 'S3'
+        S3_REGION = 'ap-southeast-2'
+        BUCKET_NAME = 'www.uat.tin6.online'
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/bookinglet_frontend_uat/front_end/build' 
+        CI='false'
+     }
+
+
+    stages {
+        stage('npm install') {
+            steps {
+                dir("./front_end/"){
+                sh 'npm install'
+                }
+            }
+        }
+
+        stage('install aws cli'){    
+            steps {
+                echo "Installing AWS CLI ..."
+                sh 'apt-get update'
+                sh 'apt install python3-pip -y'
+                sh 'pip3 install awscli --upgrade'
+            }
+        }
+
+        // stage('npm start') {
+        //     steps {
+        //  dir("./front_end/"){
+        //         sh 'npm start'
+        //         }
+        //     }
+        // }
+        
+        stage('npm build') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo 'Building...'
+                dir('./front_end') {
+                sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Jenkins copy file to S3 bucket'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                withAWS(credentials: 'xinglindevops', region: 'ap-southeast-2') {
+                // empty and delete exit bucket'
+                // sh 'aws s3 rm s3://"${BUCKET_NAME}" --recursive'
+                // upload build file to s3
+                sh 'aws s3 cp ${WORKSPACE_PATH} s3://${BUCKET_NAME}/  --recursive '
+                }   
+
+            }
+        }
+    }    
+
+        post {
+            always{
+                cleanWs()
+            }
+            success {
+                echo "WELL DONE!!"
+        }
+            failure {
+                echo "FAILED!!"
+        }
+    }
+}
