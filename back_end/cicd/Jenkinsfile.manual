@@ -11,7 +11,7 @@ pipeline {
          IMAGE_REPO_NAME="988898134629.dkr.ecr.ap-southeast-2.amazonaws.com/bookinglet-docker-test"
          // IMAGE_TAG="${env.BUILD_ID}"
          REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
- 	    registryCredential = "demo-admin-user"
+ 	    registryCredential = "xinglindevops"
      }
 
      stages {
@@ -61,8 +61,8 @@ pipeline {
               steps{
                  withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
                    script {
-                     sh 'chmod +x -R /var/lib/jenkins/workspace/back_end/back_end/script.sh'
-  		        	sh './back_end/script.sh'
+                     sh 'chmod +x -R /var/lib/jenkins/workspace/bookinglet_backend/back_end/cicd/script.sh'
+  		        	sh './back_end/cicd/script.sh'
                      }
               } 
            }
