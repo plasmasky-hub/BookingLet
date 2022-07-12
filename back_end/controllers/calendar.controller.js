@@ -353,7 +353,10 @@ async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceAr
 }
 
 
-function getWeekMonday(bookingDate) { //此处有问题，时间有时不准。但是暂不影响检索和查重
+function getWeekMonday(bookingDate) { 
+    console.log(bookingDate)
+    //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
+
     let dayInWeekIndex = bookingDate.getDay();
     switch (dayInWeekIndex) {
         case 0: dayGap = 1000 * 60 * 60 * 24 * 6; break;
@@ -364,8 +367,8 @@ function getWeekMonday(bookingDate) { //此处有问题，时间有时不准。�
         case 5: dayGap = 1000 * 60 * 60 * 24 * 4; break;
         case 6: dayGap = 1000 * 60 * 60 * 24 * 5; break;
     }
-    //let timeZoneCorrection = 10 * 60 * 60 * 1000;
-    return new Date(bookingDate - dayGap);
+    let timeZoneCorrection = 10 * 60 * 60 * 1000;
+    return new Date(bookingDate - dayGap + timeZoneCorrection);
 }
 
 
@@ -401,7 +404,6 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
 }
 
 async function bookingWithdraw(serviceInfoId, orderTime) {
-    // { serviceInfoId, orderTime } = order;
     let weekMonday = getWeekMonday(orderTime.date);
     let dayOfWeek = getDayOfWeek(orderTime.date);
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
@@ -437,9 +439,6 @@ async function bookingWithdraw(serviceInfoId, orderTime) {
 //如果serviceInfo添加营业时间interval，它的所有timeSlice必须在store的营业时间内，否则拒绝。
 //如果store删除营业时间interval，检索所有从属serviceInfo，删除的营业时间必须不存在于任何serviceInfo内，否则拒绝。
 
-//maxServicePerSection修改问题
-//如果商家修改maxServicePerSection，需要遍历serviceInfo下所有（创建时间码 >= 当前时间码）的bookingRecord。所得所有documents要更新availability的状态。
-
 
 
 
@@ -468,6 +467,7 @@ module.exports = {
     updateServiceInfoCalendarById,
     checkTimeIntervalAndBook,
     bookingWithdraw,
+    getDayOfWeek,
 
 
     getAllRecords,
