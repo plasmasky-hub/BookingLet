@@ -400,7 +400,7 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
         return newElement;
     });
     await bookingRecord.save();
-    decision.message = 'Booking successful!';
+    decision.message = 'Booking successful! Waiting for merchant confirmation.';
 }
 
 async function bookingWithdraw(serviceInfoId, orderTime) {

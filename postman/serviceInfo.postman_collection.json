@@ -1,153 +1,125 @@
 {
-	"info": {
-		"_postman_id": "6d79eb1d-4292-41f0-8544-e04d9ec6f42a",
-		"name": "serviceInfo",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20606313"
-	},
-	"item": [
-		{
-			"name": "getAllInfos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8000/v1/serviceInfo",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"serviceInfo"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getInfoById",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8000/v1/serviceInfo/:id",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"serviceInfo",
-						":id"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "",
-							"disabled": true
-						}
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "62ca955b7ce3cb7363616975",
-							"description": "test store"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "addInfo",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jul10 service calendar demo1\",\r\n    \"rootCategory\": \"62ad12965006ee427b53c31f\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62ca950e7ce3cb7363616970\",\r\n    \"duration\": 2.2,\r\n    \"maxPersonPerSection\": 7,\r\n    \"maxServicePerSection\": 5,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8000/v1/serviceInfo",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"serviceInfo"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "updateInfoById",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun21 sInfo test13\",\r\n    \"rootCategory\": \"62ad12965006ee427b53c31f\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62b09add8170dbfcc025f86f\",\r\n    \"duration\": 4.21,\r\n    \"maxPersonPerSection\": 21,\r\n    \"maxServicePerSection\": 5,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"startTime\": [{\"dayOfWeek\":\"Thursday\", \"openHours\": [\"0800\", \"0900\", \"1200\", \"1530\", \"1700\"]}]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8000/v1/serviceInfo/:id",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"serviceInfo",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "62b09ae68170dbfcc025f871"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "discardInfoById",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "localhost:8000/v1/serviceInfo/:id",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"serviceInfo",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "62a613957645da1c405c0db6",
-							"description": "6/10 test 2"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "6d79eb1d-4292-41f0-8544-e04d9ec6f42a",
+    "name": "serviceInfo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20606313"
+  },
+  "item": [
+    {
+      "name": "getAllInfos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/serviceInfo",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "serviceInfo"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getInfoById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/serviceInfo/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "serviceInfo", ":id"],
+          "query": [
+            {
+              "key": "",
+              "value": "",
+              "disabled": true
+            }
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62ca955b7ce3cb7363616975",
+              "description": "test store"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "addInfo",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Jul10 service calendar demo5\",\r\n    \"rootCategory\": \"62ad12965006ee427b53c31f\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62cacf345d0e5b8f8c20bbbc\",\r\n    \"duration\": 2.2,\r\n    \"maxPersonPerSection\": 7,\r\n    \"maxServicePerSection\": 5,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/serviceInfo",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "serviceInfo"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateInfoById",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Jun21 sInfo test13\",\r\n    \"rootCategory\": \"62ad12965006ee427b53c31f\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62b09add8170dbfcc025f86f\",\r\n    \"duration\": 4.21,\r\n    \"maxPersonPerSection\": 21,\r\n    \"maxServicePerSection\": 5,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"startTime\": [{\"dayOfWeek\":\"Thursday\", \"openHours\": [\"0800\", \"0900\", \"1200\", \"1530\", \"1700\"]}]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/serviceInfo/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "serviceInfo", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62b09ae68170dbfcc025f871"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "discardInfoById",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/serviceInfo/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "serviceInfo", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62a613957645da1c405c0db6",
+              "description": "6/10 test 2"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
