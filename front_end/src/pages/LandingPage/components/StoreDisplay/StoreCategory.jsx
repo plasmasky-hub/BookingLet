@@ -1,9 +1,9 @@
-import React from "react";
-import StoreCard from "./StoreCard";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import styled from "@emotion/styled";
-import Button from "@mui/material/Button";
-import { BrowserRouter as Router, Link, withRouter } from "react-router-dom";
+import React from 'react';
+import StoreCard from './StoreCard';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import styled from '@emotion/styled';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 1065px;
@@ -36,19 +36,38 @@ const CardsWrapper = styled.div`
 `;
 
 const StoreCategory = ({ category, cardData }) => {
-  const renderedCard = cardData.map((data) => {
-    return <StoreCard data={data} />;
-  });
+  const { data: stores, isLoading, isSuccess, isError, error } = cardData;
+
+  const filteredStores = isSuccess
+    ? stores.filter((store) => store.rootCategories[0] === category._id)
+    : error;
+
+  const navigate = useNavigate();
 
   return (
     <Container>
       <Header>
-        <h2>{category}</h2>
-        <ViewButton href="#">
-          <Link to="StoreListPage">view all</Link><ArrowForwardIcon fontSize="small" />
+        <h2>{category.name}</h2>
+        <ViewButton
+          onClick={() =>
+            navigate('/StoreListPage', { state: { filteredStores } })
+          }
+        >
+          view all
+          <ArrowForwardIcon fontSize="small" />
         </ViewButton>
       </Header>
-      <CardsWrapper>{renderedCard}</CardsWrapper>
+      <CardsWrapper>
+        {isError && <p>{error}</p>}
+        {isLoading && <p>Loading...</p>}
+        {isSuccess && (
+          <>
+            {filteredStores.slice(0, 4).map((store) => {
+              return <StoreCard id={store.id} key={store._id} store={store} />;
+            })}
+          </>
+        )}
+      </CardsWrapper>
     </Container>
   );
 };

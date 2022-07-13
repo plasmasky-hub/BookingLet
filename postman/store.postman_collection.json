@@ -1,156 +1,128 @@
 {
-	"info": {
-		"_postman_id": "44713704-e794-48fa-915a-3ee4cb96bc9a",
-		"name": "store",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20606313"
-	},
-	"item": [
-		{
-			"name": "getAllStores",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"category\": \"62ab03b31d0923105c44fefa\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8000/v1/store",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"store"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getStoreById",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8000/v1/store/:id",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"store",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "62cd1ee491999a360a2d8571"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "addStore",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"location\": {\r\n        \"state\": \"SA\",\r\n        \"city\": \"calender demo1 jul\",\r\n        \"suburb\": \"Sandy Bay\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": \"7005\"\r\n    },\r\n    \"name\": \"Jul12 store t2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0692345121\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"rootCategories\": [\"62ab03b31d0923105c44fefa\"]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8000/v1/store",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"store"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "updateStoreById",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"location\": {\r\n        \"state\": \"TAS\",\r\n        \"city\": \"Melbourne\",\r\n        \"suburb\": \"Parkville\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": 7005\r\n    },\r\n    \"name\": \"Best Massage Jun13 test 2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0452345333\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8000/v1/store/:id",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"store",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "62a615a61bce22f454ea3088"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "discardStoreById",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "localhost:8000/v1/store/:id",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"v1",
-						"store",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "62a1aa0a2c9f493974ea830e"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "44713704-e794-48fa-915a-3ee4cb96bc9a",
+    "name": "store",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20606313"
+  },
+  "item": [
+    {
+      "name": "getAllStores",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"category\": \"62ab03b31d0923105c44fefa\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/store",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "store"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getStoreById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/store/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "store", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62cd1ee491999a360a2d8571"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "addStore",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"location\": {\r\n        \"state\": \"SA\",\r\n        \"city\": \"calender demo1 jul\",\r\n        \"suburb\": \"Sandy Bay\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": \"7005\"\r\n    },\r\n    \"name\": \"Jul12 store t2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0692345121\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"rootCategories\": [\"62ab03b31d0923105c44fefa\"]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/store",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "store"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateStoreById",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"location\": {\r\n        \"state\": \"TAS\",\r\n        \"city\": \"Melbourne\",\r\n        \"suburb\": \"Parkville\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": 7005\r\n    },\r\n    \"name\": \"Best Massage Jun13 test 2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0452345333\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/store/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "store", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62a615a61bce22f454ea3088"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "discardStoreById",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/store/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "store", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62a1aa0a2c9f493974ea830e"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
