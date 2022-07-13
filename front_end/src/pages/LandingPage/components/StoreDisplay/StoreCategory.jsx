@@ -36,16 +36,22 @@ const CardsWrapper = styled.div`
 `;
 
 const StoreCategory = ({ category, cardData }) => {
-  const { data, isLoading, isSuccess, isError, error } = cardData;
-  const stores = data;
+  const { data: stores, isLoading, isSuccess, isError, error } = cardData;
+
+  const filteredStores = isSuccess
+    ? stores.filter((store) => store.rootCategories[0] === category._id)
+    : error;
+
   const navigate = useNavigate();
 
   return (
     <Container>
       <Header>
-        <h2>{category}</h2>
+        <h2>{category.name}</h2>
         <ViewButton
-          onClick={() => navigate('/StoreListPage', { state: { stores } })}
+          onClick={() =>
+            navigate('/StoreListPage', { state: { filteredStores } })
+          }
         >
           view all
           <ArrowForwardIcon fontSize="small" />
@@ -56,7 +62,7 @@ const StoreCategory = ({ category, cardData }) => {
         {isLoading && <p>Loading...</p>}
         {isSuccess && (
           <>
-            {stores.slice(0, 4).map((store) => {
+            {filteredStores.slice(0, 4).map((store) => {
               return <StoreCard id={store.id} key={store._id} store={store} />;
             })}
           </>

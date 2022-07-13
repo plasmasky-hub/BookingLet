@@ -69,7 +69,16 @@ const CardButton = styled(Button)`
   font-size: 14px;
 `;
 
-const StoreCard = ({ store: { _id, name, location, favoriteUsersSize } }) => {
+const StoreCard = ({
+  store: {
+    _id,
+    name,
+    location,
+    favoriteUsersSize,
+    isAvailableToday,
+    maxPersonPerSectionForStore,
+  },
+}) => {
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
   const navigate = useNavigate();
@@ -81,20 +90,17 @@ const StoreCard = ({ store: { _id, name, location, favoriteUsersSize } }) => {
         <img src={food} alt="food" />
         {/* need user data and function */}
         <AddIcon />
-        {/* need data */}
-        <span style={{ display: true }}>AVAILABLE TODAY</span>
+        {isAvailableToday ? <span>AVAILABLE TODAY</span> : null}
       </ImgWrapper>
       <StoreName>{name}</StoreName>
       <Address>{address}</Address>
       {/* need data */}
       <Label style={{ display: true }}>Service list available</Label>
-      {/* need data */}
-      <Label>Max 8 ppl.</Label>
+      <Label>Max {maxPersonPerSectionForStore} ppl.</Label>
       <AddPpl>{favoriteUsersSize} people add to booklet</AddPpl>
       <CardButton
         onClick={() => navigate(`/BookingPage/${_id}`)}
         variant="text"
-        href="#"
       >
         Book Now
       </CardButton>

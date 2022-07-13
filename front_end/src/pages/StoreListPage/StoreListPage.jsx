@@ -9,7 +9,7 @@ const StoreListPage = () => {
   return (
     <Layout>
       <Header />
-      <StoreDisplay stores={location.state.stores} />
+      <StoreDisplay stores={location.state.filteredStores} />
     </Layout>
   );
 };

@@ -1,17 +1,38 @@
 import React from 'react';
 import StoreCategory from './StoreCategory';
 import { useGetStoresQuery } from '../../../../store/api/storeApi';
+import { useGetRootCategoriesQuery } from '../../../../store/api/categoryApi';
 
 const StoreDisplay = () => {
   const cardData = useGetStoresQuery();
 
+  const categoryData = useGetRootCategoriesQuery();
+  const {
+    data: categories,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = categoryData;
+
   return (
-    <div>
-      <StoreCategory category="Dining" cardData={cardData} />
-      <StoreCategory category="Entertainment" cardData={cardData} />
-      <StoreCategory category="Health&Beauty" cardData={cardData} />
-      <StoreCategory category="Life Service" cardData={cardData} />
-    </div>
+    <>
+      {isError && <p>{error}</p>}
+      {isLoading && <p>Loading...</p>}
+      {isSuccess && (
+        <>
+          {categories.map((category) => {
+            return (
+              <StoreCategory
+                category={category}
+                cardData={cardData}
+                key={category._id}
+              />
+            );
+          })}
+        </>
+      )}
+    </>
   );
 };
 
