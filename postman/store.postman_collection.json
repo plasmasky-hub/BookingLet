@@ -8,9 +8,21 @@
 	"item": [
 		{
 			"name": "getAllStores",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"category\": \"62ab03b31d0923105c44fefa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8000/v1/store",
 					"host": [
@@ -44,7 +56,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a1aa0a2c9f493974ea830e"
+							"value": "62cd1ee491999a360a2d8571"
 						}
 					]
 				}
@@ -58,7 +70,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"location\": {\r\n        \"state\": \"TAS\",\r\n        \"city\": \"Melbourne\",\r\n        \"suburb\": \"Parkville\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": 7005\r\n    },\r\n    \"name\": \"Best Massage Jun13 test 2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0452345111\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+					"raw": "{\r\n    \"location\": {\r\n        \"state\": \"SA\",\r\n        \"city\": \"calender demo1 jul\",\r\n        \"suburb\": \"Sandy Bay\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": \"7005\"\r\n    },\r\n    \"name\": \"Jul12 store t2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0692345121\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"rootCategories\": [\"62ab03b31d0923105c44fefa\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

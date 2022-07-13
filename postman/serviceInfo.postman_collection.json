@@ -51,7 +51,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a613957645da1c405c0db6",
+							"value": "62ca955b7ce3cb7363616975",
 							"description": "test store"
 						}
 					]
@@ -66,7 +66,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 test7\",\r\n    \"rootCategory\": \"629f0bc95abd87303b5dcb17\",\r\n    \"subCategories\": [\"629f715cf1598f79a02aef99\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62a1aa0a2c9f493974ea830e\",\r\n    \"duration\": 2,\r\n    \"maxPersonPerSection\": 1,\r\n    \"maxServicePerSection\": 3,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Jul10 service calendar demo5\",\r\n    \"rootCategory\": \"62ad12965006ee427b53c31f\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62cacf345d0e5b8f8c20bbbc\",\r\n    \"duration\": 2.2,\r\n    \"maxPersonPerSection\": 7,\r\n    \"maxServicePerSection\": 5,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -94,7 +94,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 test7kai\",\r\n    \"rootCategory\": \"629f0bc95abd87303b5dcb17\",\r\n    \"subCategories\": [\"629f715cf1598f79a02aef99\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62a1aa0a2c9f493974ea830e\",\r\n    \"duration\": 4,\r\n    \"maxPersonPerSection\": 10,\r\n    \"maxServicePerSection\": 3,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Jun21 sInfo test13\",\r\n    \"rootCategory\": \"62ad12965006ee427b53c31f\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62b09add8170dbfcc025f86f\",\r\n    \"duration\": 4.21,\r\n    \"maxPersonPerSection\": 21,\r\n    \"maxServicePerSection\": 5,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"startTime\": [{\"dayOfWeek\":\"Thursday\", \"openHours\": [\"0800\", \"0900\", \"1200\", \"1530\", \"1700\"]}]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,7 +115,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a613957645da1c405c0db6"
+							"value": "62b09ae68170dbfcc025f871"
 						}
 					]
 				}
