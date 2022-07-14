@@ -8,9 +8,21 @@
 	"item": [
 		{
 			"name": "getAllInfos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8000/v1/serviceInfo",
 					"host": [
@@ -20,6 +32,13 @@
 					"path": [
 						"v1",
 						"serviceInfo"
+					],
+					"query": [
+						{
+							"key": "storeId",
+							"value": "62d009fe057d4bbb8cc8f8ab",
+							"disabled": true
+						}
 					]
 				}
 			},

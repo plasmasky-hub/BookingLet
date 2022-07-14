@@ -16,7 +16,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"category\": \"62ab03b31d0923105c44fefa\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -24,7 +24,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8000/v1/store",
+					"raw": "localhost:8000/v1/store?date=2022-7-15",
 					"host": [
 						"localhost"
 					],
@@ -32,6 +32,52 @@
 					"path": [
 						"v1",
 						"store"
+					],
+					"query": [
+						{
+							"key": "sortMethod",
+							"value": "orderSize",
+							"disabled": true
+						},
+						{
+							"key": "person",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "62ab03b31d0923105c44fefa",
+							"disabled": true
+						},
+						{
+							"key": "state",
+							"value": "VIC",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "Hobart",
+							"disabled": true
+						},
+						{
+							"key": "date",
+							"value": "2022-7-15"
+						},
+						{
+							"key": "query",
+							"value": "chinese",
+							"disabled": true
+						},
+						{
+							"key": "opening",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "resultQuantity",
+							"value": "5",
+							"disabled": true
+						}
 					]
 				}
 			},

@@ -311,15 +311,12 @@
 		},
 		{
 			"name": "checkTimeIntervalAndBook",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"date\": \"2023-6-12\",\r\n    \"startHour\": \"800\",\r\n    \"endHour\": \"810\",\r\n    \"serviceInfoId\": \"62cacf485d0e5b8f8c20bbbe\"\r\n}",
+					"raw": "{\r\n    \"date\": \"2023-7-25\",\r\n    \"startHour\": \"600\",\r\n    \"endHour\": \"630\",\r\n    \"serviceInfoId\": \"62cacf485d0e5b8f8c20bbbe\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
