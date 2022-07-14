@@ -1,28 +1,37 @@
-
 const Order = require('../models/order');
 const User = require('../models/user');
 const Store = require('../models/store');
-const ServiceInfo = require('../models/serviceInfo')
-const { checkTimeIntervalAndBook, bookingWithdraw } = require('./calendar.controller');
+const ServiceInfo = require('../models/serviceInfo');
+const {
+  checkTimeIntervalAndBook,
+  bookingWithdraw,
+} = require('./calendar.controller');
 const { any } = require('joi');
 
 //create order
 async function addOrder(req, res) {
-  const { peopleNumber, orderTime, userId, serviceInfoId, tel, optionInfo } = req.body;
-  const bookingTime = new Date(orderTime.date)
+  const { peopleNumber, orderTime, userId, serviceInfoId, tel, optionInfo } =
+    req.body;
+  const bookingTime = new Date(orderTime.date);
   const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
   const storeId = serviceInfo.store;
-
 
   //slice time
   let startHour = parseInt(orderTime.startTime);
   let endHour = parseInt(orderTime.endTime);
   let timeSliceArr = [];
   for (let i = startHour; i < endHour; i += 5) {
-    if (i % 100 < 60) { timeSliceArr.push(i); };
+    if (i % 100 < 60) {
+      timeSliceArr.push(i);
+    }
   }
 
-  const orderArr = await Order.find({ "orderTime.date": orderTime.date, "serviceInfoId": serviceInfoId, "userId": userId, cancelStatus: false }).exec();
+  const orderArr = await Order.find({
+    'orderTime.date': orderTime.date,
+    serviceInfoId: serviceInfoId,
+    userId: userId,
+    cancelStatus: false,
+  }).exec();
   let permission = true;
 
   for (let i = 0; i < orderArr.length; i++) {
@@ -31,23 +40,37 @@ async function addOrder(req, res) {
     let comparedEndHour = parseInt(orderArr[i].orderTime.endTime);
 
     for (let j = comparedStartHour; j < comparedEndHour; j += 5) {
-      if (j % 100 < 60) { comparedTimeSliceArr.push(j); };
+      if (j % 100 < 60) {
+        comparedTimeSliceArr.push(j);
+      }
     }
     let repeatedTimeSlice = comparedTimeSliceArr.filter((element) => {
-      return timeSliceArr.indexOf(element) > -1
-    })
+      return timeSliceArr.indexOf(element) > -1;
+    });
     if (repeatedTimeSlice.length > 0) {
       permission = false;
     }
   }
 
   if (permission) {
-
-    [req.body.date, req.body.startHour, req.body.endHour] = [req.body.orderTime.date, req.body.orderTime.startTime, req.body.orderTime.endTime]
+    [req.body.date, req.body.startHour, req.body.endHour] = [
+      req.body.orderTime.date,
+      req.body.orderTime.startTime,
+      req.body.orderTime.endTime,
+    ];
     let bookingResult = await checkTimeIntervalAndBook(req, res);
 
     if (bookingResult.decision.permission === true) {
-      const newOrder = new Order({ peopleNumber, orderTime, userId, storeId, serviceInfoId, tel, optionInfo, bookingTime });
+      const newOrder = new Order({
+        peopleNumber,
+        orderTime,
+        userId,
+        storeId,
+        serviceInfoId,
+        tel,
+        optionInfo,
+        bookingTime,
+      });
       await newOrder.save();
 
       const user = await User.findById(userId).exec();
@@ -58,16 +81,15 @@ async function addOrder(req, res) {
       store.orders.addToSet(newOrder._id);
       await store.save();
     }
-
-
   } else {
     res.send({
-      decision: { message: "You have made an appointment at same time", permission: false }
-    })
+      decision: {
+        message: 'You have made an appointment at same time',
+        permission: false,
+      },
+    });
   }
 }
-
-
 
 //update
 async function updateOrderByID(req, res) {
@@ -82,27 +104,30 @@ async function updateOrderByID(req, res) {
     return res.status(404).json({ error: 'Order not found' });
   }
   return res.status(200).json(order);
-};
+}
 // Store confirm order ->change booking status from false to true
 async function confirmOrder(req, res) {
   console.log('Confirm Order');
   const { id } = req.params;
   const { bookingStatus } = req.body;
   const order = await Order.findByIdAndUpdate(
-    id, { $set: { bookingStatus: true } }, { new: true }
+    id,
+    { $set: { bookingStatus: true } },
+    { new: true }
   ).exec();
   if (!order) {
     return res.status(404).json({ error: 'Order not found' });
   }
   await order.save();
   return res.status(200).json(order);
-
 }
 //Cancel Order  fake delete
 async function cancelOrder(req, res) {
   const { id } = req.params;
   const order = await Order.findByIdAndUpdate(
-    id, { $set: { cancelStatus: true } }, { new: true }
+    id,
+    { $set: { cancelStatus: true } },
+    { new: true }
   ).exec();
 
   const { serviceInfoId, orderTime } = order;
@@ -114,10 +139,9 @@ async function cancelOrder(req, res) {
   }
 
   await order.save();
-  res.send(order)
-
+  res.send(order);
 }
-//delete 
+//delete
 // async function deleteOrderByID(req,res){
 //     const { id } = req.params;
 //     const order = await Order.findByIdAndDelete(id).exec();
@@ -135,7 +159,7 @@ async function getOrderByID(req, res) {
     return res.status(400).json({ error: 'Order not found' });
   }
   return res.status(200).json(order);
-};
+}
 //get all
 async function getAllOrders(req, res) {
   console.log('Finding all orders...');
@@ -146,11 +170,9 @@ async function getAllOrders(req, res) {
   }
   if (JSON.stringify(orders) === '[]') {
     return res.status(404).json({ error: 'Order data is empty in database' });
-
   }
   return res.status(200).json(orders);
 }
-
 
 module.exports = {
   getAllOrders,
@@ -159,12 +181,5 @@ module.exports = {
   updateOrderByID,
   // deleteOrderByID,
   confirmOrder,
-  cancelOrder
-
-
-
-
-}
-
-
-
+  cancelOrder,
+};
