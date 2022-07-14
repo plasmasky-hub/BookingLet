@@ -353,7 +353,7 @@ async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceAr
 }
 
 
-function getWeekMonday(bookingDate) { 
+function getWeekMonday(bookingDate) {
     console.log(bookingDate)
     //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
 
@@ -425,7 +425,7 @@ async function bookingWithdraw(serviceInfoId, orderTime) {
             ) : (
                 newElement.timeSlice = element.timeSlice,
                 newElement.reservation = (element.reservation > 0) ? (element.reservation - 1) : element.reservation,
-                newElement.availability = (newElement.reservation < serviceInfo.maxServicePerSection) ? true : false 
+                newElement.availability = (newElement.reservation < serviceInfo.maxServicePerSection) ? true : false
             );
             return newElement;
         });
@@ -455,6 +455,26 @@ async function deleteAllRecords(req, res) {   //dev test only! 不是真的要�
 }
 
 
+async function getBusinessTimeByDateAndServiceInfo(req, res) {
+    const { date, serviceInfoId } = req.query;
+    let weekMonday = getWeekMonday(new Date(date));
+    let dayOfWeek = getDayOfWeek(new Date(date));
+
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
+
+    if (bookingRecordArr.length === 0) {
+        const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+        const businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
+        res.send({ branch: 'calendarTemplate', businessTimeArr });
+    };
+    if (bookingRecordArr.length === 1) {
+        const businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek];
+        res.send({ branch: 'bookingRecord', businessTimeArr });
+    };
+    if (bookingRecordArr.length > 1) { res.send({ Error: 'Database error!' }) };
+}
+
+
 module.exports = {
     getStoreBusinessTimeById,
     addStoreBusinessTimeById,
@@ -471,5 +491,6 @@ module.exports = {
 
 
     getAllRecords,
+    getBusinessTimeByDateAndServiceInfo,
     deleteAllRecords
 }

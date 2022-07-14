@@ -45,6 +45,36 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getBusinessTimeByDateAndServiceInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/calendar/businessTime?date=2022-7-26&serviceInfoId=62cacf485d0e5b8f8c20bbbe",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"calendar",
+						"businessTime"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-7-26"
+						},
+						{
+							"key": "serviceInfoId",
+							"value": "62cacf485d0e5b8f8c20bbbe"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
