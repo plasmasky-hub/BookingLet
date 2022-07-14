@@ -2,19 +2,29 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCOUNT_ID = 988898134629
-        AWS_DEFAULT_REGION = "ap-southeast-2"
-        IMAGE_REPO_NAME = "austin-test"
-        IMAGE_TAG="latest"
-        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        AWS_ACCOUNT_ID      = 988898134629
+        AWS_DEFAULT_REGION  = "ap-southeast-2"
+        IMAGE_REPO_NAME     = "bookinglet-${params.workspace}"
+        IMAGE_TAG           = "latest"
+        REPOSITORY_URI      = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        DEVOPS_EMAIL        = "bookinglet.austin@gmail.com"
+        DEV_EMAIL           = "austinchen666@gmail.com"
+        PROJECT_DIR         = "./back_end/"
+    }
 
+    options{
+        timestamps()
+        timeout(time: 30, unit: 'MINUTES')
+    }
+
+    parameters {
+        choice choices: ['default','uat', 'prod'], description: 'choose Workspace', name: 'workspace'
     }
 
     stages {
-     
         stage('Authentication token for ecr'){
             steps {
-                dir('./back_end/'){
+                dir("${PROJECT_DIR}") {
                     sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
                 }
             }
@@ -22,7 +32,7 @@ pipeline {
 
         stage('Building image') {
             steps {
-                dir('./back_end/'){
+                dir("${PROJECT_DIR}") {
                     sh 'docker build -t ${IMAGE_REPO_NAME} .'
                 }             
             }
@@ -30,11 +40,66 @@ pipeline {
 
         stage('Pushing to ECR') {
             steps {
-                dir('./back_end/'){
+                dir("${PROJECT_DIR}") {
                     sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
                     sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
                 }  
             }
         }    
+    }
+      post{
+        success {
+            emailext(
+                subject: "${env.JOB_NAME} [${env.workspace}]-[${env.BUILD_NUMBER}] Success",
+                body: """
+                    <p>Jenkins Pipeline: "${env.JOB_NAME}- [${env.workspace}] Summray : </p>
+                    <ul>
+                    <li>Terraform init</li>
+                    <li>Terraform fmt</li>
+                    <li>Terraform Validate</li>
+                    <li>Terraform Plan</li>
+                    <li>Terraform Apply or Terraform Destroy</li>
+                    </ul>
+                    """,
+                to:"${DEVOPS_EMAIL}",
+                attachLog:true
+            )
+        }
+
+        failure {
+            emailext(
+                subject: "${env.JOB_NAME} [${env.workspace}]-[${env.BUILD_NUMBER}]  Unsuccessful",
+                body: """
+                    <p>Jenkins Pipeline: "${env.JOB_NAME}- [${env.workspace}] Summray : </p>
+                    <ul>
+                    <li>Terraform init</li>
+                    <li>Terraform fmt</li>
+                    <li>Terraform Validate</li>
+                    <li>Terraform Plan</li>
+                    <li>Terraform Apply or Terraform Destroy</li>
+                    </ul>
+                    """,
+                to:"${DEV_EMAIL}",
+                attachLog: true
+            )
+        }
+        aborted {
+            emailext(
+                subject: "${env.JOB_NAME} [${env.workspace}]-[${env.BUILD_NUMBER}]  Aborted",
+                body: """
+                    <p>Jenkins Pipeline: "${env.JOB_NAME}- [${env.workspace}] Summray : </p>
+                    <ul>
+                    <li>Terraform init</li>
+                    <li>Terraform fmt</li>
+                    <li>Terraform Validate</li>
+                    <li>Terraform Plan</li>
+                    </ul>
+                    <p>Aborted</p>
+                    
+                    """,
+                to:"${DEVOPS_EMAIL}",
+                attachLog: true
+            )
+        }
     }
 }
