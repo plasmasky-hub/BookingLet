@@ -4,9 +4,9 @@ pipeline {
         ENVIRONMENT = 'uat'
         AWS_ACCOUNT_ID="544863999112"
         AWS_DEFAULT_REGION="ap-southeast-2" 
-	    CLUSTER_NAME="bookinglet-cluster"
-	    SERVICE_NAME="bookinglet-service"
-	    TASK_DEFINITION_NAME="bookinglet-task"
+	CLUSTER_NAME="bookinglet-cluster"
+	SERVICE_NAME="bookinglet-service"
+	TASK_DEFINITION_NAME="bookinglet-task"
         IMAGE_REPO_NAME="bookinglet-repo"
         IMAGE_TAG="latest"
         DESIRED_COUNT = "1"
