@@ -220,7 +220,21 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', opening = false, resultQuantity = 999 } = req.body;
+    let { sortMethod = 'orderSize',
+        person = 1,
+        category = undefined,
+        state = undefined,
+        city = undefined,
+        date = undefined,
+        query = '.',
+        opening = false,
+        resultQuantity = 999
+    } = req.query;
+
+    person = parseInt(person);
+    resultQuantity = parseInt(resultQuantity);
+    opening = opening === "true" ? true : false;
+    let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
 
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
