@@ -1,11 +1,11 @@
 
 
 # pull the official base image,choose a stable version, alias as build
-FROM node:12.18.4-alpine
+FROM node:14.17 AS builder
 
 
 # set working direction
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # # Adding node_modules/bin to the PATH environment variable  - make sure node exectable command can run smoothly
 # ENV PATH /back_end/node_modules/.bin:$PATH
@@ -18,10 +18,10 @@ COPY package-lock.json ./
 
 # install application dependencies
 RUN npm install 
-RUN npm ci
+
 
 # copy app source code
-COPY . .
+COPY ./ ./
 
 EXPOSE 8000
 # Expose specific ports,e.g. 
