@@ -1,0 +1,160 @@
+pipeline{
+    agent none
+    environment {
+        CI                          = "false"
+        PROJECT_ENV                 = "Prod"
+        PROJECT_NAME                = "BookingLet-FrontEnd"
+        PROJECT_URL                 = "happyboy.link"
+        AWS_S3_CREDENTIALS          = "AWS-Credentials-Root-AccessKey"
+        AWS_S3_REGION               = "${params['Which region are you going to deploy?']}"
+        AWS_S3_BUCKET               = "happyboy.link"
+        AWS_BACKUP_S3_CREDENTIALS   = "AWS-Credentials-Root-AccessKey"
+        AWS_BACKUP_S3_REGION        = "ap-southeast-2"
+        AWS_BACKUP_S3_BUCKET        = "backup.${env.PROJECT_URL}"
+        AWS_DISTRIBUTION_ID         = "${params['Please Input your AWS DISTRIBUTION ID']}"
+        EMAIL_RECIPIENT             = "fxy4560654@gmail.com"
+    }
+    parameters {
+        choice choices: ['Production', 'Staging'], description: 'You can not proceed with the deployment in this pipeline unless "Production" is chosen.', name: 'Which Environment are you going to deploy?'
+        booleanParam description: 'Please tick if you want to upload build artifacts to a backup s3.', name: 'Is a back-up bucket considered ?'
+        string defaultValue: 'ABCDEFGH123456', description: 'Usually, a 14 digitals numbers or letters appears on your CloudFront Dashboard', name: 'Please Input your AWS DISTRIBUTION ID', trim: true
+        choice choices: ['ap-southeast-2', 'us-east-1'], name: 'Which region are you going to deploy?'
+    }
+    stages {
+        stage(' Choose Docker Image '){
+            agent {
+                docker {
+                image 'node:14.14.0'
+                label 'agent2'
+                args  '-u root:root'
+                }
+            }
+            stages {
+                stage("Check Working Environment "){
+                    steps {
+                        echo '..................Current Node Version is..................'
+                        sh 'node -v'
+                        echo '..................Current User is..................'
+                        sh'whoami'
+                        echo '..................Current Working directory is..................'
+                        sh'pwd'
+                        }
+                    }
+                stage("Input Message Confirm"){                  
+                    options {
+                        timeout(time: 600, unit: 'SECONDS')
+                            }
+                    when {
+                        allOf {                        
+                        environment name: 'PROJECT_ENV', value: 'Prod'
+                        environment name: 'PROJECT_NAME', value: "${PROJECT_NAME}"
+                        expression{ params['Which Environment are you going to deploy?'] == 'Production' }
+                        }
+                        beforeInput true 
+                        }
+                    input {
+                        message "Everything looks good, ready to deploy to S3 ?"
+                        ok "Yes,Deploy."               
+                        parameters {
+                            booleanParam defaultValue: true, description: 'I\'ve checked all resources are setting well.', name: 'Check all configs one more time'
+                                }
+                        }
+                    steps {
+                        echo "Input Confirmed. Not Skip this stage"
+                        } 
+                    }
+                stage("Install AWS CLI 2"){
+                    steps {
+                        echo "..................Installing AWS CLI ....................."
+                        sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
+                        sh 'apt install unzip'
+                        sh 'unzip -o -q awscliv2.zip'
+                        sh './aws/install'
+                        }
+                    }
+                stage("Npm Install"){
+                    steps {
+                        echo '..................npm install..................'            
+                        dir("./front_end") {
+                        sh 'npm install'
+                            }
+                        }  
+                    }
+                stage("Build"){
+                    steps {
+                        echo '..................Npm build..................'            
+                        dir('./front_end'){
+                        sh 'ls -a'
+                        sh 'npm run build'                         
+                            }  
+                        }
+                    }
+                stage("Upload the build folder"){
+                    steps {
+                        dir('./front_end'){                         
+                        echo '..................Uploading the build folder to S3 bucket.......'
+                        withAWS(credentials: "${AWS_S3_CREDENTIALS}", region: "${AWS_S3_REGION}"){
+                            sh 'aws s3 ls'
+                            sh "aws s3 rm s3://${AWS_S3_BUCKET} --recursive"
+                            sh "aws s3 cp ./build s3://${AWS_S3_BUCKET} --recursive --acl bucket-owner-full-control"
+                            sh """aws cloudfront create-invalidation --distribution-id ${AWS_DISTRIBUTION_ID} --paths "/*" """
+                                }
+                            }  
+                        }  
+                    }
+                stage("S3 backup"){
+                    when{
+                        allOf{
+                            expression{ params['Is a back-up bucket considered ?'] == true }
+                            environment name: 'PROJECT_ENV', value: 'Prod'
+                            environment name: 'PROJECT_NAME', value: "${PROJECT_NAME}"
+                        }
+                    }
+                    steps {
+                        dir('./front_end'){                         
+                        echo '...........Backup.......Uploading the build folder to S3 bucket.......'
+                        withAWS(credentials: "${AWS_BACKUP_S3_CREDENTIALS}", region: "${AWS_BACKUP_S3_REGION}"){
+                            sh 'aws s3 ls'
+                            sh "aws s3 rm s3://${AWS_BACKUP_S3_BUCKET} --recursive"
+                            sh "aws s3 cp ./build s3://${AWS_BACKUP_S3_BUCKET} --recursive --acl bucket-owner-full-control"
+                                }
+                            }  
+                        }  
+                    }
+                }          
+            post{
+                always {
+                    cleanWs()}
+                }
+        }
+    } 
+    post{
+        success {
+            echo " .................Deploy Successfully..................\n Congratulations! \n you have successfully passed the CI & CD process: \n Project Name:  ${PROJECT_NAME} \n Deploy Environemt:  ${PROJECT_ENV}"
+            emailext attachLog: true, body: """You get this email because your pipeline job in  
+                            project name:  ${PROJECT_NAME} 
+
+                            working environment:  ${PROJECT_ENV} environment
+
+                            has been successfully deployed.
+
+                            Please go ${PROJECT_URL} to check the results.
+
+                            Please go check the log attached.
+                            """, subject: "You have successfully deployed an ${PROJECT_ENV} environment in main branch! !", to: "${EMAIL_RECIPIENT}"
+        }
+        failure {
+            echo ".................Deploy Fail .................\n A job log has been sent to the recipient.\n Please go to your mailbox to check."
+            emailext attachLog: true, body: """You get this email because your pipeline job in  
+                            project name:  ${PROJECT_NAME} 
+
+                            working environment:  ${PROJECT_ENV} environment
+
+                            has been failed.
+
+                            Please go check the log attached.
+                            """, subject: "You have an ${PROJECT_ENV} deployment which has been failed in main branch!", to: "${EMAIL_RECIPIENT}"
+        }
+    }
+
+}

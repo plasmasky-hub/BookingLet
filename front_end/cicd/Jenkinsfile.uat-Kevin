@@ -1,0 +1,93 @@
+pipeline{
+    agent {
+        label 'agent2'
+    }
+    tools{
+        nodejs 'nodejs-14.14.0'
+    }
+    environment {
+        CI                  = "false" 
+        PROJECT_ENV         = "UAT"
+        PROJECT_NAME        = "BookingLet-FrontEnd"
+        PROJECT_URL         = "uat.happyboy.link"
+        AWS_S3_CREDENTIALS  = "AWS-Credentials-Root-AccessKey"
+        AWS_S3_REGION       = "ap-southeast-2"
+        AWS_S3_BUCKET       = "uat.happyboy.link"
+        AWS_DISTRIBUTION_ID = "E2HFG6CSHXT2C2"
+        EMAIL_RECIPIENT     = "fxy4560654@gmail.com"
+    }
+    stages {
+        stage('Check Working Environment'){
+            steps {
+                echo '..................Current Node Version is..................'
+                sh 'node -v'
+                echo '..................Current User is..................'
+                sh'whoami'
+                echo '..................Current Working directory is..................'
+                sh'pwd'
+            }
+        }
+        stage('Npm Install') {
+            steps {
+                echo '..................npm install..................'            
+                dir("./front_end") {
+                  sh 'npm install'
+                }
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                // assume dev has written tests.
+                echo '..................npm run test ..................'
+                echo '..................npm run test --coverage..................'                
+            }
+        }
+        stage('Deploy to UAT') {
+                steps {
+                echo '..................Npm build..................'            
+                dir('./front_end'){
+                sh 'npm run build'                           
+                echo '..................Uploading the build folder to S3 bucket.......'
+                withAWS(credentials: "${AWS_S3_CREDENTIALS}", region: "${AWS_S3_REGION}"){
+                    sh'aws s3 ls'
+                    sh "aws s3 rm s3://${AWS_S3_BUCKET} --recursive"
+                    sh "aws s3 cp ./build s3://${AWS_S3_BUCKET} --recursive --acl bucket-owner-full-control"
+                    sh """aws cloudfront create-invalidation --distribution-id ${AWS_DISTRIBUTION_ID} --paths "/*" """
+                        }
+                    }  
+                }
+            }
+        }
+
+    post{
+        always {
+            cleanWs()
+        }
+        success {
+            echo " .................Deploy Successfully..................\n Congratulations! \n you have successfully passed the CI & CD process: \n Project Name:  ${PROJECT_NAME} \n Deploy Environemt:  ${PROJECT_ENV}"
+            emailext attachLog: true, body: """You get this email because your pipeline job in  
+                            project name:  ${PROJECT_NAME} 
+
+                            working environment:  ${PROJECT_ENV} environment
+
+                            has been successfully deployed.
+
+                            Please go ${PROJECT_URL} to check the results.
+
+                            Please go check the log attached.
+                            """, subject: "You have successfully deployed an ${PROJECT_ENV} environment in Staging branch! !", to: "${EMAIL_RECIPIENT}"
+        }
+        failure {
+            echo ".................Deploy Failed .................\n A job log has been sent to the recipient.\n Please go to your mailbox to check."
+            emailext attachLog: true, body: """You get this email because your pipeline job in  
+                            project name:  ${PROJECT_NAME} 
+
+                            working environment:  ${PROJECT_ENV} environment
+
+                            has been failed.
+
+                            Please go check the log attached.
+                            """, subject: "You have an ${PROJECT_ENV} deployment which has been failed in Staging branch!", to: "${EMAIL_RECIPIENT}"
+        }
+    }
+}
