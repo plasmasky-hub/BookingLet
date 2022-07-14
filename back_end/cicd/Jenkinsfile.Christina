@@ -1,22 +1,23 @@
 pipeline {
     agent any
     environment {
+        ENVIRONMENT = 'uat'
         AWS_ACCOUNT_ID="544863999112"
         AWS_DEFAULT_REGION="ap-southeast-2" 
-	    CLUSTER_NAME="default1"
-	    SERVICE_NAME="backend-container-service"
-	    TASK_DEFINITION_NAME="first-run-task-definition"
-	    DESIRED_COUNT="1"
-        IMAGE_REPO_NAME="demo"
+	    CLUSTER_NAME="bookinglet-cluster"
+	    SERVICE_NAME="bookinglet-service"
+	    TASK_DEFINITION_NAME="bookinglet-task"
+        IMAGE_REPO_NAME="bookinglet-repo"
         IMAGE_TAG="latest"
+        DESIRED_COUNT = "1"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-	registryCredential = "christina"
+	    registryCredential = "christina"
     }
-   
     stages {
         stage('npm install') {
             steps{
                 dir('./back_end/') {
+                    echo "Running test"
                     sh 'npm install'
                 }
             }
@@ -24,27 +25,24 @@ pipeline {
         stage('Building image') {
             steps{
                 dir('./back_end'){
-                    sh 'docker build -t demo .' }
-            }
-        }
-        stage('Pushing to ECR') {
-            steps{  
-                dir('./back_end'){
-                    withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
-                        sh 'aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com'
-                        sh 'docker tag demo:latest 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest'
-                        sh 'docker push 544863999112.dkr.ecr.ap-southeast-2.amazonaws.com/demo:latest' }
+                    echo "Building images..."
+                    sh 'docker build -t ${IMAGE_REPO_NAME} .' 
                 }
             }
         }
-        stage('Deploy') {
+        stage('Push image') {
             steps{
                 dir('./back_end'){
                     withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
-                    sh './script.sh' }
-                } 
+                        echo "Push image to ECR"
+                        sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
+                        sh 'docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}'
+                        sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}' 
+                        sh 'aws ecs update-service --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}" --task-definition "${TASK_DEFINITION_NAME}" --desired-count "${DESIRED_COUNT}"'
+                    }
+                }
             }
-        }
+        }    
     }
     post {
         always {
@@ -52,9 +50,9 @@ pipeline {
         }
         success {
             emailext attachLog: true, 
-            body: 'Successful back_end pipeline', 
+            body: 'front_end pipeline', 
             mimeType: 'text/HTML', 
-            subject: ' Successful back_end pipeline', 
+            subject: 'front_end pipeline', 
             to: 'connie0972001@gmail.com',
             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
         } 
