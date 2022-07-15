@@ -220,7 +220,21 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', opening = false, resultQuantity = 999 } = req.body;
+    let { sortMethod = 'orderSize',
+        person = 1,
+        category = undefined,
+        state = undefined,
+        city = undefined,
+        date = undefined,
+        query = '.',
+        opening = false,
+        resultQuantity = 999
+    } = req.query;
+
+    person = parseInt(person);
+    resultQuantity = parseInt(resultQuantity);
+    opening = opening === "true" ? true : false;
+    let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
 
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
@@ -229,8 +243,8 @@ async function getAllStores(req, res) {
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] };
-        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] };
+        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] }; //此处也要更新
+        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] }; //此处也要更新。原因是serviceInfo表中starTime已经改成了calendarTemplate。
     }
     if (opening) { optionalMatchQuery["serviceInfoDetails"] = { $ne: [] }; }
 
@@ -288,10 +302,11 @@ async function getAllStores(req, res) {
                         { isDiscard: false },
                         optionalMatchQuery,
                     ],
-                $or: [
-                    { name: qRegExp },
-                    { description: qRegExp }
-                ]
+                $or:
+                    [
+                        { name: qRegExp },
+                        { description: qRegExp }
+                    ]
             }
         },
         {
@@ -577,5 +592,4 @@ module.exports = {
     updateStoreById,
     discardStoreById,
     getDiscardedStores
-
 }

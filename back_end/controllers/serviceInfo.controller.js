@@ -226,12 +226,13 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllInfos(req, res) {
-    let { storeId } = req.body;
+    let { storeId } = req.query;
     let searchQuery = { isDiscard: false };
     if (storeId !== undefined) { searchQuery.store = storeId };
 
     const infos = await ServiceInfo.find(searchQuery).exec();
     res.json(infos);
+    
 }
 
 
