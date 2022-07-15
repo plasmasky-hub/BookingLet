@@ -5,6 +5,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Logo } from '../../shared/Logo/Logo';
 import { UserPanel } from './UserPanel';
 import { Button } from '@mui/material';
+import { Login } from '../../shared/Login/Login';
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -71,6 +72,9 @@ export const Header = () => {
           <RegisterButton variant="contained">Register</RegisterButton>
         </ButtonWrapper>
       )}
+
+      <Login />
+
     </StyledHeader>
   );
 };
