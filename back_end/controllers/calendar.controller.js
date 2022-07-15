@@ -270,7 +270,8 @@ async function checkTimeIntervalAndBook(req, res) {
     let weekMonday = getWeekMonday(bookingDate);  //output: "2022-07-11T00:00:00.000Z"
 
     startHour = parseInt(startHour);
-    endHour = parseInt(endHour);
+    endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
+    //endHour = parseInt(endHour);
     let timeSliceArr = [];
     for (let i = startHour; i < endHour; i += 5) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
