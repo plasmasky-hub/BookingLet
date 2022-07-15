@@ -14,14 +14,6 @@ pipeline {
 	    registryCredential = "christina"
     }
     stages {
-        stage('npm install') {
-            steps{
-                dir('./back_end/') {
-                    echo "Running test"
-                    sh 'npm install'
-                }
-            }
-        }
         stage('Building image') {
             steps{
                 dir('./back_end'){
