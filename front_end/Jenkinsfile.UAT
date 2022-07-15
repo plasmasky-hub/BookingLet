@@ -1,0 +1,72 @@
+pipeline {
+    agent { 
+         docker { 
+            image 'node:14.14.0'
+            args '-u root:root'
+                }
+           }
+    
+    environment {
+        ENVIRONMENT = 'UAT'
+        S3_CREDENTIAL = 'AWS credential-frontend'
+        S3_REGION = 'ap-southeast-2'
+        BUCKET_NAME = 's3://"bookinglet'
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/bookinglet-frontend@2/front_end/build' 
+        CI='false'
+    }
+
+    stages {
+        stage('Install packages') {
+            steps {
+                dir("./front_end/"){
+                echo "Installing packages ..."
+                    sh 'npm install'}
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                dir("./front_end/"){
+                echo 'Building..'
+                sh 'npm run build'}
+            }
+        }
+        
+         stage('Install AWS CLI') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo "Installing AWS CLI ..."
+                sh 'apt-get update'
+                sh 'apt install python3-pip -y'
+                sh 'pip3 install awscli --upgrade'
+            }
+        }
+    
+        stage('Deploy to UAT') {
+              steps {
+                  echo 'Deploying to ' + environment + ' ...'
+                  withAWS(region: S3_REGION, credentials: S3_CREDENTIAL) {
+                    sh 'aws s3 rm "${BUCKET_NAME}" --recursive'
+                    sh 'aws s3 cp "${WORKSPACE_PATH}" "${BUCKET_NAME}" --recursive --acl public-read '
+                  }
+              }
+         }
+    }
+    
+         post {
+        always {
+            cleanWs()
+        }
+
+        success {
+            emailext body: 'Frontend deploy success', subject: 'Frontend success', to: 'yuzhiwing@gmail.com'
+        }
+
+        failure {
+            emailext body: 'Frontend deploy failed', subject: 'Frontend failed', to: 'yuzhiwing@gmail.com', attachLog: true
+        }
+         
+    }
+}
