@@ -265,11 +265,9 @@ async function checkTimeIntervalAndBook(req, res) {
     *
     * * [bookingDate所在周]的周一日期。type为Date，由getWeekMonday(bookingDate)获得。
     */
-    const { id } = req.params;
-    let { date, startHour, endHour } = req.body;
+    let { date, startHour, endHour, serviceInfoId } = req.body;
     let bookingDate = new Date(date);
     let weekMonday = getWeekMonday(bookingDate);  //output: "2022-07-11T00:00:00.000Z"
-    let serviceInfoId = id;
 
     startHour = parseInt(startHour);
     endHour = parseInt(endHour);
@@ -278,13 +276,15 @@ async function checkTimeIntervalAndBook(req, res) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
     }
 
-    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: weekMonday }).exec();
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
 
     if (bookingRecordArr.length === 0) { bookingResult = await createBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceArr); };
     if (bookingRecordArr.length === 1) { bookingResult = await checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceArr); };
     if (bookingRecordArr.length > 1) { bookingResult = { Error: 'Database error!' } };
 
-    res.json(bookingResult)
+    res.json(bookingResult);
+    return bookingResult;
+
 }
 
 
@@ -353,7 +353,10 @@ async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceAr
 }
 
 
-function getWeekMonday(bookingDate) { //此处有问题，时间有时不准。但是暂不影响检索和查重
+function getWeekMonday(bookingDate) {
+    console.log(bookingDate)
+    //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
+
     let dayInWeekIndex = bookingDate.getDay();
     switch (dayInWeekIndex) {
         case 0: dayGap = 1000 * 60 * 60 * 24 * 6; break;
@@ -397,7 +400,37 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
         return newElement;
     });
     await bookingRecord.save();
-    decision.message = 'Booking successful!';
+    decision.message = 'Booking successful! Waiting for merchant confirmation.';
+}
+
+async function bookingWithdraw(serviceInfoId, orderTime) {
+    let weekMonday = getWeekMonday(orderTime.date);
+    let dayOfWeek = getDayOfWeek(orderTime.date);
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
+    const bookingRecord = bookingRecordArr[0];
+
+    let startHour = parseInt(orderTime.startTime);
+    let endHour = parseInt(orderTime.endTime);
+    let timeSliceArr = [];
+    for (let i = startHour; i < endHour; i += 5) {
+        if (i % 100 < 60) { timeSliceArr.push(i); };
+    }
+
+    if (bookingRecordArr.length === 1) {
+        bookingRecord.serviceHours[dayOfWeek] = bookingRecord.serviceHours[dayOfWeek].map((element) => {
+            let newElement = {};
+            (timeSliceArr.indexOf(element.timeSlice) === -1) ? (
+                newElement = { ...element }
+            ) : (
+                newElement.timeSlice = element.timeSlice,
+                newElement.reservation = (element.reservation > 0) ? (element.reservation - 1) : element.reservation,
+                newElement.availability = (newElement.reservation < serviceInfo.maxServicePerSection) ? true : false
+            );
+            return newElement;
+        });
+        await bookingRecord.save();
+    }
 }
 
 
@@ -405,9 +438,6 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
 //营业时间锁：
 //如果serviceInfo添加营业时间interval，它的所有timeSlice必须在store的营业时间内，否则拒绝。
 //如果store删除营业时间interval，检索所有从属serviceInfo，删除的营业时间必须不存在于任何serviceInfo内，否则拒绝。
-
-//maxServicePerSection修改问题
-//如果商家修改maxServicePerSection，需要遍历serviceInfo下所有（创建时间码 >= 当前时间码）的bookingRecord。所得所有documents要更新availability的状态。
 
 
 
@@ -425,6 +455,26 @@ async function deleteAllRecords(req, res) {   //dev test only! 不是真的要�
 }
 
 
+async function getBusinessTimeByDateAndServiceInfo(req, res) {
+    const { date, serviceInfoId } = req.query;
+    let weekMonday = getWeekMonday(new Date(date));
+    let dayOfWeek = getDayOfWeek(new Date(date));
+
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
+
+    if (bookingRecordArr.length === 0) {
+        const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+        const businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
+        res.send({ branch: 'calendarTemplate', businessTimeArr });
+    };
+    if (bookingRecordArr.length === 1) {
+        const businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek];
+        res.send({ branch: 'bookingRecord', businessTimeArr });
+    };
+    if (bookingRecordArr.length > 1) { res.send({ Error: 'Database error!' }) };
+}
+
+
 module.exports = {
     getStoreBusinessTimeById,
     addStoreBusinessTimeById,
@@ -436,7 +486,11 @@ module.exports = {
     deleteServiceInfoCalendarById,
     updateServiceInfoCalendarById,
     checkTimeIntervalAndBook,
+    bookingWithdraw,
+    getDayOfWeek,
+
 
     getAllRecords,
+    getBusinessTimeByDateAndServiceInfo,
     deleteAllRecords
 }
