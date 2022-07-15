@@ -1,0 +1,89 @@
+pipeline{
+    agent {
+        label 'agent2'
+        //Docker 20.10.14 / aws-cli 2.0.30 installed
+    }
+    environment {
+        PROJECT_ENV              = "UAT"
+        PROJECT_NAME             = "BookingLet-BackEnd"
+        AWS_CREDENTIALS          = "AWS-Credentials-Root-AccessKey"
+        AWS_ACCOUNT_ID           = "820599146567"
+        AWS_DEFAULT_REGION       = "ap-southeast-2"
+        AWS_IMAGE_REPO           = "bookinglet-backend"
+        AWS_IMAGE_TAG            = "latest"
+        AWS_CLUSTER_NAME         = "bookinglet-backend-cluster"
+        AWS_SERVICE_NAME         = "bookinglet-backend-service"
+        AWS_TASK_DEFINITION_NAME = "bookinglet-backend-task"
+        AWS_ECS_DESIRED_COUNT    = "1"
+        EMAIL_RECIPIENT          = "fxy4560654@gmail.com"
+    }
+    stages {
+        stage('BuildImage'){
+            when {                      
+                environment name: 'PROJECT_ENV', value: 'UAT'
+                }               
+            steps {
+                dir('./back_end/'){
+                    sh "docker build -t ${AWS_IMAGE_REPO}:${AWS_IMAGE_TAG} ."
+                }             
+            }
+        }        
+        stage('Login ECR'){  
+            steps {
+                dir('./back_end/'){
+                    withAWS(credentials: "${AWS_CREDENTIALS}", region: "${AWS_DEFAULT_REGION}"){
+                    sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                    }
+                }
+            }
+        }
+        stage('Push to ECR'){
+            steps {
+                dir('./back_end/'){
+                    withAWS(credentials: "${AWS_CREDENTIALS}", region: "${AWS_DEFAULT_REGION}"){
+                    sh "docker tag ${AWS_IMAGE_REPO}:${AWS_IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_IMAGE_REPO}:${AWS_IMAGE_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_IMAGE_REPO}:${AWS_IMAGE_TAG}"
+                    sh "aws ecs update-service --cluster ${AWS_CLUSTER_NAME} --service ${AWS_SERVICE_NAME} --task-definition ${AWS_TASK_DEFINITION_NAME} --desired-count ${AWS_ECS_DESIRED_COUNT}"
+                    }   
+                }  
+            }
+        }
+        stage('Clean Cache'){
+            steps {
+                dir('./back_end/'){
+                    sh "docker rmi ${AWS_IMAGE_REPO}:${AWS_IMAGE_TAG}"
+                    sh "docker rmi ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_IMAGE_REPO}:${AWS_IMAGE_TAG}"                
+                }
+            }
+        }        
+    }
+    post{
+        always {
+            cleanWs()
+        }
+        success {
+            echo " .................Deploy Successfully..................\n Congratulations! \n you have successfully passed the CI & CD process: \n Project Name:  ${PROJECT_NAME} \n Deploy Environemt:  ${PROJECT_ENV}"
+            emailext attachLog: true, body: """You get this email because your pipeline job in  
+                            project name:  ${PROJECT_NAME} 
+
+                            working environment:  ${PROJECT_ENV} environment
+
+                            has been successfully deployed.
+
+                            Please go check the log attached.
+                            """, subject: "You have successfully deployed an ${PROJECT_ENV} environment in Staging branch! !", to: "${EMAIL_RECIPIENT}"
+        }
+        failure {
+            echo ".................Deploy Fail .................\n A job log has been sent to the recipient.\n Please go to your mailbox to check."
+            emailext attachLog: true, body: """You get this email because your pipeline job in  
+                            project name:  ${PROJECT_NAME} 
+
+                            working environment:  ${PROJECT_ENV} environment
+
+                            has been failed.
+
+                            Please go check the log attached.
+                            """, subject: "You have an ${PROJECT_ENV} deployment which has been failed in Staging branch!", to: "${EMAIL_RECIPIENT}"
+        }
+    }
+}
