@@ -32,7 +32,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 subCategory test 3v1\",\r\n    \"parentCategory\": \"62a612b87645da1c405c0daa\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Jun 18 subCategory test1\",\r\n    \"parentCategory\": \"62a612b87645da1c405c0daa\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -1,5 +1,6 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
+const { getDayOfWeek } = require('./calendar.controller');
 const Joi = require('joi');
 
 
@@ -219,55 +220,79 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', resultQuantity = 999 } = req.body;
+    let { sortMethod = 'orderSize',
+        person = 1,
+        category = undefined,
+        state = undefined,
+        city = undefined,
+        date = undefined,
+        query = '.',
+        opening = false,
+        resultQuantity = 999
+    } = req.query;
+
+    person = parseInt(person);
+    resultQuantity = parseInt(resultQuantity);
+    opening = opening === "true" ? true : false;
+    let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
 
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
     let startTimeDateQuery = {};
 
-    //if (category !== undefined) { optionalMatchQuery.rootCategories = category };  //invalid here. The reason should be array != string.
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] };
-        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] };
+        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] }; //此处也要更新
+        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] }; //此处也要更新。原因是serviceInfo表中starTime已经改成了calendarTemplate。
     }
+    if (opening) { optionalMatchQuery["serviceInfoDetails"] = { $ne: [] }; }
 
-    let aimedStores = await Store.aggregate([
+    await Store.aggregate([
         {
             $lookup: {
                 from: "serviceinfos",
                 let: { id: "$_id" },
-                pipeline: [
-                    {  //Filter the sub-table 1st time, and return main tables which contain the specified day in its sub-table.
-                        $project:
-                        {
-                            store: 1, name: 1, maxPersonPerSection: 1,
-                            "startTime": {
-                                $filter: {
-                                    input: "$startTime.dayOfWeek",
-                                    as: "startTimeDay",
-                                    cond: startTimeDateQuery  //If there is no 'dateInWeek' in filter, select *
+                pipeline:
+                    [
+                        {  //Filter the sub-table 1st time, and return main tables which contain the specified day in its sub-table.
+                            $project:
+                            {
+                                store: 1, name: 1, maxPersonPerSection: 1,
+                                "startTime": {
+                                    $filter: {
+                                        input: "$startTime.dayOfWeek",
+                                        as: "startTimeDay",
+                                        cond: startTimeDateQuery  //If there is no 'dateInWeek' in filter, select *
+                                    }
+                                }
+                            }
+                        },
+                        {  //Filter the sub-table 2nd time, and return main tables which {$maxPersonPerSection > person} in its sub-table.
+                            $match:
+                            {
+                                $expr:
+                                {
+                                    $and:
+                                        [
+                                            { isDiscard: false },
+                                            { $eq: ["$store", "$$id"] },
+                                            { $gte: ["$maxPersonPerSection", person] }
+                                        ]
                                 }
                             }
                         }
-                    },
-                    {  //Filter the sub-table 2nd time, and return main tables which {$maxPersonPerSection > person} in its sub-table.
-                        $match:
-                        {
-                            $expr:
-                            {
-                                $and:
-                                    [
-                                        { isDiscard: false },
-                                        { $eq: ["$store", "$$id"] },
-                                        { $gte: ["$maxPersonPerSection", person] }
-                                    ]
-                            }
-                        }
-                    }
-                ],
+                    ],
                 as: "serviceInfoDetails"
+            },
+        },
+        {
+            $lookup:
+            {
+                from: "rootcategories",
+                localField: "rootCategories",
+                foreignField: "_id",
+                as: "rootCategoryDetails"
             }
         },
         {
@@ -275,15 +300,13 @@ async function getAllStores(req, res) {
                 $and:
                     [
                         { isDiscard: false },
-                        { "serviceInfoDetails": { $ne: [] } },
                         optionalMatchQuery,
-                        // { "rootCategories": { $elemMatch: {$eq: "629f0bc95abd87303b5dcb17"} } }  //incorrect, but I don't know why
-                        // { rootCategories: { $all: ["629f0bc95abd87303b5dcb17"] } }  //incorrect, but I don't know why
                     ],
-                $or: [
-                    { name: qRegExp },
-                    { description: qRegExp }
-                ]
+                $or:
+                    [
+                        { name: qRegExp },
+                        { description: qRegExp }
+                    ]
             }
         },
         {
@@ -292,7 +315,33 @@ async function getAllStores(req, res) {
         {
             $limit: resultQuantity
         }
+
     ]).then((result) => {
+        const today = new Date();
+        const dayOfWeekToday = getDayOfWeek(today);
+
+        if (category !== undefined) {
+            result = result.filter((element) => {
+                let matched = false;
+                for (let i = 0; i < element.rootCategoryDetails.length; i++) {
+                    if ({ ...element.rootCategoryDetails[i] }._id == category) { matched = true; }
+                }
+                return matched;
+            })
+        }
+
+        if (opening) {
+            result.map((element) => {
+                let maxPersonPerSectionArr = [];
+                element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
+                element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
+
+                if (element.businessHours !== undefined) {
+                    element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
+                } else { element.isAvailableToday = false; }
+            })
+        }
+
         res.json(result)
     }).catch((error) => {
         res.json(error)

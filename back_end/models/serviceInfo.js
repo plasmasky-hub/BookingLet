@@ -58,6 +58,119 @@ const schema = new mongoose.Schema({
         dayOfWeek: String,
         openHours: [String]
     }],
+    calendarTemplate: {
+        Monday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+        Tuesday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+        Wednesday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+        Thursday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+        Friday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+        Saturday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+        Sunday: [{
+            timeSlice: {
+                type: Number,
+                max: 2355,
+                min: 0
+            },
+            reservation: {
+                type: Number,
+                default: 0
+            },
+            availability: {
+                type: Boolean,
+                default: true
+            }
+        }],
+
+    },
+    isDuration: {
+        type: Boolean,
+        default: true
+    },
+    latestAutoUpdate: Date,
     isDiscard: {
         type: Boolean,
         default: false
