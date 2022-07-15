@@ -170,7 +170,6 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    latestAutoUpdate: Date,
     isDiscard: {
         type: Boolean,
         default: false
