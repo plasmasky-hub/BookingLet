@@ -26,7 +26,6 @@ const schema = new mongoose.Schema(
       city: { type: String, required: true },
       suburb: { type: String, required: true },
       street: { type: String, required: true },
-      number: { type: String, required: true },
       postcode: { type: String, required: true },
     },
     description: {
