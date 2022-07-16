@@ -1,14 +1,16 @@
 pipeline {
     agent {
         docker {
-            image 'node:14.17.6'
+            image 'node:16.0.0'
             args '-u root:root'
         }
     }
     environment {
         ENVIRONMENT = 'uat'
+        CI          = 'false'
         BUCKET_NAME = "www.shecan.link"
         REGION      = "ap-southeast-2"
+        DISTRIBUTION_ID = 'E2AG1WHBKVENIJ'
         WORKSPACE_PATH = '/var/lib/jenkins/workspace/Frontend-UAT/front_end/build'
     }
     stages {
@@ -18,7 +20,6 @@ pipeline {
                     echo "Installing packages"
                     sh 'npm install'
                     sh 'node --version'
-                    sh 'whoami'
                 }
             }
         }
@@ -46,7 +47,7 @@ pipeline {
                     dir('./front_end/') {
                         sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'  
                         sh 'aws s3 sync ${WORKSPACE_PATH} s3://${BUCKET_NAME}'
-                        sh "aws cloudfront create-invalidation --distribution-id EUX4YP8EVOG0K --paths '/*'"                    
+                        sh "aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths '/*'"                    
                     }
                 }
             }
