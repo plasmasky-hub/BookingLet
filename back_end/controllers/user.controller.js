@@ -166,7 +166,7 @@ async function addOrCancelFavoriteStore(req,res){
  
 
  //exist：delete user id into store and delete store id into user size-1
- if(storeExists > -1 && userExists >-1 ){
+ if(storeExists > -1 || userExists >-1 ){
   user.favoriteStores.remove(storeId);
   await user.save();
 
