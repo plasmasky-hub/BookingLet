@@ -7,8 +7,6 @@ const {
   deleteUserByID,
   getUserStores,
   addOrCancelFavoriteStore
-  //addStoreToUser,
-
 } = require('../controllers/user.controller');
 
 const userRouter = express.Router();
@@ -20,7 +18,5 @@ userRouter.put('/:id', updateUserByID);
 userRouter.delete('/:id', deleteUserByID);
 userRouter.get('/:id/stores', getUserStores);
 userRouter.post('/addOrCancelFavoriteStore',addOrCancelFavoriteStore);
-//userRouter.put('/:id/store', addStoreToUser);
-
 
 module.exports = userRouter;
