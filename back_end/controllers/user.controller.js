@@ -152,6 +152,46 @@ async function getUserStores(req, res){
   }
 }
 
+//add or cancel favorite store
+async function addOrCancelFavoriteStore(req,res){
+ 
+ //check store exist or not 
+ 
+ const {userId,storeId} =req.body;
+ 
+ const store =await Store.findById(storeId).exec();
+ const user = await User.findById(userId).exec();
+ const storeExists=await user.favoriteStores.indexOf(storeId);
+ const userExists=await store.favoriteUsers.indexOf(userId);
+ 
+
+ //exist：delete user id into store and delete store id into user size-1
+ if(storeExists > -1 && userExists >-1 ){
+  user.favoriteStores.remove(storeId);
+  await user.save();
+
+  store.favoriteUsers.remove(userId);
+  store.favoriteUsersSize--;
+  await store.save();
+
+  res.json(store)
+ }else{
+ // do not exist：  add user id into store and add store id into user size+1
+ user.favoriteStores.addToSet(storeId);
+ await user.save();
+
+ store.favoriteUsers.addToSet(userId);
+ store.favoriteUsersSize++;
+ await store.save();
+
+
+ res.json(store)
+ }
+
+
+
+}
+
 // async function addStoreToUser(req, res){
 //   console.log('Adding store to user...');
 //   const { id } = req.params;
@@ -213,5 +253,6 @@ module.exports = {
   updateUserByID,
   deleteUserByID,
   getUserStores,
+  addOrCancelFavoriteStore
   //addStoreToUser,
 };

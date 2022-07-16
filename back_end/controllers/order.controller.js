@@ -88,6 +88,7 @@ async function addOrder(req, res) {
 
       const store = await Store.findById(storeId).exec();
       store.orders.addToSet(newOrder._id);
+      store.orderSize++;
       await store.save();
     }
   } else {
