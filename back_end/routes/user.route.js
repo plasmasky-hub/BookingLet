@@ -6,6 +6,7 @@ const {
   getUserByID,
   deleteUserByID,
   getUserStores,
+  addOrCancelFavoriteStore
   //addStoreToUser,
 } = require('../controllers/user.controller');
 
@@ -17,6 +18,7 @@ userRouter.get('/:id', getUserByID);
 userRouter.put('/:id', updateUserByID);
 userRouter.delete('/:id', deleteUserByID);
 userRouter.get('/:id/stores', getUserStores);
+userRouter.put('/:id/addOrCancelFavoriteStore',addOrCancelFavoriteStore);
 //userRouter.put('/:id/store', addStoreToUser);
 
 module.exports = userRouter;
