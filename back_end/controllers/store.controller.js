@@ -1,5 +1,6 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
+const User = require('../models/user');
 const { getDayOfWeek } = require('./calendar.controller');
 const Joi = require('joi');
 
@@ -430,7 +431,12 @@ async function addStore(req, res) {
     const { name, owner, tel, location, description, rootCategories } = validatedData;  //= req.body;
     const store = new Store({ name, owner, tel, location, description, rootCategories });
     await store.save();
-    res.status(201).json(store);
+
+    const user = await User.findById(owner).exec();
+    user.stores.addToSet(store._id);
+    await user.save();
+
+    res.status(201).json({store, user});
 }
 
 
@@ -523,6 +529,7 @@ async function discardStoreById(req, res) {
     await ServiceInfo.updateMany({ store: id }, {
         $set: { 'isDiscard': true }
     }).exec();
+    //这里最好改成，删除店铺前需要判定，如果所属全部serviceInfo 都为 isDiscard: TRUE，才可以删除。
 
     const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
     if (!store) {
@@ -552,7 +559,6 @@ async function checkStore(data) {
             city: Joi.string().required(),
             suburb: Joi.string().required(),
             street: Joi.string().required(),
-            number: Joi.string().required(),
             postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
         },
         description: Joi.string().max(300),
@@ -572,7 +578,6 @@ async function checkStoreUpdate(data) {
             city: Joi.string().required(),
             suburb: Joi.string().required(),
             street: Joi.string().required(),
-            number: Joi.string().required(),
             postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
         },
         description: Joi.string().max(300),

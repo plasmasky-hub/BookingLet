@@ -391,26 +391,20 @@ async function updateInfoById(req, res) {
     const { id } = req.params;
     const {
         name,
-        rootCategory,
         subCategories,
         duration,
         maxPersonPerSection,
-        maxServicePerSection,
         price,
-        description,
-        startTime
+        description
         //} = req.body;
     } = validatedData;
     const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
         name,
-        rootCategory,
         subCategories,
         duration,
         maxPersonPerSection,
-        maxServicePerSection,
         price,
-        description,
-        startTime
+        description
     }, { new: true }).exec();
 
     if (!serviceInfo) {
@@ -477,10 +471,10 @@ async function checkServiceInfo(data) {
         rootCategory: Joi.required(),
         subCategories: Joi.array(),
         store: Joi.required(),
-        duration: Joi.number().required().min(0.5).max(5),
+        duration: Joi.object().required(),
         maxPersonPerSection: Joi.number().required().min(1).max(200),
         maxServicePerSection: Joi.number().required().min(1),
-        price: Joi.number().min(0).max(9999),
+        price: Joi.string().max(30),
         description: Joi.string().max(300)
     });
 
@@ -491,18 +485,11 @@ async function checkServiceInfo(data) {
 async function checkServiceInfoUpdate(data) {
     const schema = Joi.object({
         name: Joi.string().required().min(2).max(30),
-        rootCategory: Joi.required(),
         subCategories: Joi.array(),
-        duration: Joi.number().required().min(0.5).max(5),
+        duration: Joi.object().required(),
         maxPersonPerSection: Joi.number().required().min(1).max(200),
-        maxServicePerSection: Joi.number().required().min(1),
-        price: Joi.number().min(0).max(9999),
+        price: Joi.string().max(30),
         description: Joi.string().max(300),
-        /*startTime: [{
-            dayOfWeek: Joi.string(),
-            openHours: [Joi.string()]
-        }],*/
-        startTime: Joi.array()
     });
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
