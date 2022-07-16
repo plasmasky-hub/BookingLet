@@ -14,6 +14,11 @@ async function addOrder(req, res) {
     req.body;
   const bookingTime = new Date(orderTime.date);
   const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+  if (!serviceInfo || serviceInfo.isDiscard) {
+    return res.status(404).json({
+      error: 'service info not found!',
+    });
+  }
   const storeId = serviceInfo.store;
 
   //slice time
