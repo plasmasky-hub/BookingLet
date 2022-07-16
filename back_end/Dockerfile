@@ -1,13 +1,13 @@
-FROM node:12
+FROM node:16.0.0
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY package-lock.json ./
 
 RUN npm install 
-RUN npm ci 
 
-COPY . .
+COPY ./ ./
 
 EXPOSE 8000
 
