@@ -69,10 +69,6 @@ const schema = new mongoose.Schema({
         type: String,
         maxlength: 300,
     },
-    startTime: [{
-        dayOfWeek: String,
-        openHours: [String]
-    }],
     calendarTemplate: {
         Monday: [{
             timeSlice: {

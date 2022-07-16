@@ -436,7 +436,7 @@ async function addStore(req, res) {
     user.stores.addToSet(store._id);
     await user.save();
 
-    res.status(201).json({store, user});
+    res.status(201).json(store);
 }
 
 
@@ -525,20 +525,22 @@ async function updateStoreById(req, res) {
 */
 async function discardStoreById(req, res) {
     const { id } = req.params;
-
-    await ServiceInfo.updateMany({ store: id }, {
-        $set: { 'isDiscard': true }
-    }).exec();
-    //这里最好改成，删除店铺前需要判定，如果所属全部serviceInfo 都为 isDiscard: TRUE，才可以删除。
-
-    const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-    if (!store) {
-        return res.status(404).json({
-            error: 'store not found',
+    let refServiceInfo = await ServiceInfo.find({ store: id, isDiscard: false }).exec();
+    if (refServiceInfo.length > 0) {
+        return res.status(400).json({
+            error: 'store cannot be deleted, because it has one or more reference services.',
         });
+    } else {
+        const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+        if (!store) {
+            return res.status(404).json({
+                error: 'store not found',
+            });
+        }
+        res.sendStatus(204);
     }
 
-    res.sendStatus(204);
+
 
 }
 
