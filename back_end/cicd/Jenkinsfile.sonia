@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID = 229848107216
         AWS_DEFAULT_REGION = "ap-southeast-2"
-        IMAGE_REPO_NAME = "bookinglet-ecr"
+        IMAGE_REPO_NAME = "bookinglet-default"
         IMAGE_TAG="latest"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
 
