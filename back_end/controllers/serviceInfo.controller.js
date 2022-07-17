@@ -232,7 +232,7 @@ async function getAllInfos(req, res) {
 
     const infos = await ServiceInfo.find(searchQuery).exec();
     res.json(infos);
-    
+
 }
 
 
@@ -311,6 +311,9 @@ async function getInfoById(req, res) {
  *                      
 */
 async function addInfo(req, res) {
+    const { checkResult, decision } = checkDurationFormat(req, res);
+    if (!checkResult) { return res.json(decision); };
+
     const validatedData = await checkServiceInfo(req.body);  //Without await, promise status will be <pending>. 
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
@@ -338,6 +341,7 @@ async function addInfo(req, res) {
         price,
         description
     });
+
     await serviceInfo.save();
     Store.findByIdAndUpdate(store, { $addToSet: { serviceInfos: serviceInfo._id } }).exec();
 
@@ -385,10 +389,23 @@ async function addInfo(req, res) {
  *                                  type: string                       
 */
 async function updateInfoById(req, res) {
+    const { id } = req.params;
+    const serviceDurationCheck = await ServiceInfo.findById(id).exec();
+    if (!serviceDurationCheck) {
+        return res.status(404).json({
+            error: 'service info not found',
+        });
+    };
+    if (serviceDurationCheck.duration.durationType !== req.body.duration.durationType) {
+        return res.json('Error: Duration type cannot change!');
+    };
+
+    const { checkResult, decision } = checkDurationFormat(req, res);
+    if (!checkResult) { return res.json(decision); };
+
     const validatedData = await checkServiceInfoUpdate(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
-    const { id } = req.params;
     const {
         name,
         subCategories,
@@ -398,6 +415,7 @@ async function updateInfoById(req, res) {
         description
         //} = req.body;
     } = validatedData;
+
     const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
         name,
         subCategories,
@@ -407,11 +425,6 @@ async function updateInfoById(req, res) {
         description
     }, { new: true }).exec();
 
-    if (!serviceInfo) {
-        return res.status(404).json({
-            error: 'service info not found',
-        });
-    }
     res.json(serviceInfo);
 }
 
@@ -460,6 +473,36 @@ async function discardInfoById(req, res) {
 async function getDiscardedInfos(req, res) {
     const Infos = await ServiceInfo.find({ isDiscard: true }).exec();
     res.json(Infos);
+}
+
+
+function checkDurationFormat(req, res) {
+    const { durationType, fixedDuration, changeableDuration } = req.body.duration;
+    let checkResult = true;
+    let decision = 'Duration check pass.';
+
+    if (durationType === 'changeable' && (fixedDuration !== undefined || changeableDuration === undefined)) {
+        checkResult = false;
+        decision = 'Error: Changeable type duration can only and must match a Changeable value.';
+    } else if (durationType === 'changeable' && (changeableDuration.minimum === undefined || changeableDuration.maximum === undefined)) {
+        checkResult = false;
+        decision = 'Error: Changeable type duration must have a minimum and a maximum duration.';
+    } else if (durationType === 'changeable' && !(changeableDuration.minimum < changeableDuration.maximum)) {
+        checkResult = false;
+        decision = 'Error: Maximum duration must greater than minimum duration.';
+    };
+
+    if (durationType === 'fixed' && (changeableDuration !== undefined || fixedDuration === undefined)) {
+        checkResult = false;
+        decision = 'Error: Fixed type duration can only and must match a fixed value.';
+    };
+
+    if (durationType === 'unlimited' && (changeableDuration !== undefined || fixedDuration !== undefined)) {
+        checkResult = false;
+        decision = 'Error: Unlimited type duration cannot match fixed or changeable value.';
+    };
+
+    return { checkResult, decision };
 }
 
 
