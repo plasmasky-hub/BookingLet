@@ -63,6 +63,7 @@ const schema = new mongoose.Schema(
     orderSize: {
       type: Number,
       default: 0,
+      min: 0
     },
     favoriteUsers: [
       {
@@ -73,7 +74,14 @@ const schema = new mongoose.Schema(
     favoriteUsersSize: {
       type: Number,
       default: 0,
+      min: 0
     },
+    photo: [{
+      type: String
+    }],
+    menuPhoto: [{
+      type: String
+    }],
     isDiscard: {
       type: Boolean,
       default: false,

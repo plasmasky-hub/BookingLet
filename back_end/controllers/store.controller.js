@@ -231,21 +231,24 @@ async function getAllStores(req, res) {
         opening = false,
         resultQuantity = 999
     } = req.query;
+    
+    if(['orderSize', 'favoriteUsersSize', 'distance'].indexOf(sortMethod) === -1){
+        return res.status(400).json({
+            error: 'SortMethod must be one of [orderSize, favoriteUsersSize, distance].'
+        });
+    }
 
     person = parseInt(person);
     resultQuantity = parseInt(resultQuantity);
     opening = opening === "true" ? true : false;
     let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
-
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
-    let startTimeDateQuery = {};
 
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] }; //此处也要更新
-        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] }; //此处也要更新。原因是serviceInfo表中starTime已经改成了calendarTemplate。
+        optionalMatchQuery[`businessHours.${dateInWeek}`] = { $ne: [] };
     }
     if (opening) { optionalMatchQuery["serviceInfoDetails"] = { $ne: [] }; }
 
@@ -256,20 +259,10 @@ async function getAllStores(req, res) {
                 let: { id: "$_id" },
                 pipeline:
                     [
-                        {  //Filter the sub-table 1st time, and return main tables which contain the specified day in its sub-table.
-                            $project:
-                            {
-                                store: 1, name: 1, maxPersonPerSection: 1,
-                                "startTime": {
-                                    $filter: {
-                                        input: "$startTime.dayOfWeek",
-                                        as: "startTimeDay",
-                                        cond: startTimeDateQuery  //If there is no 'dateInWeek' in filter, select *
-                                    }
-                                }
-                            }
+                        {
+                            $project: { store: 1, name: 1, maxPersonPerSection: 1 }
                         },
-                        {  //Filter the sub-table 2nd time, and return main tables which {$maxPersonPerSection > person} in its sub-table.
+                        {  
                             $match:
                             {
                                 $expr:
@@ -301,7 +294,7 @@ async function getAllStores(req, res) {
                 $and:
                     [
                         { isDiscard: false },
-                        optionalMatchQuery,
+                        optionalMatchQuery
                     ],
                 $or:
                     [
