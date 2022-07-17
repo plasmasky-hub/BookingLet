@@ -28,12 +28,13 @@ async function addUser(req, res) {
       return res.json(checkResult);
     }
 
-    const { name, tel, email } = req.body;
+    const { name, tel, email, role } = req.body;
 
     const newUser = new User({
       name,
       tel,
       email,
+      role
     });
     await newUser.save();
 

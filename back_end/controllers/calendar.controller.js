@@ -451,8 +451,8 @@ async function getAllRecords(req, res) {   //dev test only!
 
 
 async function deleteAllRecords(req, res) {   //dev test only! 不是真的要一键删库！
-    const records = await BookingRecord.deleteMany().exec();
-    res.json(records);
+    //const records = await BookingRecord.deleteMany().exec();
+    //res.json(records);
 }
 
 
