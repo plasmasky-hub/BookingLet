@@ -445,15 +445,13 @@ async function updateInfoById(req, res) {
 */
 async function discardInfoById(req, res) {
     const { id } = req.params;
-
-    //I don't test order existence verification logic, because mongodb has no data in order collection
     const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
     if (!serviceInfo) {
         return res.status(404).json({
             error: 'service info not found',
         });
     }
-    await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
+    //await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
     res.sendStatus(204);
 
 }
