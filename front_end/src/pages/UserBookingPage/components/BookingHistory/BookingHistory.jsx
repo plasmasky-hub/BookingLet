@@ -35,7 +35,7 @@ export const BookingHistory = () => {
                 <span><strong>Filter by booking status</strong></span>
             </Stack>
             <Stack direction="row" spacing={1} sx={{ py: 2 }}>
-                <StyledChips label='All'></StyledChips>
+                <StyledChips label='All' variant='filled'></StyledChips>
                 <StyledChips label='Uncomfirmed'></StyledChips>
                 <StyledChips label='Confirmed'></StyledChips>
                 <StyledChips label='Done'></StyledChips>
