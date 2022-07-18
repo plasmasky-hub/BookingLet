@@ -276,7 +276,10 @@ async function getDiscardedRootCategories(req, res) {
  *                                  type: string                          
 */
 async function getAllSubCategories(req, res) {
-    const subCategories = await SubCategory.find({ isDiscard: false }).populate('parentCategory').exec();
+    let { rootCategoryId } = req.query;
+    let searchQuery = { isDiscard: false };
+    if (rootCategoryId !== undefined) { searchQuery.parentCategory = rootCategoryId };
+    const subCategories = await SubCategory.find(searchQuery, { __v: 0, id: 0, isDiscard: 0 }).populate('parentCategory', { name: 1 }).exec();
     res.json(subCategories);
 }
 
@@ -376,12 +379,9 @@ async function addSubCategory(req, res) {
 */
 //This function is used to rename and change the parentCategory (and does not affect the association)
 async function updateSubCategoryById(req, res) {
-    const validatedData = await checkSubCategory(req.body);
-    if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
-
     const { id } = req.params;
-    const { name, parentCategory } = validatedData;     //= req.body;
-    const subCategory = await SubCategory.findByIdAndUpdate(id, { name, parentCategory }, { new: true }).exec();
+    const { name } = req.body;
+    const subCategory = await SubCategory.findByIdAndUpdate(id, { name }, { new: true }).exec();
     if (!subCategory) {
         return res.status(404).json({
             error: 'Subcategory not found',
@@ -428,7 +428,7 @@ async function updateSubCategoryById(req, res) {
  *                                  type: string
  *                              associatedItem:
  *                                  type: object or array                          
-*/          
+*/
 async function discardSubCategoryById(req, res) {
     const { id } = req.params;
     const refServiceInfo = await ServiceInfo.find({ subCategories: id, isDiscard: false }).exec();
