@@ -7,9 +7,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 30,
-        unique: true,
-        dropDups: true
+        maxlength: 30
     },
     rootCategory: {
         type: mongoose.Types.ObjectId,
@@ -26,11 +24,29 @@ const schema = new mongoose.Schema({
         required: true
     },
     duration: {
-        type: Number,
-        required: true,
-        min: 0.5,
-        max: 5,
-        default: 1
+        durationType: {
+            type: String,
+            required: true,
+            enum: ['fixed', 'changeable', 'unlimited'],
+            default: 'changeable'
+        },
+        fixedDuration: {
+            type: Number,
+            min: 0.25,
+            max: 5,
+        },
+        changeableDuration: {
+            minimum: {
+                type: Number,
+                min: 0.25,
+                max: 5,
+            },
+            maximum: {
+                type: Number,
+                min: 0.5,
+                max: 6,
+            }
+        }
     },
     maxPersonPerSection: {
         type: Number,
@@ -46,18 +62,13 @@ const schema = new mongoose.Schema({
         default: 1
     },
     price: {
-        type: Number,
-        min: 0,
-        max: 9999
+        type: String,
+        maxlength: 30
     },
     description: {
         type: String,
         maxlength: 300,
     },
-    startTime: [{
-        dayOfWeek: String,
-        openHours: [String]
-    }],
     calendarTemplate: {
         Monday: [{
             timeSlice: {
@@ -165,10 +176,6 @@ const schema = new mongoose.Schema({
             }
         }],
 
-    },
-    isDuration: {
-        type: Boolean,
-        default: true
     },
     isDiscard: {
         type: Boolean,
