@@ -45,7 +45,7 @@ async function deleteStoreBusinessTimeById(req, res) {
         if (i % 100 < 60) { storeTimeSliceArr.push(i); };
     }
     const serviceInfos = await ServiceInfo.find({ store: id }).exec();
-    
+
     serviceInfos.map((info) => {
         storeTimeSliceArr.map((element) => {
             if (info.calendarTemplate[dayOfWeek].findIndex((ele) => ele.timeSlice === element) > -1) {
