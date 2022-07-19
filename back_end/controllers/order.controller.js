@@ -24,7 +24,7 @@ async function addOrder(req, res) {
   //slice time
   let startHour = parseInt(orderTime.startTime);
   let endHour = null;
-  if (orderTime.endHour === undefined) {
+  if (orderTime.endTime === undefined) {
     endHour = startHour + 5;
     req.body.orderTime.endTime = startHour + 5;
   } else {
@@ -38,7 +38,6 @@ async function addOrder(req, res) {
       timeSliceArr.push(i);
     }
   }
-  console.log(timeSliceArr)
 
   const orderArr = await Order.find({
     'orderTime.date': orderTime.date,
