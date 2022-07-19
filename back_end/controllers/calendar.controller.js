@@ -578,7 +578,7 @@ async function getChartDataByDateAndServiceInfo(req, res) {
             availabilityResult = 'empty';
         } else {
             reservationResult = businessTimeArr[index].reservation;
-            availabilityResult = businessTimeArr[index].availability;
+            availabilityResult = businessTimeArr[index].availability === true ? 'available' : 'full';
         }
 
         let newElement = {
