@@ -21,6 +21,7 @@ import {
 	InputAdornment,
 	IconButton,
     Link,
+    Form,
 
 } from '@mui/material';
 
@@ -81,7 +82,7 @@ export const LoginModal = (props) => {
     useEffect( () => isOpen ? loginOpen() : loginClose());
 
 	const [values, setValues] = React.useState({
-		amount: '',
+		email: '',
 		password: '',
 		weight: '',
 		weightRange: '',
@@ -102,6 +103,15 @@ export const LoginModal = (props) => {
 	const handleMouseDownPassword = (event) => {
 		event.preventDefault();
 	};
+
+    const handleSubmit = (event) => {
+        const { email } = values.email;
+        const { password } = values.password;
+
+        event.preventDefault();
+        // console.log( 'Email:', email, 'Password: ', password); 
+        alert('Submitted! ' + email + password);
+    }
 
     return (
         <Modal
@@ -130,39 +140,53 @@ export const LoginModal = (props) => {
                             Welcome to Bookinglet!
                         </Typography>
 
-                        <TextField variant='outlined' id="account-basic" label="Email" color='success' sx={TextFieldStyle} />
+                        <Box component='form' onSubmit={handleSubmit}>
+                            <TextField 
+                                variant='outlined' 
+                                id="account-basic" 
+                                label="Email" 
+                                color='success' 
+                                value={values.email}
+                                onChange={handleChange('email')}
+                                sx={TextFieldStyle} />
 
-                        <FormControl sx={TextFieldStyle} color='success'>
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password"
-                    
-                                type={values.showPassword ? 'text' : 'password'}
-                                value={values.password}
-                                onChange={handleChange('password')}
-                                endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                    >
-                                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                                }
-                                label="Password"
-                            />
-                        </FormControl>
+                            <FormControl color='success' sx={TextFieldStyle}>
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
 
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
-                            <Button 
-                                variant='contained'
-                                color='success'
-                                sx={LoginButtonStyle}
-                            >Sign in</Button>
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    value={values.password}
+                                    onChange={handleChange('password')}
+                                    endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                        >
+                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    }
+                                    label="Password"
+                                />
+                            </FormControl>
+
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
+                                <Button 
+                                    variant='contained'
+                                    color='success'
+                                    type="submit"
+                                    sx={LoginButtonStyle}
+                                    // onClick={handleSubmit}
+                                >Sign in</Button>
+                            </Box>
                         </Box>
+                        
+
+                        
 
                         <Grid container spacing={1} 
                             direction='row' 
