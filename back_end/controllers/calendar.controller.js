@@ -514,11 +514,32 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
+
+    if (bookingRecordArr.length === 0) {
+        const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+        const businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
+        res.send({ branch: 'calendarTemplate', businessTimeArr });
+    };
+    if (bookingRecordArr.length === 1) {
+        const businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek];
+        res.send({ branch: 'bookingRecord', businessTimeArr });
+    };
+    if (bookingRecordArr.length > 1) { res.send({ Error: 'Database error!' }) };
+}
+
+
+async function getChartDataByDateAndServiceInfo(req, res) {
+    const { date, serviceInfoId } = req.query;
+    let weekMonday = getWeekMonday(new Date(date));
+    let dayOfWeek = getDayOfWeek(new Date(date));
+
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
 
     let businessTimeArr = []
     let maxPerson = serviceInfo.maxServicePerSection;
+    let path = 'empty';
 
     if (bookingRecordArr.length === 0) {
         if (!serviceInfo) {
@@ -527,10 +548,12 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
             });
         }
         businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
+        path = 'serviceInfo';
     };
 
     if (bookingRecordArr.length === 1) {
-        businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek]; 
+        businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek];
+        path = 'bookingRecord';
     };
     if (bookingRecordArr.length > 1) { res.send({ Error: 'Database error!' }) };
 
@@ -570,7 +593,7 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
     let dataArr = wholeTimeSliceObjArr.map((element) => element.reservation);
     let colorArr = wholeTimeSliceObjArr.map((element) => element.availability);
 
-    res.send({ labelArr, dataArr, colorArr })
+    res.send({ branch: path, labelArr, dataArr, colorArr })
 }
 
 
@@ -591,5 +614,6 @@ module.exports = {
 
     getAllRecords,
     getBusinessTimeByDateAndServiceInfo,
+    getChartDataByDateAndServiceInfo,
     deleteAllRecords
 }
