@@ -7,8 +7,7 @@ async function getAllUsers(req, res) {
   console.log('Finding all users...');
 
   try {
-    const users = await User.find().populate('stores');
-
+    const users = await User.find().populate('stores', 'name');
     res.json(users);
   } catch {
     console.log('Error in Finding all users!');
