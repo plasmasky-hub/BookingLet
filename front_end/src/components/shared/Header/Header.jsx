@@ -75,6 +75,10 @@ export const Header = () => {
 		// this.LoginModal.loginOpen();
 	}
 
+	// const loginCallback = () => {
+	// 	setIsOpen(false);
+	// }
+
   return (
     <StyledHeader>
       <Logo />
@@ -86,7 +90,9 @@ export const Header = () => {
 				variant="text" 
 				startIcon={<LoginIcon />}
 				// onClick={() => loginOpen()}>
-				onClick={() => loginOpen()}>
+				onClick={() => loginOpen()}
+				// callback={() => this.loginCallback()}
+			>
 				Log in
 			</StyledLoginButton>
 
