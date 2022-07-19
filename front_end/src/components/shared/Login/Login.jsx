@@ -109,18 +109,18 @@ export const LoginModal = (props) => {
         const { password } = values.password;
 
         event.preventDefault();
-        // console.log( 'Email:', email, 'Password: ', password); 
+        console.log( 'Email:', email, 'Password: ', password); 
         alert('Submitted! ' + email + password);
     }
 
     return (
-        <Modal
-            open={loginIsOpen}
-            onClose={loginClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            name = "loginModal"
-        >
+        // <Modal
+        //     open={loginIsOpen}
+        //     onClose={loginClose}
+        //     aria-labelledby="modal-modal-title"
+        //     aria-describedby="modal-modal-description"
+        //     name = "loginModal"
+        // >
             <Box sx={loginFormStyle}>
                 <Grid container spacing={1.5}>
                     <Grid item xs={5}>
@@ -210,7 +210,7 @@ export const LoginModal = (props) => {
                 </Grid>
                 
             </Box>
-        </Modal>
+        // {/* </Modal> */}
     )
 
    

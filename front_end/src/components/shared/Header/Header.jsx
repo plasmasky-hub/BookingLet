@@ -10,6 +10,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { 
 	Box, 
 	Button, 
+  Modal,
 } from '@mui/material';
 import { useRef } from 'react';
 
@@ -74,6 +75,10 @@ export const Header = () => {
 		setIsOpen(true);
 		// this.LoginModal.loginOpen();
 	}
+  const loginClose = () => {
+    // isOpen = false;
+    setIsOpen(false);
+  }
 
 	// const loginCallback = () => {
 	// 	setIsOpen(false);
@@ -96,7 +101,17 @@ export const Header = () => {
 				Log in
 			</StyledLoginButton>
 
-			<LoginModal open={loginIsOpen}/>
+			
+      <Modal
+            open={loginIsOpen}
+            // onClose={loginClose}
+            onClose={loginClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            name = "loginModal"
+      >
+        <LoginModal />
+      </Modal>
 
 		  	<RegisterButton variant="contained">Register</RegisterButton>
         </ButtonWrapper>
