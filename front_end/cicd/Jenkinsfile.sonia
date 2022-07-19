@@ -14,7 +14,7 @@ pipeline {
     }
 
     stages {
-        stage('--- Install AWS CLI ---'){
+        stage('Install AWS CLI'){
             steps {
                 sh 'apt-get update'
                 sh 'apt install python3-pip -y'
