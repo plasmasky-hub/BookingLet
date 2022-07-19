@@ -17,11 +17,11 @@ async function addStoreBusinessTimeById(req, res) {
     let { dayOfWeek, openHour, closingHour } = req.body;
     const store = await Store.findById(id).exec();
 
-    openHour = parseInt(openHour);         //string转换为number。为了方便计算
+    openHour = parseInt(openHour);
     closingHour = parseInt(closingHour);
 
-    for (let i = openHour; i < closingHour; i += 5) {   //将微分时间注入选定dayOfWeek中
-        if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) === -1) {  //分钟60进制+重复性检测
+    for (let i = openHour; i < closingHour; i += 5) {
+        if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) === -1) {
             store.businessHours[dayOfWeek].push(i)
         };
     };
@@ -38,6 +38,23 @@ async function deleteStoreBusinessTimeById(req, res) {
 
     openHour = parseInt(openHour);
     closingHour = parseInt(closingHour);
+
+    let businessTimeCheckResult = true;
+    let storeTimeSliceArr = [];
+    for (let i = openHour; i < closingHour; i += 5) {
+        if (i % 100 < 60) { storeTimeSliceArr.push(i); };
+    }
+    const serviceInfos = await ServiceInfo.find({ store: id }).exec();
+    
+    serviceInfos.map((info) => {
+        storeTimeSliceArr.map((element) => {
+            if (info.calendarTemplate[dayOfWeek].findIndex((ele) => ele.timeSlice === element) > -1) {
+                businessTimeCheckResult = false;
+                req.body.updatePermission = false;
+            };
+        });
+    });
+    if (!businessTimeCheckResult) { return res.json({ Error: 'Intended delete time is in service info calendar, delete failure!' }); }
 
     for (let i = openHour; i < closingHour; i += 5) {
         if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) > -1) {
@@ -56,9 +73,11 @@ async function deleteStoreBusinessTimeById(req, res) {
 
 //req.body: {dayOfWeek: String, openHourBefore: String, closingHourBefore: String, openHourAfter: String, closingHourAfter: String}
 async function updateStoreBusinessTimeById(req, res) {
+    req.body.updatePermission = true;
     [req.body.openHour, req.body.closingHour] = [req.body.openHourBefore, req.body.closingHourBefore];
     await deleteStoreBusinessTimeById(req, res);
 
+    if (!req.body.updatePermission) { return res.json({ Error: 'Intended delete time is in service info calendar, delete failure!' }); }
     [req.body.openHour, req.body.closingHour] = [req.body.openHourAfter, req.body.closingHourAfter];
     await addStoreBusinessTimeById(req, res);
 }
@@ -68,10 +87,10 @@ async function SyncStoreCalendarToService(req, res) {
     const { storeId, serviceInfoId } = req.params;
     const store = await Store.findById(storeId).exec();
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };   //先查store和service是否有从属关系
+    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };
 
     let deletePermission = true;
-    Object.keys(serviceInfo.calendarTemplate).forEach((key) => {   //验证serviceInfo.calendarTemplate是否全为空，如果不为空无法同步并报错。
+    Object.keys(serviceInfo.calendarTemplate).forEach((key) => {
         if (serviceInfo.calendarTemplate[key].length > 0) {
             deletePermission = false;
             res.json({ Error: 'Could not sync because serviceInfo.calendarTemplate is not null!' })
@@ -79,7 +98,7 @@ async function SyncStoreCalendarToService(req, res) {
     })
 
     if (deletePermission) {
-        Object.keys(store.businessHours).forEach((key) => {   //将改装后的store.businessHours数组注入serviceInfo.calendarTemplate
+        Object.keys(store.businessHours).forEach((key) => {
             let serviceCalendarTemplate = store.businessHours[key].map((element) => {
                 return { timeSlice: element, reservation: 0, availability: true }
             });
@@ -110,8 +129,18 @@ async function addServiceInfoCalendarById(req, res) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
     }
 
-    let dbDayOfWeekArray = serviceInfo.calendarTemplate[dayOfWeek];  //由于数据库的数组中每一项都是{}，无法直接对比，所以先存下来再拆
-    let dbDifferentialTimeArray = dbDayOfWeekArray.map((element) => {   //把对象数组重组为微分时间数组
+    const store = await Store.findById(serviceInfo.store).exec();
+    let storeBusinessTimeArr = store.businessHours[dayOfWeek];
+    let businessTimeCheckResult = true;
+    timeSliceArr.map((element) => {
+        if (storeBusinessTimeArr.indexOf(element) === -1) {
+            businessTimeCheckResult = false;
+        }
+    })
+    if (!businessTimeCheckResult) { return res.json({ Error: 'added time is not in business time!' }) }
+
+    let dbDayOfWeekArray = serviceInfo.calendarTemplate[dayOfWeek];
+    let dbDifferentialTimeArray = dbDayOfWeekArray.map((element) => {
         return element.timeSlice;
     });
 
@@ -236,6 +265,27 @@ async function deleteServiceInfoCalendarById(req, res) {
 
 
 async function updateServiceInfoCalendarById(req, res) {
+    const { id } = req.params;
+    let { dayOfWeek, openHourAfter, closingHourAfter } = req.body;
+    const serviceInfo = await ServiceInfo.findById(id).exec();
+
+    openHourAfter = parseInt(openHourAfter);
+    closingHourAfter = parseInt(closingHourAfter);
+    let timeSliceArr = [];
+    for (let i = openHourAfter; i < closingHourAfter; i += 5) {
+        if (i % 100 < 60) { timeSliceArr.push(i); };
+    }
+
+    const store = await Store.findById(serviceInfo.store).exec();
+    let storeBusinessTimeArr = store.businessHours[dayOfWeek];
+    let businessTimeCheckResult = true;
+    timeSliceArr.map((element) => {
+        if (storeBusinessTimeArr.indexOf(element) === -1) {
+            businessTimeCheckResult = false;
+        }
+    })
+    if (!businessTimeCheckResult) { return res.json({ Error: 'added time is not in business time!' }) }
+
     [req.body.openHour, req.body.closingHour] = [req.body.openHourBefore, req.body.closingHourBefore];
     await deleteServiceInfoCalendarById(req, res);
 
@@ -271,7 +321,6 @@ async function checkTimeIntervalAndBook(req, res) {
 
     startHour = parseInt(startHour);
     endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
-    //endHour = parseInt(endHour);
     let timeSliceArr = [];
     for (let i = startHour; i < endHour; i += 5) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
@@ -435,15 +484,6 @@ async function bookingWithdraw(serviceInfoId, orderTime) {
 }
 
 
-
-//营业时间锁：
-//如果serviceInfo添加营业时间interval，它的所有timeSlice必须在store的营业时间内，否则拒绝。
-//如果store删除营业时间interval，检索所有从属serviceInfo，删除的营业时间必须不存在于任何serviceInfo内，否则拒绝。
-
-
-
-
-
 async function getAllRecords(req, res) {   //dev test only!
     const records = await BookingRecord.find().exec();
     res.json(records);
@@ -465,6 +505,11 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
 
     if (bookingRecordArr.length === 0) {
         const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+        if (!serviceInfo) {
+            return res.status(404).json({
+                error: 'ServiceInfo not found',
+            });
+        }
         const businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
         res.send({ branch: 'calendarTemplate', businessTimeArr });
     };

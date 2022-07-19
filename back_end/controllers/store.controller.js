@@ -244,14 +244,14 @@ async function getAllStores(req, res) {
     let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
-    let NoServiceStoreQuery = { "serviceInfoDetails": { $ne: [] } };
+    let noServiceStoreQuery = { "serviceInfoDetails": { $ne: [] } };
 
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery[`businessHours.${dateInWeek}`] = { $ne: [] };
+        optionalMatchQuery[`businesnsHours.${dateInWeek}`] = { $ne: [] };
     }
-    if (includeNoServiceStore) { NoServiceStoreQuery = {}; }
+    if (includeNoServiceStore) { noServiceStoreQuery = {}; }
 
     await Store.aggregate([
         {
@@ -295,9 +295,8 @@ async function getAllStores(req, res) {
                 $and:
                     [
                         { isDiscard: false },
-                        //{ "serviceInfoDetails": { $ne: [] } },
                         optionalMatchQuery,
-                        NoServiceStoreQuery
+                        noServiceStoreQuery
                     ],
                 $or:
                     [
@@ -332,7 +331,6 @@ async function getAllStores(req, res) {
                 let maxPersonPerSectionArr = [];
                 element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
                 element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
-
                 element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
 
             })
@@ -379,7 +377,7 @@ async function getAllStores(req, res) {
 async function getStoreById(req, res) {
     const { id } = req.params;
     const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
-        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name maxPersonPerSection' }).exec();
+        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name maxPersonPerSection maxServicePerSection duration calendarTemplate' }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
