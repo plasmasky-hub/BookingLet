@@ -316,8 +316,15 @@ async function checkTimeIntervalAndBook(req, res) {
     * * [bookingDate所在周]的周一日期。type为Date，由getWeekMonday(bookingDate)获得。
     */
     let { date, startHour, endHour, serviceInfoId } = req.body;
-    let bookingDate = new Date(date);
+    let bookingDate = new Date(date); //此处出了问题。2022-11-1日生成的bookingDate不对
     let weekMonday = getWeekMonday(bookingDate);  //output: "2022-07-11T00:00:00.000Z"
+    //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
+    //此处bug复现。当一周跨月的时候，预定前后月的不同天，会生成两个周时间戳，而不是希望的一个。
+    //正确时间戳2022-10-31T10:00:00.000Z 错误时间戳 2022-10-30T23:00:00.000Z。
+    //问题：夏令时？
+    //解决方案1，整个换系统，时间戳变为年+周编号。问题是跨年不好解决？还有要从头改所有涉及的代码。
+    //解决方案2：现有系统，先修跨周bug，然后测试夏令时。
+    return res.send({ date, bookingDate, weekMonday })
 
     startHour = parseInt(startHour);
     endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
@@ -370,6 +377,7 @@ async function createBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceA
 async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceArr) {
     let weekMonday = getWeekMonday(bookingDate);
     let dayOfWeek = getDayOfWeek(bookingDate);
+
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
     let bookingRecord = bookingRecordArr[0];
@@ -406,6 +414,11 @@ async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceAr
 function getWeekMonday(bookingDate) {
     console.log(bookingDate)
     //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
+    //此处bug复现。当一周跨月的时候，预定前后月的不同天，会生成两个周时间戳，而不是希望的一个。
+    //正确时间戳2022-10-31T10:00:00.000Z 错误时间戳 2022-10-30T23:00:00.000Z。
+    //问题：夏令时？
+    //解决方案1，整个换系统，时间戳变为年+周编号。问题是跨年不好解决？还有要从头改所有涉及的代码。
+    //解决方案2：现有系统，先修跨周bug，然后测试夏令时。
 
     let dayInWeekIndex = bookingDate.getDay();
     switch (dayInWeekIndex) {
@@ -501,23 +514,63 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
 
+    let businessTimeArr = []
+    let maxPerson = serviceInfo.maxServicePerSection;
+
     if (bookingRecordArr.length === 0) {
-        const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
         if (!serviceInfo) {
             return res.status(404).json({
                 error: 'ServiceInfo not found',
             });
         }
-        const businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
-        res.send({ branch: 'calendarTemplate', businessTimeArr });
+        businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
     };
+
     if (bookingRecordArr.length === 1) {
-        const businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek];
-        res.send({ branch: 'bookingRecord', businessTimeArr });
+        businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek]; 
     };
     if (bookingRecordArr.length > 1) { res.send({ Error: 'Database error!' }) };
+
+    const timeSliceInBusinessTimeArr = businessTimeArr.map((element) => {
+        return element.timeSlice
+    })
+    let minTimeSlice = Math.min(...timeSliceInBusinessTimeArr) - 100;
+    let maxTimeSlice = Math.max(...timeSliceInBusinessTimeArr) + 100;
+
+    let wholeTimeSliceArr = [];
+    for (let i = minTimeSlice; i < maxTimeSlice; i += 5) {
+        if (i % 100 < 60) { wholeTimeSliceArr.push(i); };
+    }
+
+    let wholeTimeSliceObjArr = wholeTimeSliceArr.map((element) => {
+        let index = businessTimeArr.findIndex((ele) => ele.timeSlice === element);
+        let reservationResult = null;
+        let availabilityResult = null;
+
+        if (timeSliceInBusinessTimeArr.indexOf(element) === -1) {
+            reservationResult = maxPerson;
+            availabilityResult = 'empty';
+        } else {
+            reservationResult = businessTimeArr[index].reservation;
+            availabilityResult = businessTimeArr[index].availability;
+        }
+
+        let newElement = {
+            timeSlice: element,
+            reservation: reservationResult,
+            availability: availabilityResult
+        }
+        return newElement;
+    })
+
+    let labelArr = wholeTimeSliceObjArr.map((element) => element.timeSlice);
+    let dataArr = wholeTimeSliceObjArr.map((element) => element.reservation);
+    let colorArr = wholeTimeSliceObjArr.map((element) => element.availability);
+
+    res.send({ labelArr, dataArr, colorArr })
 }
 
 
