@@ -13,6 +13,7 @@ const {
 
     getAllRecords,
     getBusinessTimeByDateAndServiceInfo,
+    getChartDataByDateAndServiceInfo,
     deleteAllRecords
 } = require('../controllers/calendar.controller');
 
@@ -31,7 +32,8 @@ calendarRouter.put('/checkTimeIntervalAndBook', checkTimeIntervalAndBook);
 
 calendarRouter.get('/record', getAllRecords);
 calendarRouter.delete('/record', deleteAllRecords);
-calendarRouter.get('/businessTime', getBusinessTimeByDateAndServiceInfo)
+calendarRouter.get('/businessTime', getBusinessTimeByDateAndServiceInfo);
+calendarRouter.get('/chart', getChartDataByDateAndServiceInfo)
 
 
 module.exports = calendarRouter;
