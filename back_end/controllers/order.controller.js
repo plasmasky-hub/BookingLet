@@ -5,6 +5,7 @@ const ServiceInfo = require('../models/serviceInfo');
 const {
   checkTimeIntervalAndBook,
   bookingWithdraw,
+  checkDateFormat
 } = require('./calendar.controller');
 const { any } = require('joi');
 
@@ -12,7 +13,12 @@ const { any } = require('joi');
 async function addOrder(req, res) {
   const { peopleNumber, orderTime, userId, serviceInfoId, tel, optionInfo } =
     req.body;
-  const bookingTime = new Date(orderTime.date);
+  const dateFormatCheckResult = checkDateFormat(orderTime.date);
+  if (!dateFormatCheckResult.permission) {
+    return res.json(dateFormatCheckResult.message)
+  };
+
+  const bookingTime = new Date();
   const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
   if (!serviceInfo || serviceInfo.isDiscard) {
     return res.status(404).json({
@@ -108,7 +114,8 @@ async function addOrder(req, res) {
 //update
 async function updateOrderByID(req, res) {
   const { id } = req.params;
-  const { peopleNumber, orderTime, tel, optionInfo, bookingTime } = req.body;
+  const { peopleNumber, orderTime, tel, optionInfo } = req.body;
+  const bookingTime = new Date();
   const order = await Order.findByIdAndUpdate(
     id,
     { peopleNumber, orderTime, tel, optionInfo, bookingTime },
