@@ -160,8 +160,7 @@ async function addServiceInfoCalendarById(req, res) {
     /*  1. 当添加营业时间interval时，添加后遍历bookingRecord表中所有(serviceInfoId相同 && 创建时间码 >= 当前时间码 )的documents。
     /*  2. 为documents添加同样的时间interval。
     */
-    let currentDateTime = new Date();
-    let currentDate = new Date(currentDateTime.toLocaleDateString());
+    let currentDate = getCurrentDate();
     let currentWeekMonday = getWeekMonday(currentDate);
 
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: { $gte: currentWeekMonday } }).exec();
@@ -227,8 +226,7 @@ async function deleteServiceInfoCalendarById(req, res) {
     /*  2. 遍历所得documents。对于每一个document，如果timeSlice数组中的任何timeSlice对应的时间 reservation > 0，此document就无法进行删除操作。
     /*  3. 如果timeSlice数组中的任何timeSlice对应的时间 reservation === 0，此document进行删除操作
     */
-    let currentDateTime = new Date();
-    let currentDate = new Date(currentDateTime.toLocaleDateString());
+    let currentDate = getCurrentDate();
     let currentWeekMonday = getWeekMonday(currentDate);
 
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: { $gte: currentWeekMonday } }).exec();
@@ -316,15 +314,12 @@ async function checkTimeIntervalAndBook(req, res) {
     * * [bookingDate所在周]的周一日期。type为Date，由getWeekMonday(bookingDate)获得。
     */
     let { date, startHour, endHour, serviceInfoId } = req.body;
-    let bookingDate = new Date(date); //此处出了问题。2022-11-1日生成的bookingDate不对
-    let weekMonday = getWeekMonday(bookingDate);  //output: "2022-07-11T00:00:00.000Z"
-    //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
-    //此处bug复现。当一周跨月的时候，预定前后月的不同天，会生成两个周时间戳，而不是希望的一个。
-    //正确时间戳2022-10-31T10:00:00.000Z 错误时间戳 2022-10-30T23:00:00.000Z。
-    //问题：夏令时？
-    //解决方案1，整个换系统，时间戳变为年+周编号。问题是跨年不好解决？还有要从头改所有涉及的代码。
-    //解决方案2：现有系统，先修跨周bug，然后测试夏令时。
-    return res.send({ date, bookingDate, weekMonday })
+    const dateFormatCheckResult = checkDateFormat(date);
+    if (!dateFormatCheckResult.permission) {
+        return res.json(dateFormatCheckResult.message)
+    };
+    let bookingDate = new Date(date); 
+    let weekMonday = getWeekMonday(bookingDate);  
 
     startHour = parseInt(startHour);
     endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
@@ -411,15 +406,29 @@ async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceAr
 }
 
 
-function getWeekMonday(bookingDate) {
-    console.log(bookingDate)
-    //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
-    //此处bug复现。当一周跨月的时候，预定前后月的不同天，会生成两个周时间戳，而不是希望的一个。
-    //正确时间戳2022-10-31T10:00:00.000Z 错误时间戳 2022-10-30T23:00:00.000Z。
-    //问题：夏令时？
-    //解决方案1，整个换系统，时间戳变为年+周编号。问题是跨年不好解决？还有要从头改所有涉及的代码。
-    //解决方案2：现有系统，先修跨周bug，然后测试夏令时。
+function getCurrentDate() {
+    let currentDateTime = new Date();
+    let currentYear = currentDateTime.getFullYear().toString();
+    let currentMonth = currentDateTime.getMonth() > 8 ? (currentDateTime.getMonth() + 1).toString() : '0' + (currentDateTime.getMonth() + 1).toString();
+    let currentDay = currentDateTime.getDate() < 10 ? '0' + currentDateTime.getDate().toString() : currentDateTime.getDate().toString();
+    let currentDateStr = `${currentYear}-${currentMonth}-${currentDay}`;
+    let currentDate = new Date(currentDateStr);
+    return currentDate;
+}
 
+
+
+function checkDateFormat(inputDate) {
+    const reg = /^[2][0](\d){2}[-][01]\d[-][0123]\d$/;
+    if (!reg.test(inputDate)) {
+        return { permission: false, message: 'Date format must be yyyy-mm-dd !' }
+    } else {
+        return { permission: true }
+    };
+}
+
+
+function getWeekMonday(bookingDate) {
     let dayInWeekIndex = bookingDate.getDay();
     switch (dayInWeekIndex) {
         case 0: dayGap = 1000 * 60 * 60 * 24 * 6; break;
@@ -430,8 +439,7 @@ function getWeekMonday(bookingDate) {
         case 5: dayGap = 1000 * 60 * 60 * 24 * 4; break;
         case 6: dayGap = 1000 * 60 * 60 * 24 * 5; break;
     }
-    let timeZoneCorrection = 10 * 60 * 60 * 1000;
-    return new Date(bookingDate - dayGap + timeZoneCorrection);
+    return new Date(bookingDate - dayGap);
 }
 
 
@@ -465,6 +473,7 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
     await bookingRecord.save();
     decision.message = 'Booking successful! Waiting for merchant confirmation.';
 }
+
 
 async function bookingWithdraw(serviceInfoId, orderTime) {
     let weekMonday = getWeekMonday(orderTime.date);
@@ -564,7 +573,7 @@ async function getChartDataByDateAndServiceInfo(req, res) {
     let maxTimeSlice = Math.max(...timeSliceInBusinessTimeArr) + 100;
 
     let wholeTimeSliceArr = [];
-    for (let i = minTimeSlice; i < maxTimeSlice; i += 5) {
+    for (let i = minTimeSlice; i <= maxTimeSlice; i += 5) {
         if (i % 100 < 60) { wholeTimeSliceArr.push(i); };
     }
 
@@ -610,6 +619,7 @@ module.exports = {
     checkTimeIntervalAndBook,
     bookingWithdraw,
     getDayOfWeek,
+    checkDateFormat,
 
 
     getAllRecords,

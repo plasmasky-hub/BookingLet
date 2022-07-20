@@ -1,7 +1,7 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
 const User = require('../models/user');
-const { getDayOfWeek } = require('./calendar.controller');
+const { getDayOfWeek, checkDateFormat } = require('./calendar.controller');
 const Joi = require('joi');
 
 
@@ -238,6 +238,13 @@ async function getAllStores(req, res) {
         });
     }
 
+    if (date !== undefined) {
+        const dateFormatCheckResult = checkDateFormat(date);
+        if (!dateFormatCheckResult.permission) {
+            return res.json(dateFormatCheckResult.message)
+        };
+    }
+
     person = parseInt(person);
     resultQuantity = parseInt(resultQuantity);
     includeNoServiceStore = includeNoServiceStore === "true" ? true : false;
@@ -249,7 +256,7 @@ async function getAllStores(req, res) {
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery[`businesnsHours.${dateInWeek}`] = { $ne: [] };
+        optionalMatchQuery[`businessHours.${dateInWeek}`] = { $ne: [] };
     }
     if (includeNoServiceStore) { noServiceStoreQuery = {}; }
 
@@ -325,7 +332,7 @@ async function getAllStores(req, res) {
                 return matched;
             })
         }
-        
+
         if (!includeNoServiceStore) {
             result.map((element) => {
                 let maxPersonPerSectionArr = [];
