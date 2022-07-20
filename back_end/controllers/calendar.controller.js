@@ -417,7 +417,6 @@ function getCurrentDate() {
 }
 
 
-
 function checkDateFormat(inputDate) {
     const reg = /^[2][0](\d){2}[-][01]\d[-][0123]\d$/;
     if (!reg.test(inputDate)) {
@@ -520,6 +519,11 @@ async function deleteAllRecords(req, res) {   //dev test only! 不是真的要�
 
 async function getBusinessTimeByDateAndServiceInfo(req, res) {
     const { date, serviceInfoId } = req.query;
+    const dateFormatCheckResult = checkDateFormat(date);
+    if (!dateFormatCheckResult.permission) {
+        return res.json(dateFormatCheckResult.message)
+    };
+
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 
@@ -540,6 +544,11 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
 
 async function getChartDataByDateAndServiceInfo(req, res) {
     const { date, serviceInfoId } = req.query;
+    const dateFormatCheckResult = checkDateFormat(date);
+    if (!dateFormatCheckResult.permission) {
+        return res.json(dateFormatCheckResult.message)
+    };
+    
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 
