@@ -192,6 +192,15 @@ async function addOrCancelFavoriteStore(req,res){
 
 }
 
+async function getFavouriteStoreById(req,res){
+  const { id } = req.params;
+  const user = await User.findById(id).populate( 'favoriteStores').exec();
+  if (!user) {
+    return res.status(400).json({ error: 'user not found' });
+  }
+  return res.status(200).json(user);
+}
+
 // async function addStoreToUser(req, res){
 //   console.log('Adding store to user...');
 //   const { id } = req.params;
@@ -253,6 +262,7 @@ module.exports = {
   updateUserByID,
   deleteUserByID,
   getUserStores,
-  addOrCancelFavoriteStore
+  addOrCancelFavoriteStore,
+  getFavouriteStoreById
   //addStoreToUser,
 };
