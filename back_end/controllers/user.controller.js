@@ -198,7 +198,7 @@ async function getFavouriteStoreById(req,res){
   if (!user) {
     return res.status(400).json({ error: 'user not found' });
   }
-  return res.status(200).json(user);
+  return res.status(200).json(user.favoriteStores);
 }
 
 // async function addStoreToUser(req, res){
