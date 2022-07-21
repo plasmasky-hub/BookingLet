@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
+// import joiValidation from 'Joi';
+import { loginValidation} from '../../../validation/SignInValidation'
 import loginImg from '../../../assets/loginImg.png';
 import { 
 	Visibility,
@@ -20,21 +22,6 @@ import {
 	IconButton,
     Link,
 } from '@mui/material';
-
-const loginFormStyle = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	justifyContent: 'center',
-	alignItems: 'center',
-	transform: 'translate(-50%, -50%)',
-	padding: '0px 0px 0px 0px',
-
-	bgcolor: 'background.paper',
-	borderRadius: '25px',
-	boxShadow: 24,
-	p: 4,
-};
 
 const LoginModalBox = styled(Box)`
     position: absolute;
@@ -94,27 +81,18 @@ export const LoginModal = (props) => {
           showPassword: false,
         },
         handleClickShowPassword: handleClickShowPassword,
-        // validationSchema: validationSchema,
+        // validationSchema = {validationSchema},
+        validate: loginValidation,
+        validateOnChange: true,
+
         onSubmit: (values) => {
-          alert(JSON.stringify(values, null, 2));
+            alert(JSON.stringify(values, null, 2));
         },
       });
 
     const handleRegisterOpen = () => {
 
     }
-
-	// const [values, setValues] = React.useState({
-	// 	email: '',
-	// 	password: '',
-	// 	weight: '',
-	// 	weightRange: '',
-	// 	showPassword: false,
-	// });
-
-	const handleMouseDownPassword = (event) => {
-		event.preventDefault();
-	};
 
     return (
 
@@ -158,7 +136,6 @@ export const LoginModal = (props) => {
                                         aria-label="toggle password visibility"
                                         name='showPassword'
                                         onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
                                         edge="end"
                                         >
                                         {formik.values.showPassword ? <VisibilityOff /> : <Visibility />}

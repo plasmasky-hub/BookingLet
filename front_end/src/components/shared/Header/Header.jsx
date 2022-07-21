@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Logo } from '../../shared/Logo/Logo';
 import { UserPanel } from './UserPanel';
-import { LoginModal } from '../Login/Login';
+import { LoginModal } from '../SignIn/Login';
 
 import LoginIcon from '@mui/icons-material/Login';
 
