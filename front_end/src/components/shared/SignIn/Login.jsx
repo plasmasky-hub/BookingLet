@@ -35,6 +35,10 @@ const LoginModalBox = styled(Box)`
     box-shadow: 24px;
 `
 
+const LoginTextContainer = styled(Box)`
+    border-radius: 25px;
+`
+
 const LoginImage = styled(Box)`
 	font-size: 0.6rem;
     height: 100%;
@@ -53,6 +57,11 @@ const LoginImage = styled(Box)`
 const LoginInputField = styled(TextField)`
     margin-top: 3;
     width: 100%;
+`
+
+const ErrorMessage = styled(Typography)`
+    color: red;
+    font-size: 0.3rem;
 `
 
 const TextFieldStyle = {
@@ -81,9 +90,8 @@ export const LoginModal = (props) => {
           showPassword: false,
         },
         handleClickShowPassword: handleClickShowPassword,
-        // validationSchema = {validationSchema},
         validate: loginValidation,
-        validateOnChange: true,
+        validateOnBlur: true,
 
         onSubmit: (values) => {
             alert(JSON.stringify(values, null, 2));
@@ -109,7 +117,7 @@ export const LoginModal = (props) => {
                         Welcome to Bookinglet!
                     </Typography>
 
-                    <Box component='form' onSubmit={formik.handleSubmit}>
+                    <LoginTextContainer component='form' onSubmit={formik.handleSubmit}>
 
                         <LoginInputField 
                             variant='outlined' 
@@ -118,11 +126,19 @@ export const LoginModal = (props) => {
                             color='success' 
                             value={formik.values.email}
                             onChange={formik.handleChange}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            error={formik.touched.email || Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email}
                         />
+                        {formik.errors.email 
+                            ? <ErrorMessage>{formik.errors.email}</ErrorMessage> 
+                            : null
+                        }
 
-                        <FormControl color='success' sx={TextFieldStyle}>
+                        <FormControl 
+                            color='success' 
+                            sx={TextFieldStyle}
+                            error={formik.touched.password || Boolean(formik.errors.password)}
+                        >
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
                                 label="Password"
@@ -144,6 +160,10 @@ export const LoginModal = (props) => {
                                 }
                             />
                         </FormControl>
+                        {formik.errors.password 
+                            ? <ErrorMessage>{formik.errors.password}</ErrorMessage> 
+                            : <ErrorMessage> </ErrorMessage>
+                        }
 
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
                             <LoginButton 
@@ -154,7 +174,7 @@ export const LoginModal = (props) => {
                                 Sign in
                             </LoginButton>
                         </Box>
-                    </Box>
+                    </LoginTextContainer>
                         
 
                         

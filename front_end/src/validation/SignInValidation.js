@@ -13,18 +13,34 @@ export const loginValidation = (values) => {
     
     console.log('Checking login info format...');
     
-    const { error, validation } = schema.validate(formateValues);
-    console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ error", error)
-    console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ validation", validation)
-    
-    const errorCode = new Map([
-        ['email', 'Invalid Email address!'],
-        ['password', 'Invalid Password!'],
-    ]);
+    const  validation  = schema.validate(formateValues);
+    console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ error", validation);
+    console.log(typeof(validation));
+    // console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ validation", validation)
     
     // if there is no error, the "details" key will be undefined in error
-    if(error !== undefined) return Error( error );
+    if(validation !== undefined) {
+        try{
+            const error = {}
+            const errorMessage = validation.error.details[0].path[0];
 
+            switch (errorMessage) {
+                case 'email':
+                    error.email = 'Invalid Email address!';
+                    break;
+                case 'password':
+                    error.password = 'Password must be at least 6 characters!';
+                    break;
+                default:
+                    break;
+            }
+
+            return error;
+        }
+        catch{
+            return null;
+        }
+    }
     return null;
 }
 
