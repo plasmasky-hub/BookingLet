@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, TableRow, TableCell, Paper, Typography, Collapse } from '@mui/material';
+import { Box, TableRow, TableCell, Paper, Collapse, ButtonGroup, Button } from '@mui/material';
 import { useState } from 'react';
 import BodyRelaxing from '../../../../assets/BodyRelaxing.png';
 
@@ -26,28 +26,35 @@ const TableHead = {
   status: 'Status'
 };
 
-// const OrderStatus = ['Confirmed', 'Unconfirmed', 'Cancelled'];
-
 const TableFoot = {
   address: 'Adelaide',
   date: '18/06/2022',
-  time: '13:00',
-  status: 'Unconfirmed',
+  time: '13:00 - 14:00',
+  status: ['Confirmed', 'Unconfirmed', 'Cancelled'],
 };
 
-const CancelChip = styled(Box)`
-  width: 123px;
-  height: 30px;
-  border-radius: 15px;
+const StatusColor = ['#7B8B6F', '#CEA02C', '#D76D6D'];
+
+const StyledButtonGroup = styled(ButtonGroup)`
+  width: 150px;
+  height: 25px;
+  /* border-radius: 10px;
   color: #fff;
-  background-color: #D76D6D;
+  background-color: #f0f0f0;
   text-align: center;
-  padding-top: 4px;
   cursor: pointer;
   &:hover {
     font-weight: 600;
     transition: ease-out 0.2s;
-  }
+  } */
+`;
+
+const ConfirmButton = styled(Button)`
+  width: 75px;
+`;
+
+const CancelButton = styled(Button)`
+  width: 75px;
 `;
 
 const CollapsibleTableWrapper = styled(Box)`
@@ -80,11 +87,7 @@ const CollapsedNotice = styled(Box)`
 `;
 
 export const BookingTable = () => {
-  // const [confirmed, setConfirmed] = useState('Unconfirmed');
-
-  // const handleChange = () => {
-  //   setConfirmed(TableFoot.status === `${OrderStatus[1]}` ? <Typography sx={{ color: '##CEA02C' }} /> : <Typography sx={{ color: '#7B8B6F' }} />)
-  // };
+  const [statusIndex, setStatusIndex] = useState(1);
 
   const [open, setOpen] = useState(false);
 
@@ -93,12 +96,13 @@ export const BookingTable = () => {
   };
 
   return (
+    <>
     <StyledTableContainer component={Paper}>
       <TableRow direction='column' sx={{ width: '1000px' }}>
         <TableCell sx={{ px: 3 }}>
           <TableCellImg src={BodyRelaxing} />
         </TableCell>
-        <TableCell sx={{ pr: 10 }}>
+        <TableCell sx={{ pr: 8 }}>
           <h4>{TableHead.name}</h4>
           <p>{TableFoot.address}</p>
         </TableCell>
@@ -112,16 +116,26 @@ export const BookingTable = () => {
         </TableCell>
         <TableCell sx={{ pr: 8 }}>
           <h4>{TableHead.status}</h4>
-          <Typography
-            varient='p'
-            sx={{color: '#CEA02C'}}
-          >
-            {TableFoot.status}
-            </Typography>
+            <p style={{color: `${StatusColor[statusIndex]}`}}>
+            {TableFoot.status[statusIndex]}
+          </p>
         </TableCell>
-        <TableCell sx={{ cursor: 'pointer' }}>
-          <p onClick={handleClick}><strong>Order detail</strong></p>
-          <CancelChip>Cancel Order</CancelChip>
+          <TableCell sx={{ cursor: 'pointer' }}>
+            <p onClick={handleClick}>Order detail</p>
+            <StyledButtonGroup variant="contained" aria-label="outlined primary button group">
+              {statusIndex === 1 ? <ConfirmButton onClick={() => {
+                setStatusIndex(0) 
+              }}>Confirm</ConfirmButton> : <ConfirmButton onClick={() => {
+                setStatusIndex(0) 
+              }} disabled>Confirm</ConfirmButton>}
+
+              {statusIndex === 1 ? <CancelButton onClick={() => {
+                setStatusIndex(2) 
+              }}>Cancel</CancelButton> : <CancelButton onClick={() => {
+                setStatusIndex(2) 
+              }} disabled>Cancel</CancelButton>}
+              
+          </StyledButtonGroup>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -155,6 +169,7 @@ export const BookingTable = () => {
           </CollapsibleTableWrapper>
           </Collapse>
         </TableRow>
-    </StyledTableContainer>
+      </StyledTableContainer>
+      </>
   )
 };
