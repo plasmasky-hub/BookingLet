@@ -1,18 +1,18 @@
 pipeline{
     agent none
     environment {
-        CI                          = "false"
-        PROJECT_ENV                 = "Prod"
-        PROJECT_NAME                = "BookingLet-FrontEnd"
-        PROJECT_URL                 = "happyboy.link"
-        AWS_S3_CREDENTIALS          = "AWS-Credentials-Root-AccessKey"
-        AWS_S3_REGION               = "${params['Which region are you going to deploy?']}"
-        AWS_S3_BUCKET               = "happyboy.link"
-        AWS_BACKUP_S3_CREDENTIALS   = "AWS-Credentials-Root-AccessKey"
-        AWS_BACKUP_S3_REGION        = "ap-southeast-2"
-        AWS_BACKUP_S3_BUCKET        = "backup.${env.PROJECT_URL}"
-        AWS_DISTRIBUTION_ID         = "${params['Please Input your AWS DISTRIBUTION ID']}"
-        EMAIL_RECIPIENT             = "fxy4560654@gmail.com"
+        CI = "false"
+        PROJECT_ENV = "Prod"
+        PROJECT_NAME = "BookingLet-FrontEnd"
+        PROJECT_URL = "happyboy.link"
+        AWS_S3_CREDENTIALS = "AWS-Credentials-Root-AccessKey"
+        AWS_S3_REGION = "${params['Which region are you going to deploy?']}"
+        AWS_S3_BUCKET = "happyboy.link"
+        AWS_BACKUP_S3_CREDENTIALS = "AWS-Credentials-Root-AccessKey"
+        AWS_BACKUP_S3_REGION = "ap-southeast-2"
+        AWS_BACKUP_S3_BUCKET = "backup.${env.PROJECT_URL}"
+        AWS_DISTRIBUTION_ID = "${params['Please Input your AWS DISTRIBUTION ID']}"
+        EMAIL_RECIPIENT = "fxy4560654@gmail.com"
     }
     parameters {
         choice choices: ['Production', 'Staging'], description: 'You can not proceed with the deployment in this pipeline unless "Production" is chosen.', name: 'Which Environment are you going to deploy?'
@@ -24,7 +24,7 @@ pipeline{
         stage(' Choose Docker Image '){
             agent {
                 docker {
-                image 'node:14.14.0'
+                image 'node:16.0.0'
                 label 'agent2'
                 args  '-u root:root'
                 }
@@ -38,31 +38,31 @@ pipeline{
                         sh'whoami'
                         echo '..................Current Working directory is..................'
                         sh'pwd'
-                        }
                     }
+                }
                 stage("Input Message Confirm"){                  
                     options {
                         timeout(time: 600, unit: 'SECONDS')
-                            }
+                    }
                     when {
                         allOf {                        
                         environment name: 'PROJECT_ENV', value: 'Prod'
                         environment name: 'PROJECT_NAME', value: "${PROJECT_NAME}"
                         expression{ params['Which Environment are you going to deploy?'] == 'Production' }
                         }
-                        beforeInput true 
-                        }
+                        beforeInput true
+                    }
                     input {
                         message "Everything looks good, ready to deploy to S3 ?"
                         ok "Yes,Deploy."               
                         parameters {
                             booleanParam defaultValue: true, description: 'I\'ve checked all resources are setting well.', name: 'Check all configs one more time'
-                                }
                         }
+                    }
                     steps {
                         echo "Input Confirmed. Not Skip this stage"
-                        } 
                     }
+                }
                 stage("Install AWS CLI 2"){
                     steps {
                         echo "..................Installing AWS CLI ....................."
@@ -70,34 +70,34 @@ pipeline{
                         sh 'apt install unzip'
                         sh 'unzip -o -q awscliv2.zip'
                         sh './aws/install'
-                        }
                     }
+                }
                 stage("Npm Install"){
                     steps {
-                        echo '..................npm install..................'            
+                        echo '..................npm install..................'
                         dir("./front_end") {
                         sh 'npm install'
-                            }
-                        }  
-                    }
-                stage("Build"){
-                    steps {
-                        echo '..................Npm build..................'            
-                        dir('./front_end'){
-                        sh 'ls -a'
-                        sh 'npm run build'                         
-                            }  
                         }
                     }
+                }
+                stage("Build"){
+                    steps {
+                        echo '..................Npm build..................'
+                        dir('./front_end'){
+                        sh 'ls -a'
+                        sh 'npm run build'
+                        }
+                    }
+                }
                 stage("Upload the build folder"){
                     steps {
                         dir('./front_end'){                         
                         echo '..................Uploading the build folder to S3 bucket.......'
-                        withAWS(credentials: "${AWS_S3_CREDENTIALS}", region: "${AWS_S3_REGION}"){
+                            withAWS(credentials: "${AWS_S3_CREDENTIALS}", region: "${AWS_S3_REGION}"){
                             sh 'aws s3 ls'
                             sh "aws s3 rm s3://${AWS_S3_BUCKET} --recursive"
-                            sh "aws s3 cp ./build s3://${AWS_S3_BUCKET} --recursive --acl bucket-owner-full-control"
-                            sh """aws cloudfront create-invalidation --distribution-id ${AWS_DISTRIBUTION_ID} --paths "/*" """
+                            sh "aws s3 cp ./build s3://${AWS_S3_BUCKET} --recursive --acl public-read"
+                            sh "aws cloudfront create-invalidation --distribution-id ${AWS_DISTRIBUTION_ID} --paths '/*' "
                                 }
                             }  
                         }  
@@ -116,7 +116,7 @@ pipeline{
                         withAWS(credentials: "${AWS_BACKUP_S3_CREDENTIALS}", region: "${AWS_BACKUP_S3_REGION}"){
                             sh 'aws s3 ls'
                             sh "aws s3 rm s3://${AWS_BACKUP_S3_BUCKET} --recursive"
-                            sh "aws s3 cp ./build s3://${AWS_BACKUP_S3_BUCKET} --recursive --acl bucket-owner-full-control"
+                            sh "aws s3 cp ./build s3://${AWS_BACKUP_S3_BUCKET} --recursive --acl public-read"
                                 }
                             }  
                         }  
