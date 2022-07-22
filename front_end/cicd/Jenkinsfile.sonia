@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:14.14.0'
+            image 'node:16.0.0'
             args  '-u root:root'
         }
     }
@@ -56,7 +56,7 @@ pipeline {
         success {
             emailext body: 'Frontend deploy success', subject: 'Frontend success', to: 'yean1108@gmail.com'
         }
-        
+
         failure {
             emailext body: 'Frontend deploy failed', subject: 'Frontend failed', to: 'yean1108@gmail.com', attachLog: true
         } 
