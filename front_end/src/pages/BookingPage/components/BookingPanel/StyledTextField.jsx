@@ -3,11 +3,11 @@ import TextField from '@mui/material/TextField';
 
 const StyledTextField = styled(TextField)`
   width: 100%;
-  margin: ${(props) => (props.p1 ? '10px 0' : '')};
+  margin: 10px 0;
   & label {
-    font-size: 19px;
-    color: #323232;
-    font-weight: 600;
+    font-size: ${(props) => (props.p3 ? '' : '19px')};
+    color: ${(props) => (props.p3 ? '#909090' : '#323232')};
+    font-weight: ${(props) => (props.p3 ? 500 : 600)};
   }
   .MuiInput-input {
     font-size: 14px;

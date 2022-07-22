@@ -13,22 +13,18 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 
-const Wrapper = styled(Paper)`
+const PanelWrapper = styled(Paper)`
   width: 392px;
-  text-align: center;
+  text-align: left;
   box-sizing: border-box;
   padding: 25px 40px 25px 40px;
   h2 {
     font-size: 20px;
+    text-align: center;
   }
 `;
 
 const Forms = [Step1, Step2, Step3, Step4, Step5];
-
-const FakeData = {
-  PeopleOptions: [1, 2, 3, 4, 5, 6, 7, 8],
-  ServiceOptions: ['Dining', 'Massage', 'Cleaning', 'Mowing', 'KTV'],
-};
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -36,7 +32,7 @@ const FlexWrapper = styled.div`
   justify-content: center;
 `;
 
-const BookingPanel = () => {
+const BookingPanel = ({ id }) => {
   const [step, setStep] = useState(0);
 
   const Display = Forms[step];
@@ -44,13 +40,15 @@ const BookingPanel = () => {
   const [FormData, setFormData] = useState({
     date: new Date(),
     people: 1,
-    service: FakeData.ServiceOptions[0],
+    service: '',
     duration: 1,
     mobile: '',
     note: '',
     name: 'Seven',
     email: 'helloworld@gmail.com',
     send: false,
+    startTime: '',
+    endTime: '',
   });
 
   const IconWrapper = styled.div`
@@ -86,7 +84,7 @@ const BookingPanel = () => {
   `;
 
   return (
-    <Wrapper>
+    <PanelWrapper>
       <h2>Book Your Experience</h2>
       {step === 4 ? null : (
         <header>
@@ -101,17 +99,13 @@ const BookingPanel = () => {
       )}
 
       <form style={{ marginBottom: '25px' }}>
-        <Display
-          FormData={FormData}
-          setFormData={setFormData}
-          FakeData={FakeData}
-        />
+        <Display FormData={FormData} setFormData={setFormData} id={id} />
       </form>
       <FlexWrapper>
         <BackButton step={step} setStep={setStep} Forms={Forms} />
         <ForwardButton step={step} setStep={setStep} Forms={Forms} />
       </FlexWrapper>
-    </Wrapper>
+    </PanelWrapper>
   );
 };
 

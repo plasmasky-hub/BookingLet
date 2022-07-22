@@ -4,12 +4,12 @@ import styled from '@emotion/styled';
 import StyledTextField from './StyledTextField';
 import FlexWrapper from './FlexWrapper';
 import Checkbox from '@mui/material/Checkbox';
-
-const Title = styled.h5`
+import FormControl, { useFormControl } from '@mui/material/FormControl';
+const Title = styled.p`
   font-size: 14px;
   text-align: left;
-  margin: ${(props) => (props.FirstLine ? '30px 0 0 0' : '14px 0 0 0')};
-  margin-bottom: ${(props) => (props.Input ? '14px' : '0')};
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 const CheckboxWrapper = styled(FlexWrapper)`
@@ -18,27 +18,47 @@ const CheckboxWrapper = styled(FlexWrapper)`
     padding-top: 15px;
   }
 `;
-const Step3 = ({ FormData, setFormData, FakeData }) => {
-  const date = FormData.date.toDateString();
+const Step3 = ({ FormData, setFormData }) => {
+  const date = FormData.date.toDateString().substring(4);
 
-  console.log(FormData);
+  /*******************************************************/
+  //StartTime & EndTime
+  /*******************************************************/
+  let startHour, startMinute;
+  if (FormData.startTime) {
+    startHour = FormData.startTime._d.getHours();
+    startMinute = FormData.startTime._d.getMinutes();
+  }
+  const startTime = `${startHour}:${
+    startMinute < 10 ? `0${startMinute}` : startMinute
+  }`;
+
+  const showEndTime = (hour, minute, duration) => {
+    const m = minute + duration * 60;
+    return m % 60 < 10
+      ? `${hour + Math.floor(m / 60)}:0${m % 60}`
+      : `${hour + Math.floor(m / 60)}:${m % 60}`;
+  };
+
+  const endTime = showEndTime(startHour, startMinute, FormData.duration);
 
   return (
     <>
       <Title FirstLine>Order Information</Title>
       <FlexWrapper>
         <p>
-          {date} - {FormData.people} people - {FormData.service}
+          {date} - {FormData.people} people - {FormData.service.name}
         </p>
         <CheckIcon className="icon" />
       </FlexWrapper>
 
       <Title>Time</Title>
       <FlexWrapper>
-        <p>14:00 - 15:00</p>
+        <p>
+          {startTime} - {endTime}
+        </p>
         <CheckIcon className="icon" />
       </FlexWrapper>
-
       <Title Input>Mobile</Title>
       <StyledTextField
         value={FormData.mobile}
@@ -47,9 +67,9 @@ const Step3 = ({ FormData, setFormData, FakeData }) => {
         }}
         variant="outlined"
         size="small"
-        InputProps={{ style: { fontSize: 14 } }}
+        label="Please enter your number"
+        p3
       />
-
       <Title Input>Note</Title>
       <StyledTextField
         value={FormData.note}
@@ -59,10 +79,11 @@ const Step3 = ({ FormData, setFormData, FakeData }) => {
         variant="outlined"
         multiline
         rows={4}
-        placeholder="Add any additional note for your order"
         size="small"
-        InputProps={{ style: { fontSize: 14 } }}
+        label="Add any additional note for your order"
+        p3
       />
+
       <CheckboxWrapper>
         <Checkbox
           checked={FormData.send}
