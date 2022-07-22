@@ -9,8 +9,9 @@ pipeline {
         ENVIRONMENT = 'uat'
         CI          = 'false'
         BUCKET_NAME = "www.shecan.link"
+        AWS_CREDENTIALS = "christina"
         REGION      = "ap-southeast-2"
-        DISTRIBUTION_ID = 'E2AG1WHBKVENIJ'
+        DISTRIBUTION_ID = 'E3VF8CKK0616TL'
         WORKSPACE_PATH = '/var/lib/jenkins/workspace/Frontend-UAT/front_end/build'
     }
     stages {
@@ -43,7 +44,7 @@ pipeline {
         }
         stage('artifacts to s3') {
             steps{
-                withCredentials([usernameColonPassword(credentialsId: 'github', variable: 'AWS')]) {
+                withAWS(credentials: "${AWS_CREDENTIALS}", region: "${REGION}")  {
                     dir('./front_end/') {
                         sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'  
                         sh 'aws s3 sync ${WORKSPACE_PATH} s3://${BUCKET_NAME}'

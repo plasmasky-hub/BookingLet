@@ -1,21 +1,43 @@
 pipeline {
     agent any
     environment {
-        ENVIRONMENT = 'uat'
-        AWS_ACCOUNT_ID="544863999112"
-        AWS_DEFAULT_REGION="ap-southeast-2" 
-	CLUSTER_NAME="bookinglet-cluster"
-	SERVICE_NAME="bookinglet-service"
-	TASK_DEFINITION_NAME="bookinglet-task"
-        IMAGE_REPO_NAME="bookinglet-repo"
-        IMAGE_TAG="latest"
-        DESIRED_COUNT = "1"
-        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-	    registryCredential = "christina"
+        ENVIRONMENT         = 'uat'
+        AWS_ACCOUNT_ID      = "544863999112"
+        AWS_DEFAULT_REGION  = "ap-southeast-2"
+        AWS_CREDENTIALS     = "christina"
+        MONGODB_URL         = "mongourl"
+        CLUSTER_NAME        = "bookinglet-cluster"
+        SERVICE_NAME        = "bookinglet-service"
+        TASK_DEFINITION_NAME = "bookinglet-task"
+        IMAGE_REPO_NAME     = "bookinglet-repo"
+        IMAGE_TAG           = "latest"
+        DESIRED_COUNT       = "3"
+        REPOSITORY_URI      = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
     stages {
+        stage('create env file') {
+            steps {
+                script {
+                    dir('./back_end/') {
+                        withCredentials([string(credentialsId: "${MONGODB_URL}", variable: 'mongo')]) {
+                            sh "echo 'MONGODB_CONNECTION_URL= ${mongo}' > .env "                        
+                            }
+                            sh "echo 'PORT= 8000' >> .env"
+                    }
+                }               
+            }
+        }
+        stage('login') {
+            steps {
+                dir('./back_end/') {
+                    withAWS(credentials: "${AWS_CREDENTIALS}", region: "${AWS_DEFAULT_REGION}") {
+                        sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
+                    }   
+                }
+            }
+        }
         stage('Building image') {
-            steps{
+            steps {
                 dir('./back_end'){
                     echo "Building images..."
                     sh 'docker build -t ${IMAGE_REPO_NAME} .' 
@@ -23,11 +45,10 @@ pipeline {
             }
         }
         stage('Push image') {
-            steps{
+            steps {
                 dir('./back_end'){
-                    withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
+                    withAWS(credentials: 'christina', region: "${AWS_DEFAULT_REGION}") {
                         echo "Push image to ECR"
-                        sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
                         sh 'docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}'
                         sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}' 
                         sh 'aws ecs update-service --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}" --task-definition "${TASK_DEFINITION_NAME}" --desired-count "${DESIRED_COUNT}"'
