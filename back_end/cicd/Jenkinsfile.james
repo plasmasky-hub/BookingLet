@@ -2,11 +2,15 @@ pipeline {
     agent any 
 
     environment {
-        AWS_ACCOUNT_ID     = 219392032829
-        AWS_DEFAULT_REGION = "ap-southeast-2"
-        IMAGE_REPO_NAME    = "jamesbookinglet"
-        IMAGE_TAG          = "latest"
-        REPOSITORY_URI     = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        AWS_ACCOUNT_ID            = 219392032829
+        AWS_DEFAULT_REGION        = "ap-southeast-2"
+        IMAGE_REPO_NAME           = "jamesbookinglet"
+        IMAGE_TAG                 = "latest"
+        REPOSITORY_URI            = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        AWS_CLUSTER_NAME          = "jamesbookinglet_cluster"
+        AWS_SERVICE_NAME          = "jamesbookinglet_service"
+        AWS_TASK_DEFINITION_NAME  = "jamesbookinglet_task_definition"
+        AWS_ECS_DESIRED_COUNT     = 2
 
     }
 
@@ -32,6 +36,7 @@ pipeline {
                 dir('./back_end/'){
                     sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
                     sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+                    sh "aws ecs update-service --cluster ${AWS_CLUSTER_NAME} --service ${AWS_SERVICE_NAME} --task-definition ${AWS_TASK_DEFINITION_NAME} --desired-count ${AWS_ECS_DESIRED_COUNT}"
                 }  
             }
         }    

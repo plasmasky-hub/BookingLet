@@ -6,10 +6,11 @@ pipeline{
          }
     }
     environment {
-        S3_REGION = 'ap-southeast-2'
-        BUCKET_NAME = 's3://jamesbookinglet.link'
-        WORKSPACE_PATH = '/var/lib/jenkins/workspace/bookinglet_james_frontend_uat/front_end/build' 
-        CI='false'
+        S3_REGION           = 'ap-southeast-2'
+        BUCKET_NAME         = 's3://jamesbookinglet.link'
+        WORKSPACE_PATH      = '/var/lib/jenkins/workspace/bookinglet_james_frontend_uat/front_end/build' 
+        CI                  = 'false'
+        AWS_DISTRIBUTION_ID = 'waitting form Infra created'
     }
 
     stages {
@@ -49,6 +50,7 @@ pipeline{
                     echo "empty bucket and cp new staff in"
                     sh 'aws s3 rm "${BUCKET_NAME}" --recursive'
                     sh 'aws s3 cp "${WORKSPACE_PATH}" "${BUCKET_NAME}" --recursive --acl public read'
+                    sh "aws cloudfront create-invalidation --distribution-id ${AWS_DISTRIBUTION_ID} --paths '/*' "
                 }
             }
         } 
