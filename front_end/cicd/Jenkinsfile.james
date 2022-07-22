@@ -1,7 +1,7 @@
 pipeline{    
     agent {
         docker{
-            image 'node:18.0.0'
+            image 'node:16.0.0'
             args '-u root:root'
          }
     }
@@ -13,37 +13,32 @@ pipeline{
     }
 
     stages {
-//         stage('Git checkout') {
-//             steps {
-//                 // Get source code from james's Repo
-//                 git branch:'main', url:'https://github.com/YiFanYang1910/BookingLet.git'
-//             }
-//         }
-  
         stage('install aws cli'){
             steps{
-                echo 'INSTALL'
+                echo 'INSTALL AWS CLI'
                 sh 'apt-get update'
                 sh 'apt install python3-pip -y'
                 sh 'pip3 install awscli --upgrade'
             }
         }
-         stage('npm install') {
+
+        stage('npm install') {
             steps { 
                 dir("./front_end/") {
-                     sh 'npm install'
-                 }
+                    echo 'run npm install command'
+                    sh 'npm install'
+                }
                 
-             }
-         }
+            }
+        }
 
-         stage('npm build') {
-             steps {
-               dir("./front_end/") {
+        stage('npm build') {
+            steps {
+                dir("./front_end/") {
                     sh 'npm run build'
-                 }
-             }
-         }
+                }
+            }
+        }
 
 
         stage('CP to S3') {
@@ -67,11 +62,12 @@ pipeline{
         always {
             echo(message: 'i love jenkins')
             emailext attachLog: true, body: ''' pipeline down''',subject: 'you had successful run',to: 'yang191094@gmail.com'
-                    }
+        }
+
         failure {
             echo(message: 'i dont love jenkins')
             emailext attachLog: true, body: ''' sry u had failed to run this pipeline''',subject: 'you had sfailed run',to: 'ffls712@hotmail.com'
-         }
- 
+        }
     }
+
 }

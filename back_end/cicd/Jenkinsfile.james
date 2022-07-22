@@ -2,11 +2,11 @@ pipeline {
     agent any 
 
     environment {
-        AWS_ACCOUNT_ID = 219392032829
+        AWS_ACCOUNT_ID     = 219392032829
         AWS_DEFAULT_REGION = "ap-southeast-2"
-        IMAGE_REPO_NAME = "jamesbookinglet"
-        IMAGE_TAG="latest"
-        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        IMAGE_REPO_NAME    = "jamesbookinglet"
+        IMAGE_TAG          = "latest"
+        REPOSITORY_URI     = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
 
     }
 
@@ -50,5 +50,4 @@ pipeline {
             emailext body: 'Backend deploy failed', subject: 'Backend failed', to: 'ffls712@hotmail.com', attachLog: true
         }
     }
-
 }
