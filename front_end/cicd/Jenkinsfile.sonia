@@ -7,10 +7,11 @@ pipeline {
     }
 
     environment {
-        S3_REGION       = 'ap-southeast-2'
-        BUCKET_NAME     = 'nini-dev.click'
-        WORKSPACE_PATH  = '/var/lib/jenkins/workspace/P3-Project-Bookinglet/P3-UAT-Frontend/front_end/build' 
-        CI              = false
+        S3_REGION           = 'ap-southeast-2'
+        BUCKET_NAME         = 'nini-dev.click'
+        WORKSPACE_PATH      = '/var/lib/jenkins/workspace/P3-Project-Bookinglet/P3-UAT-Frontend/front_end/build' 
+        CI                  = false
+        AWS_DISTRIBUTION_ID = 'E1RFQYQMUG2EI8'
     }
 
     stages {
@@ -43,6 +44,7 @@ pipeline {
                 withAWS(credentials: 'demo-admin-user', region: 'ap-southeast-2'){
                     sh 'aws s3 rm --recursive s3://${BUCKET_NAME}'
                     sh 'aws s3 cp ${WORKSPACE_PATH} s3://${BUCKET_NAME}/ --recursive'
+                    sh "aws cloudfront create-invalidation --distribution-id ${AWS_DISTRIBUTION_ID} --paths '/*' "
                 }    
             }
         }     
