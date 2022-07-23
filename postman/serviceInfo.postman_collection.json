@@ -8,9 +8,21 @@
 	"item": [
 		{
 			"name": "getAllInfos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8000/v1/serviceInfo",
 					"host": [
@@ -20,6 +32,13 @@
 					"path": [
 						"v1",
 						"serviceInfo"
+					],
+					"query": [
+						{
+							"key": "storeId",
+							"value": "62d009fe057d4bbb8cc8f8ab",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -51,7 +70,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a613957645da1c405c0db6",
+							"value": "62d2f2000ae97adf9529787e",
 							"description": "test store"
 						}
 					]
@@ -66,7 +85,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 test7\",\r\n    \"rootCategory\": \"629f0bc95abd87303b5dcb17\",\r\n    \"subCategories\": [\"629f715cf1598f79a02aef99\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62a1aa0a2c9f493974ea830e\",\r\n    \"duration\": 2,\r\n    \"maxPersonPerSection\": 1,\r\n    \"maxServicePerSection\": 3,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Standard launch\",\r\n    \"rootCategory\": \"62d42f329a144d0fc58980c9\",\r\n    \"subCategories\": [\"62d42fad9a144d0fc58980d8\"],\r\n    \"store\": \"62d447b114c8004fe784c416\",\r\n    \"duration\": {\r\n        \"durationType\": \"unlimited\"\r\n    },\r\n    \"maxPersonPerSection\": 10,\r\n    \"maxServicePerSection\": 10,\r\n    \"price\": \"About 30 AUD\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -94,7 +113,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 test7kai\",\r\n    \"rootCategory\": \"629f0bc95abd87303b5dcb17\",\r\n    \"subCategories\": [\"629f715cf1598f79a02aef99\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"store\": \"62a1aa0a2c9f493974ea830e\",\r\n    \"duration\": 4,\r\n    \"maxPersonPerSection\": 10,\r\n    \"maxServicePerSection\": 3,\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Jul17 service calendar 3 kai\",\r\n    \"subCategories\": [\"62ad15b9ef739cb5790f6449\", \"62a5f852767e8fc45aad5a23\"],\r\n    \"duration\": {\r\n        \"durationType\": \"changeable\",\r\n        \"changeableDuration\": {\r\n            \"minimum\": 2,\r\n            \"maximum\": 3.5\r\n        }\r\n    },\r\n    \"maxPersonPerSection\": 7,\r\n    \"price\": \"51 AUD per hour\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 123.\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,7 +134,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a613957645da1c405c0db6"
+							"value": "62d402a401ac6a0d2a61bb2d"
 						}
 					]
 				}
@@ -141,7 +160,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a613957645da1c405c0db6",
+							"value": "62d2f1a15173afe1b66ba1c5",
 							"description": "6/10 test 2"
 						}
 					]

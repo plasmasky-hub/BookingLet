@@ -12,6 +12,8 @@ const {
     checkTimeIntervalAndBook,
 
     getAllRecords,
+    getBusinessTimeByDateAndServiceInfo,
+    getChartDataByDateAndServiceInfo,
     deleteAllRecords
 } = require('../controllers/calendar.controller');
 
@@ -26,10 +28,12 @@ calendarRouter.get('/serviceInfo/:id', getServiceInfoCalendarById);
 calendarRouter.post('/serviceInfo/:id', addServiceInfoCalendarById);
 calendarRouter.delete('/serviceInfo/:id', deleteServiceInfoCalendarById);
 calendarRouter.put('/serviceInfo/:id', updateServiceInfoCalendarById);
-calendarRouter.get('/checkTimeIntervalAndBook', checkTimeIntervalAndBook);
+calendarRouter.put('/checkTimeIntervalAndBook', checkTimeIntervalAndBook);
 
 calendarRouter.get('/record', getAllRecords);
 calendarRouter.delete('/record', deleteAllRecords);
+calendarRouter.get('/businessTime', getBusinessTimeByDateAndServiceInfo);
+calendarRouter.get('/chart', getChartDataByDateAndServiceInfo)
 
 
 module.exports = calendarRouter;
