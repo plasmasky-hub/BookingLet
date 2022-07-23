@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 // import styled from "styled-components";
-import StoreText from "./components/StoreInfText/StoreInfText";
-import StoreSmallText from "./components/StoreInfSmallText/StoreSmallText";
-import StoreInfFilter from "./components/StoreInfFilter/StoreInfFilter";
-import CategoryFilter from "./components/CategoryFilter/CategoryFilter";
-import Description from "./components/Description/Description";
-import styled from "@emotion/styled";
-import { Button } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
+import StoreText from './components/StoreInfText/StoreInfText';
+import StoreSmallText from './components/StoreInfSmallText/StoreSmallText';
+import StoreInfFilter from './components/StoreInfFilter/StoreInfFilter';
+import CategoryFilter from './components/CategoryFilter/CategoryFilter';
+import Description from './components/Description/Description';
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
 
 const StoreInfWrapper = styled.div`
   width: 1233px;
@@ -29,7 +29,7 @@ const TopContainer = styled.div`
 const StoreName = styled.div`
   width: 284px;
   height: 20px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -56,7 +56,7 @@ const Title = styled.div`
   height: 32px;
   margin-left: 85px;
   padding-top: 40px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -84,7 +84,7 @@ const ButtonContainer = styled(Button)`
 const StoreInfName = styled.div`
   margin-left: 88px;
   margin-top: 20px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -119,12 +119,12 @@ const PhotoContainer = styled.div`
 const CheckboxContainer = styled(Button)`
   margin-left: 70px;
   margin-top: 20px;
-  color: #397CC2;
+  color: #397cc2;
 `;
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-const StoreInfPage = () => (
+const StoreSetting = () => (
   <StoreInfWrapper>
     <WholeContainer>
       <Title>Store Information</Title>
@@ -160,9 +160,7 @@ const StoreInfPage = () => (
         & Conditions of Bookinglet
       </CheckboxContainer>
       <ButtonContainer>
-        <StoreInfButton left
-          variant="contained"
-        >
+        <StoreInfButton left variant="contained">
           Preview
         </StoreInfButton>
 
@@ -172,4 +170,4 @@ const StoreInfPage = () => (
   </StoreInfWrapper>
 );
 
-export default StoreInfPage;
+export default StoreSetting;

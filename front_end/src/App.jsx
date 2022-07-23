@@ -3,6 +3,7 @@ import LandingPage from './pages/LandingPage';
 import StoreListPage from './pages/StoreListPage';
 import BookingPage from './pages/BookingPage';
 import FavouriteStoreListPage from './pages/FavouriteStoreListPage';
+import StoreSettingPage from './pages/StoreSettingPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   return (
@@ -12,7 +13,14 @@ function App() {
         <Route path="/LandingPage" element={<LandingPage />}></Route>
         <Route path="/StoreListPage" element={<StoreListPage />}></Route>
         <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
-        <Route path="/FavouriteStoreListPage/:_id" element={<FavouriteStoreListPage />}></Route> 
+        <Route
+          path="/FavouriteStoreListPage/:_id"
+          element={<FavouriteStoreListPage />}
+        ></Route>
+        <Route
+          path="/StoreSettingPage/:id"
+          element={<StoreSettingPage />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
