@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { MenuItem } from '@mui/material';
 import StyledTextField from './StyledTextField';
 import FlexWrapper from './FlexWrapper';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import { TimePicker } from 'antd';
 import {
   useGetBusinessTimeQuery,
