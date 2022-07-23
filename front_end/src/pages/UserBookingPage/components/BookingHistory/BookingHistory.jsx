@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Container, Chip, Stack } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { BookingTable } from '../BookingTable/BookingTable';
-// import { useGetOrdersQuery, useUpdateOrderQuery } from '../../../../store/api/orderApi';
+import { useGetOrdersQuery, useUpdateOrderQuery } from '../../../../store/api/orderApi';
 
 const BookingPageWrapper = styled(Container)`
     width: 100%;
@@ -27,6 +27,8 @@ const ChipBackground = '#7B8B6F';
 const chipItems = ['All', 'Uncomfirmed', 'Confirmed', 'Done'];
 
 export const BookingHistory = () => {
+    const { data, isSuccess } = useGetOrdersQuery();
+    const orders = isSuccess && data;
     const [clicked, setClicked] = useState(ChipBackground);
     const statusIndicator = chipItems.map((chipItems) =>
         <StyledChips
@@ -45,6 +47,7 @@ export const BookingHistory = () => {
             <Stack direction="row" spacing={1} sx={{ py: 2 }}>
                 {statusIndicator}
             </Stack>
+            <BookingTable />
             <BookingTable />
             <BookingTable />
             <BookingTable />
