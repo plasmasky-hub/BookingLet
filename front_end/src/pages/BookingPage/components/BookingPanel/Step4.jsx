@@ -2,27 +2,50 @@ import React from 'react';
 import styled from '@emotion/styled';
 import FlexWrapper from './FlexWrapper';
 
-const Title = styled.h5`
+const Title = styled.p`
   font-size: 14px;
   text-align: left;
-  margin: ${(props) => (props.FirstLine ? '30px 0 0 0' : '14px 0 0 0')};
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 const Step4 = ({ FormData, setFormData, FakeData }) => {
-  const date = FormData.date.toDateString();
+  const date = FormData.date.toDateString().substring(4);
+  /*******************************************************/
+  //StartTime & EndTime
+  /*******************************************************/
+  let startHour, startMinute;
+  if (FormData.startTime) {
+    startHour = FormData.startTime._d.getHours();
+    startMinute = FormData.startTime._d.getMinutes();
+  }
+  const startTime = `${startHour}:${
+    startMinute < 10 ? `0${startMinute}` : startMinute
+  }`;
+
+  const showEndTime = (hour, minute, duration) => {
+    const m = minute + duration * 60;
+    return m % 60 < 10
+      ? `${hour + Math.floor(m / 60)}:0${m % 60}`
+      : `${hour + Math.floor(m / 60)}:${m % 60}`;
+  };
+
+  const endTime = showEndTime(startHour, startMinute, FormData.duration);
 
   return (
     <>
-      <Title FirstLine>Order Information</Title>
+      <Title>Order Information</Title>
       <FlexWrapper P4>
         <p>
-          {date} - {FormData.people} people - {FormData.service}
+          {date} - {FormData.people} people - {FormData.service.name}
         </p>
       </FlexWrapper>
 
       <Title>Time</Title>
       <FlexWrapper P4>
-        <p>14:00 - 15:00</p>
+        <p>
+          {startTime} - {endTime}
+        </p>
       </FlexWrapper>
 
       <Title>Name</Title>
