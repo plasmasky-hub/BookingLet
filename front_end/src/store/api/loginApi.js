@@ -2,7 +2,7 @@ import { apiSlice } from './apiSlice';
 
 const loginApi = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		login: builder.query({
+		login: builder.mutation({
 			query: (data) => ({
 				url:'/login',
 				method: 'GET',
@@ -16,4 +16,4 @@ const loginApi = apiSlice.injectEndpoints({
 	overrideExisting: false,
 });
 
-export const { useLoginQuery } = loginApi;
+export const { useLoginMutation } = loginApi;
