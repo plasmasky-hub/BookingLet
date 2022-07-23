@@ -181,16 +181,18 @@ async function getOrderByID(req, res) {
   }
   return res.status(200).json(order);
 }
-//get all
+
+
+
 async function getAllOrders(req, res) {
-  console.log('Finding all orders...');
-  //Order.find().sort().limit()--> pagination 分页处理
-  const orders = await Order.find().exec();
+  const { storeId } = req.query;
+  let findQuery = {};
+  if (storeId !== undefined) { findQuery.storeId = storeId };
+
+
+  const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).exec();
   if (!orders) {
     return res.status(400).json({ error: 'Order not found' });
-  }
-  if (JSON.stringify(orders) === '[]') {
-    return res.status(404).json({ error: 'Order data is empty in database' });
   }
   return res.status(200).json(orders);
 }
