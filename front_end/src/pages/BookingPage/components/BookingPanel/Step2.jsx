@@ -11,7 +11,7 @@ import {
   useGetChartDateQuery,
 } from '../../../../store/api/calendarApi';
 import { Bar } from 'react-chartjs-2';
-import { Chart } from 'chart.js/auto';
+// import { Chart } from 'chart.js/auto';
 
 const Title = styled.p`
   font-size: 14px;
