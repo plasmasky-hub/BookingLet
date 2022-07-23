@@ -5,6 +5,8 @@ import BookingPage from './pages/BookingPage';
 import FavouriteStoreListPage from './pages/FavouriteStoreListPage';
 import StoreSettingPage from './pages/StoreSettingPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { StoreBookingManagement } from './pages/StoreBookingManagement/StoreBookingManagement';
+
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +15,7 @@ function App() {
         <Route path="/LandingPage" element={<LandingPage />}></Route>
         <Route path="/StoreListPage" element={<StoreListPage />}></Route>
         <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
+        <Route path="/StoreBookingManagement" element={<StoreBookingManagement />}></Route>
         <Route
           path="/FavouriteStoreListPage/:_id"
           element={<FavouriteStoreListPage />}
