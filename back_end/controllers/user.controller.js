@@ -257,11 +257,11 @@ async function register(req, res) {
 		email,
 		password } = req.body;
 		
-	const checkName = await User.find({name});
-    console.log("🚀 ~ file: user.controller.js ~ line 204 ~ register ~ checkName", checkName)
+	const checkName = await User.find({email});
+    // console.log("🚀 ~ file: user.controller.js ~ line 204 ~ register ~ checkName", checkName)
 	
 	if( checkName.length > 0 ){
-		return res.json('User name is duplicated, please use another name!');
+		return res.json('This Email has been used, please use another one!');
 	}
 	// Validation
 	// Check if username duplicate
@@ -275,7 +275,7 @@ async function register(req, res) {
 
 	await newUser.hashPassword();
 	await newUser.save();
-	const token = await generateToken({name});
+	const token = await generateToken({email});
 
 	return res.status(200).json({user: newUser, token: token});
 
@@ -287,7 +287,7 @@ async function login(req, res) {
 	const currentUser = await User.findOne({ email }).exec();
 
   if (!currentUser) {
-		return res.status(401).json({ error: "Invalid user name!" });
+		return res.status(401).json({ error: "Invalid email account!" });
 	}
 
   // console.log(validation.error.details[0].path);

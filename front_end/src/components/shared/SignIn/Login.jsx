@@ -9,6 +9,8 @@ import {
 	VisibilityOff,
 } from '@mui/icons-material';
 
+import { useLoginMutation } from '../../../store/api/loginApi';
+
 import { 
 	Box, 
 	Button, 
@@ -83,10 +85,12 @@ export const LoginModal = (props) => {
 		});
 	};
 
+    const [login, { isLoading }] = useLoginMutation();
+
     const formik = useFormik({
         initialValues: {
-          email: 'foobar@example.com',
-          password: 'foobar',
+          email: '',
+          password: '',
           showPassword: false,
         },
         handleClickShowPassword: handleClickShowPassword,
@@ -94,7 +98,10 @@ export const LoginModal = (props) => {
         validateOnBlur: true,
 
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            console.log( JSON.stringify(values, null, 2) );
+            const loginResult = login(values);
+
+            console.log(loginResult);
         },
       });
 
