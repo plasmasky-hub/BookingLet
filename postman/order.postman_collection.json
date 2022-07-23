@@ -1,109 +1,141 @@
 {
-	"info": {
-		"_postman_id": "0960e98c-c1c8-4b1b-adae-582dabb327e4",
-		"name": "P3/BookingLet",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "20606455"
-	},
-	"item": [
-		{
-			"name": "Create Order",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"peopleNumber\":5,\n\t\"orderTime\":\"2022-06-04 18:00\",\n\t\"userId\":\"62a412e28db50cb95ee178fe\",\n\t\"storeId\":\"1234456\",\n\t\"serviceInfoId\":\"123456\",\n\t\"optionInfo\":\"more spicy\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "localhost:8000/orders"
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Orders",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "localhost:8000/orders"
-			},
-			"response": []
-		},
-		{
-			"name": "Create User",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\":\"Jet\",\n\t\"tel\":\"0400000\",\n\t\"email\":\"Jet123@hotmail.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "localhost:8000/user"
-			},
-			"response": []
-		},
-		{
-			"name": "Update Order",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"peopleNumber\":4,\n\t\"orderTime\":\"2022-06-04 18:00\",\n\t\"userId\":\"62a412e28db50cb95ee178fe\",\n\t\"storeId\":\"1234456\",\n\t\"serviceInfoId\":\"123456\",\n\t\"optionInfo\":\"less spicy\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "localhost:8000/orders/62a413488db50cb95ee17900"
-			},
-			"response": []
-		},
-		{
-			"name": "Get One Order",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "localhost:8000/orders/62a1f322fdec3f2ceddf7aef"
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Order",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": "localhost:8000/orders/629c32857f838bf8747ee93c"
-			},
-			"response": []
-		},
-		{
-			"name": "Confirm Order",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": "localhost:8000/orders/62a413488db50cb95ee17900/store"
-			},
-			"response": []
-		},
-		{
-			"name": "Cancel order from User side",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": "localhost:8000/orders/62a413488db50cb95ee17900/user"
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "7aecab93-c8a2-4f84-9ce5-f79383ff55b6",
+    "name": "order",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20606313"
+  },
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"peopleNumber\":3,\n\t\"orderTime\":{\n        \"date\":\"2023-6-11\",\n        \"startTime\":\"800\",\n        \"endTime\": \"810\"\n    },\n\t\"userId\":\"62c680bdc03d79c110735985\",\n\t\"serviceInfoId\":\"62cacf485d0e5b8f8c20bbbe\",\n    \"tel\":\"0401234567\",\n\t\"optionInfo\":\"more spicy1\"\n    \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/orders",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "orders"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/orders",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "orders"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Order",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"peopleNumber\":4,\n\t\"orderTime\":\"2022-06-04 18:00\",\n\t\"userId\":\"62a412e28db50cb95ee178fe\",\n\t\"storeId\":\"1234456\",\n\t\"serviceInfoId\":\"123456\",\n\t\"optionInfo\":\"less spicy\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/orders/62a413488db50cb95ee17900",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "orders", "62a413488db50cb95ee17900"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get One Order",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1orders/62a1f322fdec3f2ceddf7aef",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1orders", "62a1f322fdec3f2ceddf7aef"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Confirm Order",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/orders/62a413488db50cb95ee17900/store",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "orders", "62a413488db50cb95ee17900", "store"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check available order time",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"peopleNumber\":3,\n\t\"orderTime\":{\n        \"date\":\"2022-06-20\"\n        \n    },\n\t\"userId\":\"62b00caf6082719d6e4d35a2\",\n\t\"storeId\":\"62a9601b419db832305a46ba\",\n\t\"serviceInfoId\":\"62b315c84d11a7eb89e8f753\",\n    \"tel\":\"0401234567\",\n\t\"optionInfo\":\"more spicy\"\n    \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/v1/orders/serviceInfo",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "orders", "serviceInfo"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cancelOrder",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/v1/orders/:id",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["v1", "orders", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "62cad866419ff61fd4856fd2"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

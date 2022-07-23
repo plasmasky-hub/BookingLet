@@ -1,5 +1,7 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
+const User = require('../models/user');
+const { getDayOfWeek, checkDateFormat } = require('./calendar.controller');
 const Joi = require('joi');
 
 
@@ -219,55 +221,80 @@ const Joi = require('joi');
  *                                  type: string                          
 */
 async function getAllStores(req, res) {
-    let { sortMethod = 'orderSize', person = 1, category, state, city, dateInWeek, query = '.', resultQuantity = 999 } = req.body;
+    let { sortMethod = 'orderSize',
+        person = 1,
+        category = undefined,
+        state = undefined,
+        city = undefined,
+        date = undefined,
+        query = '.',
+        includeNoServiceStore = false,
+        resultQuantity = 999
+    } = req.query;
 
+    if (['orderSize', 'favoriteUsersSize', 'distance'].indexOf(sortMethod) === -1) {
+        return res.status(400).json({
+            error: 'SortMethod must be one of [orderSize, favoriteUsersSize, distance].'
+        });
+    }
+
+    if (date !== undefined) {
+        const dateFormatCheckResult = checkDateFormat(date);
+        if (!dateFormatCheckResult.permission) {
+            return res.json(dateFormatCheckResult.message)
+        };
+    }
+
+    person = parseInt(person);
+    resultQuantity = parseInt(resultQuantity);
+    includeNoServiceStore = includeNoServiceStore === "true" ? true : false;
+    let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
-    let startTimeDateQuery = {};
+    let noServiceStoreQuery = { "serviceInfoDetails": { $ne: [] } };
 
-    //if (category !== undefined) { optionalMatchQuery.rootCategories = category };  //invalid here. The reason should be array != string.
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] };
-        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] };
+        optionalMatchQuery[`businessHours.${dateInWeek}`] = { $ne: [] };
     }
+    if (includeNoServiceStore) { noServiceStoreQuery = {}; }
 
-    let aimedStores = await Store.aggregate([
+    await Store.aggregate([
         {
             $lookup: {
                 from: "serviceinfos",
                 let: { id: "$_id" },
-                pipeline: [
-                    {  //Filter the sub-table 1st time, and return main tables which contain the specified day in its sub-table.
-                        $project:
+                pipeline:
+                    [
                         {
-                            store: 1, name: 1, maxPersonPerSection: 1,
-                            "startTime": {
-                                $filter: {
-                                    input: "$startTime.dayOfWeek",
-                                    as: "startTimeDay",
-                                    cond: startTimeDateQuery  //If there is no 'dateInWeek' in filter, select *
+                            $project: { store: 1, name: 1, maxPersonPerSection: 1 }
+                        },
+                        {
+                            $match:
+                            {
+                                $expr:
+                                {
+                                    $and:
+                                        [
+                                            { isDiscard: false },
+                                            { $eq: ["$store", "$$id"] },
+                                            { $gte: ["$maxPersonPerSection", person] }
+                                        ]
                                 }
                             }
                         }
-                    },
-                    {  //Filter the sub-table 2nd time, and return main tables which {$maxPersonPerSection > person} in its sub-table.
-                        $match:
-                        {
-                            $expr:
-                            {
-                                $and:
-                                    [
-                                        { isDiscard: false },
-                                        { $eq: ["$store", "$$id"] },
-                                        { $gte: ["$maxPersonPerSection", person] }
-                                    ]
-                            }
-                        }
-                    }
-                ],
+                    ],
                 as: "serviceInfoDetails"
+            },
+        },
+        {
+            $lookup:
+            {
+                from: "rootcategories",
+                localField: "rootCategories",
+                foreignField: "_id",
+                as: "rootCategoryDetails"
             }
         },
         {
@@ -275,15 +302,14 @@ async function getAllStores(req, res) {
                 $and:
                     [
                         { isDiscard: false },
-                        { "serviceInfoDetails": { $ne: [] } },
                         optionalMatchQuery,
-                        // { "rootCategories": { $elemMatch: {$eq: "629f0bc95abd87303b5dcb17"} } }  //incorrect, but I don't know why
-                        // { rootCategories: { $all: ["629f0bc95abd87303b5dcb17"] } }  //incorrect, but I don't know why
+                        noServiceStoreQuery
                     ],
-                $or: [
-                    { name: qRegExp },
-                    { description: qRegExp }
-                ]
+                $or:
+                    [
+                        { name: qRegExp },
+                        { description: qRegExp }
+                    ]
             }
         },
         {
@@ -292,7 +318,31 @@ async function getAllStores(req, res) {
         {
             $limit: resultQuantity
         }
+
     ]).then((result) => {
+        const today = new Date();
+        const dayOfWeekToday = getDayOfWeek(today);
+
+        if (category !== undefined) {
+            result = result.filter((element) => {
+                let matched = false;
+                for (let i = 0; i < element.rootCategoryDetails.length; i++) {
+                    if ({ ...element.rootCategoryDetails[i] }._id == category) { matched = true; }
+                }
+                return matched;
+            })
+        }
+
+        if (!includeNoServiceStore) {
+            result.map((element) => {
+                let maxPersonPerSectionArr = [];
+                element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
+                element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
+                element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
+
+            })
+        }
+
         res.json(result)
     }).catch((error) => {
         res.json(error)
@@ -334,7 +384,7 @@ async function getAllStores(req, res) {
 async function getStoreById(req, res) {
     const { id } = req.params;
     const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
-        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name' }).exec();
+        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name maxPersonPerSection maxServicePerSection duration calendarTemplate' }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
@@ -381,6 +431,11 @@ async function addStore(req, res) {
     const { name, owner, tel, location, description, rootCategories } = validatedData;  //= req.body;
     const store = new Store({ name, owner, tel, location, description, rootCategories });
     await store.save();
+
+    const user = await User.findById(owner).exec();
+    user.stores.addToSet(store._id);
+    await user.save();
+
     res.status(201).json(store);
 }
 
@@ -470,19 +525,22 @@ async function updateStoreById(req, res) {
 */
 async function discardStoreById(req, res) {
     const { id } = req.params;
-
-    await ServiceInfo.updateMany({ store: id }, {
-        $set: { 'isDiscard': true }
-    }).exec();
-
-    const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
-    if (!store) {
-        return res.status(404).json({
-            error: 'store not found',
+    let refServiceInfo = await ServiceInfo.find({ store: id, isDiscard: false }).exec();
+    if (refServiceInfo.length > 0) {
+        return res.status(400).json({
+            error: 'store cannot be deleted, because it has one or more reference services.',
         });
+    } else {
+        const store = await Store.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
+        if (!store) {
+            return res.status(404).json({
+                error: 'store not found',
+            });
+        }
+        res.sendStatus(204);
     }
 
-    res.sendStatus(204);
+
 
 }
 
@@ -503,8 +561,7 @@ async function checkStore(data) {
             city: Joi.string().required(),
             suburb: Joi.string().required(),
             street: Joi.string().required(),
-            number: Joi.string().required(),
-            postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
+            postcode: Joi.number().min(200).max(9999).required(),
         },
         description: Joi.string().max(300),
         rootCategories: Joi.array()
@@ -523,8 +580,7 @@ async function checkStoreUpdate(data) {
             city: Joi.string().required(),
             suburb: Joi.string().required(),
             street: Joi.string().required(),
-            number: Joi.string().required(),
-            postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
+            postcode: Joi.number().min(200).max(9999).required(),
         },
         description: Joi.string().max(300),
         rootCategories: Joi.array()

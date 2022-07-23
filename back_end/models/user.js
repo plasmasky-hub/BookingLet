@@ -23,13 +23,14 @@ const Schema = new mongoose.Schema({
     }],
     role : {
         type : String,
+        enum: ['Customer', 'Business owner', 'Administrator'],
         default : 'Customer'
     },
     stores : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Store'
     }],
-    favouriteStores : [{
+    favoriteStores : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Store'
     }],

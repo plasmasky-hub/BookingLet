@@ -5,16 +5,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import styled from 'styled-components';
 
+const WrapperFilter = styled.div`
+  margin-left: -5px;
+`;
+
 const BanerInputs = () => {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-
-  const WrapperFilter = styled.div`
-    margin-left: -5px;
-  `;
 
   return (
     <WrapperFilter>

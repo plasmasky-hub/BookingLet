@@ -3,11 +3,17 @@ import { Card } from '@mui/material';
 import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
+import food from '../../../../assets/food.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const CardWrapper = styled(Card)`
   width: 258px;
   padding: 22px 18px;
   box-sizing: border-box;
+  :hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
 `;
 
 const ImgWrapper = styled.div`
@@ -20,7 +26,7 @@ const ImgWrapper = styled.div`
 
   span {
     font-size: 11px;
-    padding: 5px 14px;
+    padding: 5px 14px 3px 14px;
     background-color: #7b8b6f;
     border-radius: 50px;
     color: #fff;
@@ -64,23 +70,36 @@ const CardButton = styled(Button)`
 `;
 
 const StoreCard = ({
-  data: { image, avl, name, address, svList, maxPpl, addPpl },
+  store: {
+    _id,
+    name,
+    location,
+    favoriteUsersSize,
+    isAvailableToday,
+    maxPersonPerSectionForStore,
+  },
 }) => {
-  console.log(maxPpl, addPpl);
+  const { state, city, postcode } = location;
+  const address = `${postcode} ${city} ${state}`;
+  const navigate = useNavigate();
 
   return (
     <CardWrapper>
       <ImgWrapper>
-        <img src={image} alt="food" />
+        {/* need data */}
+        <img src={food} alt="food" />
+        {/* need user data and function */}
         <AddIcon />
-        <span style={{ display: `${avl}` }}>AVAILABLE TODAY</span>
+        {isAvailableToday ? <span>AVAILABLE TODAY</span> : null}
       </ImgWrapper>
       <StoreName>{name}</StoreName>
       <Address>{address}</Address>
-      <Label style={{ display: `${svList}` }}>Service list available</Label>
-      <Label>Max {maxPpl} ppl.</Label>
-      <AddPpl>{addPpl} people add to booklet</AddPpl>
-      <CardButton variant="text" href="#">
+      <Label>Max {maxPersonPerSectionForStore} ppl.</Label>
+      <AddPpl>{favoriteUsersSize} people add to booklet</AddPpl>
+      <CardButton
+        onClick={() => navigate(`/BookingPage/${_id}`)}
+        variant="text"
+      >
         Book Now
       </CardButton>
     </CardWrapper>

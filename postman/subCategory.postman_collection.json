@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/v1/subCategory",
+					"raw": "localhost:8000/v1/subCategory?rootCategoryId=62d4362dc5b558c6059d62d4",
 					"host": [
 						"localhost"
 					],
@@ -20,6 +20,12 @@
 					"path": [
 						"v1",
 						"subCategory"
+					],
+					"query": [
+						{
+							"key": "rootCategoryId",
+							"value": "62d4362dc5b558c6059d62d4"
+						}
 					]
 				}
 			},
@@ -32,7 +38,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 subCategory test 3v1\",\r\n    \"parentCategory\": \"62a612b87645da1c405c0daa\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Pet feeding\",\r\n    \"parentCategory\": \"62d43713c5b558c6059d62e2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -60,7 +66,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jun 13 subCategory test 3kai result\",\r\n    \"parentCategory\": \"62a5f7a7b5941d7f374b771b\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Neo Men's Gallery\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -81,7 +87,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a6170c1bce22f454ea3098"
+							"value": "62d43257713422df5aef4799"
 						}
 					]
 				}
@@ -107,7 +113,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "62a6170c1bce22f454ea3098"
+							"value": "62d43746c5b558c6059d62e5"
 						}
 					]
 				}

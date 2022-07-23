@@ -5,7 +5,8 @@ const serviceInfoRouter = require('./serviceInfo.route');
 const storeRouter = require('./store.route');
 const rootCategoryRouter = require('./rootCategory.route');
 const subCategoryRouter = require('./subCategory.route');
-const checkOrderAvailabilityRouter =require('./checkOrderAvailability.route');
+
+const calendarRouter = require('./calendar.route');
 
 const mainRouter = express.Router();
 
@@ -15,6 +16,7 @@ mainRouter.use('/store', storeRouter);
 mainRouter.use('/rootCategory', rootCategoryRouter);
 mainRouter.use('/subCategory', subCategoryRouter);
 mainRouter.use('/orders', orderRouter);
-mainRouter.use('/checkOrderAvailability', checkOrderAvailabilityRouter);
+
+mainRouter.use('/calendar', calendarRouter);
 
 module.exports = mainRouter;
