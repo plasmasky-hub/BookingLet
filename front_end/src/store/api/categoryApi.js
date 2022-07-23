@@ -5,8 +5,12 @@ const categoryApi = apiSlice.injectEndpoints({
     getRootCategories: builder.query({
       query: () => '/rootCategory',
     }),
+    getSubCategories: builder.query({
+      query: (id) => `/subCategory?rootCategoryId=${id}`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetRootCategoriesQuery } = categoryApi;
+export const { useGetRootCategoriesQuery, useGetSubCategoriesQuery } =
+  categoryApi;

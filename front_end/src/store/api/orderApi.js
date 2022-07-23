@@ -2,7 +2,7 @@ import { apiSlice } from './apiSlice';
 
 const orderApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.query({
+    createOrder: builder.mutation({
       query: (order) => ({
         url: '/orders',
         method: 'POST',
