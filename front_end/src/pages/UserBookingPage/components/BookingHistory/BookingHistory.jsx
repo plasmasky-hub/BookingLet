@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 import { Container, Chip, Stack } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { BookingTable } from '../BookingTable/BookingTable';
@@ -19,14 +20,21 @@ const StyledChips = styled(Chip)`
     align-items: center;
     cursor: pointer;
     transition: ease-in-out 0.4s;
-    &:hover {
-        font-weight: 700;
-        color: #fff;
-        background-color: #7B8B6F;
-    };
 `;
 
+const ChipBackground = '#7B8B6F';
+
+const chipItems = ['All', 'Uncomfirmed', 'Confirmed', 'Done'];
+
 export const BookingHistory = () => {
+    const [clicked, setClicked] = useState(ChipBackground);
+    const statusIndicator = chipItems.map((chipItems) =>
+        <StyledChips
+            label={chipItems}
+            sx={{ color: `${ChipBackground[clicked]}` }}
+            onClick={() => {
+                setClicked(true)
+            }}></StyledChips>)
     return (
         <BookingPageWrapper>
             <h2>My Bookings</h2>
@@ -35,10 +43,7 @@ export const BookingHistory = () => {
                 <span><strong>Filter by booking status</strong></span>
             </Stack>
             <Stack direction="row" spacing={1} sx={{ py: 2 }}>
-                <StyledChips label='All' variant='filled'></StyledChips>
-                <StyledChips label='Uncomfirmed'></StyledChips>
-                <StyledChips label='Confirmed'></StyledChips>
-                <StyledChips label='Done'></StyledChips>
+                {statusIndicator}
             </Stack>
             <BookingTable />
             <BookingTable />
