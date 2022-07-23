@@ -15,7 +15,7 @@ function App() {
         <Route path="/LandingPage" element={<LandingPage />}></Route>
         <Route path="/StoreListPage" element={<StoreListPage />}></Route>
         <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
-        {/* <Route path="/UserBookingPage/" element={<UserBookingPage />}></Route> */}
+        <Route path="/UserBookingPage/" element={<UserBookingPage />}></Route>
         <Route
           path="/FavouriteStoreListPage/:_id"
           element={<FavouriteStoreListPage />}

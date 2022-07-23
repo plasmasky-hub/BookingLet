@@ -9,8 +9,18 @@ const orderApi = apiSlice.injectEndpoints({
         body: order,
       }),
     }),
+    getOrders: builder.query({
+      query: () => '/orders'
+    }),
+    UpdateOrder: builder.mutation({
+      query: (id, order) => ({
+        url: `/orders/${id}`,
+        method: 'PUT',
+        body: order,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateOrderQuery } = orderApi;
+export const { useCreateOrderQuery, useGetOrdersQuery, useUpdateOrderQuery } = orderApi;

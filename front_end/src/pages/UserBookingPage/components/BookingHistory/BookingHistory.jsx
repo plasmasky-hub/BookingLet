@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { Container, Chip, Stack } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { BookingTable } from '../BookingTable/BookingTable';
+// import { useGetOrdersQuery, useUpdateOrderQuery } from '../../../../store/api/orderApi';
 
 const BookingPageWrapper = styled(Container)`
-    min-width: 1000px;
     width: 100%;
     height: 100%;
     padding: 20px 30px;
