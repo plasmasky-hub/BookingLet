@@ -9,8 +9,7 @@ async function getAllUsers(req, res) {
   console.log('Finding all users...');
 
   try {
-    const users = await User.find().populate('stores');
-
+    const users = await User.find().populate('stores', 'name');
     res.json(users);
   } catch {
     console.log('Error in Finding all users!');
@@ -195,6 +194,15 @@ async function addOrCancelFavoriteStore(req,res){
 
 }
 
+async function getFavouriteStoreById(req,res){
+  const { id } = req.params;
+  const user = await User.findById(id).populate( 'favoriteStores').exec();
+  if (!user) {
+    return res.status(400).json({ error: 'user not found' });
+  }
+  return res.status(200).json(user.favoriteStores);
+}
+
 // async function addStoreToUser(req, res){
 //   console.log('Adding store to user...');
 //   const { id } = req.params;
@@ -309,7 +317,11 @@ module.exports = {
   deleteUserByID,
   getUserStores,
   addOrCancelFavoriteStore,
+
   login,
   register,
+
+  getFavouriteStoreById
+
   //addStoreToUser,
 };

@@ -17,11 +17,11 @@ async function addStoreBusinessTimeById(req, res) {
     let { dayOfWeek, openHour, closingHour } = req.body;
     const store = await Store.findById(id).exec();
 
-    openHour = parseInt(openHour);         //string转换为number。为了方便计算
+    openHour = parseInt(openHour);
     closingHour = parseInt(closingHour);
 
-    for (let i = openHour; i < closingHour; i += 5) {   //将微分时间注入选定dayOfWeek中
-        if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) === -1) {  //分钟60进制+重复性检测
+    for (let i = openHour; i < closingHour; i += 5) {
+        if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) === -1) {
             store.businessHours[dayOfWeek].push(i)
         };
     };
@@ -38,6 +38,23 @@ async function deleteStoreBusinessTimeById(req, res) {
 
     openHour = parseInt(openHour);
     closingHour = parseInt(closingHour);
+
+    let businessTimeCheckResult = true;
+    let storeTimeSliceArr = [];
+    for (let i = openHour; i < closingHour; i += 5) {
+        if (i % 100 < 60) { storeTimeSliceArr.push(i); };
+    }
+    const serviceInfos = await ServiceInfo.find({ store: id }).exec();
+
+    serviceInfos.map((info) => {
+        storeTimeSliceArr.map((element) => {
+            if (info.calendarTemplate[dayOfWeek].findIndex((ele) => ele.timeSlice === element) > -1) {
+                businessTimeCheckResult = false;
+                req.body.updatePermission = false;
+            };
+        });
+    });
+    if (!businessTimeCheckResult) { return res.json({ Error: 'Intended delete time is in service info calendar, delete failure!' }); }
 
     for (let i = openHour; i < closingHour; i += 5) {
         if (i % 100 < 60 && store.businessHours[dayOfWeek].indexOf(i) > -1) {
@@ -56,9 +73,11 @@ async function deleteStoreBusinessTimeById(req, res) {
 
 //req.body: {dayOfWeek: String, openHourBefore: String, closingHourBefore: String, openHourAfter: String, closingHourAfter: String}
 async function updateStoreBusinessTimeById(req, res) {
+    req.body.updatePermission = true;
     [req.body.openHour, req.body.closingHour] = [req.body.openHourBefore, req.body.closingHourBefore];
     await deleteStoreBusinessTimeById(req, res);
 
+    if (!req.body.updatePermission) { return res.json({ Error: 'Intended delete time is in service info calendar, delete failure!' }); }
     [req.body.openHour, req.body.closingHour] = [req.body.openHourAfter, req.body.closingHourAfter];
     await addStoreBusinessTimeById(req, res);
 }
@@ -68,10 +87,10 @@ async function SyncStoreCalendarToService(req, res) {
     const { storeId, serviceInfoId } = req.params;
     const store = await Store.findById(storeId).exec();
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };   //先查store和service是否有从属关系
+    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };
 
     let deletePermission = true;
-    Object.keys(serviceInfo.calendarTemplate).forEach((key) => {   //验证serviceInfo.calendarTemplate是否全为空，如果不为空无法同步并报错。
+    Object.keys(serviceInfo.calendarTemplate).forEach((key) => {
         if (serviceInfo.calendarTemplate[key].length > 0) {
             deletePermission = false;
             res.json({ Error: 'Could not sync because serviceInfo.calendarTemplate is not null!' })
@@ -79,7 +98,7 @@ async function SyncStoreCalendarToService(req, res) {
     })
 
     if (deletePermission) {
-        Object.keys(store.businessHours).forEach((key) => {   //将改装后的store.businessHours数组注入serviceInfo.calendarTemplate
+        Object.keys(store.businessHours).forEach((key) => {
             let serviceCalendarTemplate = store.businessHours[key].map((element) => {
                 return { timeSlice: element, reservation: 0, availability: true }
             });
@@ -110,8 +129,18 @@ async function addServiceInfoCalendarById(req, res) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
     }
 
-    let dbDayOfWeekArray = serviceInfo.calendarTemplate[dayOfWeek];  //由于数据库的数组中每一项都是{}，无法直接对比，所以先存下来再拆
-    let dbDifferentialTimeArray = dbDayOfWeekArray.map((element) => {   //把对象数组重组为微分时间数组
+    const store = await Store.findById(serviceInfo.store).exec();
+    let storeBusinessTimeArr = store.businessHours[dayOfWeek];
+    let businessTimeCheckResult = true;
+    timeSliceArr.map((element) => {
+        if (storeBusinessTimeArr.indexOf(element) === -1) {
+            businessTimeCheckResult = false;
+        }
+    })
+    if (!businessTimeCheckResult) { return res.json({ Error: 'added time is not in business time!' }) }
+
+    let dbDayOfWeekArray = serviceInfo.calendarTemplate[dayOfWeek];
+    let dbDifferentialTimeArray = dbDayOfWeekArray.map((element) => {
         return element.timeSlice;
     });
 
@@ -131,8 +160,7 @@ async function addServiceInfoCalendarById(req, res) {
     /*  1. 当添加营业时间interval时，添加后遍历bookingRecord表中所有(serviceInfoId相同 && 创建时间码 >= 当前时间码 )的documents。
     /*  2. 为documents添加同样的时间interval。
     */
-    let currentDateTime = new Date();
-    let currentDate = new Date(currentDateTime.toLocaleDateString());
+    let currentDate = getCurrentDate();
     let currentWeekMonday = getWeekMonday(currentDate);
 
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: { $gte: currentWeekMonday } }).exec();
@@ -198,8 +226,7 @@ async function deleteServiceInfoCalendarById(req, res) {
     /*  2. 遍历所得documents。对于每一个document，如果timeSlice数组中的任何timeSlice对应的时间 reservation > 0，此document就无法进行删除操作。
     /*  3. 如果timeSlice数组中的任何timeSlice对应的时间 reservation === 0，此document进行删除操作
     */
-    let currentDateTime = new Date();
-    let currentDate = new Date(currentDateTime.toLocaleDateString());
+    let currentDate = getCurrentDate();
     let currentWeekMonday = getWeekMonday(currentDate);
 
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: { $gte: currentWeekMonday } }).exec();
@@ -236,6 +263,27 @@ async function deleteServiceInfoCalendarById(req, res) {
 
 
 async function updateServiceInfoCalendarById(req, res) {
+    const { id } = req.params;
+    let { dayOfWeek, openHourAfter, closingHourAfter } = req.body;
+    const serviceInfo = await ServiceInfo.findById(id).exec();
+
+    openHourAfter = parseInt(openHourAfter);
+    closingHourAfter = parseInt(closingHourAfter);
+    let timeSliceArr = [];
+    for (let i = openHourAfter; i < closingHourAfter; i += 5) {
+        if (i % 100 < 60) { timeSliceArr.push(i); };
+    }
+
+    const store = await Store.findById(serviceInfo.store).exec();
+    let storeBusinessTimeArr = store.businessHours[dayOfWeek];
+    let businessTimeCheckResult = true;
+    timeSliceArr.map((element) => {
+        if (storeBusinessTimeArr.indexOf(element) === -1) {
+            businessTimeCheckResult = false;
+        }
+    })
+    if (!businessTimeCheckResult) { return res.json({ Error: 'added time is not in business time!' }) }
+
     [req.body.openHour, req.body.closingHour] = [req.body.openHourBefore, req.body.closingHourBefore];
     await deleteServiceInfoCalendarById(req, res);
 
@@ -266,12 +314,15 @@ async function checkTimeIntervalAndBook(req, res) {
     * * [bookingDate所在周]的周一日期。type为Date，由getWeekMonday(bookingDate)获得。
     */
     let { date, startHour, endHour, serviceInfoId } = req.body;
-    let bookingDate = new Date(date);
-    let weekMonday = getWeekMonday(bookingDate);  //output: "2022-07-11T00:00:00.000Z"
+    const dateFormatCheckResult = checkDateFormat(date);
+    if (!dateFormatCheckResult.permission) {
+        return res.json(dateFormatCheckResult.message)
+    };
+    let bookingDate = new Date(date); 
+    let weekMonday = getWeekMonday(bookingDate);  
 
     startHour = parseInt(startHour);
     endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
-    //endHour = parseInt(endHour);
     let timeSliceArr = [];
     for (let i = startHour; i < endHour; i += 5) {
         if (i % 100 < 60) { timeSliceArr.push(i); };
@@ -321,6 +372,7 @@ async function createBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceA
 async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceArr) {
     let weekMonday = getWeekMonday(bookingDate);
     let dayOfWeek = getDayOfWeek(bookingDate);
+
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
     let bookingRecord = bookingRecordArr[0];
@@ -354,10 +406,28 @@ async function checkBookingRecordAndBook(serviceInfoId, bookingDate, timeSliceAr
 }
 
 
-function getWeekMonday(bookingDate) {
-    console.log(bookingDate)
-    //此处bug输出2022-12-05T13:00:00.000Z，2022-11-21T00:00:00.000Z。即不同输入时间输出的T后面不同
+function getCurrentDate() {
+    let currentDateTime = new Date();
+    let currentYear = currentDateTime.getFullYear().toString();
+    let currentMonth = currentDateTime.getMonth() > 8 ? (currentDateTime.getMonth() + 1).toString() : '0' + (currentDateTime.getMonth() + 1).toString();
+    let currentDay = currentDateTime.getDate() < 10 ? '0' + currentDateTime.getDate().toString() : currentDateTime.getDate().toString();
+    let currentDateStr = `${currentYear}-${currentMonth}-${currentDay}`;
+    let currentDate = new Date(currentDateStr);
+    return currentDate;
+}
 
+
+function checkDateFormat(inputDate) {
+    const reg = /^[2][0](\d){2}[-][01]\d[-][0123]\d$/;
+    if (!reg.test(inputDate)) {
+        return { permission: false, message: 'Date format must be yyyy-mm-dd !' }
+    } else {
+        return { permission: true }
+    };
+}
+
+
+function getWeekMonday(bookingDate) {
     let dayInWeekIndex = bookingDate.getDay();
     switch (dayInWeekIndex) {
         case 0: dayGap = 1000 * 60 * 60 * 24 * 6; break;
@@ -368,8 +438,7 @@ function getWeekMonday(bookingDate) {
         case 5: dayGap = 1000 * 60 * 60 * 24 * 4; break;
         case 6: dayGap = 1000 * 60 * 60 * 24 * 5; break;
     }
-    let timeZoneCorrection = 10 * 60 * 60 * 1000;
-    return new Date(bookingDate - dayGap + timeZoneCorrection);
+    return new Date(bookingDate - dayGap);
 }
 
 
@@ -404,6 +473,7 @@ async function bookWithPermission(bookingRecord, serviceInfo, decision, dayOfWee
     decision.message = 'Booking successful! Waiting for merchant confirmation.';
 }
 
+
 async function bookingWithdraw(serviceInfoId, orderTime) {
     let weekMonday = getWeekMonday(orderTime.date);
     let dayOfWeek = getDayOfWeek(orderTime.date);
@@ -435,15 +505,6 @@ async function bookingWithdraw(serviceInfoId, orderTime) {
 }
 
 
-
-//营业时间锁：
-//如果serviceInfo添加营业时间interval，它的所有timeSlice必须在store的营业时间内，否则拒绝。
-//如果store删除营业时间interval，检索所有从属serviceInfo，删除的营业时间必须不存在于任何serviceInfo内，否则拒绝。
-
-
-
-
-
 async function getAllRecords(req, res) {   //dev test only!
     const records = await BookingRecord.find().exec();
     res.json(records);
@@ -458,6 +519,11 @@ async function deleteAllRecords(req, res) {   //dev test only! 不是真的要�
 
 async function getBusinessTimeByDateAndServiceInfo(req, res) {
     const { date, serviceInfoId } = req.query;
+    const dateFormatCheckResult = checkDateFormat(date);
+    if (!dateFormatCheckResult.permission) {
+        return res.json(dateFormatCheckResult.message)
+    };
+
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 
@@ -476,6 +542,79 @@ async function getBusinessTimeByDateAndServiceInfo(req, res) {
 }
 
 
+async function getChartDataByDateAndServiceInfo(req, res) {
+    const { date, serviceInfoId } = req.query;
+    const dateFormatCheckResult = checkDateFormat(date);
+    if (!dateFormatCheckResult.permission) {
+        return res.json(dateFormatCheckResult.message)
+    };
+    
+    let weekMonday = getWeekMonday(new Date(date));
+    let dayOfWeek = getDayOfWeek(new Date(date));
+
+    const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: weekMonday }).exec();
+
+    let businessTimeArr = []
+    let maxPerson = serviceInfo.maxServicePerSection;
+    let path = 'empty';
+
+    if (bookingRecordArr.length === 0) {
+        if (!serviceInfo) {
+            return res.status(404).json({
+                error: 'ServiceInfo not found',
+            });
+        }
+        businessTimeArr = serviceInfo.calendarTemplate[dayOfWeek];
+        path = 'serviceInfo';
+    };
+
+    if (bookingRecordArr.length === 1) {
+        businessTimeArr = bookingRecordArr[0].serviceHours[dayOfWeek];
+        path = 'bookingRecord';
+    };
+    if (bookingRecordArr.length > 1) { res.send({ Error: 'Database error!' }) };
+
+    const timeSliceInBusinessTimeArr = businessTimeArr.map((element) => {
+        return element.timeSlice
+    })
+    let minTimeSlice = Math.min(...timeSliceInBusinessTimeArr) - 100;
+    let maxTimeSlice = Math.max(...timeSliceInBusinessTimeArr) + 100;
+
+    let wholeTimeSliceArr = [];
+    for (let i = minTimeSlice; i <= maxTimeSlice; i += 5) {
+        if (i % 100 < 60) { wholeTimeSliceArr.push(i); };
+    }
+
+    let wholeTimeSliceObjArr = wholeTimeSliceArr.map((element) => {
+        let index = businessTimeArr.findIndex((ele) => ele.timeSlice === element);
+        let reservationResult = null;
+        let availabilityResult = null;
+
+        if (timeSliceInBusinessTimeArr.indexOf(element) === -1) {
+            reservationResult = maxPerson;
+            availabilityResult = 'empty';
+        } else {
+            reservationResult = businessTimeArr[index].reservation;
+            availabilityResult = businessTimeArr[index].availability;
+        }
+
+        let newElement = {
+            timeSlice: element,
+            reservation: reservationResult,
+            availability: availabilityResult
+        }
+        return newElement;
+    })
+
+    let labelArr = wholeTimeSliceObjArr.map((element) => element.timeSlice);
+    let dataArr = wholeTimeSliceObjArr.map((element) => element.reservation);
+    let colorArr = wholeTimeSliceObjArr.map((element) => element.availability);
+
+    res.send({ branch: path, labelArr, dataArr, colorArr })
+}
+
+
 module.exports = {
     getStoreBusinessTimeById,
     addStoreBusinessTimeById,
@@ -489,9 +628,11 @@ module.exports = {
     checkTimeIntervalAndBook,
     bookingWithdraw,
     getDayOfWeek,
+    checkDateFormat,
 
 
     getAllRecords,
     getBusinessTimeByDateAndServiceInfo,
+    getChartDataByDateAndServiceInfo,
     deleteAllRecords
 }

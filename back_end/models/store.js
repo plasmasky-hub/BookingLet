@@ -24,7 +24,7 @@ const schema = new mongoose.Schema(
     location: {
       state: { type: String, required: true },
       city: { type: String, required: true },
-      suburb: { type: String, required: true },
+      suburb: { type: String },
       street: { type: String, required: true },
       postcode: { type: Number, required: true },
     },

@@ -94,8 +94,6 @@ const StoreCard = ({
       </ImgWrapper>
       <StoreName>{name}</StoreName>
       <Address>{address}</Address>
-      {/* need data */}
-      <Label style={{ display: true }}>Service list available</Label>
       <Label>Max {maxPersonPerSectionForStore} ppl.</Label>
       <AddPpl>{favoriteUsersSize} people add to booklet</AddPpl>
       <CardButton

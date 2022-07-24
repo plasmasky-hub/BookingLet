@@ -1,7 +1,7 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
 const User = require('../models/user');
-const { getDayOfWeek } = require('./calendar.controller');
+const { getDayOfWeek, checkDateFormat } = require('./calendar.controller');
 const Joi = require('joi');
 
 
@@ -238,20 +238,27 @@ async function getAllStores(req, res) {
         });
     }
 
+    if (date !== undefined) {
+        const dateFormatCheckResult = checkDateFormat(date);
+        if (!dateFormatCheckResult.permission) {
+            return res.json(dateFormatCheckResult.message)
+        };
+    }
+
     person = parseInt(person);
     resultQuantity = parseInt(resultQuantity);
     includeNoServiceStore = includeNoServiceStore === "true" ? true : false;
     let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
-    let NoServiceStoreQuery = { "serviceInfoDetails": { $ne: [] } };
+    let noServiceStoreQuery = { "serviceInfoDetails": { $ne: [] } };
 
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
         optionalMatchQuery[`businessHours.${dateInWeek}`] = { $ne: [] };
     }
-    if (includeNoServiceStore) { NoServiceStoreQuery = {}; }
+    if (includeNoServiceStore) { noServiceStoreQuery = {}; }
 
     await Store.aggregate([
         {
@@ -295,9 +302,8 @@ async function getAllStores(req, res) {
                 $and:
                     [
                         { isDiscard: false },
-                        //{ "serviceInfoDetails": { $ne: [] } },
                         optionalMatchQuery,
-                        NoServiceStoreQuery
+                        noServiceStoreQuery
                     ],
                 $or:
                     [
@@ -326,13 +332,12 @@ async function getAllStores(req, res) {
                 return matched;
             })
         }
-        
+
         if (!includeNoServiceStore) {
             result.map((element) => {
                 let maxPersonPerSectionArr = [];
                 element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
                 element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
-
                 element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
 
             })
@@ -379,7 +384,7 @@ async function getAllStores(req, res) {
 async function getStoreById(req, res) {
     const { id } = req.params;
     const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
-        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name maxPersonPerSection' }).exec();
+        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name maxPersonPerSection maxServicePerSection duration calendarTemplate' }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
