@@ -97,9 +97,9 @@ export const LoginModal = (props) => {
         validate: loginValidation,
         validateOnBlur: true,
 
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             console.log( JSON.stringify(values, null, 2) );
-            const loginResult = login(values);
+            const loginResult = await login(values);
 
             console.log(loginResult);
         },
@@ -107,6 +107,12 @@ export const LoginModal = (props) => {
 
     const handleRegisterOpen = () => {
 
+    }
+
+    if( isLoading ) {
+        return <LoginModalBox>
+            Loading
+        </LoginModalBox>
     }
 
     return (

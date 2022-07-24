@@ -11,6 +11,8 @@ const loginApi = apiSlice.injectEndpoints({
 					password: data.password,
 				}
 			}),
+			transformResponse: (response) => response.data,
+
 		}),
 	}),
 	overrideExisting: false,
