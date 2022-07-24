@@ -1,12 +1,13 @@
 pipeline {
     agent { 
          docker { 
-            image 'node:14.14.0'
+            image 'node:16.14.2'
             args '-u root:root'
                 }
            }
     
     environment {
+        DISTRIBUTION_ID=
         ENVIRONMENT = 'production'
         S3_CREDENTIAL = 'AWS credential-frontend'
         S3_REGION = 'ap-southeast-2'
@@ -48,8 +49,10 @@ pipeline {
               steps {
                   echo 'Deploying to ' + environment + ' ...'
                   withAWS(region: S3_REGION, credentials: S3_CREDENTIAL) {
-                    sh 'aws s3 rm "${BUCKET_NAME}" --recursive'
+                    sh 'aws s3 rm "${BUCKET_NAME}" --recursive --acl public-read'
                     sh 'aws s3 cp "${WORKSPACE_PATH}" "${BUCKET_NAME}" --recursive --acl public-read '
+                    sh "aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths '/*'"     
+                    
                   }
               }
          }
