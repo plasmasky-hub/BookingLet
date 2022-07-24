@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { TableRow, TableCell, Paper, Collapse, Box } from '@mui/material';
+import { TableRow, TableCell, Paper, Collapse } from '@mui/material';
 import { BookingManagementButton } from './BookingManagementButton';
 import { useState } from 'react';
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
@@ -8,8 +8,7 @@ import { Typography } from '@mui/material';
 const TableWrapper = styled(Paper)`
   min-width: 800px;
   width: 100%;
-  height: 100%;
-  margin-top: 30px;
+  height: 100px;
 `;
 
 const itemTitle = ['Date', 'Time', 'Person', 'Service'];
@@ -27,26 +26,20 @@ const ShowDetailsWrapper = styled.div`
   cursor: pointer;
 `;
 
-const CollapsibleTableRowWrapper = styled(Box)`
+const CollapsibleTableRowWrapper = styled.div`
   min-width: 800px;
   width: 100%;
-  height: 160px;
+  height: 100px;
   background-color: #8E8E8E;
   display: flex;
-  flex-direction: column;
-  color: #fff;
-`;
-
-const CollapsibleTableRow = styled(Box)`
-  display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-start;
+  color: #fff;
+  box-shadow: inset 1px 1px 15px rgba(0, 0, 0, 0.5) ;
 `;
 
 const CollapedTableRowTitle = ['Ref No.', 'Contact No.', 'Book Time', 'Note'];
 
-const CollapedTableRowContent = ['1234567890', '0412345678', '18 Jun 2022 13:00', 'qwertyuioopllkkjhgfdssxxcvbnmm'];
+const CollapedTableRowContent = ['1234567890', '0412345678', '18 Jun 2022 13:00', 'We would like to know about the membership card.'];
 
 export const BookingManagementTable = () => {
   const [open, setOpen] = useState(false);
@@ -73,10 +66,7 @@ export const BookingManagementTable = () => {
           <h4><strong>{itemTitle[3]}</strong></h4>
           <p>{itemContent[3]}</p>
         </TableCell>
-        <TableCell sx={{ px: 5, pt: 3 }}>
-          <BookingManagementButton />
-        </TableCell>
-        <TableCell>
+        <TableCell sx={{ pl: 5, pt: 3 }}>
           <BookingManagementButton />
         </TableCell>
         <TableCell>
@@ -88,9 +78,10 @@ export const BookingManagementTable = () => {
       </TableRow>
       
       <TableRow>
+        <TableCell>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <CollapsibleTableRowWrapper>
-            <CollapsibleTableRow direction='column'>
+       
             <TableCell sx={{ pl: 10, pt: 3 }}>
           <h4><strong>{CollapedTableRowTitle[0]}</strong></h4>
           <p>{CollapedTableRowContent[0]}</p>
@@ -107,9 +98,9 @@ export const BookingManagementTable = () => {
           <h4><strong>{CollapedTableRowTitle[3]}</strong></h4>
           <p>{CollapedTableRowContent[3]}</p>
         </TableCell>
-            </CollapsibleTableRow>
           </CollapsibleTableRowWrapper>
-        </Collapse>
+          </Collapse>
+          </TableCell>
         </TableRow>
     </TableWrapper>
   )

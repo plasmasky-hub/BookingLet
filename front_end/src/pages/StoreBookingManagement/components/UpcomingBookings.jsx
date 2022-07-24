@@ -29,6 +29,7 @@ export const BookingManageWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
+  margin-bottom: 30px;
 `;
 
 export const UpcomingBookings = () => {
@@ -41,8 +42,8 @@ export const UpcomingBookings = () => {
         <ServiceDropdown />
         <SwitchButton />
       </BookingManageWrapper>
-      
       {/* Table */}
+      <BookingManagementTable />
       <BookingManagementTable />
     </UpcomingBookingWrappepr>
   )
