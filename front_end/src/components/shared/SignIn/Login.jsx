@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 // import joiValidation from 'Joi';
 import { loginValidation} from '../../../validation/SignInValidation'
@@ -121,7 +121,7 @@ export const LoginModal = (props) => {
             <Grid container spacing={0} alignItems="stretch">
                 <Grid item xs={5} >
                     <LoginImage>
-                        <img src={loginImg}></img>
+                        <img src={loginImg} alt='Login'></img>
                     </LoginImage>
                 </Grid>
                 
