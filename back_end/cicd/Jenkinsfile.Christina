@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment {
         ENVIRONMENT         = 'uat'
-        AWS_ACCOUNT_ID      = "544863999112"
+        AWS_ACCOUNT_ID      = "229848107216"
         AWS_DEFAULT_REGION  = "ap-southeast-2"
-        AWS_CREDENTIALS     = "christina"
+        AWS_CREDENTIALS     = "AWS-DevOps-credentials"
         MONGODB_URL         = "mongourl"
         CLUSTER_NAME        = "bookinglet-cluster"
         SERVICE_NAME        = "bookinglet-service"
@@ -19,8 +19,8 @@ pipeline {
             steps {
                 script {
                     dir('./back_end/') {
-                        withCredentials([string(credentialsId: "${MONGODB_URL}", variable: 'mongo')]) {
-                            sh "echo 'MONGODB_CONNECTION_URL= ${mongo}' > .env "                        
+                        withCredentials([string(credentialsId: "${MONGODB_URL}")]) {
+                            sh "echo 'MONGODB_CONNECTION_URL= ${MONGODB_URL}' > .env "                        
                             }
                             sh "echo 'PORT= 8000' >> .env"
                     }
@@ -63,9 +63,9 @@ pipeline {
         }
         success {
             emailext attachLog: true, 
-            body: 'front_end pipeline', 
+            body: 'successful back_end pipeline', 
             mimeType: 'text/HTML', 
-            subject: 'front_end pipeline', 
+            subject: 'successful back_end pipeline', 
             to: 'connie0972001@gmail.com',
             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
         } 
