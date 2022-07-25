@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Logo } from '../../shared/Logo/Logo';
 import { UserPanel } from './UserPanel';
 import { LoginModal } from '../SignIn/Login';
+import { RegisterModal } from '../SignIn/Register';
 
 import LoginIcon from '@mui/icons-material/Login';
 
@@ -12,7 +13,6 @@ import {
 	Button, 
   Modal,
 } from '@mui/material';
-import { useRef } from 'react';
 
 
 const StyledHeader = styled(Box)`
@@ -69,17 +69,24 @@ const RegisterButton = styled(Button)`
 
 export const Header = () => {
 	const [loggedIn, setLoggedIn] = useState(false);
-	const [loginIsOpen, setIsOpen] = useState(false);
+	const [loginIsOpen, setLoginOpen] = useState(false);
+  const [registerIsOpen, setRegisterOpen] = useState(false);
 
 	const loginOpen = () => {
-		setIsOpen(true);
+		setLoginOpen(true);
 		// this.LoginModal.loginOpen();
 	}
   const loginClose = () => {
     // isOpen = false;
-    setIsOpen(false);
+    setLoginOpen(false);
   }
 
+  const registerOpen = () => {
+    setRegisterOpen(true);
+  }
+  const registerClose = () => {
+    setRegisterOpen(false);
+  }
 	// const loginCallback = () => {
 	// 	setIsOpen(false);
 	// }
@@ -91,29 +98,44 @@ export const Header = () => {
         <UserPanel />
       ) : (
         <ButtonWrapper>
-			<StyledLoginButton 
-				variant="text" 
-				startIcon={<LoginIcon />}
-				// onClick={() => loginOpen()}>
-				onClick={() => loginOpen()}
-				// callback={() => this.loginCallback()}
-			>
-				Log in
-			</StyledLoginButton>
+          <StyledLoginButton 
+            variant="text" 
+            startIcon={<LoginIcon />}
+            // onClick={() => loginOpen()}>
+            onClick={() => loginOpen()}
+            // callback={() => this.loginCallback()}
+          >
+            Log in
+          </StyledLoginButton>
 
-			
-      <Modal
-            open={loginIsOpen}
-            // onClose={loginClose}
-            onClose={loginClose}
+        
+          <Modal
+                open={loginIsOpen}
+                // onClose={loginClose}
+                onClose={loginClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                name = "loginModal"
+          >
+            <LoginModal />
+          </Modal>
+
+          <RegisterButton 
+            variant="contained"
+            onClick={registerOpen}
+          >
+            Register
+          </RegisterButton>
+          <Modal
+            open={registerIsOpen}
+            onClose={registerClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            name = "loginModal"
-      >
-        <LoginModal />
-      </Modal>
+            name = 'registerModal'
+          >
+            <RegisterModal/>
+          </Modal>
 
-		  	<RegisterButton variant="contained">Register</RegisterButton>
         </ButtonWrapper>
       )}
     </StyledHeader>

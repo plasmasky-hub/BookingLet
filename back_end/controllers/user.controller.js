@@ -283,9 +283,9 @@ async function register(req, res) {
 
 	await newUser.hashPassword();
 	await newUser.save();
-	const token = await generateToken({email});
+	// const token = await generateToken({email});
 
-	return res.status(200).json({user: newUser, token: token});
+	return res.status(200).json({user: newUser});
 
 }
 
@@ -300,6 +300,7 @@ async function login(req, res) {
 
   // console.log(validation.error.details[0].path);
 	const checkPassword = await currentUser.validatePassword(password);
+  // const checkPassword = ( password === currentUser.password )? true : false;
 	if (!checkPassword) {
 		return res.status(401).json({ error: "Invalid password!" });
 	};

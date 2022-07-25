@@ -27,7 +27,7 @@ userRouter.get('/:id/stores', getUserStores);
 userRouter.post('/addOrCancelFavoriteStore',addOrCancelFavoriteStore);
 
 userRouter.post('/register', register);
-userRouter.get('/login', login);
+userRouter.post('/login', login);
 userRouter.get('/:id/FavouriteStoreList', getFavouriteStoreById);
 
 module.exports = userRouter;

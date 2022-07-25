@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useFormik } from 'formik';
 // import joiValidation from 'Joi';
-import { loginValidation} from '../../../validation/SignInValidation'
+import { registerValidation } from '../../../validation/SignInValidation'
 import loginImg from '../../../assets/loginImg.png';
 import { 
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
 
-import { useLoginMutation } from '../../../store/api/userApi';
+import { useRegisterMutation } from '../../../store/api/userApi';
 
 import { 
 	Box, 
@@ -25,7 +25,7 @@ import {
     Link,
 } from '@mui/material';
 
-const LoginModalBox = styled(Box)`
+const RegisterModalBox = styled(Box)`
     position: absolute;
     top: 50%;
     left: 50%;
@@ -37,11 +37,11 @@ const LoginModalBox = styled(Box)`
     box-shadow: 24px;
 `
 
-const LoginTextContainer = styled(Box)`
+const RegisterTextContainer = styled(Box)`
     border-radius: 25px;
 `
 
-const LoginImage = styled(Box)`
+const RegisterImage = styled(Box)`
 	font-size: 0.6rem;
     height: 100%;
     width: 100%;
@@ -56,8 +56,8 @@ const LoginImage = styled(Box)`
 	}
 ` 
 
-const LoginInputField = styled(TextField)`
-    margin-top: 3;
+const RegisterInputField = styled(TextField)`
+    margin-top: 5px;
     width: 100%;
 `
 
@@ -71,12 +71,12 @@ const TextFieldStyle = {
 	width: '100%',
 }
 
-const LoginButton = styled(Button)`
+const RegisterButton = styled(Button)`
     margin-top: 32px;
 	width: 200px;
 `
 
-export const LoginModal = (props) => {
+export const RegisterModal = (props) => {
 
     const handleClickShowPassword = () => {
 		formik.setValues({
@@ -85,41 +85,44 @@ export const LoginModal = (props) => {
 		});
 	};
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [register, { isLoading }] = useRegisterMutation();
 
     const formik = useFormik({
         initialValues: {
-          email: '',
-          password: '',
-          showPassword: false,
+            name: '',
+            tel: '',
+            email: '',
+            password: '',
+            showPassword: false,
         },
+
         handleClickShowPassword: handleClickShowPassword,
-        validate: loginValidation,
+        validate: registerValidation,
         validateOnBlur: true,
 
         onSubmit: async (values) => {
             console.log( JSON.stringify(values, null, 2) );
-            const loginResult = await login(values);
+            const registerResult = await register(values);
 
-            console.log(loginResult);
+            console.log(registerResult);
             // refresh page
         },
       });
 
     if( isLoading ) {
-        return <LoginModalBox>
+        return <RegisterModalBox>
             Loading
-        </LoginModalBox>
+        </RegisterModalBox>
     }
 
     return (
 
-        <LoginModalBox >
+        <RegisterModalBox >
             <Grid container spacing={0} alignItems="stretch">
                 <Grid item xs={5} >
-                    <LoginImage>
+                    <RegisterImage>
                         <img src={loginImg} alt='Login'></img>
-                    </LoginImage>
+                    </RegisterImage>
                 </Grid>
                 
                 <Grid item xs={7} sx={{ padding: 3 }}>
@@ -127,9 +130,39 @@ export const LoginModal = (props) => {
                         Welcome to Bookinglet!
                     </Typography>
 
-                    <LoginTextContainer component='form' onSubmit={formik.handleSubmit}>
+                    <RegisterTextContainer component='form' onSubmit={formik.handleSubmit}>
 
-                        <LoginInputField 
+                        <RegisterInputField 
+                            variant='outlined' 
+                            label="Name" 
+                            name='name'
+                            color='success' 
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            error={formik.touched.name || Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
+                        />
+                        {formik.errors.name 
+                            ? <ErrorMessage>{formik.errors.name}</ErrorMessage> 
+                            : null
+                        }
+
+                        <RegisterInputField 
+                            variant='outlined' 
+                            label="Tel" 
+                            name='tel'
+                            color='success' 
+                            value={formik.values.tel}
+                            onChange={formik.handleChange}
+                            error={formik.touched.tel || Boolean(formik.errors.tel)}
+                            helperText={formik.touched.tel && formik.errors.tel}
+                        />
+                        {formik.errors.tel 
+                            ? <ErrorMessage>{formik.errors.tel}</ErrorMessage> 
+                            : null
+                        }
+
+                        <RegisterInputField 
                             variant='outlined' 
                             label="Email" 
                             name='email'
@@ -176,15 +209,15 @@ export const LoginModal = (props) => {
                         }
 
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
-                            <LoginButton 
+                            <RegisterButton 
                                 variant='contained'
                                 color='success'
                                 type="submit"
                             >
-                                Sign in
-                            </LoginButton>
+                                Register
+                            </RegisterButton>
                         </Box>
-                    </LoginTextContainer>
+                    </RegisterTextContainer>
                         
 
                         
@@ -194,10 +227,10 @@ export const LoginModal = (props) => {
                         justifyContent='center' 
                         sx={{ mt: 2, fontStyle: 'italic'}}>
                         <Grid item>
-                            <Typography > Not a member yet? </Typography> 
+                            <Typography > Already a member ? </Typography> 
                         </Grid>
                         <Grid item>
-                            <Link color='inherit'> Register </Link> 
+                            <Link color='inherit'> Sign in </Link> 
                         </Grid>
                         <Grid item>
                             <Typography > now!</Typography> 
@@ -208,6 +241,6 @@ export const LoginModal = (props) => {
                     
             </Grid>
             
-        </LoginModalBox>
+        </RegisterModalBox>
     )
 }
