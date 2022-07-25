@@ -4,6 +4,8 @@ We plan to create an online booking website for massage/nail stores. The main fe
 
 Group members:
 -----
+Developer:
+
 Xiang Ji (Team leader)
 
 Jet Zhang
@@ -20,7 +22,21 @@ Yvonne
 
 Lin
 
-Yibo (devops)
+
+Devops:
+
+YiFan Yang
+
+Sonia Ni
+
+Xinglin Chen
+
+Xiaoyu Fan
+
+Andy
+
+Christina Chen
+
 
 Features
 ----------
@@ -59,3 +75,11 @@ Future features
 The searching function will only have keyword searching. Will add the sorts and filters.
 Store evaluation will show the number of customers who liked the store. Will add star evaluation, favorite, or comment features in the future.
 Planing to add notification features to inform customers and store owners.
+
+Function
+----------
+search function
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/filtering%20and%20sorting.jpg)
+
+check order availability
+![](https://github.com/RedRe4per/MyPicture/blob/main/JR-P3/checkOrderAvailability.jpg)

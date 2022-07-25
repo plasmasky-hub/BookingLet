@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "870735eb-c58c-4f53-9fd7-4288ac343353",
+		"name": "subCategory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20606313"
+	},
+	"item": [
+		{
+			"name": "getAllSubCategories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/subCategory?rootCategoryId=62d4362dc5b558c6059d62d4",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"subCategory"
+					],
+					"query": [
+						{
+							"key": "rootCategoryId",
+							"value": "62d4362dc5b558c6059d62d4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addSubCategory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Pet feeding\",\r\n    \"parentCategory\": \"62d43713c5b558c6059d62e2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/subCategory",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"subCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateSubCategoryById",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Neo Men's Gallery\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/subCategory/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"subCategory",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62d43257713422df5aef4799"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "discardSubCategoryById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/subCategory/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"subCategory",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62d43746c5b558c6059d62e5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
