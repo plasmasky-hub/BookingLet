@@ -3,13 +3,20 @@ import StoreDisplay from './components/StoreDisplay';
 import Layout from '../../components/shared/Layout/Layout';
 import { useLocation } from 'react-router-dom';
 import { Header } from '../../components/shared/Header/Header';
+import StoreFilters from './components/Storefilters/StoreFilters';
+import { useGetStoresQuery } from '../../store/api/storeApi'
 
 const StoreListPage = () => {
   const location = useLocation();
+  const storesData = useGetStoresQuery();
+  let filteredStores = location.state.filteredStores
+
+  
   return (
     <Layout>
       <Header />
-      <StoreDisplay stores={location.state.filteredStores} />
+      <StoreFilters />
+      <StoreDisplay stores={filteredStores} />
     </Layout>
   );
 };
