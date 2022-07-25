@@ -232,7 +232,7 @@ async function getAllInfos(req, res) {
 
     const infos = await ServiceInfo.find(searchQuery).exec();
     res.json(infos);
-    
+
 }
 
 
@@ -311,6 +311,9 @@ async function getInfoById(req, res) {
  *                      
 */
 async function addInfo(req, res) {
+    const { checkResult, decision } = checkDurationFormat(req, res);
+    if (!checkResult) { return res.json(decision); };
+
     const validatedData = await checkServiceInfo(req.body);  //Without await, promise status will be <pending>. 
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
@@ -338,6 +341,7 @@ async function addInfo(req, res) {
         price,
         description
     });
+
     await serviceInfo.save();
     Store.findByIdAndUpdate(store, { $addToSet: { serviceInfos: serviceInfo._id } }).exec();
 
@@ -385,39 +389,42 @@ async function addInfo(req, res) {
  *                                  type: string                       
 */
 async function updateInfoById(req, res) {
-    const validatedData = await checkServiceInfoUpdate(req.body);
-    if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
-
     const { id } = req.params;
-    const {
-        name,
-        rootCategory,
-        subCategories,
-        duration,
-        maxPersonPerSection,
-        maxServicePerSection,
-        price,
-        description,
-        startTime
-        //} = req.body;
-    } = validatedData;
-    const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
-        name,
-        rootCategory,
-        subCategories,
-        duration,
-        maxPersonPerSection,
-        maxServicePerSection,
-        price,
-        description,
-        startTime
-    }, { new: true }).exec();
-
-    if (!serviceInfo) {
+    const serviceDurationCheck = await ServiceInfo.findById(id).exec();
+    if (!serviceDurationCheck) {
         return res.status(404).json({
             error: 'service info not found',
         });
-    }
+    };
+    if (serviceDurationCheck.duration.durationType !== req.body.duration.durationType) {
+        return res.json('Error: Duration type cannot change!');
+    };
+
+    const { checkResult, decision } = checkDurationFormat(req, res);
+    if (!checkResult) { return res.json(decision); };
+
+    const validatedData = await checkServiceInfoUpdate(req.body);
+    if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
+
+    const {
+        name,
+        subCategories,
+        duration,
+        maxPersonPerSection,
+        price,
+        description
+        //} = req.body;
+    } = validatedData;
+
+    const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, {
+        name,
+        subCategories,
+        duration,
+        maxPersonPerSection,
+        price,
+        description
+    }, { new: true }).exec();
+
     res.json(serviceInfo);
 }
 
@@ -451,15 +458,13 @@ async function updateInfoById(req, res) {
 */
 async function discardInfoById(req, res) {
     const { id } = req.params;
-
-    //I don't test order existence verification logic, because mongodb has no data in order collection
     const serviceInfo = await ServiceInfo.findByIdAndUpdate(id, { isDiscard: true }, { new: true }).exec();
     if (!serviceInfo) {
         return res.status(404).json({
             error: 'service info not found',
         });
     }
-    await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
+    //await Store.updateMany({ serviceInfo: serviceInfo._id }, { $pull: { serviceInfo: serviceInfo._id } }).exec();
     res.sendStatus(204);
 
 }
@@ -471,16 +476,46 @@ async function getDiscardedInfos(req, res) {
 }
 
 
+function checkDurationFormat(req, res) {
+    const { durationType, fixedDuration, changeableDuration } = req.body.duration;
+    let checkResult = true;
+    let decision = 'Duration check pass.';
+
+    if (durationType === 'changeable' && (fixedDuration !== undefined || changeableDuration === undefined)) {
+        checkResult = false;
+        decision = 'Error: Changeable type duration can only and must match a Changeable value.';
+    } else if (durationType === 'changeable' && (changeableDuration.minimum === undefined || changeableDuration.maximum === undefined)) {
+        checkResult = false;
+        decision = 'Error: Changeable type duration must have a minimum and a maximum duration.';
+    } else if (durationType === 'changeable' && !(changeableDuration.minimum < changeableDuration.maximum)) {
+        checkResult = false;
+        decision = 'Error: Maximum duration must greater than minimum duration.';
+    };
+
+    if (durationType === 'fixed' && (changeableDuration !== undefined || fixedDuration === undefined)) {
+        checkResult = false;
+        decision = 'Error: Fixed type duration can only and must match a fixed value.';
+    };
+
+    if (durationType === 'unlimited' && (changeableDuration !== undefined || fixedDuration !== undefined)) {
+        checkResult = false;
+        decision = 'Error: Unlimited type duration cannot match fixed or changeable value.';
+    };
+
+    return { checkResult, decision };
+}
+
+
 async function checkServiceInfo(data) {
     const schema = Joi.object({
         name: Joi.string().required().min(2).max(30),
         rootCategory: Joi.required(),
         subCategories: Joi.array(),
         store: Joi.required(),
-        duration: Joi.number().required().min(0.5).max(5),
+        duration: Joi.object().required(),
         maxPersonPerSection: Joi.number().required().min(1).max(200),
         maxServicePerSection: Joi.number().required().min(1),
-        price: Joi.number().min(0).max(9999),
+        price: Joi.string().max(30),
         description: Joi.string().max(300)
     });
 
@@ -491,18 +526,11 @@ async function checkServiceInfo(data) {
 async function checkServiceInfoUpdate(data) {
     const schema = Joi.object({
         name: Joi.string().required().min(2).max(30),
-        rootCategory: Joi.required(),
         subCategories: Joi.array(),
-        duration: Joi.number().required().min(0.5).max(5),
+        duration: Joi.object().required(),
         maxPersonPerSection: Joi.number().required().min(1).max(200),
-        maxServicePerSection: Joi.number().required().min(1),
-        price: Joi.number().min(0).max(9999),
+        price: Joi.string().max(30),
         description: Joi.string().max(300),
-        /*startTime: [{
-            dayOfWeek: Joi.string(),
-            openHours: [Joi.string()]
-        }],*/
-        startTime: Joi.array()
     });
 
     const validatedData = await schema.validateAsync(data, { allowUnknown: true, stripUnknown: true });
