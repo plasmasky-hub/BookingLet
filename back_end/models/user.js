@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const Schema = new mongoose.Schema({
     name:{
@@ -16,6 +17,7 @@ const Schema = new mongoose.Schema({
     password : {
         type : String,
         min : 6,
+        required: true,
     },
     orders:[{
         type : mongoose.Schema.Types.ObjectId,
@@ -37,6 +39,13 @@ const Schema = new mongoose.Schema({
 
 })
 
+Schema.methods.hashPassword = async function(){
+    this.password = await bcrypt.hashSync(this.password, 10);
+}
+
+Schema.methods.validatePassword = async function(password){
+    return bcrypt.compare(password, this.password);
+}
 const Model = mongoose.model('User', Schema);
 
 module.exports = Model;
