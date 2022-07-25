@@ -57,7 +57,7 @@ pipeline {
                     withAWS(region: "${S3_REGION}", credentials: "${S3_CREDENTIAL}") {
                         sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'
                         sh 'aws s3 cp "${WORKSPACE_PATH}" "s3://${BUCKET_NAME}" --recursive'
-                        sh "aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths '/*'"
+                        sh "aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*'"
                     }
                 }
             }
