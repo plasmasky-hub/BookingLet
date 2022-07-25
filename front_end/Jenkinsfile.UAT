@@ -7,37 +7,38 @@ pipeline {
     }
     
     environment {
-        S3_CREDENTIAL = 'AWS-DevOps-credentials'
-        S3_REGION = 'ap-southeast-2'
-        BUCKET_NAME = 'www.uat.bookinglet.com.au'
-        WORKSPACE_PATH = '/var/lib/jenkins/workspace/cicd_frontend_uat/front_end/build' 
-        CI='false'
-        DISTRIBUTION_ID='E1HK05ZFXGHJ04'
+        S3_CREDENTIAL   = 'AWS-DevOps-credentials'
+        S3_REGION       = 'ap-southeast-2'
+        BUCKET_NAME     = 'www.uat.bookinglet.com.au'
+        WORKSPACE_PATH  = '/var/lib/jenkins/workspace/cicd_frontend_uat/front_end/build'
+        CI              = 'false'
+        DISTRIBUTION_ID = 'E1HK05ZFXGHJ04'
     }
     
-       parameters {
+    parameters {
         choice choices: ['uat', 'prod'], description: 'choose Workspace', name: 'workspace'
     }
-
 
     stages {
         stage('Install packages') {
             steps {
                 dir("./front_end/"){
                 echo "Installing packages ..."
-                    sh 'npm install'}
+                    sh 'npm install'
+                }
             }
         }
-        
+
         stage('Build') {
             steps {
                 dir("./front_end/"){
                 echo 'Building..'
-                sh 'npm run build'}
+                sh 'npm run build'
+                }
             }
         }
-        
-         stage('Install AWS CLI') {
+
+        stage('Install AWS CLI') {
             when {
                 expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
@@ -48,23 +49,22 @@ pipeline {
                 sh 'pip3 install awscli --upgrade'
             }
         }
-    
+
         stage('Deploy to UAT') {
-              steps {
-                  echo 'Deploying to ' + environment + ' ...'
-                  withAWS(region: "${S3_REGION}", credentials: "${S3_CREDENTIAL}") {
-                    sh 'aws s3 rm "${BUCKET_NAME}" --recursive --acl public-read'
-                    sh 'aws s3 cp "${WORKSPACE_PATH}" "${BUCKET_NAME}" --recursive --acl public-read '
-                    sh "aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths '/*'" 
-                    
-                  }
-              }
-         }
+            steps {               
+                echo 'Deploying to ' + environment + ' ...'
+                withAWS(region: "${S3_REGION}", credentials: "${S3_CREDENTIAL}") {
+                    sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'
+                    sh 'aws s3 cp "${WORKSPACE_PATH}" "s3://${BUCKET_NAME}" --recursive'
+                    sh "aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths '/*'"
+                }
+            }
+        }
     }
     
-         post {
+    post {
         always {
             cleanWs()
-        }  
+        }
     }
 }
