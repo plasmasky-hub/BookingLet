@@ -1,0 +1,71 @@
+pipeline {
+    agent { 
+         docker { 
+            image 'node:16.14.2'
+            args '-u root:root'
+        }
+    }
+    
+    environment {
+        S3_CREDENTIAL   = 'AWS-DevOps-credentials'
+        S3_REGION       = 'ap-southeast-2'
+        BUCKET_NAME     = 'www.uat.bookinglet.com.au'
+        WORKSPACE_PATH  = '/var/lib/jenkins/workspace/cicd_frontend_uat/front_end/build'
+        CI              = 'false'
+        DISTRIBUTION_ID = 'E14C5IM1VLKK9M'
+    }
+    
+    parameters {
+        choice choices: ['uat', 'prod'], description: 'choose Workspace', name: 'workspace'
+    }
+
+    stages {
+        stage('Install packages') {
+            steps {
+                dir("./front_end/"){
+                echo "Installing packages ..."
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir("./front_end/"){
+                echo 'Building..'
+                sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Install AWS CLI') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo "Installing AWS CLI ..."
+                sh 'apt-get update'
+                sh 'apt install python3-pip -y'
+                sh 'pip3 install awscli --upgrade'
+            }
+        }
+
+        stage('Deploy to UAT') {
+            steps {               
+                dir("./front_end/"){
+                    withAWS(region: "${S3_REGION}", credentials: "${S3_CREDENTIAL}") {
+                        sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'
+                        sh 'aws s3 cp "${WORKSPACE_PATH}" "s3://${BUCKET_NAME}" --recursive'
+                        sh "aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths '/*'"
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
