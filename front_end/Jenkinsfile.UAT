@@ -4,14 +4,13 @@ pipeline {
             image 'node:16.14.2'
             args '-u root:root'
                 }
-           }
+          }
     
     environment {
-        ENVIRONMENT = 'UAT'
-        S3_CREDENTIAL = 'AWS credential-frontend'
+        S3_CREDENTIAL = 'AWS-DevOps-credentials'
         S3_REGION = 'ap-southeast-2'
-        BUCKET_NAME = 's3://"bookinglet'
-        WORKSPACE_PATH = '/var/lib/jenkins/workspace/bookinglet-frontend/front_end/build' 
+        BUCKET_NAME = 'www.uat.bookinglet.com.au'
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/Bookinglet-frontend_uat/front_end/build' 
         CI='false'
         DISTRIBUTION_ID=
     }
@@ -66,15 +65,6 @@ pipeline {
          post {
         always {
             cleanWs()
-        }
-
-        success {
-            emailext body: 'Frontend deploy success', subject: 'Frontend success', to: 'yuzhiwing@gmail.com'
-        }
-
-        failure {
-            emailext body: 'Frontend deploy failed', subject: 'Frontend failed', to: 'yuzhiwing@gmail.com', attachLog: true
-        }
-         
+        }  
     }
 }
