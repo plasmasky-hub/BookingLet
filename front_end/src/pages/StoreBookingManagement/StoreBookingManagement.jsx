@@ -1,4 +1,4 @@
-// import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { UpcomingBookings } from './components/UpcomingBookings';
 import { PreviousBookings } from './components/PreviousBookings';
@@ -8,7 +8,7 @@ const StoreBookingWrapper = styled.div`
   width: 100%;
   height: 100vh;
   background-color: #E1E6ED;
-  padding: 20px 60px;
+  padding: 80px 80px;
   display: flex;
   flex-direction: column;
   justify-content: start;

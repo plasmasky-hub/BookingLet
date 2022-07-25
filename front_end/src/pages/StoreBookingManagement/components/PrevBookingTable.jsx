@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { TableRow, TableCell, Paper, Collapse } from '@mui/material';
-import { BookingManagementButton } from './BookingManagementButton';
 import { useState } from 'react';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -42,7 +41,7 @@ const CollapedTableRowTitle = ['Ref No.', 'Contact No.', 'Book Time', 'Note'];
 
 const CollapedTableRowContent = ['1234567890', '0412345678', '18 Jun 2022 13:00', 'We would like to know about the membership card.'];
 
-export const BookingManagementTable = () => {
+export const PrevBookingTable = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -65,7 +64,7 @@ export const BookingManagementTable = () => {
           <p>{itemContent[3]}</p>
         </TableCell>
         <TableCell sx={{ pl: 5, pt: 3 }}>
-          <BookingManagementButton />
+        <Typography sx={{color: '#8E8E8E', fontWeight: 700, pr: 4}}>The order have been finished </Typography>
         </TableCell>
         <TableCell>
           <ShowDetailsWrapper onClick={() => setOpen(!open)}>

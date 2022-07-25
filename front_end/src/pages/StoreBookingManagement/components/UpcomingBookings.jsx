@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-// import { Table } from '@mui/material';
 import { ServiceDropdown } from './ServiceDropdown';
 import { SwitchButton } from './SwitchButton';
 import { BookingManagementTable } from './BookingManagementTable';
@@ -8,7 +7,7 @@ import { BookingManagementTable } from './BookingManagementTable';
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
   width: 100%;
-  height: 500px;
+  height: 800px;
   padding: 50px 0;
   display: flex;
   flex-direction: column;
@@ -43,6 +42,8 @@ export const UpcomingBookings = () => {
         <SwitchButton />
       </BookingManageWrapper>
       {/* Table */}
+      <BookingManagementTable />
+      <BookingManagementTable />
       <BookingManagementTable />
       <BookingManagementTable />
     </UpcomingBookingWrappepr>

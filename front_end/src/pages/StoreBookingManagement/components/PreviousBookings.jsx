@@ -5,7 +5,8 @@ import { ServiceDropdown } from './ServiceDropdown';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import { BookingManageWrapper } from './UpcomingBookings'
 import { BookingManageCategory } from './ServiceDropdown'
-
+// import { BookingManagementTable } from './BookingManagementTable';
+import { PrevBookingTable } from './PrevBookingTable';
 
 const PreviousBookingWrappepr = styled.div`
   min-width: 800px;
@@ -58,12 +59,13 @@ const ServiceDropdownWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: end;
-`
+`; 
 
 export const PreviousBookings = () => {
   const BookingDateFilter = BookingDateChips.map((BookingDateChips) => 
   <StyledBookingDateChips label={BookingDateChips} variant="filled"/>
-);
+  );
+
   return (
     <PreviousBookingWrappepr>
       <PreviousBookingTitle>
@@ -83,6 +85,11 @@ export const PreviousBookings = () => {
           <ServiceDropdown/>
         </ServiceDropdownWrapper>
       </BookingManageWrapper>
+      {/* <BookingManagementTable /> */}
+      <PrevBookingTable />
+      <PrevBookingTable />
+      <PrevBookingTable />
+      <PrevBookingTable />
     </PreviousBookingWrappepr>
   )
 };

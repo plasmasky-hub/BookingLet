@@ -52,32 +52,28 @@ const ConfirmedButton = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  
 `;
 
 const UpcomingBookingStatus = ['Confirm', 'Decline'];
 
 export const BookingManagementButton = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <ActionButtonWrapper>
-      {show === true ?
       <ConfirmButton
-        onClick={() => setShow(false)}>
+        onClick={() => setShow(true)}>
         <DateRangeOutlinedIcon sx={{width: '20px', height: '20px'}}/>
         {UpcomingBookingStatus[0]}
       </ConfirmButton>
-        &&
       <DeclineButton>
         <CancelOutlinedIcon sx={{width: '20px', height: '20px'}}/>
         {UpcomingBookingStatus[1]}
       </DeclineButton>
-      :
+      {show === true ?
       <ConfirmedButton>
         <DoneOutlinedIcon />
         Order has been confirmed
-      </ConfirmedButton>
-      }
+        </ConfirmedButton> : ''}
     </ActionButtonWrapper>
   )
 };
