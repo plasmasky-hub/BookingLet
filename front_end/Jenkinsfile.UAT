@@ -10,9 +10,9 @@ pipeline {
         S3_CREDENTIAL = 'AWS-DevOps-credentials'
         S3_REGION = 'ap-southeast-2'
         BUCKET_NAME = 'www.uat.bookinglet.com.au'
-        WORKSPACE_PATH = '/var/lib/jenkins/workspace/Bookinglet-frontend_uat/front_end/build' 
+        WORKSPACE_PATH = '/var/lib/jenkins/workspace/cicd_frontend_uat/front_end/build' 
         CI='false'
-        DISTRIBUTION_ID=
+        DISTRIBUTION_ID='E1HK05ZFXGHJ04'
     }
     
        parameters {
