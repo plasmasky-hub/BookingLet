@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { Stack, Chip } from '@mui/material';
-import { ServiceDropdown } from './ServiceDropdown';
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import { BookingManageWrapper } from './UpcomingBookings'
-import { BookingManageCategory } from './ServiceDropdown'
+import React from "react";
+import styled from "@emotion/styled";
+import { Stack, Chip } from "@mui/material";
+import { ServiceDropdown } from "./ServiceDropdown";
+import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+import { BookingManageWrapper } from "./UpcomingBookings";
+import { BookingManageCategory } from "./ServiceDropdown";
 // import { BookingManagementTable } from './BookingManagementTable';
-import { PrevBookingTable } from './PrevBookingTable';
+import { PrevBookingTable } from "./PrevBookingTable";
 
 const PreviousBookingWrappepr = styled.div`
   min-width: 800px;
@@ -42,16 +42,16 @@ const DateWrapper = styled.div`
   align-items: baseline;
 `;
 
-const BookingDateChips = ['All', 'This week', 'This month', 'This year'];
+const BookingDateChips = ["All", "This week", "This month", "This year"];
 
 const StyledBookingDateChips = styled(Chip)`
-    height: 22px;
-    background-color: #fff;
-    padding: 0 10px;
-    font-size: 0.7rem;
-    text-align: center;
-    align-items: center;
-    cursor: pointer;
+  height: 22px;
+  background-color: #fff;
+  padding: 0 10px;
+  font-size: 0.7rem;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const ServiceDropdownWrapper = styled.div`
@@ -59,22 +59,24 @@ const ServiceDropdownWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: end;
-`; 
+`;
 
 export const PreviousBookings = () => {
-  const BookingDateFilter = BookingDateChips.map((BookingDateChips) => 
-  <StyledBookingDateChips label={BookingDateChips} variant="filled"/>
-  );
+  const BookingDateFilter = BookingDateChips.map((BookingDateChips) => (
+    <StyledBookingDateChips
+      key={BookingDateChips}
+      label={BookingDateChips}
+      variant="filled"
+    />
+  ));
 
   return (
     <PreviousBookingWrappepr>
-      <PreviousBookingTitle>
-        Previous Bookings
-      </PreviousBookingTitle>
+      <PreviousBookingTitle>Previous Bookings</PreviousBookingTitle>
       <BookingManageWrapper>
         <BookingDateFilterWrapper>
           <DateWrapper>
-              <DateRangeOutlinedIcon sx={{width: '20px', height: '20px'}}/>
+            <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
             <BookingManageCategory>Booking Date</BookingManageCategory>
           </DateWrapper>
           <Stack direction="row" spacing={2}>
@@ -82,7 +84,7 @@ export const PreviousBookings = () => {
           </Stack>
         </BookingDateFilterWrapper>
         <ServiceDropdownWrapper>
-          <ServiceDropdown/>
+          <ServiceDropdown />
         </ServiceDropdownWrapper>
       </BookingManageWrapper>
       {/* <BookingManagementTable /> */}
@@ -91,5 +93,5 @@ export const PreviousBookings = () => {
       <PrevBookingTable />
       <PrevBookingTable />
     </PreviousBookingWrappepr>
-  )
+  );
 };

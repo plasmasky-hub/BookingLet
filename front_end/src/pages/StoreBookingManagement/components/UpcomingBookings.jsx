@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { ServiceDropdown } from './ServiceDropdown';
-import { SwitchButton } from './SwitchButton';
-import { BookingManagementTable } from './BookingManagementTable';
+import React from "react";
+import styled from "@emotion/styled";
+import { ServiceDropdown } from "./ServiceDropdown";
+import { SwitchButton } from "./SwitchButton";
+import { BookingManagementTable } from "./BookingManagementTable";
 
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
@@ -34,18 +34,16 @@ export const BookingManageWrapper = styled.div`
 export const UpcomingBookings = () => {
   return (
     <UpcomingBookingWrappepr>
-      <UpcomingBookingTitle>
-        Upcoming Bookings
-      </UpcomingBookingTitle>
+      <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
       <BookingManageWrapper>
         <ServiceDropdown />
         <SwitchButton />
       </BookingManageWrapper>
       {/* Table */}
       <BookingManagementTable />
+      {/* <BookingManagementTable />
       <BookingManagementTable />
-      <BookingManagementTable />
-      <BookingManagementTable />
+      <BookingManagementTable /> */}
     </UpcomingBookingWrappepr>
-  )
+  );
 };

@@ -4,14 +4,14 @@ import styled from '@emotion/styled';
 import { MenuItem } from '@mui/material';
 import StyledTextField from './StyledTextField';
 import FlexWrapper from './FlexWrapper';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import { TimePicker } from 'antd';
 import {
   useGetBusinessTimeQuery,
   useGetChartDateQuery,
 } from '../../../../store/api/calendarApi';
 import { Bar } from 'react-chartjs-2';
-import { Chart } from 'chart.js/auto';
+// import { Chart } from 'chart.js/auto';
 
 const Title = styled.p`
   font-size: 14px;

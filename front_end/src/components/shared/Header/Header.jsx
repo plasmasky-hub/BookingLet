@@ -1,10 +1,10 @@
-import styled from '@emotion/styled';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import LoginIcon from '@mui/icons-material/Login';
-import { Logo } from '../../shared/Logo/Logo';
-import { UserPanel } from './UserPanel';
-import { Button } from '@mui/material';
+import styled from "@emotion/styled";
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import LoginIcon from "@mui/icons-material/Login";
+import { Logo } from "../../shared/Logo/Logo";
+import { UserPanel } from "./UserPanel";
+import { Button } from "@mui/material";
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -67,10 +67,14 @@ export const Header = () => {
         <UserPanel />
       ) : (
         <ButtonWrapper>
-          <StyledLoginButton variant="text" startIcon={<LoginIcon />}>Log in</StyledLoginButton>
+          <StyledLoginButton variant="text" startIcon={<LoginIcon />}>
+            Log in
+          </StyledLoginButton>
           <RegisterButton variant="contained">Register</RegisterButton>
         </ButtonWrapper>
       )}
+      {setLoggedIn === true && <UserPanel />}
+      {setLoggedIn === false && <ButtonWrapper />}
     </StyledHeader>
   );
 };

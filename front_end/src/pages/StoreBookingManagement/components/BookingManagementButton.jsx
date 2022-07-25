@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 
 const ActionButtonWrapper = styled.div`
   display: flex;
@@ -11,13 +11,13 @@ const ActionButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const ConfirmButton = styled.button`
+export const ConfirmButton = styled.button`
   width: 120px;
   height: 42px;
   border-style: none;
   border-radius: 15px;
   color: #fff;
-  background-color: #D69636;
+  background-color: #d69636;
   font-weight: 700;
   display: flex;
   flex-direction: row;
@@ -27,26 +27,26 @@ const ConfirmButton = styled.button`
   cursor: pointer;
 `;
 
-const DeclineButton = styled.button`
-width: 120px;
-height: 42px;
-border-style: none;
-border-radius: 15px;
-color: #fff;
-background-color: #8E8E8E;
-font-weight: 700;
-display: flex;
-flex-direction: row;
-justify-content: space-around;
-align-items: center;
+export const DeclineButton = styled.button`
+  width: 120px;
+  height: 42px;
+  border-style: none;
+  border-radius: 15px;
+  color: #fff;
+  background-color: #8e8e8e;
+  font-weight: 700;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 const ConfirmedButton = styled.div`
   width: 242px;
   height: 42px;
   border-radius: 15px;
-  color: #2F72BD;
-  background-color: #DCE2E9;
+  color: #2f72bd;
+  background-color: #dce2e9;
   font-weight: 700;
   display: flex;
   flex-direction: row;
@@ -54,26 +54,28 @@ const ConfirmedButton = styled.div`
   align-items: center;
 `;
 
-const UpcomingBookingStatus = ['Confirm', 'Decline'];
+const UpcomingBookingStatus = ["Confirm", "Decline"];
 
 export const BookingManagementButton = () => {
   const [show, setShow] = useState(false);
   return (
     <ActionButtonWrapper>
-      <ConfirmButton
-        onClick={() => setShow(true)}>
-        <DateRangeOutlinedIcon sx={{width: '20px', height: '20px'}}/>
+      <ConfirmButton onClick={() => setShow(true)}>
+        <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
         {UpcomingBookingStatus[0]}
       </ConfirmButton>
       <DeclineButton>
-        <CancelOutlinedIcon sx={{width: '20px', height: '20px'}}/>
+        <CancelOutlinedIcon sx={{ width: "20px", height: "20px" }} />
         {UpcomingBookingStatus[1]}
       </DeclineButton>
-      {show === true ?
-      <ConfirmedButton>
-        <DoneOutlinedIcon />
-        Order has been confirmed
-        </ConfirmedButton> : ''}
+      {show === true ? (
+        <ConfirmedButton>
+          <DoneOutlinedIcon />
+          Order has been confirmed
+        </ConfirmedButton>
+      ) : (
+        ""
+      )}
     </ActionButtonWrapper>
-  )
+  );
 };
