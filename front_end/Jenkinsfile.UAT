@@ -53,7 +53,6 @@ pipeline {
         stage('Deploy to UAT') {
             steps {               
                 dir("./front_end/"){
-                    echo 'Deploying to ' + environment + ' ...'
                     withAWS(region: "${S3_REGION}", credentials: "${S3_CREDENTIAL}") {
                         sh 'aws s3 rm "s3://${BUCKET_NAME}" --recursive'
                         sh 'aws s3 cp "${WORKSPACE_PATH}" "s3://${BUCKET_NAME}" --recursive'
