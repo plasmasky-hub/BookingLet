@@ -73,7 +73,7 @@ const Step1 = ({ FormData, setFormData, id }) => {
           <StyledTextField
             select
             label="Service"
-            value={FormData.service || 'Please choose another day'}
+            value={FormData.service || ''}
             onChange={(event) => {
               setFormData({ ...FormData, service: event.target.value });
             }}
@@ -87,9 +87,7 @@ const Step1 = ({ FormData, setFormData, id }) => {
                 </MenuItem>
               ))
             ) : (
-              <MenuItem value="Please choose another day" className="menuItem">
-                Please choose another day
-              </MenuItem>
+              <MenuItem value="" className="menuItem"></MenuItem>
             )}
           </StyledTextField>
 
@@ -103,7 +101,9 @@ const Step1 = ({ FormData, setFormData, id }) => {
             variant="standard"
             p1="true"
           >
-            {peopleOption()}
+            {peopleOption() || (
+              <MenuItem value="" className="menuItem"></MenuItem>
+            )}
           </StyledTextField>
         </>
       )}

@@ -39,9 +39,9 @@ const BookingPanel = ({ id }) => {
 
   const [FormData, setFormData] = useState({
     date: new Date(),
-    people: 1,
+    people: '',
     service: '',
-    duration: 1,
+    duration: '',
     mobile: '',
     note: '',
     name: 'Seven',

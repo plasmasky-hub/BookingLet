@@ -82,9 +82,7 @@ const Step5 = ({ FormData, setFormData }) => {
 
   const { data, isSuccess, error } = useCreateOrderQuery(order);
   const status = isSuccess ? data.decision.permission : error;
-  const message = data.decision.message;
-
-  console.log(data);
+  const message = isSuccess && data.decision.message;
 
   return (
     <>
