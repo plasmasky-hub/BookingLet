@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { UpcomingBookings } from './components/UpcomingBookings';
-import { PreviousBookings } from './components/PreviousBookings';
+import React from "react";
+import styled from "@emotion/styled";
+import { UpcomingBookings } from "./components/UpcomingBookings";
+import { PreviousBookings } from "./components/PreviousBookings";
 
 const StoreBookingWrapper = styled.div`
   min-width: 1000px;
   width: 100%;
   height: 100vh;
-  background-color: #E1E6ED;
+  background-color: #e1e6ed;
   padding: 80px 80px;
   display: flex;
   flex-direction: column;
@@ -21,10 +21,10 @@ const ServiceName = styled.h1`
   font-weight: 700;
 `;
 
-const services = 'Traditional Chinese Massage';
+const services = "Traditional Chinese Massage";
 
 const ViewOrdersButton = styled.button`
-  background-color: #D69636;
+  background-color: #d69636;
   color: #fff;
   font-size: 0.8rem;
   font-weight: 600;
@@ -35,15 +35,11 @@ const ViewOrdersButton = styled.button`
 
 export const StoreBookingManagement = () => {
   return (
-    <>
-      <StoreBookingWrapper>
-        <ServiceName>{services}</ServiceName>
-        <ViewOrdersButton>
-          View orders in calendar
-        </ViewOrdersButton>
-        <UpcomingBookings />
-        <PreviousBookings />
-      </StoreBookingWrapper>
-    </>
-  )
+    <StoreBookingWrapper>
+      <ServiceName>{services}</ServiceName>
+      <ViewOrdersButton>View orders in calendar</ViewOrdersButton>
+      <UpcomingBookings />
+      <PreviousBookings />
+    </StoreBookingWrapper>
+  );
 };
