@@ -1,32 +1,17 @@
 pipeline {
     agent any
     environment {
-        ENVIRONMENT         = 'uat'
         AWS_ACCOUNT_ID      = "229848107216"
         AWS_DEFAULT_REGION  = "ap-southeast-2"
         AWS_CREDENTIALS     = "AWS-DevOps-credentials"
-        MONGODB_URL         = "mongourl"
-        CLUSTER_NAME        = "bookinglet-cluster"
-        SERVICE_NAME        = "bookinglet-service"
-        TASK_DEFINITION_NAME = "bookinglet-task"
-        IMAGE_REPO_NAME     = "bookinglet-repo"
+        CLUSTER_NAME        = "Bookinglet-ecs-${params.workspace}"
+        SERVICE_NAME        = "Bookinglet-${params.workspace}"
+        TASK_DEFINITION_NAME = "apptask-${params.workspace}"
+        IMAGE_REPO_NAME     = "bookinglet-${params.workspace}"
         IMAGE_TAG           = "latest"
-        DESIRED_COUNT       = "3"
         REPOSITORY_URI      = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
     stages {
-        stage('create env file') {
-            steps {
-                script {
-                    dir('./back_end/') {
-                        withCredentials([string(credentialsId: "${MONGODB_URL}")]) {
-                            sh "echo 'MONGODB_CONNECTION_URL= ${MONGODB_URL}' > .env "                        
-                            }
-                            sh "echo 'PORT= 8000' >> .env"
-                    }
-                }               
-            }
-        }
         stage('login') {
             steps {
                 dir('./back_end/') {
@@ -51,7 +36,7 @@ pipeline {
                         echo "Push image to ECR"
                         sh 'docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}'
                         sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}' 
-                        sh 'aws ecs update-service --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}" --task-definition "${TASK_DEFINITION_NAME}" --desired-count "${DESIRED_COUNT}"'
+                        sh 'aws ecs update-service --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}" --task-definition "${TASK_DEFINITION_NAME}"'
                     }
                 }
             }
@@ -61,13 +46,5 @@ pipeline {
         always {
             cleanWs()
         }
-        success {
-            emailext attachLog: true, 
-            body: 'successful back_end pipeline', 
-            mimeType: 'text/HTML', 
-            subject: 'successful back_end pipeline', 
-            to: 'connie0972001@gmail.com',
-            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-        } 
     }
 }
