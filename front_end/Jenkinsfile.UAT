@@ -3,8 +3,8 @@ pipeline {
          docker { 
             image 'node:16.14.2'
             args '-u root:root'
-                }
-          }
+        }
+    }
     
     environment {
         S3_CREDENTIAL = 'AWS-DevOps-credentials'
@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy to UAT') {
               steps {
                   echo 'Deploying to ' + environment + ' ...'
-                  withAWS(region: S3_REGION, credentials: S3_CREDENTIAL) {
+                  withAWS(region: "${S3_REGION}", credentials: "${S3_CREDENTIAL}") {
                     sh 'aws s3 rm "${BUCKET_NAME}" --recursive --acl public-read'
                     sh 'aws s3 cp "${WORKSPACE_PATH}" "${BUCKET_NAME}" --recursive --acl public-read '
                     sh "aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths '/*'" 
