@@ -18,6 +18,8 @@
     "bootstrap": "^5.2.0-beta1",
     "chart.js": "^3.8.0",
     "date-fns": "^2.28.0",
+    "formik": "^2.2.9",
+    "joi": "^17.6.0",
     "react": "^18.1.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.1.0",

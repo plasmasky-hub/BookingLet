@@ -17,9 +17,37 @@ const userApi = apiSlice.injectEndpoints({
         body: user,
       }),
     }),
+
     getFavouriteStoreById: builder.query({
       query: (_id) => `/user/${_id}/FavouriteStoreList`,
     }),
+
+    login: builder.mutation({
+			query: (data) => ({
+				url:"/user/login",
+				method: "POST",
+				body: {
+					email: data.email,
+					password: data.password,
+				}
+			}),
+			// transformResponse: (response) => response,
+		}),
+
+    register: builder.mutation({
+			query: (data) => ({
+				url:"/user/register",
+				method: "POST",
+				body: {
+          name: data.name,
+          tel: data.tel,
+					email: data.email,
+					password: data.password,
+				}
+			}),
+			// transformResponse: (response) => response,
+		}),
+
   }),
   overrideExisting: false,
 });
@@ -29,4 +57,6 @@ export const {
   useGetUserQuery,
   useAddUserMutation,
   useGetFavouriteStoreByIdQuery,
+  useLoginMutation,
+  useRegisterMutation,
 } = userApi;
