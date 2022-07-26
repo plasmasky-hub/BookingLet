@@ -49,6 +49,7 @@ const BookingPanel = ({ id }) => {
     send: false,
     startTime: '',
     endTime: '',
+    startTimeStr: '',
   });
 
   const IconWrapper = styled.div`

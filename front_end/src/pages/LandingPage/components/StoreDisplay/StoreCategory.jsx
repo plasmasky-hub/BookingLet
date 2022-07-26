@@ -35,12 +35,16 @@ const CardsWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const StoreCategory = ({ category, cardData }) => {
-  const { data: stores, isLoading, isSuccess, isError, error } = cardData;
+const StoreCategory = ({ category, cardData: stores }) => {
+  // const { data: stores, isLoading, isSuccess, isError, error } = cardData;
 
-  const filteredStores = isSuccess
-    ? stores.filter((store) => store.rootCategories[0] === category._id)
-    : error;
+  // const filteredStores = isSuccess
+  //   ? stores.filter((store) => store.rootCategories[0] === category._id)
+  //   : error;
+
+  const filteredStores = stores.filter(
+    (store) => store.rootCategories[0] === category._id
+  );
 
   const navigate = useNavigate();
 
@@ -58,15 +62,13 @@ const StoreCategory = ({ category, cardData }) => {
         </ViewButton>
       </Header>
       <CardsWrapper>
-        {isError && <p>{error}</p>}
-        {isLoading && <p>Loading...</p>}
-        {isSuccess && (
+        {
           <>
             {filteredStores.slice(0, 4).map((store) => {
               return <StoreCard id={store.id} key={store._id} store={store} />;
             })}
           </>
-        )}
+        }
       </CardsWrapper>
     </Container>
   );

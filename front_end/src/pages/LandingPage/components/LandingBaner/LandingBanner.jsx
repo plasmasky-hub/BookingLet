@@ -40,15 +40,14 @@ const BannerButton = styled(Button)`
   cursor: pointer;
 `;
 
-const LandingBanner = () => (
+const LandingBanner = ({ FormData, setFormData }) => (
   <BannerWrapper>
     <BannerContainer>
       <LabelHomePage>What would you like to book today?</LabelHomePage>
+      <BanerInputs FormData={FormData} setFormData={setFormData} />
+      {/* <CustomizedInputBase /> */}
 
-      <BanerInputs />
-      <CustomizedInputBase />
-
-      <BannerButton
+      {/* <BannerButton
         variant="contained"
         disableRipple
         sx={{
@@ -56,7 +55,7 @@ const LandingBanner = () => (
         }}
       >
         SEARCH
-      </BannerButton>
+      </BannerButton> */}
       {/* <BannerButton onClick={() => {}}>SEARCH</BannerButton> */}
     </BannerContainer>
   </BannerWrapper>
