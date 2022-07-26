@@ -24,9 +24,9 @@ const schema = new mongoose.Schema(
     location: {
       state: { type: String, required: true },
       city: { type: String, required: true },
-      suburb: { type: String, required: true },
+      suburb: { type: String },
       street: { type: String, required: true },
-      postcode: { type: String, required: true },
+      postcode: { type: Number, required: true },
     },
     description: {
       type: String,
@@ -63,6 +63,7 @@ const schema = new mongoose.Schema(
     orderSize: {
       type: Number,
       default: 0,
+      min: 0
     },
     favoriteUsers: [
       {
@@ -73,7 +74,14 @@ const schema = new mongoose.Schema(
     favoriteUsersSize: {
       type: Number,
       default: 0,
+      min: 0
     },
+    photo: [{
+      type: String
+    }],
+    menuPhoto: [{
+      type: String
+    }],
     isDiscard: {
       type: Boolean,
       default: false,

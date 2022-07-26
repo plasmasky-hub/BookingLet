@@ -7,6 +7,7 @@ import Layout from '../../components/shared/Layout';
 import { Header } from '../../components/shared/Header/Header';
 import { useParams } from 'react-router-dom';
 import { useGetStoreQuery } from '../../store/api/storeApi';
+import ServiceList from './components/ServiceList';
 
 const PageContainer = styled.div`
   width: 1233px;
@@ -37,8 +38,9 @@ const BookingPage = () => {
           <Banner />
           <StoreInfoWrapper>
             <StoreInfo store={data} />
-            <BookingPanel />
+            <BookingPanel id={_id} />
           </StoreInfoWrapper>
+          <ServiceList id={_id} />
         </PageContainer>
       )}
     </Layout>

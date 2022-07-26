@@ -5,6 +5,7 @@ const ServiceInfo = require('../models/serviceInfo');
 const {
   checkTimeIntervalAndBook,
   bookingWithdraw,
+  checkDateFormat
 } = require('./calendar.controller');
 const { any } = require('joi');
 
@@ -12,7 +13,12 @@ const { any } = require('joi');
 async function addOrder(req, res) {
   const { peopleNumber, orderTime, userId, serviceInfoId, tel, optionInfo } =
     req.body;
-  const bookingTime = new Date(orderTime.date);
+  const dateFormatCheckResult = checkDateFormat(orderTime.date);
+  if (!dateFormatCheckResult.permission) {
+    return res.json(dateFormatCheckResult.message)
+  };
+
+  const bookingTime = new Date();
   const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
   if (!serviceInfo || serviceInfo.isDiscard) {
     return res.status(404).json({
@@ -24,7 +30,7 @@ async function addOrder(req, res) {
   //slice time
   let startHour = parseInt(orderTime.startTime);
   let endHour = null;
-  if (orderTime.endHour === undefined) {
+  if (orderTime.endTime === undefined) {
     endHour = startHour + 5;
     req.body.orderTime.endTime = startHour + 5;
   } else {
@@ -38,7 +44,6 @@ async function addOrder(req, res) {
       timeSliceArr.push(i);
     }
   }
-  console.log(timeSliceArr)
 
   const orderArr = await Order.find({
     'orderTime.date': orderTime.date,
@@ -109,7 +114,8 @@ async function addOrder(req, res) {
 //update
 async function updateOrderByID(req, res) {
   const { id } = req.params;
-  const { peopleNumber, orderTime, tel, optionInfo, bookingTime } = req.body;
+  const { peopleNumber, orderTime, tel, optionInfo } = req.body;
+  const bookingTime = new Date();
   const order = await Order.findByIdAndUpdate(
     id,
     { peopleNumber, orderTime, tel, optionInfo, bookingTime },
@@ -175,16 +181,20 @@ async function getOrderByID(req, res) {
   }
   return res.status(200).json(order);
 }
-//get all
+
+
+
 async function getAllOrders(req, res) {
-  console.log('Finding all orders...');
-  //Order.find().sort().limit()--> pagination 分页处理
-  const orders = await Order.find().exec();
+  const { userId, storeId, showAll = false } = req.query;
+  let findQuery = {};
+  if (storeId !== undefined) { findQuery.storeId = storeId };
+  if (userId !== undefined) { findQuery.userId = userId };
+  let qty = showAll ? 99999 : 99;
+
+
+  const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).limit(qty).exec();
   if (!orders) {
     return res.status(400).json({ error: 'Order not found' });
-  }
-  if (JSON.stringify(orders) === '[]') {
-    return res.status(404).json({ error: 'Order data is empty in database' });
   }
   return res.status(200).json(orders);
 }

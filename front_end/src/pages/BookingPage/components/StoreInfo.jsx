@@ -62,9 +62,9 @@ const ExpandButton = styled(Button)`
 `;
 
 const StoreInfo = ({ store: { name, description, location } }) => {
-  const { number, street, city, state, postcode } = location;
+  const { street, city, state, postcode } = location;
 
-  const address = `${number} ${street}, ${city}, ${state} ${postcode}`;
+  const address = `${street}, ${city}, ${state} ${postcode}`;
 
   const [expand, setExpand] = React.useState(false);
 

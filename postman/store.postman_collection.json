@@ -1,129 +1,203 @@
 {
-  "info": {
-    "_postman_id": "44713704-e794-48fa-915a-3ee4cb96bc9a",
-    "name": "store",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "20606313"
-  },
-  "item": [
-    {
-      "name": "getAllStores",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"category\": \"62ab03b31d0923105c44fefa\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:8000/v1/store",
-          "host": ["localhost"],
-          "port": "8000",
-          "path": ["v1", "store"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "getStoreById",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "localhost:8000/v1/store/:id",
-          "host": ["localhost"],
-          "port": "8000",
-          "path": ["v1", "store", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": "62cd1ee491999a360a2d8571"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "addStore",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"location\": {\r\n        \"state\": \"SA\",\r\n        \"city\": \"calender demo1 jul\",\r\n        \"suburb\": \"Sandy Bay\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": \"7005\"\r\n    },\r\n    \"name\": \"Jul12 store t2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0692345121\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\",\r\n    \"rootCategories\": [\"62ab03b31d0923105c44fefa\"]\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:8000/v1/store",
-          "host": ["localhost"],
-          "port": "8000",
-          "path": ["v1", "store"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "updateStoreById",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"location\": {\r\n        \"state\": \"TAS\",\r\n        \"city\": \"Melbourne\",\r\n        \"suburb\": \"Parkville\",\r\n        \"street\": \"Captain Matthew Flinders\",\r\n        \"number\": \"50\",\r\n        \"postcode\": 7005\r\n    },\r\n    \"name\": \"Best Massage Jun13 test 2\",\r\n    \"owner\": \"62971082feab058de9b66def\",\r\n    \"tel\": \"0452345333\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:8000/v1/store/:id",
-          "host": ["localhost"],
-          "port": "8000",
-          "path": ["v1", "store", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": "62a615a61bce22f454ea3088"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "discardStoreById",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "localhost:8000/v1/store/:id",
-          "host": ["localhost"],
-          "port": "8000",
-          "path": ["v1", "store", ":id"],
-          "variable": [
-            {
-              "key": "id",
-              "value": "62a1aa0a2c9f493974ea830e"
-            }
-          ]
-        }
-      },
-      "response": []
-    }
-  ]
+	"info": {
+		"_postman_id": "44713704-e794-48fa-915a-3ee4cb96bc9a",
+		"name": "store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20606313"
+	},
+	"item": [
+		{
+			"name": "getAllStores",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/store?date=2022-7-22",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"store"
+					],
+					"query": [
+						{
+							"key": "sortMethod",
+							"value": "favoriteUsersSize",
+							"disabled": true
+						},
+						{
+							"key": "person",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "62d42f329a144d0fc58980c9",
+							"disabled": true
+						},
+						{
+							"key": "state",
+							"value": "TAS",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "Hobart",
+							"disabled": true
+						},
+						{
+							"key": "date",
+							"value": "2022-7-22"
+						},
+						{
+							"key": "query",
+							"value": "Chinese",
+							"disabled": true
+						},
+						{
+							"key": "includeNoServiceStore",
+							"value": "true",
+							"description": "default false",
+							"disabled": true
+						},
+						{
+							"key": "resultQuantity",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getStoreById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62d2e440d899b2bc9042d4a0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addStore",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"location\": {\r\n        \"state\": \"TAS\",\r\n        \"city\": \"Hobart\",\r\n        \"suburb\": \"Claremont\",\r\n        \"street\": \"708 Main Rd\",\r\n        \"postcode\": \"7011\"\r\n    },\r\n    \"name\": \"Nouveau Food\",\r\n    \"owner\": \"62d43d1d4d61d2e25207646a\",\r\n    \"tel\": \"0463311121\",\r\n    \"description\": \"The flavors of France are all around you with this Roasted Red Pepper and Onion French Dip. With the simplicity of this easy to make dish, you'll have no problem filling your appetite. You'll start with a crusty French baguette, which is then topped with melted butter and garlic, roasted red peppers and onions, a dash of Worcestershire sauce, and beef broth.\",\r\n    \"rootCategories\": [\"62d42f329a144d0fc58980c9\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/store",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateStoreById",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"location\": {\r\n        \"state\": \"VIC\",\r\n        \"city\": \"calender demo1 jul17\",\r\n        \"suburb\": \"Sandy Bay1\",\r\n        \"street\": \"Captain Matthew Flinders1\",\r\n        \"postcode\": \"7015\"\r\n    },\r\n    \"name\": \"Jul17 store t1 kai\",\r\n    \"tel\": \"0692345122\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.1\",\r\n    \"rootCategories\": [\"62ab03b31d0923105c44fefa\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62d2d62dc39e0115545d9f6e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "discardStoreById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/v1/store/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"store",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62d3e6748b40b204c03efa83"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
-

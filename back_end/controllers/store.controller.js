@@ -1,7 +1,7 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
 const User = require('../models/user');
-const { getDayOfWeek } = require('./calendar.controller');
+const { getDayOfWeek, checkDateFormat } = require('./calendar.controller');
 const Joi = require('joi');
 
 
@@ -228,26 +228,37 @@ async function getAllStores(req, res) {
         city = undefined,
         date = undefined,
         query = '.',
-        opening = false,
+        includeNoServiceStore = false,
         resultQuantity = 999
     } = req.query;
 
+    if (['orderSize', 'favoriteUsersSize', 'distance'].indexOf(sortMethod) === -1) {
+        return res.status(400).json({
+            error: 'SortMethod must be one of [orderSize, favoriteUsersSize, distance].'
+        });
+    }
+
+    if (date !== undefined) {
+        const dateFormatCheckResult = checkDateFormat(date);
+        if (!dateFormatCheckResult.permission) {
+            return res.json(dateFormatCheckResult.message)
+        };
+    }
+
     person = parseInt(person);
     resultQuantity = parseInt(resultQuantity);
-    opening = opening === "true" ? true : false;
+    includeNoServiceStore = includeNoServiceStore === "true" ? true : false;
     let dateInWeek = date !== undefined ? getDayOfWeek(new Date(date)) : undefined;
-
     let qRegExp = new RegExp(`.*${query}.*`, 'i');
     let optionalMatchQuery = {};
-    let startTimeDateQuery = {};
+    let noServiceStoreQuery = { "serviceInfoDetails": { $ne: [] } };
 
     if (state !== undefined) { optionalMatchQuery['location.state'] = state };
     if (city !== undefined) { optionalMatchQuery['location.city'] = city };
     if (dateInWeek !== undefined) {
-        optionalMatchQuery["serviceInfoDetails.startTime"] = { $ne: [] }; //此处也要更新
-        startTimeDateQuery = { $eq: ['$$startTimeDay', dateInWeek] }; //此处也要更新。原因是serviceInfo表中starTime已经改成了calendarTemplate。
+        optionalMatchQuery[`businessHours.${dateInWeek}`] = { $ne: [] };
     }
-    if (opening) { optionalMatchQuery["serviceInfoDetails"] = { $ne: [] }; }
+    if (includeNoServiceStore) { noServiceStoreQuery = {}; }
 
     await Store.aggregate([
         {
@@ -256,20 +267,10 @@ async function getAllStores(req, res) {
                 let: { id: "$_id" },
                 pipeline:
                     [
-                        {  //Filter the sub-table 1st time, and return main tables which contain the specified day in its sub-table.
-                            $project:
-                            {
-                                store: 1, name: 1, maxPersonPerSection: 1,
-                                "startTime": {
-                                    $filter: {
-                                        input: "$startTime.dayOfWeek",
-                                        as: "startTimeDay",
-                                        cond: startTimeDateQuery  //If there is no 'dateInWeek' in filter, select *
-                                    }
-                                }
-                            }
+                        {
+                            $project: { store: 1, name: 1, maxPersonPerSection: 1 }
                         },
-                        {  //Filter the sub-table 2nd time, and return main tables which {$maxPersonPerSection > person} in its sub-table.
+                        {
                             $match:
                             {
                                 $expr:
@@ -302,6 +303,7 @@ async function getAllStores(req, res) {
                     [
                         { isDiscard: false },
                         optionalMatchQuery,
+                        noServiceStoreQuery
                     ],
                 $or:
                     [
@@ -331,15 +333,13 @@ async function getAllStores(req, res) {
             })
         }
 
-        if (opening) {
+        if (!includeNoServiceStore) {
             result.map((element) => {
                 let maxPersonPerSectionArr = [];
                 element.serviceInfoDetails.map((element) => { maxPersonPerSectionArr.push(element.maxPersonPerSection); })
                 element.maxPersonPerSectionForStore = Math.max(...maxPersonPerSectionArr);
+                element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
 
-                if (element.businessHours !== undefined) {
-                    element.isAvailableToday = element.businessHours[dayOfWeekToday].length > 0 ? true : false;
-                } else { element.isAvailableToday = false; }
             })
         }
 
@@ -384,7 +384,7 @@ async function getAllStores(req, res) {
 async function getStoreById(req, res) {
     const { id } = req.params;
     const store = await Store.findById(id).populate('owner', 'name').populate('rootCategories', 'name')
-        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name' }).exec();
+        .populate({ path: 'serviceInfos', match: { isDiscard: false }, select: 'name maxPersonPerSection maxServicePerSection duration calendarTemplate' }).exec();
     if (!store) {
         return res.status(404).json({
             error: 'Store not found',
@@ -561,7 +561,7 @@ async function checkStore(data) {
             city: Joi.string().required(),
             suburb: Joi.string().required(),
             street: Joi.string().required(),
-            postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
+            postcode: Joi.number().min(200).max(9999).required(),
         },
         description: Joi.string().max(300),
         rootCategories: Joi.array()
@@ -580,7 +580,7 @@ async function checkStoreUpdate(data) {
             city: Joi.string().required(),
             suburb: Joi.string().required(),
             street: Joi.string().required(),
-            postcode: Joi.string().regex(/^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$/).required(),
+            postcode: Joi.number().min(200).max(9999).required(),
         },
         description: Joi.string().max(300),
         rootCategories: Joi.array()

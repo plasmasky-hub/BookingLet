@@ -6,7 +6,14 @@ const {
   getUserByID,
   deleteUserByID,
   getUserStores,
-  addOrCancelFavoriteStore
+  addOrCancelFavoriteStore,
+
+  register,
+  login,
+
+  getFavouriteStoreById
+  
+
 } = require('../controllers/user.controller');
 
 const userRouter = express.Router();
@@ -18,5 +25,9 @@ userRouter.put('/:id', updateUserByID);
 userRouter.delete('/:id', deleteUserByID);
 userRouter.get('/:id/stores', getUserStores);
 userRouter.post('/addOrCancelFavoriteStore',addOrCancelFavoriteStore);
+
+userRouter.post('/register', register);
+userRouter.post('/login', login);
+userRouter.get('/:id/FavouriteStoreList', getFavouriteStoreById);
 
 module.exports = userRouter;
