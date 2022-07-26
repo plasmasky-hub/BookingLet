@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import StyledTextField from './StyledTextField';
 import FlexWrapper from './FlexWrapper';
 import Checkbox from '@mui/material/Checkbox';
-import FormControl, { useFormControl } from '@mui/material/FormControl';
 const Title = styled.p`
   font-size: 14px;
   text-align: left;
@@ -39,8 +38,10 @@ const Step3 = ({ FormData, setFormData }) => {
       ? `${hour + Math.floor(m / 60)}:0${m % 60}`
       : `${hour + Math.floor(m / 60)}:${m % 60}`;
   };
-
-  const endTime = showEndTime(startHour, startMinute, FormData.duration);
+  const endTime =
+    startHour && FormData.duration && FormData.duration !== 'unlimited'
+      ? showEndTime(startHour, startMinute, FormData.duration)
+      : '';
 
   return (
     <>
@@ -63,12 +64,17 @@ const Step3 = ({ FormData, setFormData }) => {
       <StyledTextField
         value={FormData.mobile}
         onChange={(event) => {
-          setFormData({ ...FormData, mobile: event.target.value });
+          setFormData({
+            ...FormData,
+            mobile: event.target.value,
+            startTimeStr: startTime,
+            endTime: endTime,
+          });
         }}
         variant="outlined"
         size="small"
+        showlabel="true"
         label="Please enter your number"
-        p3
       />
       <Title Input>Note</Title>
       <StyledTextField
@@ -80,10 +86,9 @@ const Step3 = ({ FormData, setFormData }) => {
         multiline
         rows={4}
         size="small"
+        showlabel="true"
         label="Add any additional note for your order"
-        p3
       />
-
       <CheckboxWrapper>
         <Checkbox
           checked={FormData.send}

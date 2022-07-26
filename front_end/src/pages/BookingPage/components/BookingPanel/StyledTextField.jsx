@@ -3,16 +3,13 @@ import TextField from '@mui/material/TextField';
 
 const StyledTextField = styled(TextField)`
   width: 100%;
-  margin: 10px 0;
+  margin-bottom: 20px;
   & label {
-    font-size: ${(props) => (props.p3 ? '' : '19px')};
-    color: ${(props) => (props.p3 ? '#909090' : '#323232')};
-    font-weight: ${(props) => (props.p3 ? 500 : 600)};
+    display: ${(props) => (props.showlabel ? '' : 'none')};
+    color: #bababa;
   }
-  .MuiInput-input {
-    font-size: 14px;
-    text-align: left;
-    margin-top: 5px;
+  & legend {
+    display: ${(props) => (props.showlabel ? '' : 'none')};
   }
   .menuItem {
     font-size: 14px;

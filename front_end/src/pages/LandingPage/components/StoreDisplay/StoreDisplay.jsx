@@ -3,8 +3,8 @@ import StoreCategory from './StoreCategory';
 import { useGetStoresQuery } from '../../../../store/api/storeApi';
 import { useGetRootCategoriesQuery } from '../../../../store/api/categoryApi';
 
-const StoreDisplay = () => {
-  const cardData = useGetStoresQuery();
+const StoreDisplay = ({ data }) => {
+  // const cardData = useGetStoresQuery();
 
   const categoryData = useGetRootCategoriesQuery();
   const {
@@ -25,7 +25,7 @@ const StoreDisplay = () => {
             return (
               <StoreCategory
                 category={category}
-                cardData={cardData}
+                cardData={data}
                 key={category._id}
               />
             );
