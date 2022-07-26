@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 // import joiValidation from 'Joi';
 import { loginValidation} from '../../../validation/SignInValidation'
@@ -8,6 +8,8 @@ import {
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
+
+import { useEffect } from 'react';
 
 import { useLoginMutation } from '../../../store/api/userApi';
 
@@ -85,7 +87,26 @@ export const LoginModal = (props) => {
 		});
 	};
 
+    const [user, setUser] = useState(Object);
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+        localStorage.setItem("user", user);
+    }, [user]);
+
+    useEffect(() => {
+        localStorage.setItem('token', token);
+    }, [token]);
+    
+
     const [login, { isLoading }] = useLoginMutation();
+
+    const showLocalStorage = () => {
+        const user = localStorage.getItem('user');
+        console.log("🚀 ~ file: Login.jsx ~ line 102 ~ showLocalStorage ~ user", user)
+        const token = localStorage.getItem('token');
+        console.log("🚀 ~ file: Login.jsx ~ line 104 ~ showLocalStorage ~ token", token)
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -102,7 +123,20 @@ export const LoginModal = (props) => {
             const loginResult = await login(values);
 
             console.log(loginResult);
-            // refresh page
+            // close modal
+            props.loginClose();
+
+            // save data
+            // console.log(typeof(loginResult.data.user));
+            // setUser( JSON.parse(loginResult.data.user) );
+            setToken(loginResult.data.token);
+
+            console.log(token);
+
+            localStorage.setItem("token", JSON.stringify(token) );
+
+            showLocalStorage();
+
         },
       });
 

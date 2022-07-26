@@ -117,7 +117,7 @@ export const Header = () => {
                 aria-describedby="modal-modal-description"
                 name = "loginModal"
           >
-            <LoginModal />
+            <LoginModal loginClose={loginClose}/>
           </Modal>
 
           <RegisterButton 
