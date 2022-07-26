@@ -56,7 +56,7 @@ const ServiceList = ({ id }) => {
         {isSuccess
           ? services.map((e) => {
               return (
-                <ListGrid>
+                <ListGrid key={e.id}>
                   <p>{e.name}</p>
                   <p>{e.price}</p>
                   <p>{e.description}</p>

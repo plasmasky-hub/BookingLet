@@ -32,12 +32,16 @@ const CardsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const StoreCategory = ({ category, cardData }) => {
-  const { data: stores, isLoading, isSuccess, isError, error } = cardData;
+const StoreCategory = ({ category, cardData: stores }) => {
+  // const { data: stores, isLoading, isSuccess, isError, error } = cardData;
 
-  const filteredStores = isSuccess
-    ? stores.filter((store) => store.rootCategories[0] === category._id)
-    : error;
+  // const filteredStores = isSuccess
+  //   ? stores.filter((store) => store.rootCategories[0] === category._id)
+  //   : error;
+
+  const filteredStores = stores.filter(
+    (store) => store.rootCategories[0] === category._id
+  );
 
   const navigate = useNavigate();
 
@@ -74,17 +78,13 @@ const StoreCategory = ({ category, cardData }) => {
           sx={{ pl: 3, pb: 3, background: 'rgba(236, 236, 234, 0.6)' }}
         >
           <CardsWrapper>
-            {isError && <p>{error}</p>}
-            {isLoading && <p>Loading...</p>}
-            {isSuccess && (
-              <>
-                {filteredStores.slice(0, 8).map((store) => {
-                  return (
-                    <StoreCard id={store.id} key={store._id} store={store} />
-                  );
-                })}
-              </>
-            )}
+            <>
+              {filteredStores.slice(0, 8).map((store) => {
+                return (
+                  <StoreCard id={store.id} key={store._id} store={store} />
+                );
+              })}
+            </>
           </CardsWrapper>
         </ServiceCardContent>
       </Container>

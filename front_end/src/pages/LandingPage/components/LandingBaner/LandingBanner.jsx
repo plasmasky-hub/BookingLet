@@ -1,5 +1,6 @@
 import React from 'react';
 import BannerInputs from './BannerInputs';
+import BanerForm from './BanerForm';
 import CustomizedInputBase from '../SearchBar';
 import styled from 'styled-components';
 // import homebg from '../../../../assets/home-bg.jpg';
@@ -65,7 +66,7 @@ const BannerButton = styled(Button)({
   },
 });
 
-const LandingBanner = () => (
+const LandingBanner = ({ FormData, setFormData }) => (
   <BannerWrapper sx={{ position: 'relative' }}>
     <BannerContainer>
       <BannerLabel>What would you like to book today?</BannerLabel>
@@ -347,6 +348,9 @@ const LandingBanner = () => (
         />
       </Box>
     </Box>
+    {/* <LabelHomePage>What would you like to book today?</LabelHomePage>
+    </BannerContainer>
+    <BanerForm FormData={FormData} setFormData={setFormData} /> */}
   </BannerWrapper>
 );
 
