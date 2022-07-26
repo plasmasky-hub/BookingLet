@@ -1,54 +1,63 @@
-import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import styled from "styled-components";
-import { LocalizationProvider } from "@mui/lab";
-import DatePicker from "@mui/lab/DatePicker";
-import { TextField } from "@mui/material";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { useGetRootCategoriesQuery } from "../../../../store/api/categoryApi";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
+import * as React from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import styled from 'styled-components';
+import { LocalizationProvider } from '@mui/lab';
+import DatePicker from '@mui/lab/DatePicker';
+import { TextField } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { useGetRootCategoriesQuery } from '../../../../store/api/categoryApi';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 
-const BannerButton = styled(Button)`
-  width: 165px;
-  height: 47px;
-  border-style: none;
-  cursor: pointer;
-`;
+const BannerButton = styled(Button)({
+  width: 165,
+  height: 50,
+  borderStyle: 'none',
+  cursor: 'pointer',
+  '&.MuiButton-root': {
+    backgroundColor: '#D08888',
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 700,
+  },
+});
 
 const LocalizationProviderNew = styled(LocalizationProvider)`
   padding-top: 110px;
 `;
 
 const SearchPaper = styled(Paper)({
-  padding: "2px 4px",
-  display: "flex",
-  alignItems: "center",
+  padding: '2px 4px',
+  display: 'flex',
+  alignItems: 'center',
   width: 476,
   marginTop: 30,
   marginLeft: 0.31,
-  opacity: 0.6,
 });
 
 const WrapperFilter = styled.div`
   margin-left: 5px;
 `;
-
+// margin-left: 200px;
+//   margin-top: 50px;
 const Wrapper = styled.div`
-  margin-left: 200px;
-  margin-top: 50px;
+  width: 558px;
+  height: 240px;
+  margin-top: 35px;
+  padding: 15px;
+  background: rgba(217, 217, 217, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
 `;
 
-const WrapperCategory = styled.div`
-  margin-top: -20px;
-  margin-left: -7px;
-`;
+const WrapperCategory = styled.div``;
 
 const BanerForm = ({ FormData, setFormData }) => {
   // const [age, setAge] = React.useState('');
@@ -69,31 +78,27 @@ const BanerForm = ({ FormData, setFormData }) => {
   const category = FormData.category;
   const state = FormData.state;
   const query = FormData.search;
-  const q = `${category ? `category=${category}` : ""}${
-    state ? `&state=${state}` : ""
-  }${date ? `&date=${date}` : ""}${query ? `&query=${query}` : ""}`;
+  const q = `${category ? `category=${category}` : ''}${
+    state ? `&state=${state}` : ''
+  }${date ? `&date=${date}` : ''}${query ? `&query=${query}` : ''}`;
 
   return (
     <Wrapper>
       <WrapperFilter>
-        <LocalizationProviderNew dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="Date"
-            value={FormData.date}
-            onChange={(newValue) => {
-              setFormData({ ...FormData, date: newValue });
-            }}
-            renderInput={(params) => (
-              <TextField {...params} variant="standard" p1="true" />
-            )}
-          />
-        </LocalizationProviderNew>
-
         <WrapperCategory>
-          <FormControl
-            variant="standard"
-            sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-          >
+          <LocalizationProviderNew dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="Date"
+              value={FormData.date}
+              onChange={(newValue) => {
+                setFormData({ ...FormData, date: newValue });
+              }}
+              renderInput={(params) => (
+                <TextField {...params} variant="standard" p1="true" />
+              )}
+            />
+          </LocalizationProviderNew>
+          <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
             <InputLabel id="demo-simple-select-standard-label">
               Category
             </InputLabel>
@@ -115,12 +120,9 @@ const BanerForm = ({ FormData, setFormData }) => {
                 ))}
             </Select>
           </FormControl>
-          <FormControl
-            variant="standard"
-            sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-          >
+          <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
             <InputLabel id="demo-simple-select-standard-label">
-              state
+              State
             </InputLabel>
             <Select
               labelId="demo-simple-select-standard-label"
@@ -137,26 +139,26 @@ const BanerForm = ({ FormData, setFormData }) => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"NSW"}>NSW</MenuItem>
-              <MenuItem value={"VIC"}>VIC</MenuItem>
-              <MenuItem value={"SA"}>SA</MenuItem>
-              <MenuItem value={"TAS"}>TAS</MenuItem>
-              <MenuItem value={"WA"}>WA</MenuItem>
-              <MenuItem value={"ACT"}>ACT</MenuItem>
-              <MenuItem value={"NT"}>NT</MenuItem>
+              <MenuItem value={'NSW'}>NSW</MenuItem>
+              <MenuItem value={'VIC'}>VIC</MenuItem>
+              <MenuItem value={'SA'}>SA</MenuItem>
+              <MenuItem value={'TAS'}>TAS</MenuItem>
+              <MenuItem value={'WA'}>WA</MenuItem>
+              <MenuItem value={'ACT'}>ACT</MenuItem>
+              <MenuItem value={'NT'}>NT</MenuItem>
             </Select>
           </FormControl>
         </WrapperCategory>
       </WrapperFilter>
 
       <SearchPaper component="form">
-        <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Name, service ..."
-          inputProps={{ "aria-label": "Name, service ..." }}
+          inputProps={{ 'aria-label': 'Name, service ...' }}
           value={FormData.search}
           onChange={(e) => {
             setFormData({ ...FormData, search: e.target.value });

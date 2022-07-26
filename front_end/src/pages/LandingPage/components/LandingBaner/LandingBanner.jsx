@@ -1,12 +1,9 @@
 import React from 'react';
-import BannerInputs from './BannerInputs';
 import BanerForm from './BanerForm';
-import CustomizedInputBase from '../SearchBar';
 import styled from 'styled-components';
 // import homebg from '../../../../assets/home-bg.jpg';
 import bannerbg from '../../../../assets/home-banner.jpg';
 // import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -33,17 +30,6 @@ const BannerContainer = styled.div`
   padding-top: 200px;
 `;
 
-const InputPanel = styled.div`
-  width: 508px;
-  height: 223px;
-  margin-top: 35px;
-  padding: 15px;
-  background: rgba(217, 217, 217, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  border-radius: 10px;
-`;
-
 const BannerLabel = styled.div`
   color: #ffffff;
   font-size: 32px;
@@ -53,36 +39,11 @@ const BannerLabel = styled.div`
   height: 76px;
 `;
 
-const BannerButton = styled(Button)({
-  width: 165,
-  height: 50,
-  borderStyle: 'none',
-  cursor: 'pointer',
-  '&.MuiButton-root': {
-    backgroundColor: '#D08888',
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 700,
-  },
-});
-
 const LandingBanner = ({ FormData, setFormData }) => (
   <BannerWrapper sx={{ position: 'relative' }}>
     <BannerContainer>
       <BannerLabel>What would you like to book today?</BannerLabel>
-      <InputPanel>
-        <BannerInputs />
-        <CustomizedInputBase />
-        <BannerButton
-          variant="contained"
-          disableRipple
-          sx={{
-            mt: 2,
-          }}
-        >
-          SEARCH
-        </BannerButton>
-      </InputPanel>
+      <BanerForm FormData={FormData} setFormData={setFormData} />
     </BannerContainer>
     <Box
       sx={{
@@ -90,8 +51,8 @@ const LandingBanner = ({ FormData, setFormData }) => (
         display: 'flex',
         position: 'absolute',
         top: 'calc(100vh - 180px)',
-        left: '50%',
-        marginLeft: '-550px',
+        left: '50vw',
+        marginLeft: '-560px',
       }}
     >
       <Box
@@ -348,6 +309,7 @@ const LandingBanner = ({ FormData, setFormData }) => (
         />
       </Box>
     </Box>
+
     {/* <LabelHomePage>What would you like to book today?</LabelHomePage>
     </BannerContainer>
     <BanerForm FormData={FormData} setFormData={setFormData} /> */}
