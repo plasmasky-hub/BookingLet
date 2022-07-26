@@ -12,7 +12,7 @@ pipeline {
         BUCKET_NAME     = 'www.uat.bookinglet.com.au'
         WORKSPACE_PATH  = '/var/lib/jenkins/workspace/cicd_frontend_uat/front_end/build'
         CI              = 'false'
-        DISTRIBUTION_ID = 'E14C5IM1VLKK9M'
+        DISTRIBUTION_ID = 'E6UWRGO0EHJ5Q'
     }
     
     parameters {
