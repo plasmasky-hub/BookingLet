@@ -5,9 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import styled from 'styled-components';
 
-const WrapperFilter = styled.div`
-  margin-left: -5px;
-`;
+const WrapperFilter = styled.div``;
 
 const BanerInputs = () => {
   const [age, setAge] = React.useState('');
@@ -18,10 +16,7 @@ const BanerInputs = () => {
 
   return (
     <WrapperFilter>
-      <FormControl
-        variant="standard"
-        sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-      >
+      <FormControl variant="standard" sx={{ minWidth: 150 }}>
         <InputLabel>Calendar</InputLabel>
         <Select
           id="demo-simple-select-standard"
@@ -37,10 +32,7 @@ const BanerInputs = () => {
           <MenuItem value={30}>5 June 2022</MenuItem>
         </Select>
       </FormControl>
-      <FormControl
-        variant="standard"
-        sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-      >
+      <FormControl variant="standard" sx={{ minWidth: 150 }}>
         <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
@@ -58,10 +50,7 @@ const BanerInputs = () => {
           <MenuItem value={40}>Life Service</MenuItem>
         </Select>
       </FormControl>
-      <FormControl
-        variant="standard"
-        sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-      >
+      <FormControl variant="standard" sx={{ minWidth: 150 }}>
         <InputLabel id="demo-simple-select-standard-label">state</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
