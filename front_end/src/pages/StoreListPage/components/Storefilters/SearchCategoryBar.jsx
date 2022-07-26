@@ -4,7 +4,8 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import styled from 'styled-components';
 import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+
 
 
 const Wrapper = styled.div`
@@ -35,11 +36,39 @@ const categories = [
     label: 'Sports',
   },
 ];
+const people = [
+    {
+      value: '1',
+      label: '1 Person',
+    },
+    {
+      value: '2',
+      label: '2 People',
+    },
+    {
+      value: '3',
+      label: '3 People',
+    },
+    {
+      value: '4',
+      label: '4 People',
+    },
+    {
+      value: '5',
+      label: '5 People',
+    },
+  ];
+
 
 export default function SearchBar() {
   const [category, setCategory] = React.useState('All');
+  const [person, setPerson] = React.useState('');
+  const handleChangePerson = (event) => {
+    setPerson(event.target.value);
+  };
 
-  const handleChange = (event) => {
+
+  const handleChangeCategory = (event) => {
     setCategory(event.target.value);
   };
   return (
@@ -56,6 +85,37 @@ export default function SearchBar() {
     >
       <TextField id="filled-basic" label="Keyword, services..." variant="filled" />
     </Box>
+    
+    <PeopleAltIcon color="action"  sx={{ fontSize: 25 }}/>
+      <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '15rem' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      
+      <div>
+        <TextField
+          id="filled-person-quantity"
+          select
+          label="Quantity of people"
+          value={person}
+          onChange={handleChangePerson}
+        
+          variant="filled"
+        >
+          {people.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
+      
+    </Box>
+      
     <Box
       component="form"
       sx={{
@@ -67,11 +127,11 @@ export default function SearchBar() {
       
       <div>
         <TextField
-          id="filled-select-currency"
+          id="filled-category"
           select
           label="Category"
           value={category}
-          onChange={handleChange}
+          onChange={handleChangeCategory}
         
           variant="filled"
         >
@@ -84,7 +144,7 @@ export default function SearchBar() {
       </div>
       
     </Box>
-    <Button variant="search" color=" #d76d6d">SEARCH</Button>
+    
     </Wrapper>
   );
 }

@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import Box from '@mui/material/Box';
+import logo from '../../../assets/logo.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const StyledLogo = styled(Box)`
+    display:flex;
     flex-grow: 1;
     font-family: Helvetica, sans-serif;
     font-size: 1.5rem;
@@ -9,11 +12,24 @@ const StyledLogo = styled(Box)`
     color: #000;
     padding-left: 80px;
     cursor: pointer;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+
+	img{
+		height: 34px;
+		width: 150px;
+	}
 `;
 
+
 export const Logo = () => {
+  const navigate = useNavigate();
   return (
-    <StyledLogo>Bookinglet</StyledLogo>
+    <StyledLogo onClick={() => navigate(`/LandingPage`)}>
+      
+      <img src={logo} alt='logo'></img>
+    </StyledLogo>
   )
 }
 
