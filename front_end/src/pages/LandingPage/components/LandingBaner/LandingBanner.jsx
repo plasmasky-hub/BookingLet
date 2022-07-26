@@ -1,5 +1,5 @@
 import React from 'react';
-import BanerInputs from './BannerInputs';
+import BanerForm from './BanerForm';
 import CustomizedInputBase from '../SearchBar';
 import styled from 'styled-components';
 import homebg from '../../../../assets/home-bg.jpg';
@@ -44,20 +44,8 @@ const LandingBanner = ({ FormData, setFormData }) => (
   <BannerWrapper>
     <BannerContainer>
       <LabelHomePage>What would you like to book today?</LabelHomePage>
-      <BanerInputs FormData={FormData} setFormData={setFormData} />
-      {/* <CustomizedInputBase /> */}
-
-      {/* <BannerButton
-        variant="contained"
-        disableRipple
-        sx={{
-          mt: 3,
-        }}
-      >
-        SEARCH
-      </BannerButton> */}
-      {/* <BannerButton onClick={() => {}}>SEARCH</BannerButton> */}
     </BannerContainer>
+    <BanerForm FormData={FormData} setFormData={setFormData} />
   </BannerWrapper>
 );
 
