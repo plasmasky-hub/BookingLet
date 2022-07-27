@@ -263,23 +263,19 @@ export const LoginModal = (props) => {
                             </FormControl>
                             
                             <StaySignIn control={<Checkbox />} label="Stay sign in"/>
+
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' ,alignContent:'center'}}>
+                                <LoginButton 
+                                    variant='contained'
+                                    color='success'
+                                    type="submit"
+                                >
+                                    Sign in
+                                </LoginButton>
+                            </Box>
                         
                         </LoginFormContainer>
                     </Grid>
-                   
-                    
-                    <Grid item xs={1} >
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' ,alignContent:'center'}}>
-                            <LoginButton 
-                                variant='contained'
-                                color='success'
-                                type="submit"
-                            >
-                                Sign in
-                            </LoginButton>
-                        </Box>
-                    </Grid>
-                        
 
                     
                     <Grid item xs={1} >
