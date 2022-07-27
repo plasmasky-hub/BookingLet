@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@mui/material';
+import { Card, Typography, Box, Chip } from '@mui/material';
 import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
@@ -7,21 +7,23 @@ import food from '../../../../assets/food.jpg';
 import { useNavigate } from 'react-router-dom';
 
 const CardWrapper = styled(Card)`
-  width: 258px;
-  padding: 22px 18px;
+  width: 220px;
+  height: 320px;
+  border-radius: 10px;
+  margin-right: 24px;
+  margin-top: 24px;
   box-sizing: border-box;
-  :hover {
-    transform: scale(1.1);
-    transition: 0.3s;
-  }
+  cursor: pointer;
 `;
 
 const ImgWrapper = styled.div`
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   img {
     width: 100%;
-    border-radius: 8px;
+    height: 200px;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
   }
 
   span {
@@ -36,38 +38,18 @@ const ImgWrapper = styled.div`
   }
 `;
 
-const StoreName = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: -5px;
-`;
+const StoreNameLabel = styled(Typography)({
+  fontSize: 14,
+  fontWeight: 700,
+});
 
-const Address = styled.p`
-  font-size: 14px;
-`;
+const AddressLabel = styled(Typography)({
+  fontSize: 12,
+});
 
-const Label = styled.span`
-  display: inline-block;
-  font-size: 12px;
-  padding: 5px 10px;
-  background-color: #c5b8a5;
-  color: white;
-  border-radius: 7px;
-  margin: 7px 3px 7px 0;
-`;
-
-const AddPpl = styled.p`
-  font-size: 14px;
-  margin-bottom: 20px;
-`;
-
-const CardButton = styled(Button)`
-  color: #7b8b6f;
-  font-weight: 600;
-  float: right;
-  padding: 0;
-  font-size: 14px;
-`;
+const BookletLabel = styled(Typography)({
+  fontSize: 12,
+});
 
 const StoreCard = ({
   store: {
@@ -84,7 +66,13 @@ const StoreCard = ({
   const navigate = useNavigate();
 
   return (
-    <CardWrapper>
+    <CardWrapper
+      onClick={(e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+        navigate(`/BookingPage/${_id}`);
+      }}
+    >
       <ImgWrapper>
         {/* need data */}
         <img src={food} alt="food" />
@@ -92,16 +80,22 @@ const StoreCard = ({
         <AddIcon />
         {isAvailableToday ? <span>AVAILABLE TODAY</span> : null}
       </ImgWrapper>
-      <StoreName>{name}</StoreName>
-      <Address>{address}</Address>
-      <Label>Max {maxPersonPerSectionForStore} ppl.</Label>
-      <AddPpl>{favoriteUsersSize} people add to booklet</AddPpl>
-      <CardButton
-        onClick={() => navigate(`/BookingPage/${_id}`)}
-        variant="text"
-      >
-        Book Now
-      </CardButton>
+      <Box sx={{ pl: 2 }}>
+        <StoreNameLabel>{name}</StoreNameLabel>
+        <AddressLabel>{address}</AddressLabel>
+        <Chip
+          label={`Max ${maxPersonPerSectionForStore} ppl.`}
+          size="small"
+          sx={{
+            fontSize: 11,
+            backgroundColor: '#C4B8A5',
+            color: '#FFFFFF',
+            mt: '4px',
+            mb: '4px',
+          }}
+        />
+        <BookletLabel>{favoriteUsersSize} people add to booklet</BookletLabel>
+      </Box>
     </CardWrapper>
   );
 };

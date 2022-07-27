@@ -44,7 +44,7 @@ const Step4 = ({ FormData, setFormData, FakeData }) => {
       <Title>Time</Title>
       <FlexWrapper P4>
         <p>
-          {startTime} - {endTime}
+          {FormData.startTimeStr} - {FormData.endTime}
         </p>
       </FlexWrapper>
 
