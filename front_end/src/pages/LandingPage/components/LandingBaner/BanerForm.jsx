@@ -14,6 +14,10 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useGetStoresQuery } from '../../../../store/api/storeApi';
+import { useNavigate } from 'react-router-dom';
 
 const BannerButton = styled(Button)({
   width: 165,
@@ -47,7 +51,7 @@ const WrapperFilter = styled.div`
 // margin-left: 200px;
 //   margin-top: 50px;
 const Wrapper = styled.div`
-  width: 558px;
+  width: 565px;
   height: 240px;
   margin-top: 35px;
   padding: 15px;
@@ -59,10 +63,26 @@ const Wrapper = styled.div`
 
 const WrapperCategory = styled.div``;
 
-const BanerForm = ({ FormData, setFormData }) => {
+const BanerForm = () => {
+  // const [age, setAge] = React.useState('');
+
+  // const handleChange = (event) => {
+  //   setAge(event.target.value);
+  // };
+
+  const navigate = useNavigate();
+
   const { data: rootCategory, isSuccess: success } =
     useGetRootCategoriesQuery();
 
+  const [FormData, setFormData] = useState({
+    date: new Date(),
+    category: '',
+    state: '',
+    search: '',
+    isSearch: false,
+    q: '',
+  });
   const date = `${FormData.date.getFullYear()}-${
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
@@ -75,6 +95,14 @@ const BanerForm = ({ FormData, setFormData }) => {
   const q = `${category ? `category=${category}` : ''}${
     state ? `&state=${state}` : ''
   }${date ? `&date=${date}` : ''}${query ? `&query=${query}` : ''}`;
+
+  const query2 = FormData.isSearch ? FormData.q : '';
+
+  console.log(query2);
+  const { data: filteredStores, isSuccess } = useGetStoresQuery(query2);
+
+  console.log(isSuccess && filteredStores);
+  console.log(FormData.isSearch);
 
   return (
     <Wrapper>
@@ -168,6 +196,7 @@ const BanerForm = ({ FormData, setFormData }) => {
         }}
         onClick={() => {
           setFormData({ ...FormData, isSearch: true, q: q });
+          navigate('/StoreListPage', { state: { filteredStores } });
         }}
       >
         SEARCH
