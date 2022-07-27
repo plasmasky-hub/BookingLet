@@ -155,7 +155,7 @@ const DeleteButton = styled.a`
   background-color: #E27777;
   border-radius: 5px;
   margin-left: 173px;
-  margin-top: 10px;
+  margin-top: -4px;
 
   &:hover {
     color: black;
@@ -318,6 +318,9 @@ const Excel = (props) => {
     await AddStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     //document.execCommand('Refresh');
+    setCurrentFocusRow(0);
+    setTimeTagIndex(-1);
+    setTimeDelete(false);
   }
 
   //logic
@@ -361,6 +364,27 @@ const Excel = (props) => {
   })
 
   const deleteTime = async () => {
+    const regHour = /^[012]?\d$/;
+    const regMinute = /^[012345][05]$/;
+    if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
+      return alert('Please input correct hours (6:00 - 21:55)!');
+    }
+
+    if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
+      return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
+    }
+
+    let startTimeHourNum = parseInt(createTime.startTimeHour);
+    let endTimeHourNum = parseInt(createTime.endTimeHour);
+    let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
+    let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
+
+    if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
+      || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
+      return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
+    }
+
+    
     if (!timeDelete) {
       return alert('Please select "YES" in radio!');
     }
@@ -390,6 +414,9 @@ const Excel = (props) => {
     if (resultOfDelete.data.Error !== undefined) {
       alert(resultOfDelete.data.Error);
     }
+    setCurrentFocusRow(0);
+    setTimeTagIndex(-1);
+    setTimeDelete(false);
   }
 
 
@@ -453,8 +480,12 @@ const Excel = (props) => {
             </div>
           </TimeInputZone>
           <DeleteInfoZone style={{ 'display': currentOperation === 2 ? '' : 'none' }}>
-            <p style={{ 'margin-bottom': '0px' }}>Do you want to <span style={{ 'color': '#E27777' }}>DELETE</span> this business hour ?</p>
-            <div style={{ 'display': 'flex', 'justify-content': 'space-around', "padding": "0px 85px", 'margin-left': '-20px' }}>
+            <p style={{ 'margin-bottom': '0px' }}>Do you want to <span style={{ 'color': '#E27777' }}>DELETE</span> this business hour from
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>:
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, startTimeMinute: e.target.value })} value={createTime.startTimeMinute}></TimeInput> to
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, endTimeHour: e.target.value })} value={createTime.endTimeHour}></TimeInput>:
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>?</p>
+            <div style={{ 'display': 'flex', 'justify-content': 'space-around', "padding": "0px 85px", 'margin-left': '-20px', 'margin-top': '10px' }}>
               <input type="radio" id="yes" name="confirmation" onClick={() => setTimeDelete(true)} checked={timeDelete} /><span>Yes</span>
               <input type="radio" id="no" name="confirmation" onClick={() => setTimeDelete(false)} checked={!timeDelete} /><span>No</span>
             </div>

@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetServiceInfoQuery } from '../../../store/api/serviceInfoApi';
-import { useAddCalendarTimeByIdMutation } from '../../../store/api/calendarApi';
+import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation } from '../../../store/api/calendarApi';
 
 
 const CalendarWrapper = styled(Paper)`
@@ -18,6 +18,7 @@ const Title = styled.div`
   font-weight: bold;
   margin-top: 30px;
   margin-left: 20px;
+  
 `;
 
 const WeekBar = styled.div`
@@ -138,7 +139,23 @@ const SaveButton = styled.a`
   background-color: #D69636;
   border-radius: 5px;
   margin-left: 178px;
-  margin-top: 20px;
+  margin-top: 15px;
+
+  &:hover {
+    color: black;
+  }
+`;
+const DeleteButton = styled.a`
+  display:inline-block; 
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: white;
+  background-color: #E27777;
+  border-radius: 5px;
+  margin-left: 173px;
+  margin-top: -4px;
 
   &:hover {
     color: black;
@@ -183,7 +200,7 @@ const TimeTag = styled.div`
   height: ${props => props.head.intervalQty * 2.25}px;
   border-radius: 3px;
   background-color: ${props => props.head.date % 4 < 1 ? '#D69636' :
-    props => props.head.date % 4 < 2 ? '#9AA88F' : props => props.head.date % 4 < 3 ? '#D18888' : '#DF75C8'};
+        props => props.head.date % 4 < 2 ? '#9AA88F' : props => props.head.date % 4 < 3 ? '#D18888' : '#DF75C8'};
   box-shadow: 0px 4px 5px rgba(0,0,0,0.35);
   margin-left: ${props => props.head.date * 69.88 + 1}px;
   margin-top: ${props => props.head.startTimePx}px;
@@ -194,7 +211,33 @@ const TimeTag = styled.div`
 `;
 
 const TimeInputZone = styled.div`
-  
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const DeleteInfoZone = styled.div`
+  font-weight: bold;
+  padding: 5px;
+`;
+
+const SyncButton = styled.a`
+  position: absolute;
+  display:inline-block; 
+  text-decoration: none;
+  padding: 0px 14px;
+  box-shadow: 0px 2px 2px rgba(0,0,0,0.35);
+  cursor: pointer;
+  color: white;
+  background-color: rgba(57, 124,	194, 0.8);
+  border-radius: 20px;
+  margin-left: 330px;
+  margin-top: -25px;
+  font-size: 14px;
+
+  &:hover {
+    color: white;
+    background-color: #D18888;
+  }
 `;
 
 
@@ -204,6 +247,8 @@ const Excel = (props) => {
     const { data: serviceData, isSuccess } = useGetServiceInfoQuery(id);  // id试用62d5579230f835c4513d6c52
     let dbCalendarTemplate = isSuccess && serviceData.calendarTemplate;
     const [AddStoreBusinessTime] = useAddCalendarTimeByIdMutation();
+    const [DeleteCalendarTime] = useDeleteCalendarTimeByIdMutation();
+    //useDeleteCalendarTimeByIdMutation
 
     let calendarTimeSliceObj = { Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] };
     Object.keys(dbCalendarTemplate).forEach((key) => {
@@ -216,7 +261,9 @@ const Excel = (props) => {
     const [currentFocusRow, setCurrentFocusRow] = useState(0);
     const [currentOperation, setCurrentOperation] = useState(null);
     const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
-    //const [timeTagIndex, setTimeTagIndex] = useState(null);
+    const [timeDelete, setTimeDelete] = useState(false);
+    const [timeTagIndex, setTimeTagIndex] = useState(-1);
+
 
     const selectColumn = (index) => {
         setCurrentFocusRow(index);
@@ -230,12 +277,14 @@ const Excel = (props) => {
     const closePopup = () => {
         setCurrentFocusRow(0);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+        setTimeDelete(false);
+        setTimeTagIndex(-1);
     }
 
     const openPopup = (head, index) => {
         setCurrentFocusRow(head.date);
         setCurrentOperation(1);
-        //setTimeTagIndex(index);
+        setTimeTagIndex(index);
 
         head.timeTagIndex = index;
         head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
@@ -295,6 +344,9 @@ const Excel = (props) => {
         const resultOfAdd = await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
         if (resultOfAdd.data.Error !== undefined) { alert(resultOfAdd.data.Error) };
+        setCurrentFocusRow(0);
+        setTimeTagIndex(-1);
+        setTimeDelete(false);
     }
 
     //logic
@@ -339,10 +391,67 @@ const Excel = (props) => {
     })
 
 
+    const deleteTime = async () => {
+        const regHour = /^[012]?\d$/;
+        const regMinute = /^[012345][05]$/;
+        if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
+            return alert('Please input correct hours (6:00 - 21:55)!');
+        }
+
+        if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
+            return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
+        }
+
+        let startTimeHourNum = parseInt(createTime.startTimeHour);
+        let endTimeHourNum = parseInt(createTime.endTimeHour);
+        let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
+        let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
+
+        if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
+            || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
+            return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
+        }
+
+        if (!timeDelete) {
+            return alert('Please select "YES" in radio!');
+        }
+
+        //DeleteCalendarTime
+        let currentDayOfWeek = null;
+        switch (currentFocusRow) {
+            case 1: currentDayOfWeek = 'Monday'; break;
+            case 2: currentDayOfWeek = 'Tuesday'; break;
+            case 3: currentDayOfWeek = 'Wednesday'; break;
+            case 4: currentDayOfWeek = 'Thursday'; break;
+            case 5: currentDayOfWeek = 'Friday'; break;
+            case 6: currentDayOfWeek = 'Saturday'; break;
+            case 7: currentDayOfWeek = 'Sunday'; break;
+            default: currentDayOfWeek = null;
+        };
+
+        const bodyObj = {
+            id: id,
+            dayOfWeek: currentDayOfWeek,
+            openHour: createTime.startTimeHour + createTime.startTimeMinute,
+            closingHour: createTime.endTimeHour + createTime.endTimeMinute
+        }
+
+        let resultOfDelete = await DeleteCalendarTime(bodyObj);
+        setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+        if (resultOfDelete.data.Error !== undefined) {
+            alert(resultOfDelete.data.Error);
+        }
+        setCurrentFocusRow(0);
+        setTimeTagIndex(-1);
+        setTimeDelete(false);
+    }
+
+
 
     return (
         <div style={{ position: 'relative' }}>
             <Title>Weekly Calendar</Title>
+            <SyncButton>Sync business time to calendar</SyncButton>
             <WeekBar>
                 {
                     props.headers.map((head, index) =>
@@ -381,7 +490,7 @@ const Excel = (props) => {
                                 }} onClick={() => selectedOperation(index)} key={index}>{head}</Operation>)
                         }
                     </Nav>
-                    <TimeInputZone className='TimeInputZone' style={{ 'margin-top': '10px' }}>
+                    <TimeInputZone className='TimeInputZone' style={{ 'display': currentOperation === 2 ? 'none' : '' }}>
                         <div>
                             <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>Start from</span>
                             <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>
@@ -394,23 +503,44 @@ const Excel = (props) => {
                             <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
                             <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>
                         </div>
+                        <div>
+                            <SaveButton onClick={submitTime}>Save</SaveButton>
+                        </div>
                     </TimeInputZone>
-                    <div>
-                        <SaveButton onClick={submitTime}>Save</SaveButton>
-                    </div>
+                    <DeleteInfoZone style={{ 'display': currentOperation === 2 ? '' : 'none' }}>
+                        <p style={{ 'margin-bottom': '0px' }}>Do you want to <span style={{ 'color': '#E27777' }}>DELETE</span> this business hour from
+                            <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>:
+                            <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, startTimeMinute: e.target.value })} value={createTime.startTimeMinute}></TimeInput> to
+                            <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, endTimeHour: e.target.value })} value={createTime.endTimeHour}></TimeInput>:
+                            <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>?</p>
+                        <div style={{ 'display': 'flex', 'justify-content': 'space-around', "padding": "0px 85px", 'margin-left': '-20px', 'margin-top': '10px' }}>
+                            <input type="radio" id="yes" name="confirmation" onClick={() => setTimeDelete(true)} checked={timeDelete} /><span>Yes</span>
+                            <input type="radio" id="no" name="confirmation" onClick={() => setTimeDelete(false)} checked={!timeDelete} /><span>No</span>
+                        </div>
+                        <div>
+                            <DeleteButton onClick={deleteTime}>Delete</DeleteButton>
+                        </div>
+                    </DeleteInfoZone>
                 </BodyContent>
             </Popup>
             <div>
                 {
                     timePairArr.map((head, index) =>
-                        <TimeTag head={head} onClick={() => openPopup(head, index)} >{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
-                            (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
-                            + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
-                                + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
-              - ${head.endTime >= 1300 ? Math.floor(head.endTime / 100) - 12 + ':'
-                                + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
-                                + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
-                                    + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}</TimeTag>
+                        <TimeTag head={head} onClick={() => openPopup(head, index)} style={{
+                            'background-color': timeTagIndex === index ? '#397CC2' : '',
+                            'box-shadow': timeTagIndex === index ? '5px 10px 10px rgba(0,0,0,0.65) ' : '',
+                            'font-weight': timeTagIndex === index ? 'bold' : '',
+                            'padding': timeTagIndex === index ? '2px' : ''
+                        }}>
+                            {`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
+                                (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
+                                + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
+                                    + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
+                                - ${head.endTime >= 1300 ? Math.floor(head.endTime / 100) - 12 + ':'
+                                    + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
+                                    + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
+                                        + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}
+                        </TimeTag>
                     )
                 }
             </div>
