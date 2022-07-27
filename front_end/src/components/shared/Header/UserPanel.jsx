@@ -201,17 +201,22 @@ export const UserPanel = (props) => {
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
-                <ListItemButton>
-                  <ListItemIcon>
-                    <HowToRegOutlinedIcon
-                      sx={{ color: `${newtheme.palette.secondary.main}` }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={'Register My Store'}
-                    sx={{ color: 'white' }}
-                  />
-                </ListItemButton>
+                
+                {UserInfo.role === 'Customer'
+                  ? null 
+                  : <ListItemButton>
+                      <ListItemIcon>
+                        <HowToRegOutlinedIcon
+                          sx={{ color: `${newtheme.palette.secondary.main}` }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={'My Stores'}
+                        sx={{ color: 'white' }}
+                      />
+                  </ListItemButton>
+                }
+                
                 <Divider variant="middle" />
                 <ListItemButton>
                   <ListItemIcon>
