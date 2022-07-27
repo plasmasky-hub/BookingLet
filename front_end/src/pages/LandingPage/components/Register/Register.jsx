@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import pp from "../../../../assets/p.jpg";
+import React from 'react';
+import styled from 'styled-components';
+import pp from '../../../../assets/p.jpg';
 
 const RegisterWrapper = styled.div`
   height: 355px;
@@ -8,17 +8,14 @@ const RegisterWrapper = styled.div`
   padding: 0 20px;
   max-height: 650px;
   box-sizing: border-box;
-  /* background-color: yellow; */
-  margin-top: 100px;
-  margin: 0 auto;
+  margin: 60px auto;
   background-image: url(${pp});
   background-repeat: no-repeat;
-  margin-bottom: 30px;
 `;
 const RegisterLabel = styled.div`
   display: absolute;
   color: rgb(24, 26, 31);
-  font-family: museo-bold, "Helvetica Neue", Helvetica, Arial, "Lucida Grande",
+  font-family: museo-bold, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande',
     sans-serif;
   font-size: 24px;
   font-weight: bold;
@@ -50,9 +47,7 @@ const Register = () => (
     <RegisterLabel>
       Register your business in Bookinglet to customize yourbooking service?
     </RegisterLabel>
-    <Button onClick={() => {}}>
-      Join Now
-    </Button>
+    <Button onClick={() => {}}>Join Now</Button>
   </RegisterWrapper>
 );
 
