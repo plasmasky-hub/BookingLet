@@ -10,6 +10,7 @@ import {
   useDeleteServiceInfoMutation,
   useAddServiceInfoMutation,
 } from '../../../store/api/serviceInfoApi';
+import EditServiceInfo from './EditServiceInfo';
 
 const ServiceInfoWrapper = styled(Paper)`
   width: 470px;
@@ -72,18 +73,24 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
 
   const [Form, setForm] = useState({ ...x });
 
+  const [isEdit, setIsEdit] = useState(false);
+
+  const duration =
+    Form.durationType === 'changeable'
+      ? {
+          durationType: Form.durationType,
+          changeableDuration: { minimum: Form.minimum, maximum: Form.maximum },
+        }
+      : Form.durationType === 'fixed'
+      ? { durationType: Form.durationType, fixedDuration: Form.minimum }
+      : { durationType: Form.durationType };
+
   const newService = {
     name: Form.name,
     rootCategory: Form.rootCategory,
     subCategories: [Form.subCategories],
     store: Form.store,
-    duration: {
-      durationType: Form.durationType,
-      changeableDuration: {
-        minimum: Form.minimum,
-        maximum: Form.maximum,
-      },
-    },
+    duration: duration,
     maxPersonPerSection: Form.maxPersonPerSection,
     maxServicePerSection: Form.maxServicePerSection,
     price: Form.price,
@@ -107,205 +114,247 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
     <ServiceInfoWrapper>
       <Title>Service Infomation</Title>
       <SubTitle>Required Field</SubTitle>
-      <form>
-        <fieldset disabled={show}>
-          <p>
-            <StyledLabel>
-              Service Name:
-              <input
-                value={show ? service.name : Form.name}
+      {isEdit || (
+        <>
+          <form>
+            <fieldset disabled={show}>
+              <p>
+                <StyledLabel>
+                  Service Name:
+                  <input
+                    value={show ? service.name : Form.name}
+                    onChange={(e) =>
+                      service && setForm({ ...Form, name: e.target.value })
+                    }
+                  />
+                </StyledLabel>
+              </p>
+              <p>
+                <StyledLabel>
+                  Category :
+                  <StyledSelect
+                    value={show ? service.rootCategory.id : Form.rootCategory}
+                    onChange={(e) =>
+                      setForm({
+                        ...Form,
+                        rootCategory: e.target.value,
+                        subCategories: subCategory[0].id,
+                      })
+                    }
+                  >
+                    {isSuccess &&
+                      rootCategory.map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.name}
+                        </option>
+                      ))}
+                  </StyledSelect>
+                </StyledLabel>
+              </p>
+              <p>
+                <StyledLabel>
+                  Subcategory :
+                  <StyledSelect
+                    value={
+                      show ? service.subCategories[0].id : Form.subCategories
+                    }
+                    onChange={(e) =>
+                      setForm({ ...Form, subCategories: e.target.value })
+                    }
+                  >
+                    {success &&
+                      subCategory.map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.name}
+                        </option>
+                      ))}
+                  </StyledSelect>
+                </StyledLabel>
+              </p>
+              <p>
+                <StyledLabel>
+                  Duration Type:
+                  <StyledSelect
+                    value={
+                      show ? service.duration.durationType : Form.durationType
+                    }
+                    onChange={(e) =>
+                      setForm({ ...Form, durationType: e.target.value })
+                    }
+                  >
+                    <option value="fixed">Fixed</option>
+                    <option value="unlimited">Unlimited</option>
+                    <option value="changeable">Changable</option>
+                  </StyledSelect>
+                </StyledLabel>
+              </p>
+              {((!show && Form.durationType !== 'unlimited') ||
+                (show && service.duration.durationType !== 'unlimited')) && (
+                <p>
+                  <StyledLabel>
+                    Duration:
+                    <input
+                      value={
+                        show
+                          ? service.duration.durationType === 'changeable'
+                            ? service.duration.changeableDuration.minimum
+                            : service.duration.fixedDuration
+                          : Form.minimum
+                      }
+                      onChange={(e) =>
+                        setForm({
+                          ...Form,
+                          minimum: parseInt(e.target.value),
+                        })
+                      }
+                      style={{ width: '40px', marginRight: '20px' }}
+                    />
+                    {((!show && Form.durationType === 'changeable') ||
+                      (show &&
+                        service.duration.durationType === 'changeable')) && (
+                      <>
+                        to
+                        <input
+                          value={
+                            show
+                              ? service.duration.durationType === 'changeable'
+                                ? service.duration.changeableDuration.maximum
+                                : ''
+                              : Form.maximum
+                          }
+                          onChange={(e) =>
+                            setForm({
+                              ...Form,
+                              maximum: parseInt(e.target.value),
+                            })
+                          }
+                          style={{ width: '40px', marginRight: '20px' }}
+                        />
+                      </>
+                    )}
+                    hour(s)
+                  </StyledLabel>
+                </p>
+              )}
+              <p>
+                <StyledLabel>
+                  Person Limit:
+                  <input
+                    value={
+                      show
+                        ? service.maxPersonPerSection
+                        : Form.maxPersonPerSection
+                    }
+                    onChange={(e) =>
+                      setForm({
+                        ...Form,
+                        maxPersonPerSection: parseInt(e.target.value),
+                      })
+                    }
+                  />
+                </StyledLabel>
+              </p>
+              <p>
+                <StyledLabel>
+                  Service Quantity:
+                  <input
+                    value={
+                      show
+                        ? service.maxServicePerSection
+                        : Form.maxServicePerSection
+                    }
+                    onChange={(e) =>
+                      setForm({
+                        ...Form,
+                        maxServicePerSection: parseInt(e.target.value),
+                      })
+                    }
+                  />
+                </StyledLabel>
+              </p>
+              <SubTitle>Optional Field</SubTitle>
+              <p>
+                <StyledLabel>
+                  price:
+                  <input
+                    value={show ? service.price : Form.price}
+                    onChange={(e) =>
+                      setForm({ ...Form, price: e.target.value })
+                    }
+                  />
+                </StyledLabel>
+              </p>
+              <p style={{ fontSize: '14px' }}>Description:</p>
+              <textarea
+                value={show ? service.description : Form.description}
                 onChange={(e) =>
-                  service && setForm({ ...Form, name: e.target.value })
+                  setForm({ ...Form, description: e.target.value })
                 }
+                rows="4"
+                cols="40"
+                style={{ fontSize: '14px' }}
               />
-            </StyledLabel>
-          </p>
-          <p>
-            <StyledLabel>
-              Category :
-              <StyledSelect
-                value={show ? service.rootCategory.id : Form.rootCategory}
-                onChange={(e) =>
-                  setForm({
-                    ...Form,
-                    rootCategory: e.target.value,
-                    subCategories: subCategory[0].id,
-                  })
-                }
+            </fieldset>
+          </form>
+
+          <Buttons>
+            {show ? (
+              <StyledButton
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                }}
+                style={{ padding: '5px 30px' }}
               >
-                {isSuccess &&
-                  rootCategory.map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.name}
-                    </option>
-                  ))}
-              </StyledSelect>
-            </StyledLabel>
-          </p>
-          <p>
-            <StyledLabel>
-              Subcategory :
-              <StyledSelect
-                value={
-                  show ? service.subCategories[0].name : Form.subCategories
-                }
-                onChange={(e) =>
-                  setForm({ ...Form, subCategories: e.target.value })
-                }
+                Edit
+              </StyledButton>
+            ) : (
+              <StyledButton
+                onClick={() => {
+                  addService(newService);
+                  setForm({ ...x });
+                }}
+                style={{ padding: '5px 30px' }}
               >
-                {success &&
-                  subCategory.map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.name}
-                    </option>
-                  ))}
-              </StyledSelect>
-            </StyledLabel>
-          </p>
-          <p>
-            <StyledLabel>
-              Duration Type:
-              <StyledSelect
-                value={show ? service.duration.durationType : Form.durationType}
-                onChange={(e) =>
-                  setForm({ ...Form, durationType: e.target.value })
-                }
+                Save
+              </StyledButton>
+            )}
+            {show && (
+              <StyledButton
+                onClick={() => {
+                  deleteService(display.serviceId);
+                  setDisplay({ ...display, serviceId: 0 });
+                }}
+                style={{ backgroundColor: '#E27777' }}
               >
-                <option value="fixed">Fixed</option>
-                <option value="unlimited">Unlimited</option>
-                <option value="changeable">Changable</option>
-              </StyledSelect>
-            </StyledLabel>
-          </p>
-          <p>
-            <StyledLabel>
-              Changeable Duration:
-              <input
-                value={
-                  show
-                    ? service.duration.changeableDuration.minimum
-                    : Form.minimum
-                }
-                onChange={(e) =>
-                  setForm({
-                    ...Form,
-                    minimum: parseInt(e.target.value),
+                Delete
+              </StyledButton>
+            )}
+            {show && (
+              <StyledButton
+                onClick={() =>
+                  setDisplay({
+                    ...display,
+                    StoreInfo: display.ServiceCalendar ? true : false,
+                    ServiceCalendar: display.ServiceCalendar ? false : true,
                   })
                 }
-                style={{ width: '40px', marginRight: '20px' }}
-              />
-              to
-              <input
-                value={
-                  show
-                    ? service.duration.changeableDuration.maximum
-                    : Form.maximum
-                }
-                onChange={(e) =>
-                  setForm({
-                    ...Form,
-                    maximum: parseInt(e.target.value),
-                  })
-                }
-                style={{ width: '40px', marginRight: '20px' }}
-              />
-              hour(s)
-            </StyledLabel>
-          </p>
-          <p>
-            <StyledLabel>
-              Person Limit:
-              <input
-                value={
-                  show ? service.maxPersonPerSection : Form.maxPersonPerSection
-                }
-                onChange={(e) =>
-                  setForm({
-                    ...Form,
-                    maxPersonPerSection: parseInt(e.target.value),
-                  })
-                }
-              />
-            </StyledLabel>
-          </p>
-          <p>
-            <StyledLabel>
-              Service Quantity:
-              <input
-                value={
-                  show
-                    ? service.maxServicePerSection
-                    : Form.maxServicePerSection
-                }
-                onChange={(e) =>
-                  setForm({
-                    ...Form,
-                    maxServicePerSection: parseInt(e.target.value),
-                  })
-                }
-              />
-            </StyledLabel>
-          </p>
-          <SubTitle>Optional Field</SubTitle>
-          <p>
-            <StyledLabel>
-              price:
-              <input
-                value={show ? service.price : Form.price}
-                onChange={(e) => setForm({ ...Form, price: e.target.value })}
-              />
-            </StyledLabel>
-          </p>
-          <p style={{ fontSize: '14px' }}>Description:</p>
-          <textarea
-            value={show ? service.description : Form.description}
-            onChange={(e) => setForm({ ...Form, description: e.target.value })}
-            rows="4"
-            cols="40"
-            style={{ fontSize: '14px' }}
-          />
-        </fieldset>
-      </form>
-      <Buttons>
-        {show ? (
-          <StyledButton style={{ padding: '5px 30px' }}>Edit</StyledButton>
-        ) : (
-          <StyledButton
-            onClick={() => {
-              addService(newService);
-              setForm({ ...x });
-            }}
-            style={{ padding: '5px 30px' }}
-          >
-            Save
-          </StyledButton>
-        )}
-        {show && (
-          <StyledButton
-            onClick={() => {
-              deleteService(display.serviceId);
-              setDisplay({ ...display, serviceId: 0 });
-            }}
-            style={{ backgroundColor: '#E27777' }}
-          >
-            Delete
-          </StyledButton>
-        )}
-        {show && (
-          <StyledButton
-            onClick={() =>
-              setDisplay({
-                ...display,
-                StoreInfo: display.ServiceCalendar ? true : false,
-                ServiceCalendar: display.ServiceCalendar ? false : true,
-              })
-            }
-            style={{ backgroundColor: '#D69636' }}
-          >
-            {display.ServiceCalendar ? 'Back' : 'Calendar'}
-          </StyledButton>
-        )}
-      </Buttons>
+                style={{ backgroundColor: '#D69636' }}
+              >
+                {display.ServiceCalendar ? 'Back' : 'Calendar'}
+              </StyledButton>
+            )}
+          </Buttons>
+        </>
+      )}
+      {isEdit && show && (
+        <EditServiceInfo
+          service={service}
+          id={id}
+          display={display}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+        />
+      )}
     </ServiceInfoWrapper>
   );
 };

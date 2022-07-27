@@ -34,7 +34,7 @@ const BookingPage = () => {
         <PageContainer>
           <Banner />
           <StoreInfoWrapper>
-            <StoreInfo store={data} />
+            <StoreInfo store={data} id={_id} />
             <BookingPanel id={_id} />
           </StoreInfoWrapper>
           <ServiceList id={_id} />

@@ -46,7 +46,7 @@ const LandingPage = () => {
   });
   const query = FormData.isSearch ? FormData.q : '';
   const { data, isSuccess } = useGetStoresQuery(query);
-  console.log(isSuccess && data);
+
   return (
     <>
       <LandingBanner FormData={FormData} setFormData={setFormData} />

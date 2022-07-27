@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import food from '../../../assets/food.jpg';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import { useAddOrCancelFavoriteStoreMutation } from '../../../store/api/userApi';
 
 const StoreInfoWrapper = styled(Paper)`
   width: 714px;
@@ -61,7 +62,9 @@ const ExpandButton = styled(Button)`
   padding-left: 0;
 `;
 
-const StoreInfo = ({ store: { name, description, location } }) => {
+const StoreInfo = ({ store: { name, description, location }, id }) => {
+  const [AddOrCancelFavoriteStore] = useAddOrCancelFavoriteStoreMutation();
+
   const { street, city, state, postcode } = location;
 
   const address = `${street}, ${city}, ${state} ${postcode}`;
@@ -71,6 +74,8 @@ const StoreInfo = ({ store: { name, description, location } }) => {
   const handleClick = () => {
     setExpand(!expand);
   };
+
+  const userId = '62d43c99d7961f03c65307e6';
 
   return (
     <StoreInfoWrapper elevation={3}>
@@ -90,7 +95,14 @@ const StoreInfo = ({ store: { name, description, location } }) => {
           <img src={food} alt="StoreImage" />
         </StoreImg>
       </ContentWrapper>
-      <BookingButton variant="contained">
+      <BookingButton
+        variant="contained"
+        onClick={async () => {
+          if (userId && id) {
+            await AddOrCancelFavoriteStore({ userId, id });
+          }
+        }}
+      >
         <BookmarkIcon fontSize="inherit" />
         &nbsp;Add to my favourite
       </BookingButton>
