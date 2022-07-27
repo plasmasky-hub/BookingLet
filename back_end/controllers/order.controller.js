@@ -183,7 +183,6 @@ async function getOrderByID(req, res) {
 }
 
 
-
 async function getAllOrders(req, res) {
   const { userId, storeId, showAll = false } = req.query;
   let findQuery = {};
@@ -192,12 +191,14 @@ async function getAllOrders(req, res) {
   let qty = showAll ? 99999 : 99;
 
 
-  const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).limit(qty).exec();
+  const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).populate('storeId', 'name location tel').populate('userId', 'name tel email').limit(qty).exec();
+  console.log(orders)
   if (!orders) {
     return res.status(400).json({ error: 'Order not found' });
   }
   return res.status(200).json(orders);
 }
+
 
 module.exports = {
   getAllOrders,

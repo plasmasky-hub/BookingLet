@@ -22,14 +22,17 @@ const Schema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
   storeId: {
     type: mongoose.Types.ObjectId, //可删
+    ref: 'Store',
     // required:true
   },
   serviceInfoId: {
     type: mongoose.Types.ObjectId,
+    ref: 'ServiceInfo',
     required: true,
   },
   tel: {
