@@ -240,9 +240,11 @@ const EditServiceInfo = ({ service, id, display, isEdit, setIsEdit }) => {
       <Buttons>
         <StyledButton
           onClick={async () => {
-            console.log(sid);
-            await editServiceInfo({ sid, newService });
-            setIsEdit(false);
+            console.log('in edit', sid);
+            if (sid && newService) {
+              await editServiceInfo({ sid, newService });
+              setIsEdit(false);
+            }
           }}
           style={{ padding: '5px 30px' }}
         >

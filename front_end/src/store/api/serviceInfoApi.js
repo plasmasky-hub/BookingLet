@@ -26,11 +26,11 @@ const serviceInfoApi = apiSlice.injectEndpoints({
       invalidatesTags: ['Service'],
     }),
 
-    EditServiceInfo: builder.mutation({
-      query: ({ id, service }) => ({
-        url: `/serviceInfo/${id}`,
+    editServiceInfo: builder.mutation({
+      query: ({ sid, newService }) => ({
+        url: `/serviceInfo/${sid}`,
         method: 'PUT',
-        body: service,
+        body: newService,
       }),
       invalidatesTags: ['Service'],
     }),
