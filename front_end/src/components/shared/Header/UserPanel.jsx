@@ -16,11 +16,6 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-export const UserInfo = {
-  name: 'Nicolas Cage',
-  title: 'Booker',
-};
-
 const newtheme = { ...theme, iconColor: '#7F96AF' };
 
 const ProfileBox = styled.div`
@@ -103,8 +98,25 @@ const UserLogOutBtn = styled(Button)`
   border-radius: 0;
 `;
 
-export const UserPanel = () => {
+export const UserPanel = (props) => {
   const [open, setOpen] = useState(false);
+  const user = JSON.parse( localStorage.getItem("user") ); 
+  // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
+  // console.log(typeof(user));
+  // console.log(user.name);
+
+  const UserInfo = {
+    "name": user.name,
+    "role": user.role,
+  }
+
+  async function logout(){
+    props.setLoggedIn(false);
+    await localStorage.setItem('user', null);
+    await localStorage.setItem('token', '');
+  }
+
+  // console.log(UserInfo);
 
   return (
     <ProfileBox>
@@ -116,6 +128,7 @@ export const UserPanel = () => {
             lineHeight: '14px',
             mb: '4px',
           }}
+          onClick={() => setOpen(true)}
         >
           {UserInfo.name}
         </Typography>
@@ -126,8 +139,9 @@ export const UserPanel = () => {
             lineHeight: '14px',
             color: '#7B8B6F',
           }}
+          onClick={() => setOpen(true)}
         >
-          {UserInfo.title}
+          {UserInfo.role}
         </Typography>
       </UserInfoBox>
       <StyledAvatar onClick={() => setOpen(true)} aria-label={UserInfo.name} />
@@ -182,22 +196,27 @@ export const UserPanel = () => {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary={'My Booklet'}
+                    primary={'My Favorite Store'}
                     sx={{ color: 'white' }}
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
-                <ListItemButton>
-                  <ListItemIcon>
-                    <HowToRegOutlinedIcon
-                      sx={{ color: `${newtheme.palette.secondary.main}` }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={'Register My Store'}
-                    sx={{ color: 'white' }}
-                  />
-                </ListItemButton>
+                
+                {UserInfo.role === 'Customer'
+                  ? null 
+                  : <ListItemButton>
+                      <ListItemIcon>
+                        <HowToRegOutlinedIcon
+                          sx={{ color: `${newtheme.palette.secondary.main}` }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={'My Stores'}
+                        sx={{ color: 'white' }}
+                      />
+                  </ListItemButton>
+                }
+                
                 <Divider variant="middle" />
                 <ListItemButton>
                   <ListItemIcon>
@@ -211,7 +230,11 @@ export const UserPanel = () => {
               </List>
             </ListWrapper>
           </UserContent>
-          <UserLogOutBtn variant="text" startIcon={<LogoutIcon />}>
+          <UserLogOutBtn 
+            variant="text" 
+            startIcon={<LogoutIcon />}
+            onClick={logout}
+          >
             Log out
           </UserLogOutBtn>
         </StyledSideBar>
