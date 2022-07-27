@@ -85,6 +85,11 @@ export const RegisterModal = (props) => {
 		});
 	};
 
+    const converter = () => {
+        props.registerClose();
+        props.loginOpen();
+    }
+
     const [register, { isLoading }] = useRegisterMutation();
 
     const formik = useFormik({
@@ -106,6 +111,8 @@ export const RegisterModal = (props) => {
 
             console.log(registerResult);
             // refresh page
+            props.registerClose();
+            props.loginOpen();
         },
       });
 
@@ -230,7 +237,7 @@ export const RegisterModal = (props) => {
                             <Typography > Already a member ? </Typography> 
                         </Grid>
                         <Grid item>
-                            <Link color='inherit'> Sign in </Link> 
+                            <Link onClick={converter} color='inherit'> Sign in </Link> 
                         </Grid>
                         <Grid item>
                             <Typography > now!</Typography> 

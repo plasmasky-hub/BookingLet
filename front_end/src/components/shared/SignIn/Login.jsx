@@ -100,6 +100,11 @@ export const LoginModal = (props) => {
         localStorage.setItem('token', token);
     }, [token]);
     
+    const converter = () => {
+        props.loginClose();
+        props.registerOpen();
+    }
+
     const showLocalStorage = () => {
         const user = localStorage.getItem('user');
         console.log("🚀 ~ file: Login.jsx ~ line 102 ~ showLocalStorage ~ user", user)
@@ -139,6 +144,7 @@ export const LoginModal = (props) => {
 
             showLocalStorage();
 
+            props.setLoggedIn(true);
         },
       });
 
@@ -233,7 +239,7 @@ export const LoginModal = (props) => {
                             <Typography > Not a member yet? </Typography> 
                         </Grid>
                         <Grid item>
-                            <Link color='inherit'> Register </Link> 
+                            <Link onClick={converter} color='inherit'> Register </Link> 
                         </Grid>
                         <Grid item>
                             <Typography > now!</Typography> 

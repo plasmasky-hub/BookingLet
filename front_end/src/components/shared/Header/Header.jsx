@@ -114,7 +114,11 @@ export const Header = () => {
             aria-describedby="modal-modal-description"
             name="loginModal"
           >
-            <LoginModal loginClose={loginClose}/>
+            <LoginModal 
+              loginClose={loginClose}
+              registerOpen={registerOpen}
+              setLoggedIn={setLoggedIn}
+            />
           </Modal>
 
           <RegisterButton variant="contained" onClick={registerOpen}>
@@ -127,7 +131,10 @@ export const Header = () => {
             aria-describedby="modal-modal-description"
             name="registerModal"
           >
-            <RegisterModal />
+            <RegisterModal 
+              registerClose={registerClose}
+              loginOpen={loginOpen}
+            />
           </Modal>
         </ButtonWrapper>
       )}
