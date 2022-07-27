@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import OrderStatus from './components/OrderStatus/OrderStatus';
 import StoreInfoBar from './components/StoreInfoBar/StoreInfoBar';
+import foodBg from '../../../../assets/foodBg.jpeg';
+import {useGetUserStoresQuery} from '../../../../store/api/userApi';
 
 const StoreInfoWrapper = styled.div`
     width:100%;
@@ -8,8 +10,11 @@ const StoreInfoWrapper = styled.div`
     display:flex;
     justify-content: center;
     align-items:center;
+    
 `
 const StoreInfoContainer = styled.div`
+    display:relative;
+    margin-top: 50px;
     width: 90%;
     margin-left:-70x;
     .h2{
@@ -23,14 +28,18 @@ const StoreInfoContainer = styled.div`
     }
     
 `
+
 const StoreContainer = styled.div`
     width: 90%;
     height: 257px;
-    margin:0 auto;
-    padding: 30px;
+    background-image:url(${foodBg}) ;
     align-items:center;
     justify-content:center;
-    background-color:blue;
+    margin:20px auto;
+    padding: 30px;
+    //filter: brightness(50%);
+
+    background-size: cover;
     border-radius: 10px;
     border-radius:32px;
     box-shadow: 0 0 16px rgb(0 0 0 / 50%);
@@ -41,18 +50,45 @@ const StoreContainer = styled.div`
 `
 
 
-const StoreState = () =>(
+ const StoreState= ({userId}) => {
+    // userId = '62d43d784d61d2e252076471';
+    userId = sessionStorage.getItem('userId');
+    const userData = useGetUserStoresQuery(userId);
+
+    const {
+      data: user,
+      isLoading,
+      isSuccess,
+      isError,
+      error,
+    } = userData;
+    console.log(user,userData);
+    // const UserStores = useGetUserStoresQuery(_id)
+    // const StoreContainers = 
+
+    return ( 
         <StoreInfoWrapper>
             <StoreInfoContainer>
             <h2>Opened Stores</h2>
-            <StoreContainer>
-                <StoreInfoBar />
-                <hr />
-                <OrderStatus />
-            </StoreContainer>
+            {isError && <p>{error}</p>}
+            {isLoading && <p>Loading...</p>}
+            {isSuccess && (
+                 user.stores!== undefined &&(user?.stores.map((store) => 
+                  (<StoreContainer key= {store._id} >
+                     <StoreInfoBar storeId={store._id} />
+                     
+                     <hr />
+                     <OrderStatus />
+                 </StoreContainer>
+                 )
+                ))
+                
+            )}
+            
             <h2>Closed Stores</h2>
             </StoreInfoContainer>
         </StoreInfoWrapper>
-);
-
+     );
+}
+ 
 export default StoreState;

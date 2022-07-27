@@ -22,6 +22,14 @@ const userApi = apiSlice.injectEndpoints({
       query: (_id) => `/user/${_id}/FavouriteStoreList`,
     }),
 
+    getUserStores: builder.query({
+      query: (_id) => `/user/${_id}/stores`,
+    }),
+
+    // getStore: builder.query({
+    //   query: (_id) => `/store/${_id}`,
+    // }),
+
     login: builder.mutation({
 			query: (data) => ({
 				url:"/user/login",
@@ -59,4 +67,5 @@ export const {
   useGetFavouriteStoreByIdQuery,
   useLoginMutation,
   useRegisterMutation,
+  useGetUserStoresQuery,
 } = userApi;
