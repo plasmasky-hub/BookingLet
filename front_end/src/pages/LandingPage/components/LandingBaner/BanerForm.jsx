@@ -15,12 +15,18 @@ import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-const BannerButton = styled(Button)`
-  width: 165px;
-  height: 47px;
-  border-style: none;
-  cursor: pointer;
-`;
+const BannerButton = styled(Button)({
+  width: 165,
+  height: 50,
+  borderStyle: 'none',
+  cursor: 'pointer',
+  '&.MuiButton-root': {
+    backgroundColor: '#D08888',
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 700,
+  },
+});
 
 const LocalizationProviderNew = styled(LocalizationProvider)`
   padding-top: 110px;
@@ -33,22 +39,25 @@ const SearchPaper = styled(Paper)({
   width: 476,
   marginTop: 30,
   marginLeft: 0.31,
-  opacity: 0.6,
 });
 
 const WrapperFilter = styled.div`
   margin-left: 5px;
 `;
-
+// margin-left: 200px;
+//   margin-top: 50px;
 const Wrapper = styled.div`
-  margin-left: 200px;
-  margin-top: 50px;
+  width: 558px;
+  height: 240px;
+  margin-top: 35px;
+  padding: 15px;
+  background: rgba(217, 217, 217, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
 `;
 
-const WrapperCategory = styled.div`
-  margin-top: -20px;
-  margin-left: -7px;
-`;
+const WrapperCategory = styled.div``;
 
 const BanerForm = ({ FormData, setFormData }) => {
   const { data: rootCategory, isSuccess: success } =
@@ -70,24 +79,20 @@ const BanerForm = ({ FormData, setFormData }) => {
   return (
     <Wrapper>
       <WrapperFilter>
-        <LocalizationProviderNew dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="Date"
-            value={FormData.date}
-            onChange={(newValue) => {
-              setFormData({ ...FormData, date: newValue });
-            }}
-            renderInput={(params) => (
-              <TextField {...params} variant="standard" p1="true" />
-            )}
-          />
-        </LocalizationProviderNew>
-
         <WrapperCategory>
-          <FormControl
-            variant="standard"
-            sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-          >
+          <LocalizationProviderNew dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="Date"
+              value={FormData.date}
+              onChange={(newValue) => {
+                setFormData({ ...FormData, date: newValue });
+              }}
+              renderInput={(params) => (
+                <TextField {...params} variant="standard" p1="true" />
+              )}
+            />
+          </LocalizationProviderNew>
+          <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
             <InputLabel id="demo-simple-select-standard-label">
               Category
             </InputLabel>
@@ -109,12 +114,9 @@ const BanerForm = ({ FormData, setFormData }) => {
                 ))}
             </Select>
           </FormControl>
-          <FormControl
-            variant="standard"
-            sx={{ m: 1, minWidth: 150, marginTop: 5 }}
-          >
+          <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
             <InputLabel id="demo-simple-select-standard-label">
-              state
+              State
             </InputLabel>
             <Select
               labelId="demo-simple-select-standard-label"

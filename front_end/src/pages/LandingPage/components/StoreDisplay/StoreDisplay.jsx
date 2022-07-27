@@ -24,6 +24,7 @@ const StoreDisplay = ({ data }) => {
                 category={category}
                 cardData={data}
                 key={category._id}
+                id={category._id}
               />
             );
           })}
