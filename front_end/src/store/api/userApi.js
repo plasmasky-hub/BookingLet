@@ -43,6 +43,7 @@ const userApi = apiSlice.injectEndpoints({
           tel: data.tel,
 					email: data.email,
 					password: data.password,
+          role: data.role,
 				}
 			}),
 			// transformResponse: (response) => response,

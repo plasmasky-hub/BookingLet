@@ -26,7 +26,6 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    FormLabel,
 } from '@mui/material';
 
 const RegisterModalBox = styled(Box)`
@@ -97,6 +96,14 @@ const TextFieldStyle = {
 	width: '100%',
 }
 
+const RoleLabel = styled(Typography)`
+    justify-content: center;
+    font-size: 1rem;
+    align-content: center;
+    align-items: center;
+
+`
+
 const RegisterButton = styled(Button)`
     margin-top: 12px;
     height: 80%;
@@ -127,6 +134,7 @@ export const RegisterModal = (props) => {
             tel: '',
             email: '',
             password: '',
+            role:'Customer',
             showPassword: false,
         },
 
@@ -135,13 +143,20 @@ export const RegisterModal = (props) => {
         validateOnBlur: true,
 
         onSubmit: async (values) => {
-            console.log( JSON.stringify(values, null, 2) );
+            // alert("Register successful!");
+            alert( JSON.stringify(values, null, 2) );
             const registerResult = await register(values);
 
             console.log(registerResult);
+            if ( Boolean(registerResult.data.user) ){
+                props.registerClose();
+                props.loginOpen();
+            }
+            else{
+                alert( JSON.stringify(registerResult.error.data ));
+            }
             // refresh page
-            props.registerClose();
-            props.loginOpen();
+            
         },
       });
 
@@ -238,19 +253,24 @@ export const RegisterModal = (props) => {
                                     />
                                 </FormControl>
 
-                                <Grid container direction={'column'}>
+                                <Grid 
+                                    container 
+                                    sx={{ mt: 2 }}
+                                    justifyContent='center'
+
+                                >
                                     <Grid item xs={4}>
-                                        <FormLabel color={'primary'} sx={{ mt: 2 }}>Role</FormLabel>
+                                        <RoleLabel >Role</RoleLabel>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <RadioGroup
                                             aria-labelledby="demo-radio-buttons-group-label"
-                                            defaultValue="customer"
+                                            defaultValue="Customer"
                                             name="role"
                                             row
                                         >
-                                            <FormControlLabel value="customer" control={<Radio />} label="Customer" />
-                                            <FormControlLabel value="business" control={<Radio />} label="Business" />
+                                            <FormControlLabel value="Customer" control={<Radio />} label="Customer" onChange={formik.handleChange}/>
+                                            <FormControlLabel value="Business owner" control={<Radio />} label="Business owner" onChange={formik.handleChange}/>
                                         </RadioGroup>
                                     </Grid>
                                 </Grid>
