@@ -66,7 +66,13 @@ const StoreCard = ({
   const navigate = useNavigate();
 
   return (
-    <CardWrapper onClick={() => navigate(`/BookingPage/${_id}`)}>
+    <CardWrapper
+      onClick={(e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+        navigate(`/BookingPage/${_id}`);
+      }}
+    >
       <ImgWrapper>
         {/* need data */}
         <img src={food} alt="food" />

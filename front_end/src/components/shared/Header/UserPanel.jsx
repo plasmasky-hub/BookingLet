@@ -2,8 +2,7 @@ import theme from '../../../theme';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Typography, Box, Button } from '@mui/material';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -25,13 +24,13 @@ export const UserInfo = {
 const newtheme = { ...theme, iconColor: '#7F96AF' };
 
 const ProfileBox = styled.div`
-  width: 200px;
+  width: 280px;
   height: 45px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 5px 50px 5px 0;
+  padding: 0 80px 0 0;
 `;
 
 const UserInfoBox = styled.div`
@@ -41,19 +40,7 @@ const UserInfoBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  font-family: Helvetica, sans-serif;
-  font-size: 1rem;
   font-weight: 400;
-  margin: 16px 0;
-  cursor: pointer;
-`;
-
-const StyledUserName = styled.p`
-  margin: -20px 0;
-`;
-
-const StyledUserTitle = styled.p`
-  color: #7b8b6f;
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -62,7 +49,6 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const StyledSideBar = styled.div`
-  background-color: ${newtheme.palette.primary.main};
   display: flex;
   flex-direction: column;
   flex-flow: column nowrap;
@@ -92,6 +78,7 @@ const StyledUserImg = styled(Avatar)`
 
 const StyledName = styled.p`
   font-size: 1.2rem;
+  color: #ffffff;
 `;
 
 const ListWrapper = styled.div`
@@ -120,72 +107,115 @@ export const UserPanel = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <ProfileBox>
-        <UserInfoBox>
-          <StyledUserName>{UserInfo.name}</StyledUserName>
-          <StyledUserTitle>{UserInfo.title}</StyledUserTitle>
-        </UserInfoBox>
-        <StyledAvatar onClick={() => setOpen(true)} aria-label="open drawer" />
-        <SwipeableDrawer
-          anchor="right"
-          open={open}
-          onOpen={() => { }}
-          onClose={() => setOpen(false)}
+    <ProfileBox>
+      <UserInfoBox>
+        <Typography
+          sx={{
+            fontWeight: 400,
+            fontSize: '16px',
+            lineHeight: '14px',
+            mb: '4px',
+          }}
         >
-          <StyledSideBar>
-            <UserContent>
-              <UserProfile>
-                <StyledUserImg />
-                <StyledName>{UserInfo.name}</StyledName>
-              </UserProfile>
-              <ListWrapper>
-                <List sx={{ width: 295 }}>
-                  <Divider />
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <InfoOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
-                    </ListItemIcon>
-                    <ListItemText primary={'My Info'} />
-                  </ListItemButton>
-                  <Divider variant="middle" />
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <BookmarkAddedOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
-                    </ListItemIcon>
-                    <ListItemText primary={'My Bookings'} />
-                  </ListItemButton>
-                  <Divider variant="middle" />
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <MenuBookOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
-                    </ListItemIcon>
-                    <ListItemText primary={'My Booklet'} />
-                  </ListItemButton>
-                  <Divider variant="middle" />
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <HowToRegOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
-                    </ListItemIcon>
-                    <ListItemText primary={'Register My Store'} />
-                  </ListItemButton>
-                  <Divider variant="middle" />
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <HelpOutlineOutlinedIcon sx={{ color: `${newtheme.palette.secondary.main}` }} />
-                    </ListItemIcon>
-                    <ListItemText primary={'Help'} />
-                  </ListItemButton>
-                  <Divider />
-                </List>
-              </ListWrapper>
-            </UserContent>
-            <UserLogOutBtn variant="text" startIcon={<LogoutIcon />}>
-              Log out
-            </UserLogOutBtn>
-          </StyledSideBar>
-        </SwipeableDrawer>
-      </ProfileBox>
-    </>
+          {UserInfo.name}
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: 400,
+            fontSize: '16px',
+            lineHeight: '14px',
+            color: '#7B8B6F',
+          }}
+        >
+          {UserInfo.title}
+        </Typography>
+      </UserInfoBox>
+      <StyledAvatar onClick={() => setOpen(true)} aria-label={UserInfo.name} />
+      <SwipeableDrawer
+        anchor="right"
+        open={open}
+        BackdropProps={{ invisible: true }}
+        onOpen={() => {}}
+        elevation={0}
+        onClose={() => setOpen(false)}
+        sx={{
+          '& .MuiPaper-root': {
+            background: 'rgba(47, 68, 73, 0.5)',
+            backdropFilter: 'blur(15px)',
+          },
+        }}
+      >
+        <StyledSideBar>
+          <UserContent>
+            <UserProfile>
+              <StyledUserImg />
+              <StyledName>{UserInfo.name}</StyledName>
+            </UserProfile>
+            <ListWrapper>
+              <List sx={{ width: 295 }}>
+                <Divider />
+                <ListItemButton>
+                  <ListItemIcon>
+                    <InfoOutlinedIcon
+                      sx={{ color: `${newtheme.palette.secondary.main}` }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={'My Info'} sx={{ color: 'white' }} />
+                </ListItemButton>
+                <Divider variant="middle" />
+                <ListItemButton>
+                  <ListItemIcon>
+                    <BookmarkAddedOutlinedIcon
+                      sx={{ color: `${newtheme.palette.secondary.main}` }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={'My Bookings'}
+                    sx={{ color: 'white' }}
+                  />
+                </ListItemButton>
+                <Divider variant="middle" />
+                <ListItemButton>
+                  <ListItemIcon>
+                    <MenuBookOutlinedIcon
+                      sx={{ color: `${newtheme.palette.secondary.main}` }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={'My Booklet'}
+                    sx={{ color: 'white' }}
+                  />
+                </ListItemButton>
+                <Divider variant="middle" />
+                <ListItemButton>
+                  <ListItemIcon>
+                    <HowToRegOutlinedIcon
+                      sx={{ color: `${newtheme.palette.secondary.main}` }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={'Register My Store'}
+                    sx={{ color: 'white' }}
+                  />
+                </ListItemButton>
+                <Divider variant="middle" />
+                <ListItemButton>
+                  <ListItemIcon>
+                    <HelpOutlineOutlinedIcon
+                      sx={{ color: `${newtheme.palette.secondary.main}` }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={'Help'} sx={{ color: 'white' }} />
+                </ListItemButton>
+                <Divider />
+              </List>
+            </ListWrapper>
+          </UserContent>
+          <UserLogOutBtn variant="text" startIcon={<LogoutIcon />}>
+            Log out
+          </UserLogOutBtn>
+        </StyledSideBar>
+      </SwipeableDrawer>
+    </ProfileBox>
   );
 };
