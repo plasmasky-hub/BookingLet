@@ -1,6 +1,4 @@
 import { React, useState } from 'react';
-import Layout from '../../components/shared/Layout';
-import { Header } from '../../components/shared/Header/Header';
 import styled from '@emotion/styled';
 import Calendar from './components/Calendar';
 import StoreInfo from './components/StoreInfo';
@@ -32,8 +30,7 @@ const StoreSettingPage = () => {
   });
 
   return (
-    <Layout>
-      <Header />
+    <>
       {isSuccess && (
         <ContentWrapper>
           {display.StoreCalendar && <Calendar id={id} />}
@@ -50,7 +47,7 @@ const StoreSettingPage = () => {
           {display.ServiceCalendar && <Calendar a="Service" />}
         </ContentWrapper>
       )}
-    </Layout>
+    </>
   );
 };
 
