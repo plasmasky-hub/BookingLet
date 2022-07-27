@@ -87,7 +87,6 @@ const EditServiceInfo = ({ service, id, display, isEdit, setIsEdit }) => {
     description: Form.description,
   };
   const sid = '62d4d57861e1f832ded64c18';
-  console.log(newService, display.serviceId);
 
   return (
     <form>
@@ -240,7 +239,6 @@ const EditServiceInfo = ({ service, id, display, isEdit, setIsEdit }) => {
       <Buttons>
         <StyledButton
           onClick={async () => {
-            console.log('in edit', sid);
             if (sid && newService) {
               await editServiceInfo({ sid, newService });
               setIsEdit(false);

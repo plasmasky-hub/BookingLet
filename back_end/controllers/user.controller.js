@@ -35,7 +35,7 @@ async function addUser(req, res) {
       name,
       tel,
       email,
-      role
+      role,
     });
     await newUser.save();
 
@@ -73,7 +73,7 @@ async function updateUserByID(req, res) {
 
     if (!user) {
       return res.status(404).json({
-        error : 'User not found!'
+        error: 'User not found!',
       });
     }
 
@@ -92,7 +92,7 @@ async function getUserByID(req, res) {
 
     if (!user) {
       return res.status(404).json({
-        error : 'User info not found!'
+        error: 'User info not found!',
       });
     }
 
@@ -121,12 +121,15 @@ async function deleteUserByID(req, res) {
   }
 }
 
-async function getUserStores(req, res){
-  console.log('Getting user\'s stores...');
-  try{
+async function getUserStores(req, res) {
+  console.log("Getting user's stores...");
+  try {
     const { id } = req.params;
     const user = await User.findById(id);
-    console.log("🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user", user)
+    console.log(
+      '🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user',
+      user
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -136,7 +139,7 @@ async function getUserStores(req, res){
 
     // const storeId = user.stores[0];
     // console.log("🚀 ~ file: user.controller.js ~ line 136 ~ getUserStores ~ storeId", storeId)
-    const users  = await User.findById(id).populate('stores').exec();
+    const users = await User.findById(id).populate('stores').exec();
     // console.log("🚀 ~ file: user.controller.js ~ line 136 ~ getUserStores ~ stores", stores)
 
     // if(!stores){
@@ -146,8 +149,7 @@ async function getUserStores(req, res){
     // }
 
     res.json(users);
-  }
-  catch(Error){
+  } catch (Error) {
     // res.json('Error in finding user\'s store!');
     console.log(Error);
     res.json(Error);
@@ -155,48 +157,42 @@ async function getUserStores(req, res){
 }
 
 //add or cancel favorite store
-async function addOrCancelFavoriteStore(req,res){
- 
- //check store exist or not 
- 
- const {userId,storeId} =req.body;
- 
- const store =await Store.findById(storeId).exec();
- const user = await User.findById(userId).exec();
- const storeExists=await user.favoriteStores.indexOf(storeId);
- const userExists=await store.favoriteUsers.indexOf(userId);
- 
+async function addOrCancelFavoriteStore(req, res) {
+  //check store exist or not
 
- //exist：delete user id into store and delete store id into user size-1
- if(storeExists > -1 || userExists >-1 ){
-  user.favoriteStores.remove(storeId);
-  await user.save();
+  const { userId, storeId } = req.body;
+  console.log(userId, storeId);
+  const store = await Store.findById(storeId).exec();
+  const user = await User.findById(userId).exec();
+  const storeExists = await user.favoriteStores.indexOf(storeId);
+  const userExists = await store.favoriteUsers.indexOf(userId);
 
-  store.favoriteUsers.remove(userId);
-  store.favoriteUsersSize--;
-  await store.save();
+  //exist：delete user id into store and delete store id into user size-1
+  if (storeExists > -1 || userExists > -1) {
+    user.favoriteStores.remove(storeId);
+    await user.save();
 
-  res.json(store)
- }else{
- // do not exist：  add user id into store and add store id into user size+1
- user.favoriteStores.addToSet(storeId);
- await user.save();
+    store.favoriteUsers.remove(userId);
+    store.favoriteUsersSize--;
+    await store.save();
 
- store.favoriteUsers.addToSet(userId);
- store.favoriteUsersSize++;
- await store.save();
+    res.json(store);
+  } else {
+    // do not exist：  add user id into store and add store id into user size+1
+    user.favoriteStores.addToSet(storeId);
+    await user.save();
 
+    store.favoriteUsers.addToSet(userId);
+    store.favoriteUsersSize++;
+    await store.save();
 
- res.json(store)
- }
-
-
-
+    res.json(store);
+  }
 }
 
-async function getFavouriteStoreById(req,res){
+async function getFavouriteStoreById(req, res) {
   const { id } = req.params;
-  const user = await User.findById(id).populate( 'favoriteStores').exec();
+  const user = await User.findById(id).populate('favoriteStores').exec();
   if (!user) {
     return res.status(400).json({ error: 'user not found' });
   }
@@ -211,12 +207,12 @@ async function getFavouriteStoreById(req,res){
 //   console.log("🚀 ~ file: user.controller.js ~ line 156 ~ addStoreToUser ~ user", user)
 //   const { storeId } = await req.body;
 //   console.log("🚀 ~ file: user.controller.js ~ line 158 ~ addStoreToUser ~ storeId", storeId)
-  
+
 //   const store = await Store.findById(storeId);
 //   user.stores.addToSet(store._id);
 //   console.log("🚀 ~ file: user.controller.js ~ line 166 ~ addStoreToUser ~ user.stores", user.stores)
 //   console.log("🚀 ~ file: user.controller.js ~ line 167 ~ addStoreToUser ~ store._id", store._id)
-  
+
 //   await user.save();
 
 //   res.json(user);
@@ -258,56 +254,52 @@ function checkUserInfo(data) {
 }
 
 async function register(req, res) {
-	console.log('Register new user...');
-	
-	const { name,
-		tel,
-		email,
-		password } = req.body;
-		
-	const checkName = await User.find({email});
-    // console.log("🚀 ~ file: user.controller.js ~ line 204 ~ register ~ checkName", checkName)
-	
-	if( checkName.length > 0 ){
-		return res.json('This Email has been used, please use another one!');
-	}
-	// Validation
-	// Check if username duplicate
+  console.log('Register new user...');
 
-	const newUser = new User({
-		name: name,
-		tel: tel,
-		email: email,
-		password: password,
-	});
+  const { name, tel, email, password } = req.body;
 
-	await newUser.hashPassword();
-	await newUser.save();
-	// const token = await generateToken({email});
+  const checkName = await User.find({ email });
+  // console.log("🚀 ~ file: user.controller.js ~ line 204 ~ register ~ checkName", checkName)
 
-	return res.status(200).json({user: newUser});
+  if (checkName.length > 0) {
+    return res.json('This Email has been used, please use another one!');
+  }
+  // Validation
+  // Check if username duplicate
 
+  const newUser = new User({
+    name: name,
+    tel: tel,
+    email: email,
+    password: password,
+  });
+
+  await newUser.hashPassword();
+  await newUser.save();
+  // const token = await generateToken({email});
+
+  return res.status(200).json({ user: newUser });
 }
 
 async function login(req, res) {
-	const { email, password } = req.body;
+  const { email, password } = req.body;
 
-	const currentUser = await User.findOne({ email }).exec();
+  const currentUser = await User.findOne({ email }).exec();
 
   if (!currentUser) {
-		return res.status(401).json({ error: "Invalid email account!" });
-	}
+    return res.status(401).json({ error: 'Invalid email account!' });
+  }
 
   // console.log(validation.error.details[0].path);
-	const checkPassword = await currentUser.validatePassword(password);
+  const checkPassword = await currentUser.validatePassword(password);
   // const checkPassword = ( password === currentUser.password )? true : false;
-	if (!checkPassword) {
-		return res.status(401).json({ error: "Invalid password!" });
-	};
+  if (!checkPassword) {
+    return res.status(401).json({ error: 'Invalid password!' });
+  }
 
-  const token = await generateToken({email});
+  const token = await generateToken({ email });
 
-	return res.status(200).json({user: currentUser, token: token});
+  return res.status(200).json({ user: currentUser, token: token });
 }
 
 module.exports = {
@@ -322,7 +314,7 @@ module.exports = {
   login,
   register,
 
-  getFavouriteStoreById
+  getFavouriteStoreById,
 
   //addStoreToUser,
 };
