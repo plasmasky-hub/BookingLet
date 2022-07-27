@@ -16,11 +16,6 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-export const UserInfo = {
-  name: 'Nicolas Cage',
-  title: 'Booker',
-};
-
 const newtheme = { ...theme, iconColor: '#7F96AF' };
 
 const ProfileBox = styled.div`
@@ -105,6 +100,17 @@ const UserLogOutBtn = styled(Button)`
 
 export const UserPanel = () => {
   const [open, setOpen] = useState(false);
+  const user = JSON.parse( localStorage.getItem("user") ); 
+  // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
+  // console.log(typeof(user));
+  // console.log(user.name);
+
+  const UserInfo = {
+    "name": user.name,
+    "role": user.role,
+  }
+
+  // console.log(UserInfo);
 
   return (
     <ProfileBox>
@@ -116,6 +122,7 @@ export const UserPanel = () => {
             lineHeight: '14px',
             mb: '4px',
           }}
+          onClick={() => setOpen(true)}
         >
           {UserInfo.name}
         </Typography>
@@ -126,8 +133,9 @@ export const UserPanel = () => {
             lineHeight: '14px',
             color: '#7B8B6F',
           }}
+          onClick={() => setOpen(true)}
         >
-          {UserInfo.title}
+          {UserInfo.role}
         </Typography>
       </UserInfoBox>
       <StyledAvatar onClick={() => setOpen(true)} aria-label={UserInfo.name} />

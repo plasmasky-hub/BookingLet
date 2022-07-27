@@ -106,10 +106,10 @@ export const LoginModal = (props) => {
     }
 
     const showLocalStorage = () => {
-        const user = localStorage.getItem('user');
-        console.log("🚀 ~ file: Login.jsx ~ line 102 ~ showLocalStorage ~ user", user)
-        const token = localStorage.getItem('token');
-        console.log("🚀 ~ file: Login.jsx ~ line 104 ~ showLocalStorage ~ token", token)
+        // const user = localStorage.getItem('user');
+        // console.log("🚀 ~ file: Login.jsx ~ line 102 ~ showLocalStorage ~ user", user)
+        // const token = localStorage.getItem('token');
+        // console.log("🚀 ~ file: Login.jsx ~ line 104 ~ showLocalStorage ~ token", token)
     }
 
     const formik = useFormik({
@@ -123,10 +123,10 @@ export const LoginModal = (props) => {
         validateOnBlur: true,
 
         onSubmit: async (values) => {
-            console.log( JSON.stringify(values, null, 2) );
+            // console.log( JSON.stringify(values, null, 2) );
             const loginResult = await login(values);
 
-            console.log("login result: " + loginResult);
+            // console.log("login result: " + loginResult);
             // close modal
             props.loginClose();
 
