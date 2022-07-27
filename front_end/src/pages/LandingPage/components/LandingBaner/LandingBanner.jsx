@@ -1,10 +1,7 @@
 import React from 'react';
 import BanerForm from './BanerForm';
-import CustomizedInputBase from '../SearchBar';
 import styled from 'styled-components';
 import homebg from '../../../../assets/home-bg.jpg';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 const BannerWrapper = styled.div`
   height: calc(100vh - 120px);
@@ -31,13 +28,6 @@ const LabelHomePage = styled.div`
   letter-spacing: -0.15px;
   width: 374px;
   height: 46px;
-`;
-
-const BannerButton = styled(Button)`
-  width: 165px;
-  height: 47px;
-  border-style: none;
-  cursor: pointer;
 `;
 
 const LandingBanner = ({ FormData, setFormData }) => (

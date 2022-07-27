@@ -25,6 +25,15 @@ const serviceInfoApi = apiSlice.injectEndpoints({
       query: (id) => ({ url: `/serviceInfo/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Service'],
     }),
+
+    EditServiceInfo: builder.mutation({
+      query: ({ id, service }) => ({
+        url: `/serviceInfo/${id}`,
+        method: 'PUT',
+        body: service,
+      }),
+      invalidatesTags: ['Service'],
+    }),
   }),
   overrideExisting: false,
 });
@@ -34,4 +43,5 @@ export const {
   useGetServiceInfoQuery,
   useDeleteServiceInfoMutation,
   useAddServiceInfoMutation,
+  useEditServiceInfoMutation,
 } = serviceInfoApi;
