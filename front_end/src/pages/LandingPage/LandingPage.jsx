@@ -49,6 +49,7 @@ const LandingPage = () => {
   const query = FormData.isSearch ? FormData.q : '';
   const { data, isSuccess } = useGetStoresQuery(query);
   console.log(isSuccess && data);
+  
   return (
     <Box sx={{ backgroundColor: '#2F4449' }}>
       <Header />
