@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import Box from '@mui/material/Box';
-import logo from '../../../assets/logo.jpg';
-import Link from '@mui/material/Link';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import logo from '../../../assets/Logo.png';
+// import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 
 const StyledLogo = styled(Box)`
   display: flex;
@@ -26,35 +26,35 @@ const StyledLogo = styled(Box)`
 export const Logo = () => {
   const navigate = useNavigate();
   return (
-    // <StyledLogo
-    //   onClick={(e) => {
-    //     e.preventDefault();
-    //     window.scrollTo(0, 0);
-    //     navigate('/');
-    //   }}
-    // >
-    //   <img src={logo} alt="logo"></img>
-    // </StyledLogo>
-    <Link
-      component={RouterLink}
-      sx={{
-        fontSize: '1.5rem',
-        fontWeight: '700',
-        color: '#000',
-        paddingLeft: '80px',
-        textDecoration: 'none',
-        '&:hover,&:focus': {
-          color: '#647664',
-        },
-      }}
-      to="/"
+    <StyledLogo
       onClick={(e) => {
         e.preventDefault();
         window.scrollTo(0, 0);
         navigate('/');
       }}
     >
-      BookingLet
-    </Link>
+      <img src={logo} alt="logo"></img>
+    </StyledLogo>
+    // <Link
+    //   component={RouterLink}
+    //   sx={{
+    //     fontSize: '1.5rem',
+    //     fontWeight: '700',
+    //     color: '#000',
+    //     paddingLeft: '80px',
+    //     textDecoration: 'none',
+    //     '&:hover,&:focus': {
+    //       color: '#647664',
+    //     },
+    //   }}
+    //   to="/"
+    //   onClick={(e) => {
+    //     e.preventDefault();
+    //     window.scrollTo(0, 0);
+    //     navigate('/');
+    //   }}
+    // >
+    //   BookingLet
+    // </Link>
   );
 };

@@ -1,9 +1,9 @@
-import { apiSlice } from "./apiSlice";
+import { apiSlice } from './apiSlice';
 
 const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => "/user",
+      query: () => '/user',
     }),
 
     getUser: builder.query({
@@ -12,8 +12,8 @@ const userApi = apiSlice.injectEndpoints({
 
     addUser: builder.mutation({
       query: (user) => ({
-        url: "/user",
-        method: "POST",
+        url: '/user',
+        method: 'POST',
         body: user,
       }),
     }),
@@ -31,31 +31,42 @@ const userApi = apiSlice.injectEndpoints({
     // }),
 
     login: builder.mutation({
-			query: (data) => ({
-				url:"/user/login",
-				method: "POST",
-				body: {
-					email: data.email,
-					password: data.password,
-				}
-			}),
-			// transformResponse: (response) => response,
-		}),
+      query: (data) => ({
+        url: '/user/login',
+        method: 'POST',
+        body: {
+          email: data.email,
+          password: data.password,
+        },
+      }),
+      // transformResponse: (response) => response,
+    }),
 
     register: builder.mutation({
-			query: (data) => ({
-				url:"/user/register",
-				method: "POST",
-				body: {
+      query: (data) => ({
+        url: '/user/register',
+        method: 'POST',
+        body: {
           name: data.name,
           tel: data.tel,
-					email: data.email,
-					password: data.password,
-				}
-			}),
-			// transformResponse: (response) => response,
-		}),
+          email: data.email,
+          password: data.password,
+        },
+      }),
+      // transformResponse: (response) => response,
+    }),
 
+    addOrCancelFavoriteStore: builder.mutation({
+      query: ({ userId, storeId }) => ({
+        url: '/user/addOrCancelFavoriteStore',
+        method: 'POST',
+        body: {
+          userId: userId,
+          storeId: storeId,
+        },
+      }),
+      // transformResponse: (response) => response,
+    }),
   }),
   overrideExisting: false,
 });
@@ -68,4 +79,5 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useGetUserStoresQuery,
+  useAddOrCancelFavoriteStoreMutation,
 } = userApi;

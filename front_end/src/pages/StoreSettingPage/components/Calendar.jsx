@@ -182,11 +182,18 @@ const TimeTag = styled.div`
   width : 67px;
   height: ${props => props.head.intervalQty * 2.25}px;
   border-radius: 3px;
-  background-color: #D69636;
+  background-color: ${props => props.head.date % 4 < 1 ? '#D69636' :
+    props => props.head.date % 4 < 2 ? '#9AA88F' : props => props.head.date % 4 < 3 ? '#D18888' : '#DF75C8'};
   box-shadow: 0px 4px 5px rgba(0,0,0,0.35);
   margin-left: ${props => props.head.date * 69.88 + 1}px;
   margin-top: ${props => props.head.startTimePx}px;
 
+  &:hover {
+    background-color: rgba(57, 124,	194, 0.7);
+  };
+  &:active {
+    background-color: rgba(57, 124,	194, 1);
+  }
 `;
 
 const TimeInputZone = styled.div`
@@ -206,7 +213,7 @@ const Excel = (props) => {
   const [currentFocusRow, setCurrentFocusRow] = useState(0);
   const [currentOperation, setCurrentOperation] = useState(null);
   const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
-  const [timeTagIndex, setTimeTagIndex] = useState(null);
+  //const [timeTagIndex, setTimeTagIndex] = useState(null);
 
   const selectColumn = (index) => {
     setCurrentFocusRow(index);
@@ -225,8 +232,9 @@ const Excel = (props) => {
   const openPopup = (head, index) => {
     setCurrentFocusRow(head.date);
     setCurrentOperation(1);
-    setTimeTagIndex(index);
+    //setTimeTagIndex(index);
 
+    head.timeTagIndex = index;
     head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
 
     setCreateTime({
@@ -281,7 +289,7 @@ const Excel = (props) => {
       closingHour: endTime
     }
     console.log(bodyObj)
-    const result1 = await AddStoreBusinessTime(bodyObj);
+    await AddStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     //document.execCommand('Refresh');
   }
@@ -322,7 +330,9 @@ const Excel = (props) => {
           startTimePx: (-621 + Math.floor(element / 100) * 27 + (element % 100) * 0.45)
         })
       }
+      return element;
     })
+
   })
 
 
