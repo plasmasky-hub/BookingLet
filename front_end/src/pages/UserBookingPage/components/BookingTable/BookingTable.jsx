@@ -99,7 +99,7 @@ export const BookingTable = ({ data, clicked }) => {
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.date}</h4>
-            <p>{data.orderTime.date}</p>
+            <p>{data.orderTime.date.toLocaleDateString()}</p>
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.time}</h4>
@@ -184,7 +184,7 @@ export const BookingTable = ({ data, clicked }) => {
               </CollapsibleTable>
               <CollapsedNotice>
                 Waiting for comfirmation from store. If no response, order will
-                be cancelled in 16 Jun 2022 18:00
+                be seen as confirmed.
               </CollapsedNotice>
             </CollapsibleTableWrapper>
           </Collapse>
