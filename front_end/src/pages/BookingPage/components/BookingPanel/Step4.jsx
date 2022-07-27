@@ -14,23 +14,23 @@ const Step4 = ({ FormData, setFormData, FakeData }) => {
   /*******************************************************/
   //StartTime & EndTime
   /*******************************************************/
-  let startHour, startMinute;
+  // let startHour, startMinute;
   if (FormData.startTime) {
-    startHour = FormData.startTime._d.getHours();
-    startMinute = FormData.startTime._d.getMinutes();
+    // startHour = FormData.startTime._d.getHours();
+    // startMinute = FormData.startTime._d.getMinutes();
   }
-  const startTime = `${startHour}:${
-    startMinute < 10 ? `0${startMinute}` : startMinute
-  }`;
+  // const startTime = `${startHour}:${
+  //   startMinute < 10 ? `0${startMinute}` : startMinute
+  // }`;
 
-  const showEndTime = (hour, minute, duration) => {
-    const m = minute + duration * 60;
-    return m % 60 < 10
-      ? `${hour + Math.floor(m / 60)}:0${m % 60}`
-      : `${hour + Math.floor(m / 60)}:${m % 60}`;
-  };
+  // const showEndTime = (hour, minute, duration) => {
+  //   const m = minute + duration * 60;
+  //   return m % 60 < 10
+  //     ? `${hour + Math.floor(m / 60)}:0${m % 60}`
+  //     : `${hour + Math.floor(m / 60)}:${m % 60}`;
+  // };
 
-  const endTime = showEndTime(startHour, startMinute, FormData.duration);
+  // const endTime = showEndTime(startHour, startMinute, FormData.duration);
 
   return (
     <>
@@ -44,7 +44,7 @@ const Step4 = ({ FormData, setFormData, FakeData }) => {
       <Title>Time</Title>
       <FlexWrapper P4>
         <p>
-          {startTime} - {endTime}
+          {FormData.startTimeStr} - {FormData.endTime}
         </p>
       </FlexWrapper>
 

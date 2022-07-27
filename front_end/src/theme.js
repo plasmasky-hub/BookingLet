@@ -27,6 +27,9 @@ const theme = createTheme({
     background: {
       default: '#ececea',
     },
+    storelistbutton: {
+      main: '#7b8b6f',
+    },
   },
   components: {
     // Name of the component

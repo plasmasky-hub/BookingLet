@@ -36,7 +36,7 @@ const StoreSettingPage = () => {
       <Header />
       {isSuccess && (
         <ContentWrapper>
-          {display.StoreCalendar && <Calendar a="Store" />}
+          {display.StoreCalendar && <Calendar id={id} />}
           {display.StoreInfo && (
             <StoreInfo store={data} display={display} setDisplay={setDisplay} />
           )}
