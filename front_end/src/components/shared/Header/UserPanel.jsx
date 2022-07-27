@@ -98,7 +98,7 @@ const UserLogOutBtn = styled(Button)`
   border-radius: 0;
 `;
 
-export const UserPanel = () => {
+export const UserPanel = (props) => {
   const [open, setOpen] = useState(false);
   const user = JSON.parse( localStorage.getItem("user") ); 
   // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
@@ -108,6 +108,12 @@ export const UserPanel = () => {
   const UserInfo = {
     "name": user.name,
     "role": user.role,
+  }
+
+  async function logout(){
+    props.setLoggedIn(false);
+    await localStorage.setItem('user', null);
+    await localStorage.setItem('token', '');
   }
 
   // console.log(UserInfo);
@@ -190,7 +196,7 @@ export const UserPanel = () => {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary={'My Booklet'}
+                    primary={'My Favorite Store'}
                     sx={{ color: 'white' }}
                   />
                 </ListItemButton>
@@ -219,7 +225,11 @@ export const UserPanel = () => {
               </List>
             </ListWrapper>
           </UserContent>
-          <UserLogOutBtn variant="text" startIcon={<LogoutIcon />}>
+          <UserLogOutBtn 
+            variant="text" 
+            startIcon={<LogoutIcon />}
+            onClick={logout}
+          >
             Log out
           </UserLogOutBtn>
         </StyledSideBar>

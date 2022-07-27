@@ -93,7 +93,9 @@ export const Header = () => {
     <StyledHeader>
       <Logo />
       {loggedIn ? (
-        <UserPanel />
+        <UserPanel 
+          setLoggedIn={setLoggedIn}
+        />
       ) : (
         <ButtonWrapper>
           <StyledLoginButton
