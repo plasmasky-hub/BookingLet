@@ -259,10 +259,10 @@ export const RegisterModal = (props) => {
                                     justifyContent='center'
 
                                 >
-                                    <Grid item xs={4}>
+                                    <Grid item xs={3}>
                                         <RoleLabel >Role</RoleLabel>
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={8}>
                                         <RadioGroup
                                             aria-labelledby="demo-radio-buttons-group-label"
                                             defaultValue="Customer"
