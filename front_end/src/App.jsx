@@ -9,6 +9,7 @@ import PageLayout from './components/shared/PageLayout';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import Layout from './components/shared/Layout';
+import TeamPage from './pages/TeamPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/LandingPage" element={<LandingPage />}></Route>
             <Route path="/StoreListPage" element={<StoreListPage />}></Route>
             <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
+            <Route path="/TeamPage" element={<TeamPage />}></Route>
             <Route
               path="/FavouriteStoreListPage/:_id"
               element={<FavouriteStoreListPage />}
