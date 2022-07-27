@@ -5,7 +5,6 @@ import BookingPage from './pages/BookingPage';
 import FavouriteStoreListPage from './pages/FavouriteStoreListPage';
 import StoreSettingPage from './pages/StoreSettingPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { UserBookingPage } from './pages/UserBookingPage/';
 function App() {
   return (
     <BrowserRouter>
@@ -22,7 +21,6 @@ function App() {
           path="/StoreSettingPage/:id"
           element={<StoreSettingPage />}
         ></Route>
-        <Route path="/UserBookingPage" element={<UserBookingPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
