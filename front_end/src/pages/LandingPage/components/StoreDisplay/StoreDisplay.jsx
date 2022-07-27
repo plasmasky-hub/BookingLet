@@ -1,6 +1,6 @@
 import React from 'react';
 import StoreCategory from './StoreCategory';
-import { useGetStoresQuery } from '../../../../store/api/storeApi';
+// import { useGetStoresQuery } from '../../../../store/api/storeApi';
 import { useGetRootCategoriesQuery } from '../../../../store/api/categoryApi';
 
 const StoreDisplay = ({ data }) => {

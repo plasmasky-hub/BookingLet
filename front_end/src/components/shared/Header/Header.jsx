@@ -8,7 +8,7 @@ import { RegisterModal } from '../SignIn/Register';
 
 import LoginIcon from '@mui/icons-material/Login';
 
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal } from '@mui/material';
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -93,7 +93,9 @@ export const Header = () => {
     <StyledHeader>
       <Logo />
       {loggedIn ? (
-        <UserPanel />
+        <UserPanel 
+          setLoggedIn={setLoggedIn}
+        />
       ) : (
         <ButtonWrapper>
           <StyledLoginButton
@@ -114,7 +116,11 @@ export const Header = () => {
             aria-describedby="modal-modal-description"
             name="loginModal"
           >
-            <LoginModal />
+            <LoginModal 
+              loginClose={loginClose}
+              registerOpen={registerOpen}
+              setLoggedIn={setLoggedIn}
+            />
           </Modal>
 
           <RegisterButton variant="contained" onClick={registerOpen}>
@@ -127,7 +133,10 @@ export const Header = () => {
             aria-describedby="modal-modal-description"
             name="registerModal"
           >
-            <RegisterModal />
+            <RegisterModal 
+              registerClose={registerClose}
+              loginOpen={loginOpen}
+            />
           </Modal>
         </ButtonWrapper>
       )}
