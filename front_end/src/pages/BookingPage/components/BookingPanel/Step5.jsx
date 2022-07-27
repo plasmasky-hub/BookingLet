@@ -45,25 +45,8 @@ const Link = styled.a`
   font-weight: 600;
 `;
 const Step5 = ({ FormData, setFormData }) => {
-  let startHour, startMinute;
-  if (FormData.startTime) {
-    startHour = FormData.startTime._d.getHours();
-    startMinute = FormData.startTime._d.getMinutes();
-  }
-  const startTime = parseInt(
-    `${startHour}${startMinute < 10 ? `0${startMinute}` : startMinute}`
-  );
-
-  const showEndTime = (hour, minute, duration) => {
-    const m = minute + duration * 60;
-    return m % 60 < 10
-      ? `${hour + Math.floor(m / 60)}0${m % 60}`
-      : `${hour + Math.floor(m / 60)}${m % 60}`;
-  };
-
-  const endTime = parseInt(
-    showEndTime(startHour, startMinute, FormData.duration)
-  );
+  const startTime = parseInt(FormData.startTimeStr.replace(':', ''));
+  const endTime = parseInt(FormData.endTime.replace(':', ''));
 
   const date = `${FormData.date.getFullYear()}-${
     FormData.date.getMonth() + 1 < 10
@@ -82,9 +65,7 @@ const Step5 = ({ FormData, setFormData }) => {
 
   const { data, isSuccess, error } = useCreateOrderQuery(order);
   const status = isSuccess ? data.decision.permission : error;
-  const message = data.decision.message;
-
-  console.log(data);
+  const message = isSuccess && data.decision.message;
 
   return (
     <>

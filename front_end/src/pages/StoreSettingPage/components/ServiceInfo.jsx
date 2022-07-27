@@ -94,7 +94,6 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
   const { data: rootCategory, isSuccess } = useGetRootCategoriesQuery();
 
   const show = service && display.serviceId !== 0;
-
   const rootCategoryId = show ? service.rootCategory.id : Form.rootCategory;
 
   const { data: subCategory, isSuccess: success } =
@@ -116,7 +115,7 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
               <input
                 value={show ? service.name : Form.name}
                 onChange={(e) =>
-                  service ? '' : setForm({ ...Form, name: e.target.value })
+                  service && setForm({ ...Form, name: e.target.value })
                 }
               />
             </StyledLabel>
@@ -174,9 +173,7 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
               >
                 <option value="fixed">Fixed</option>
                 <option value="unlimited">Unlimited</option>
-                <option selected value="changeable">
-                  Changable
-                </option>
+                <option value="changeable">Changable</option>
               </StyledSelect>
             </StyledLabel>
           </p>

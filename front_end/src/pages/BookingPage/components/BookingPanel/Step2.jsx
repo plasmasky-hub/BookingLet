@@ -4,13 +4,14 @@ import styled from '@emotion/styled';
 import { MenuItem } from '@mui/material';
 import StyledTextField from './StyledTextField';
 import FlexWrapper from './FlexWrapper';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import { TimePicker } from 'antd';
 import {
   useGetBusinessTimeQuery,
   useGetChartDateQuery,
 } from '../../../../store/api/calendarApi';
 import { Bar } from 'react-chartjs-2';
+// eslint-disable-next-line no-unused-vars
 import { Chart } from 'chart.js/auto';
 
 const Title = styled.p`
@@ -58,7 +59,9 @@ const Step2 = ({ FormData, setFormData }) => {
     `date=${date}&serviceInfoId=${FormData.service.id}`
   );
 
-  const { data: chartData, isSuccess: success } = useGetChartDateQuery();
+  const { data: chartData, isSuccess: success } = useGetChartDateQuery(
+    `date=${date}&serviceInfoId=${FormData.service.id}`
+  );
 
   const dbBusinessTimeArr = isSuccess
     ? data.businessTimeArr
@@ -104,7 +107,7 @@ const Step2 = ({ FormData, setFormData }) => {
   const options = { plugins: { legend: { display: false } } };
 
   /*******************************************************/
-  //End Time
+  //Start Time & End Time
   /*******************************************************/
 
   let startHour, startMinute;
@@ -120,8 +123,10 @@ const Step2 = ({ FormData, setFormData }) => {
       : `${hour + Math.floor(m / 60)}:${m % 60}`;
   };
 
-  const endTime = showEndTime(startHour, startMinute, FormData.duration);
-
+  const endTime =
+    startHour && FormData.duration && FormData.duration !== 'unlimited'
+      ? showEndTime(startHour, startMinute, FormData.duration)
+      : '';
   /*******************************************************/
   //Disabled Time
   /*******************************************************/
@@ -246,11 +251,9 @@ const Step2 = ({ FormData, setFormData }) => {
       : null;
   };
 
-  console.log();
-
   return (
     <>
-      <Title FirstLine>Order Information</Title>
+      <Title>Order Information</Title>
       <FlexWrapper P2>
         <p>
           {bookDate} - {FormData.people} people - {FormData.service.name}
@@ -258,39 +261,54 @@ const Step2 = ({ FormData, setFormData }) => {
         <CheckIcon className="icon" />
       </FlexWrapper>
 
+      <Title>Start Time</Title>
       <TimePicker
         format="HH:mm"
         disabledTime={disabledTime}
         minuteStep={5}
         value={FormData.startTime}
-        onChange={(time) => setFormData({ ...FormData, startTime: time })}
+        onChange={(time) =>
+          setFormData({
+            ...FormData,
+            startTime: time,
+            endTime: endTime,
+          })
+        }
         hideDisabledOptions
+        style={{ marginBottom: '20px', width: '100%' }}
+        variant="standard"
       />
 
+      <Title>Duration</Title>
       <StyledTextField
         select
-        label="Duration"
         variant="standard"
         value={FormData.duration}
         onChange={(event) => {
-          setFormData({ ...FormData, duration: event.target.value });
+          setFormData({
+            ...FormData,
+            duration: event.target.value,
+            endTime: endTime,
+          });
         }}
       >
-        {isSuccess
-          ? getDurationArr().map((e) => (
-              <MenuItem key={e} value={e} className="menuItem">
-                {e !== 'unlimited'
-                  ? `${Math.floor(e / 1)} hour ${
-                      (e % 1) * 60 === 0 ? '' : (e % 1) * 60 + ' minutes'
-                    }`
-                  : e}
-              </MenuItem>
-            ))
-          : null}
+        {isSuccess ? (
+          getDurationArr().map((e) => (
+            <MenuItem key={e} value={e} className="menuItem">
+              {e !== 'unlimited'
+                ? `${Math.floor(e / 1)} hour ${
+                    (e % 1) * 60 === 0 ? '' : (e % 1) * 60 + ' minutes'
+                  }`
+                : e}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem value="" className="menuItem"></MenuItem>
+        )}
       </StyledTextField>
 
+      <Title>End Time</Title>
       <StyledTextField
-        label="End Time"
         variant="standard"
         value={endTime}
         InputProps={{

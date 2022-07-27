@@ -27,27 +27,7 @@ const Accordion = styled((props) => (
     display: "none",
   },
 }));
-// const AccordionSummary = styled((props) => (
-//   <MuiAccordionSummary
-//     expandIcon={<ExpandMoreIcon sx={{ fontSize: '0.9rem' }} />}
-//     {...props}
-//   />
-// ))(({ theme }) => ({
-//   height:'90px',
 
-//   backgroundColor:
-//     theme.palette.mode === 'dark'
-//       ? 'rgba(255, 255, 255, .05)'
-//       : 'rgba(0, 0, 0, .03)',
-//   flexDirection: 'row-reverse',
-
-//   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-//     transform: 'rotate(180deg)',
-//   },
-//   '& .MuiAccordionSummary-content': {
-//     marginLeft: theme.spacing(1),
-//   },
-// }));
 const AccordionSummary = styled(MuiAccordionSummary)`
   text-transform: uppercase;
   background-image: url(${dinning});
