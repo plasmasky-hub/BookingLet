@@ -10,7 +10,7 @@ const orderApi = apiSlice.injectEndpoints({
       }),
     }),
     getOrders: builder.query({
-      query: () => '/orders'
+      query: () => '/orders?userId=62d6bb04a4675b9cb600f21b',
     }),
     UpdateOrder: builder.mutation({
       query: (id, order) => ({
