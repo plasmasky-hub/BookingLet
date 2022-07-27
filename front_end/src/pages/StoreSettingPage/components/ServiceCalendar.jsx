@@ -291,7 +291,6 @@ const Excel = (props) => {
             openHour: startTime,
             closingHour: endTime
         }
-        console.log(bodyObj)
 
         const resultOfAdd = await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });

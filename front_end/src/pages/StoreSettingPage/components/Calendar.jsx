@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetStoreQuery } from '../../../store/api/storeApi';
-import { useAddStoreBusinessTimeByIdMutation } from '../../../store/api/calendarApi'
+import { useAddStoreBusinessTimeByIdMutation, useDeleteStoreBusinessTimeByIdMutation, } from '../../../store/api/calendarApi'
 
 
 const CalendarWrapper = styled(Paper)`
@@ -138,7 +138,24 @@ const SaveButton = styled.a`
   background-color: #D69636;
   border-radius: 5px;
   margin-left: 178px;
-  margin-top: 20px;
+  margin-top: 15px;
+
+  &:hover {
+    color: black;
+  }
+`;
+
+const DeleteButton = styled.a`
+  display:inline-block; 
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: white;
+  background-color: #E27777;
+  border-radius: 5px;
+  margin-left: 173px;
+  margin-top: 10px;
 
   &:hover {
     color: black;
@@ -197,7 +214,13 @@ const TimeTag = styled.div`
 `;
 
 const TimeInputZone = styled.div`
-  
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const DeleteInfoZone = styled.div`
+  font-weight: bold;
+  padding: 5px;
 `;
 
 
@@ -208,11 +231,13 @@ const Excel = (props) => {
   const { data: storeData, isSuccess } = useGetStoreQuery(id);
   const dbBusinessHours = isSuccess && storeData.businessHours;
   const [AddStoreBusinessTime] = useAddStoreBusinessTimeByIdMutation();
+  const [DeleteStoreBusinessTime] = useDeleteStoreBusinessTimeByIdMutation();
   //const [GetStore] = useGetStoreQuery(id);
 
   const [currentFocusRow, setCurrentFocusRow] = useState(0);
   const [currentOperation, setCurrentOperation] = useState(null);
   const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+  const [timeDelete, setTimeDelete] = useState(false);
   //const [timeTagIndex, setTimeTagIndex] = useState(null);
 
   const selectColumn = (index) => {
@@ -227,6 +252,7 @@ const Excel = (props) => {
   const closePopup = () => {
     setCurrentFocusRow(0);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+    setTimeDelete(false);
   }
 
   const openPopup = (head, index) => {
@@ -288,7 +314,6 @@ const Excel = (props) => {
       openHour: startTime,
       closingHour: endTime
     }
-    console.log(bodyObj)
     await AddStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     //document.execCommand('Refresh');
@@ -332,8 +357,39 @@ const Excel = (props) => {
       }
       return element;
     })
-
   })
+
+  const deleteTime = async () => {
+    if (!timeDelete) {
+      return alert('Please select "YES" in radio!');
+    }
+
+    //DeleteStoreBusinessTime
+    let currentDayOfWeek = null;
+    switch (currentFocusRow) {
+      case 1: currentDayOfWeek = 'Monday'; break;
+      case 2: currentDayOfWeek = 'Tuesday'; break;
+      case 3: currentDayOfWeek = 'Wednesday'; break;
+      case 4: currentDayOfWeek = 'Thursday'; break;
+      case 5: currentDayOfWeek = 'Friday'; break;
+      case 6: currentDayOfWeek = 'Saturday'; break;
+      case 7: currentDayOfWeek = 'Sunday'; break;
+      default: currentDayOfWeek = null;
+    };
+
+    const bodyObj = {
+      id: id,
+      dayOfWeek: currentDayOfWeek,
+      openHour: createTime.startTimeHour + createTime.startTimeMinute,
+      closingHour: createTime.endTimeHour + createTime.endTimeMinute
+    }
+
+    let resultOfDelete = await DeleteStoreBusinessTime(bodyObj);
+    setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+    if (resultOfDelete.data.Error !== undefined) {
+      alert(resultOfDelete.data.Error);
+    }
+  }
 
 
 
@@ -378,7 +434,7 @@ const Excel = (props) => {
                 }} onClick={() => selectedOperation(index)} key={index}>{head}</Operation>)
             }
           </Nav>
-          <TimeInputZone className='TimeInputZone' style={{ 'margin-top': '10px' }}>
+          <TimeInputZone className='TimeInputZone' style={{ 'display': currentOperation === 2 ? 'none' : '' }}>
             <div>
               <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>Start from</span>
               <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>
@@ -391,10 +447,20 @@ const Excel = (props) => {
               <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
               <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>
             </div>
+            <div>
+              <SaveButton onClick={submitTime}>Save</SaveButton>
+            </div>
           </TimeInputZone>
-          <div>
-            <SaveButton onClick={submitTime}>Save</SaveButton>
-          </div>
+          <DeleteInfoZone style={{ 'display': currentOperation === 2 ? '' : 'none' }}>
+            <p style={{ 'margin-bottom': '0px' }}>Do you want to <span style={{ 'color': '#E27777' }}>DELETE</span> this business hour ?</p>
+            <div style={{ 'display': 'flex', 'justify-content': 'space-around', "padding": "0px 85px", 'margin-left': '-20px' }}>
+              <input type="radio" id="yes" name="confirmation" onClick={() => setTimeDelete(true)} checked={timeDelete} /><span>Yes</span>
+              <input type="radio" id="no" name="confirmation" onClick={() => setTimeDelete(false)} checked={!timeDelete} /><span>No</span>
+            </div>
+            <div>
+              <DeleteButton onClick={deleteTime}>Delete</DeleteButton>
+            </div>
+          </DeleteInfoZone>
         </BodyContent>
       </Popup>
       <div>
