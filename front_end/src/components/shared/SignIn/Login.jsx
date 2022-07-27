@@ -10,6 +10,7 @@ import {
 } from '@mui/icons-material';
 
 import { useEffect } from 'react';
+// import theme from '../../../theme';
 
 import { useLoginMutation } from '../../../store/api/userApi';
 
@@ -25,7 +26,11 @@ import {
 	InputAdornment,
 	IconButton,
     Link,
+    Checkbox,
+    FormControlLabel,
 } from '@mui/material';
+
+// const newtheme = { ...theme };
 
 const LoginModalBox = styled(Box)`
     position: absolute;
@@ -34,12 +39,19 @@ const LoginModalBox = styled(Box)`
     justify-content: center;
     align-items: center;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: rgb(204, 204, 204, 0.55);
+    backdrop-filter: blur(5px);
+
+    width: 900px;
+    height: 593px;
+    
     border-radius: 25px;
     box-shadow: 24px;
+
+    color: white;
 `
 
-const LoginTextContainer = styled(Box)`
+const LoginFormContainer = styled(Box)`
     border-radius: 25px;
 `
 
@@ -57,25 +69,49 @@ const LoginImage = styled(Box)`
         border-bottom-left-radius: 25px;
 	}
 ` 
+const LoginTitle = styled(Typography)`
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+    margin-top: 20px;
+    text-shadow: 1px 1px 5px black;
+
+`
+
+const LoginSubTitle = styled(Typography)`
+    
+    font-size: 25px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    text-shadow: 1px 0px 3px black;
+
+
+`
 
 const LoginInputField = styled(TextField)`
-    margin-top: 3;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 20px;
     width: 100%;
 `
 
-const ErrorMessage = styled(Typography)`
-    color: red;
-    font-size: 0.3rem;
-`
-
 const TextFieldStyle = {
-	mt: 3, 
+	mt: 2, 
 	width: '100%',
 }
 
+const StaySignIn = styled(FormControlLabel)`
+    margin-top: 10px;
+    width: 100%;
+
+`
+
 const LoginButton = styled(Button)`
-    margin-top: 32px;
-	width: 200px;
+    /* background-color: #ececea; */
+    height: 80%;
+	width: 300px;
+    font-size: 1.3rem;
+    border-radius: 15px;
 `
 
 export const LoginModal = (props) => {
@@ -120,7 +156,7 @@ export const LoginModal = (props) => {
         },
         handleClickShowPassword: handleClickShowPassword,
         validate: loginValidation,
-        validateOnBlur: true,
+        // validateOnBlur: true,
 
         onSubmit: async (values) => {
             // console.log( JSON.stringify(values, null, 2) );
@@ -164,60 +200,76 @@ export const LoginModal = (props) => {
                     </LoginImage>
                 </Grid>
                 
-                <Grid item xs={7} sx={{ padding: 3 }}>
-                    <Typography id="modal-modal-title" variant="h5" component="h5">
-                        Welcome to Bookinglet!
-                    </Typography>
-
-                    <LoginTextContainer component='form' onSubmit={formik.handleSubmit}>
-
-                        <LoginInputField 
-                            variant='outlined' 
-                            label="Email" 
-                            name='email'
-                            color='success' 
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            error={formik.touched.email || Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                        />
-                        {formik.errors.email 
-                            ? <ErrorMessage>{formik.errors.email}</ErrorMessage> 
-                            : null
-                        }
-
-                        <FormControl 
-                            color='success' 
-                            sx={TextFieldStyle}
-                            error={formik.touched.password || Boolean(formik.errors.password)}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                            <OutlinedInput
-                                label="Password"
-                                name='password'
-                                type={formik.values.showPassword ? 'text' : 'password'}
-                                value={formik.values.password}
+                <Grid 
+                    item 
+                    xs={7}
+                    container 
+                    direction={'column'} 
+                    spacing={1} 
+                    justifyContent={'space-around'} 
+                    // alignItems={'center'}
+                    sx={{ padding: 3 }}
+                >
+                    <Grid item xs={2} >
+                        <LoginTitle id="modal-modal-title" >
+                            Welcome to Bookinglet!
+                        </LoginTitle>
+                    </Grid>
+                    <Grid item sx={1}>
+                        <LoginSubTitle >
+                            Sign into your account
+                        </LoginSubTitle>
+                    </Grid>
+                    
+                    <Grid item xs={5} >
+                        <LoginFormContainer component='form' onSubmit={formik.handleSubmit}>
+                        
+                            <LoginInputField 
+                                variant='outlined' 
+                                label="Email" 
+                                name='email'
+                                color='primary' 
+                                value={formik.values.email}
                                 onChange={formik.handleChange}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                        aria-label="toggle password visibility"
-                                        name='showPassword'
-                                        onClick={handleClickShowPassword}
-                                        edge="end"
-                                        >
-                                        {formik.values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
+                                error={formik.touched.email || Boolean(formik.errors.email)}
+                                helperText={formik.touched.email && formik.errors.email}
                             />
-                        </FormControl>
-                        {formik.errors.password 
-                            ? <ErrorMessage>{formik.errors.password}</ErrorMessage> 
-                            : <ErrorMessage> </ErrorMessage>
-                        }
-
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
+                             
+                            <FormControl 
+                                color='primary'
+                                sx={TextFieldStyle}
+                                error={formik.touched.password || Boolean(formik.errors.password)}
+                            >
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    label="Password"
+                                    name='password'
+                                    type={formik.values.showPassword ? 'text' : 'password'}
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            name='showPassword'
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                        >
+                                            {formik.values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </FormControl>
+                            
+                            <StaySignIn control={<Checkbox />} label="Stay sign in"/>
+                        
+                        </LoginFormContainer>
+                    </Grid>
+                   
+                    
+                    <Grid item xs={1} >
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' ,alignContent:'center'}}>
                             <LoginButton 
                                 variant='contained'
                                 color='success'
@@ -226,23 +278,26 @@ export const LoginModal = (props) => {
                                 Sign in
                             </LoginButton>
                         </Box>
-                    </LoginTextContainer>
+                    </Grid>
                         
 
-                        
-
-                    <Grid container spacing={1} 
-                        direction='row' 
-                        justifyContent='center' 
-                        sx={{ mt: 2, fontStyle: 'italic'}}>
-                        <Grid item>
-                            <Typography > Not a member yet? </Typography> 
-                        </Grid>
-                        <Grid item>
-                            <Link onClick={converter} color='inherit'> Register </Link> 
-                        </Grid>
-                        <Grid item>
-                            <Typography > now!</Typography> 
+                    
+                    <Grid item xs={1} >
+                        <Grid 
+                            container spacing={1} 
+                            direction='row' 
+                            justifyContent='center' 
+                            sx={{ mt: 2, fontStyle: 'italic'}}
+                        >
+                            <Grid item>
+                                <Typography > Don't have an account? </Typography> 
+                            </Grid>
+                            <Grid item>
+                                <Link onClick={converter} color='inherit'> Register </Link> 
+                            </Grid>
+                            <Grid item>
+                                <Typography > now!</Typography> 
+                            </Grid>
                         </Grid>
                     </Grid>
                             

@@ -32,9 +32,16 @@ const RegisterModalBox = styled(Box)`
     justify-content: center;
     align-items: center;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: rgb(204, 204, 204, 0.55);
+    backdrop-filter: blur(5px);
+
+    width: 900px;
+    height: 593px;
+    
     border-radius: 25px;
     box-shadow: 24px;
+
+    color: white;
 `
 
 const RegisterTextContainer = styled(Box)`
@@ -54,26 +61,44 @@ const RegisterImage = styled(Box)`
         border-top-left-radius: 25px;
         border-bottom-left-radius: 25px;
 	}
+`
+const RegisterTitle = styled(Typography)`
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+    margin-top: 10px;
+    text-shadow: 1px 1px 5px black;
+
+`
+
+const RegisterSubTitle = styled(Typography)`
+    
+    font-size: 25px;
+    font-weight: 300;
+    /* margin-bottom: 10px; */
+    text-shadow: 1px 0px 3px black;
+
 ` 
 
 const RegisterInputField = styled(TextField)`
-    margin-top: 5px;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 100%;
 `
 
-const ErrorMessage = styled(Typography)`
-    color: red;
-    font-size: 0.3rem;
-`
 
 const TextFieldStyle = {
-	mt: 3, 
+	mt: 2, 
 	width: '100%',
 }
 
 const RegisterButton = styled(Button)`
-    margin-top: 32px;
-	width: 200px;
+    margin-top: 10px;
+    height: 80%;
+	width: 300px;
+    font-size: 1.3rem;
+    border-radius: 15px;
 `
 
 export const RegisterModal = (props) => {
@@ -133,102 +158,99 @@ export const RegisterModal = (props) => {
                 </Grid>
                 
                 <Grid item xs={7} sx={{ padding: 3 }}>
-                    <Typography id="modal-modal-title" variant="h5" component="h5">
-                        Welcome to Bookinglet!
-                    </Typography>
+                    <Grid container spacing={1} direction={'column'}>
+                        <Grid item xs={1}>
+                            <RegisterTitle id="modal-modal-title" >
+                                Welcome to Bookinglet!
+                            </RegisterTitle>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <RegisterSubTitle>
+                                Register your account
+                            </RegisterSubTitle>
+                        </Grid>
 
-                    <RegisterTextContainer component='form' onSubmit={formik.handleSubmit}>
+                        <Grid item xs={8}>
+                            <RegisterTextContainer component='form' onSubmit={formik.handleSubmit}>
 
-                        <RegisterInputField 
-                            variant='outlined' 
-                            label="Name" 
-                            name='name'
-                            color='success' 
-                            value={formik.values.name}
-                            onChange={formik.handleChange}
-                            error={formik.touched.name || Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
-                        />
-                        {formik.errors.name 
-                            ? <ErrorMessage>{formik.errors.name}</ErrorMessage> 
-                            : null
-                        }
+                                <RegisterInputField 
+                                    variant='outlined' 
+                                    label="Name" 
+                                    name='name'
+                                    color='primary' 
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.name || Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                />
 
-                        <RegisterInputField 
-                            variant='outlined' 
-                            label="Tel" 
-                            name='tel'
-                            color='success' 
-                            value={formik.values.tel}
-                            onChange={formik.handleChange}
-                            error={formik.touched.tel || Boolean(formik.errors.tel)}
-                            helperText={formik.touched.tel && formik.errors.tel}
-                        />
-                        {formik.errors.tel 
-                            ? <ErrorMessage>{formik.errors.tel}</ErrorMessage> 
-                            : null
-                        }
 
-                        <RegisterInputField 
-                            variant='outlined' 
-                            label="Email" 
-                            name='email'
-                            color='success' 
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            error={formik.touched.email || Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                        />
-                        {formik.errors.email 
-                            ? <ErrorMessage>{formik.errors.email}</ErrorMessage> 
-                            : null
-                        }
+                                <RegisterInputField 
+                                    variant='outlined' 
+                                    label="Tel" 
+                                    name='tel'
+                                    color='primary' 
+                                    value={formik.values.tel}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.tel || Boolean(formik.errors.tel)}
+                                    helperText={formik.touched.tel && formik.errors.tel}
+                                />
 
-                        <FormControl 
-                            color='success' 
-                            sx={TextFieldStyle}
-                            error={formik.touched.password || Boolean(formik.errors.password)}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                            <OutlinedInput
-                                label="Password"
-                                name='password'
-                                type={formik.values.showPassword ? 'text' : 'password'}
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                        aria-label="toggle password visibility"
-                                        name='showPassword'
-                                        onClick={handleClickShowPassword}
-                                        edge="end"
-                                        >
-                                        {formik.values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                        {formik.errors.password 
-                            ? <ErrorMessage>{formik.errors.password}</ErrorMessage> 
-                            : <ErrorMessage> </ErrorMessage>
-                        }
+                                <RegisterInputField 
+                                    variant='outlined' 
+                                    label="Email" 
+                                    name='email'
+                                    color='primary' 
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.email || Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
+                                />
 
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
-                            <RegisterButton 
-                                variant='contained'
-                                color='success'
-                                type="submit"
-                            >
-                                Register
-                            </RegisterButton>
-                        </Box>
-                    </RegisterTextContainer>
-                        
+                                <FormControl 
+                                    color='primary' 
+                                    sx={TextFieldStyle}
+                                    error={formik.touched.password || Boolean(formik.errors.password)}
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput
+                                        label="Password"
+                                        name='password'
+                                        type={formik.values.showPassword ? 'text' : 'password'}
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                aria-label="toggle password visibility"
+                                                name='showPassword'
+                                                onClick={handleClickShowPassword}
+                                                edge="end"
+                                                >
+                                                {formik.values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
 
-                        
+                            </RegisterTextContainer>
+                        </Grid>
 
+                        <Grid item xs={1}>
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
+                                <RegisterButton 
+                                    variant='contained'
+                                    color='success'
+                                    type="submit"
+                                >
+                                    Register
+                                </RegisterButton>
+                            </Box>
+                        </Grid>
+
+                    </Grid>
+                    
                     <Grid container spacing={1} 
                         direction='row' 
                         justifyContent='center' 
