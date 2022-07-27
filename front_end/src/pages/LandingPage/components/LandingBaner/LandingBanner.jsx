@@ -15,7 +15,8 @@ import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 // height: calc(100vh - 120px);
 // min-height: 750px;
 const BannerWrapper = styled.div`
-  width: 100%;
+  width: 100vw;
+  margin-left: calc((1240px - 100vw) / 2);
   padding: 0 20px;
   height: calc(100vh - 120px);
   min-height: 750px;

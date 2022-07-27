@@ -9,7 +9,7 @@ const serviceInfoApi = apiSlice.injectEndpoints({
 
     getServiceInfo: builder.query({
       query: (id) => `/serviceInfo/${id}`,
-      providesTags: ['Service', 'ServiceCalendar'],
+      providesTags: ['Service'],
     }),
 
     addServiceInfo: builder.mutation({
@@ -25,15 +25,6 @@ const serviceInfoApi = apiSlice.injectEndpoints({
       query: (id) => ({ url: `/serviceInfo/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Service'],
     }),
-
-    editServiceInfo: builder.mutation({
-      query: ({ sid, newService }) => ({
-        url: `/serviceInfo/${sid}`,
-        method: 'PUT',
-        body: newService,
-      }),
-      invalidatesTags: ['Service'],
-    }),
   }),
   overrideExisting: false,
 });
@@ -43,5 +34,4 @@ export const {
   useGetServiceInfoQuery,
   useDeleteServiceInfoMutation,
   useAddServiceInfoMutation,
-  useEditServiceInfoMutation,
 } = serviceInfoApi;

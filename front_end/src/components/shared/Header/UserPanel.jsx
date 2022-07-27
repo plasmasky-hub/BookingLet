@@ -112,6 +112,7 @@ export const UserPanel = (props) => {
 
   async function logout(){
     props.setLoggedIn(false);
+    await localStorage.setItem('loggedIn', false);
     await localStorage.setItem('user', null);
     await localStorage.setItem('token', '');
   }
@@ -201,7 +202,7 @@ export const UserPanel = (props) => {
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
-                
+
                 {UserInfo.role === 'Customer'
                   ? null 
                   : <ListItemButton>

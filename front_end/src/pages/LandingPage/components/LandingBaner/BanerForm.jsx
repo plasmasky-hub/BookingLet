@@ -1,32 +1,32 @@
-import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import styled from "styled-components";
-import { LocalizationProvider } from "@mui/lab";
-import DatePicker from "@mui/lab/DatePicker";
-import { TextField } from "@mui/material";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { useGetRootCategoriesQuery } from "../../../../store/api/categoryApi";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import { useState } from "react";
-import { useGetStoresQuery } from "../../../../store/api/storeApi";
-import { useNavigate } from "react-router-dom";
+import * as React from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import styled from 'styled-components';
+import { LocalizationProvider } from '@mui/lab';
+import DatePicker from '@mui/lab/DatePicker';
+import { TextField } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { useGetRootCategoriesQuery } from '../../../../store/api/categoryApi';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useGetStoresQuery } from '../../../../store/api/storeApi';
+import { useNavigate } from 'react-router-dom';
 
 const BannerButton = styled(Button)({
   width: 165,
   height: 50,
-  borderStyle: "none",
-  cursor: "pointer",
-  "&.MuiButton-root": {
-    backgroundColor: "#D08888",
-    color: "#ffffff",
+  borderStyle: 'none',
+  cursor: 'pointer',
+  '&.MuiButton-root': {
+    backgroundColor: '#D08888',
+    color: '#ffffff',
     fontSize: 16,
     fontWeight: 700,
   },
@@ -37,9 +37,9 @@ const LocalizationProviderNew = styled(LocalizationProvider)`
 `;
 
 const SearchPaper = styled(Paper)({
-  padding: "2px 4px",
-  display: "flex",
-  alignItems: "center",
+  padding: '2px 4px',
+  display: 'flex',
+  alignItems: 'center',
   width: 476,
   marginTop: 30,
   marginLeft: 0.31,
@@ -77,11 +77,11 @@ const BanerForm = () => {
 
   const [FormData, setFormData] = useState({
     date: new Date(),
-    category: "",
-    state: "",
-    search: "",
+    category: '',
+    state: '',
+    search: '',
     isSearch: false,
-    q: "",
+    q: '',
   });
   const date = `${FormData.date.getFullYear()}-${
     FormData.date.getMonth() + 1 < 10
@@ -92,11 +92,11 @@ const BanerForm = () => {
   const category = FormData.category;
   const state = FormData.state;
   const query = FormData.search;
-  const q = `${category ? `category=${category}` : ""}${
-    state ? `&state=${state}` : ""
-  }${date ? `&date=${date}` : ""}${query ? `&query=${query}` : ""}`;
+  const q = `${category ? `category=${category}` : ''}${
+    state ? `&state=${state}` : ''
+  }${date ? `&date=${date}` : ''}${query ? `&query=${query}` : ''}`;
 
-  const query2 = FormData.isSearch ? FormData.q : "";
+  const query2 = FormData.isSearch ? FormData.q : '';
 
   console.log(query2);
   const { data: filteredStores, isSuccess } = useGetStoresQuery(query2);
@@ -161,26 +161,26 @@ const BanerForm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"NSW"}>NSW</MenuItem>
-              <MenuItem value={"VIC"}>VIC</MenuItem>
-              <MenuItem value={"SA"}>SA</MenuItem>
-              <MenuItem value={"TAS"}>TAS</MenuItem>
-              <MenuItem value={"WA"}>WA</MenuItem>
-              <MenuItem value={"ACT"}>ACT</MenuItem>
-              <MenuItem value={"NT"}>NT</MenuItem>
+              <MenuItem value={'NSW'}>NSW</MenuItem>
+              <MenuItem value={'VIC'}>VIC</MenuItem>
+              <MenuItem value={'SA'}>SA</MenuItem>
+              <MenuItem value={'TAS'}>TAS</MenuItem>
+              <MenuItem value={'WA'}>WA</MenuItem>
+              <MenuItem value={'ACT'}>ACT</MenuItem>
+              <MenuItem value={'NT'}>NT</MenuItem>
             </Select>
           </FormControl>
         </WrapperCategory>
       </WrapperFilter>
 
       <SearchPaper component="form">
-        <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Name, service ..."
-          inputProps={{ "aria-label": "Name, service ..." }}
+          inputProps={{ 'aria-label': 'Name, service ...' }}
           value={FormData.search}
           onChange={(e) => {
             setFormData({ ...FormData, search: e.target.value });
@@ -196,7 +196,7 @@ const BanerForm = () => {
         }}
         onClick={() => {
           setFormData({ ...FormData, isSearch: true, q: q });
-          navigate("/StoreListPage" ,{ state: { filteredStores } });
+          navigate('/StoreListPage', { state: { filteredStores } });
         }}
       >
         SEARCH

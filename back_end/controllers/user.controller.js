@@ -263,13 +263,15 @@ async function register(req, res) {
 	const { name,
 		tel,
 		email,
-		password } = req.body;
+		password,
+    role,
+  } = req.body;
 		
-	const checkName = await User.find({email});
+	const checkEmail = await User.find({email});
     // console.log("🚀 ~ file: user.controller.js ~ line 204 ~ register ~ checkName", checkName)
 	
-	if( checkName.length > 0 ){
-		return res.json('This Email has been used, please use another one!');
+	if( checkEmail.length > 0 ){
+		return res.status(409).json('This Email has been used, please use another one!');
 	}
 	// Validation
 	// Check if username duplicate
@@ -279,6 +281,7 @@ async function register(req, res) {
 		tel: tel,
 		email: email,
 		password: password,
+    role: role,
 	});
 
 	await newUser.hashPassword();

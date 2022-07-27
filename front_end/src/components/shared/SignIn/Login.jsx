@@ -161,26 +161,37 @@ export const LoginModal = (props) => {
         onSubmit: async (values) => {
             // console.log( JSON.stringify(values, null, 2) );
             const loginResult = await login(values);
+            console.log( loginResult );
 
-            // console.log("login result: " + loginResult);
-            // close modal
-            props.loginClose();
+            if( loginResult.error ){
+                var error = JSON.stringify( loginResult.error.data.error );
+                console.log("🚀 ~ file: Login.jsx ~ line 168 ~ onSubmit: ~ error", error)
+                
+                alert(error);
 
-            // save data
-            // console.log(typeof(loginResult.data.user));
-            // setUser( JSON.parse(loginResult.data.user) );
-            // console.log(typeof(loginResult.data.token));
-            await setToken(loginResult.data.token);
-            await setUser(loginResult.data.user);
-            
-            // console.log(token);
+            }
+            else{
+                // close modal
+                props.loginClose();
 
-            await localStorage.setItem("token", JSON.stringify(loginResult.data.token) );
-            await localStorage.setItem("user", JSON.stringify(loginResult.data.user) );
+                // save data
+                // console.log(typeof(loginResult.data.user));
+                // setUser( JSON.parse(loginResult.data.user) );
+                // console.log(typeof(loginResult.data.token));
+                await setToken(loginResult.data.token);
+                await setUser(loginResult.data.user);
 
-            showLocalStorage();
+                // console.log(token);
 
-            props.setLoggedIn(true);
+                await localStorage.setItem("token", JSON.stringify(loginResult.data.token) );
+                await localStorage.setItem("user", JSON.stringify(loginResult.data.user) );
+                await localStorage.setItem('loggedIn', true);
+
+                showLocalStorage();
+
+                props.setLoggedIn(true);
+            }
+
         },
       });
 

@@ -1,11 +1,9 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Header } from '../../components/shared/Header/Header';
 import StoreDisplay from './components/StoreDisplay';
 import LandingBanner from './components/LandingBaner';
 import Register from './components/Register';
-import Footer from '../../components/shared/Footer';
 // import testimony from '../../assets/testimony.jpg';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import StoreIcon from '@mui/icons-material/Store';
@@ -48,11 +46,8 @@ const LandingPage = () => {
   });
   const query = FormData.isSearch ? FormData.q : '';
   const { data, isSuccess } = useGetStoresQuery(query);
-  console.log(isSuccess && data);
-  
   return (
-    <Box sx={{ backgroundColor: '#2F4449' }}>
-      <Header />
+    <>
       <LandingBanner FormData={FormData} setFormData={setFormData} />
       {/* Section of Introduction */}
       <Box
@@ -316,8 +311,7 @@ const LandingPage = () => {
           <Register />
         </ServicesPanel>
       </Box>
-      <Footer />
-    </Box>
+    </>
   );
 };
 
