@@ -22,6 +22,14 @@ const userApi = apiSlice.injectEndpoints({
       query: (_id) => `/user/${_id}/FavouriteStoreList`,
     }),
 
+    addOrCancelFavoriteStore: builder.mutation({ 
+      query: ({ userId, storeId }) => ({ 
+        url: '/user/addOrCancelFavoriteStore', 
+        method: 'POST', 
+        body: { userId: userId, storeId: storeId, },
+      }),
+    }),
+
     login: builder.mutation({
 			query: (data) => ({
 				url:"/user/login",
@@ -60,4 +68,5 @@ export const {
   useGetFavouriteStoreByIdQuery,
   useLoginMutation,
   useRegisterMutation,
+  useAddOrCancelFavoriteStoreMutation,
 } = userApi;
