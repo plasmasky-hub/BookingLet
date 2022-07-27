@@ -1,7 +1,8 @@
-import React from 'react';
+import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
-import {useGetStoreQuery} from '../../../store/api/storeApi'
+import { useGetStoreQuery } from '../../../store/api/storeApi';
+import { useAddStoreBusinessTimeByIdMutation } from '../../../store/api/calendarApi'
 
 
 const CalendarWrapper = styled(Paper)`
@@ -156,179 +157,6 @@ const PopupCloseButton = styled.a`
 
 const headers = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const dbBusinessHours = {
-  "Monday": [],
-  "Tuesday": [
-    1000,
-    1005,
-    1010,
-    1015,
-    1020,
-    1025,
-    1030,
-    1035,
-    1040,
-    1045,
-    1050,
-    1055
-  ],
-  "Wednesday": [],
-  "Thursday": [],
-  "Friday": [],
-  "Saturday": [
-    1700,
-    1705,
-    1710,
-    1715,
-    1720,
-    1725,
-    1730,
-    1735,
-    1740,
-    1745,
-    1750,
-    1755,
-    1800,
-    1805,
-    1810,
-    1815,
-    1820,
-    1825,
-    1830,
-    1835,
-    1840,
-    1845,
-    1850,
-    1855,
-    1900,
-    1905,
-    1910,
-    1915,
-    1920,
-    1925,
-    1930,
-    1935,
-    1940,
-    1945,
-    1950,
-    1955,
-    2000,
-    2005,
-    2010,
-    2015,
-    2020,
-    2025,
-    2030,
-    2035,
-    2040,
-    2045,
-    2050,
-    2055
-  ],
-  "Sunday": [
-    1700,
-    1705,
-    1710,
-    1715,
-    1720,
-    1725,
-    1730,
-    1735,
-    1740,
-    1745,
-    1750,
-    1755,
-    1800,
-    1805,
-    1810,
-    1815,
-    1820,
-    1825,
-    1830,
-    1835,
-    1840,
-    1845,
-    1850,
-    1855,
-    1900,
-    1905,
-    1910,
-    1915,
-    1920,
-    1925,
-    1930,
-    1935,
-    1940,
-    1945,
-    1950,
-    1955,
-    2000,
-    2005,
-    2010,
-    2015,
-    2020,
-    2025,
-    2030,
-    2035,
-    2040,
-    2045,
-    2050,
-    2055,
-    1000,
-    1005,
-    1010,
-    1015,
-    1020,
-    1025,
-    1030,
-    1035,
-    1040,
-    1045,
-    1050,
-    1055
-  ]
-}
-
-const timePairArr = []
-Object.keys(dbBusinessHours).forEach((key) => {
-  let dateIndex = 0;
-  switch (key) {
-    case 'Monday': dateIndex = 1; break;
-    case 'Tuesday': dateIndex = 2; break;
-    case 'Wednesday': dateIndex = 3; break;
-    case 'Thursday': dateIndex = 4; break;
-    case 'Friday': dateIndex = 5; break;
-    case 'Saturday': dateIndex = 6; break;
-    case 'Sunday': dateIndex = 7; break;
-    default: dateIndex = 0;
-  };
-
-  dbBusinessHours[key].map((element) => {
-    if (dbBusinessHours[key].indexOf(element % 100 === 0 ? element - 45 : element - 5) === -1) {
-      let endTime = null;
-      let intervalTime = element;
-      let intervalQty = 0;
-      while (endTime === null) {
-        if (dbBusinessHours[key].indexOf(intervalTime % 100 === 55 ? intervalTime + 45 : intervalTime + 5) === -1) {
-          endTime = intervalTime;
-        }
-        intervalTime = intervalTime % 100 === 55 ? intervalTime + 45 : intervalTime + 5;
-        intervalQty++;
-      }
-
-      timePairArr.push({
-        date: dateIndex,
-        startTime: element,
-        endTime: endTime,
-        intervalQty: intervalQty,
-        startTimePx: (-621 + (element / 100) * 27 + (element % 100) * 0.45)
-      })
-    }
-  })
-})
-
-
-
 const formTimeSliceArr = [];
 for (let i = 600; i <= 2200; i += 100) {
   formTimeSliceArr.push(i);
@@ -342,7 +170,7 @@ const formStructure = [
 
 const TimeTag = styled.div`
   position: absolute;
-  font-size: ${props => props.head.intervalQty < 19 ? '11px' : '14px'};
+  font-size: ${props => props.head.intervalQty < 19 ? '11px' : '13px'};
   color: white;
   width : 67px;
   height: ${props => props.head.intervalQty * 2.25}px;
@@ -360,123 +188,184 @@ const TimeInputZone = styled.div`
 
 
 
-class Excel extends React.Component {
-  state = {
-    currentFocusRow: 0,
-    currentOperation: null
+const Excel = (props) => {
+  const { id } = props;
+
+  const { data: storeData, isSuccess } = useGetStoreQuery(id);
+  const dbBusinessHours = isSuccess && storeData.businessHours;
+  const [AddStoreBusinessTime] = useAddStoreBusinessTimeByIdMutation();
+
+  const [currentFocusRow, setCurrentFocusRow] = useState(0);
+  const [currentOperation, setCurrentOperation] = useState(null);
+  const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+
+  const selectColumn = (index) => {
+    setCurrentFocusRow(index);
+    setCurrentOperation(0);
   }
 
-  selectColumn = (index) => {
-    this.setState({
-      currentFocusRow: index,
-      currentOperation: 0
-    })
+  const selectedOperation = (index) => {
+    setCurrentOperation(index);
   }
 
-  selectedOperation = (index) => {
-    this.setState({
-      currentOperation: index
-    })
+  const closePopup = () => {
+    setCurrentFocusRow(0);
   }
 
-  closePopup = () => {
-    this.setState({
-      currentFocusRow: 0
-    })
-    console.log(this.props.id)
+  const openPopup = (head) => {
+    setCurrentFocusRow(head.date);
+    setCurrentOperation(1);
   }
 
-  openPopup = (head) => {
-    this.setState({
-      currentFocusRow: head.date,
-      currentOperation: 1
-    })
+  const submitTime = () => {
+    //明天加验证
+    const startTime = createTime.startTimeHour + createTime.startTimeMinute;
+    const endTime = createTime.endTimeHour + createTime.endTimeMinute;
+
+    let dayInWeek = null;
+    switch (currentFocusRow) {
+      case 1: dayInWeek = "Monday"; break;
+      case 2: dayInWeek = "Tuesday"; break;
+      case 3: dayInWeek = "Wednesday"; break;
+      case 4: dayInWeek = "Thursday"; break;
+      case 5: dayInWeek = "Friday"; break;
+      case 6: dayInWeek = "Saturday"; break;
+      case 7: dayInWeek = "Sunday"; break;
+      default: dayInWeek = "mistake";
+    }
+
+    const bodyObj = {
+      dayOfWeek: dayInWeek,
+      openHour: startTime,
+      closingHour: endTime
+    }
+    console.log(bodyObj) 
+    const result1 = AddStoreBusinessTime(id, bodyObj);
   }
 
+  //logic
+  const timePairArr = []
+  Object.keys(dbBusinessHours).forEach((key) => {
+    let dateIndex = 0;
+    switch (key) {
+      case 'Monday': dateIndex = 1; break;
+      case 'Tuesday': dateIndex = 2; break;
+      case 'Wednesday': dateIndex = 3; break;
+      case 'Thursday': dateIndex = 4; break;
+      case 'Friday': dateIndex = 5; break;
+      case 'Saturday': dateIndex = 6; break;
+      case 'Sunday': dateIndex = 7; break;
+      default: dateIndex = 0;
+    };
 
-  render() {
-    //const {id} = this.props;
-    return (
-      <div style={{ position: 'relative' }}>
-        <WeekBar>
-          {
-            this.props.headers.map((head, index) =>
-              <DayOfWeek style={{
-                backgroundColor: (this.state.currentFocusRow === index + 1) ? '#397CC2' : '',
-                color: (this.state.currentFocusRow === index + 1) ? 'white' : ''
-              }} key={index}>{head}</DayOfWeek>)
+    dbBusinessHours[key].map((element) => {
+      if (dbBusinessHours[key].indexOf(element % 100 === 0 ? element - 45 : element - 5) === -1) {
+        let endTime = null;
+        let intervalTime = element;
+        let intervalQty = 0;
+        while (endTime === null) {
+          if (dbBusinessHours[key].indexOf(intervalTime % 100 === 55 ? intervalTime + 45 : intervalTime + 5) === -1) {
+            endTime = intervalTime;
           }
-        </WeekBar>
-        <Table>
-          <TBody>
+          intervalTime = intervalTime % 100 === 55 ? intervalTime + 45 : intervalTime + 5;
+          intervalQty++;
+        }
+
+        timePairArr.push({
+          date: dateIndex,
+          startTime: element,
+          endTime: endTime,
+          intervalQty: intervalQty,
+          startTimePx: (-621 + (element / 100) * 27 + (element % 100) * 0.45)
+        })
+      }
+    })
+  })
+  //logic
+
+
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <div>{id}</div>
+      <WeekBar>
+        {
+          props.headers.map((head, index) =>
+            <DayOfWeek style={{
+              backgroundColor: (currentFocusRow === index + 1) ? '#397CC2' : '',
+              color: (currentFocusRow === index + 1) ? 'white' : ''
+            }} key={index}>{head}</DayOfWeek>)
+        }
+      </WeekBar>
+      <Table>
+        <TBody>
+          {
+            props.formStructure.map((row, index) => {
+              return (<TR key={index}>
+                {
+                  row.map((cell, index) => {
+                    return <TD onClick={() => selectColumn(index)}>{cell}</TD>
+                  })
+                }
+              </TR>
+              )
+            })
+          }
+        </TBody>
+      </Table>
+      <Popup rowIndex={currentFocusRow}>
+        <TopBar><PopupCloseButton onClick={closePopup}>x</PopupCloseButton></TopBar>
+        <BodyContent>
+          <H4>Edit business hour</H4>
+          <Nav>
             {
-              this.props.formStructure.map((row, index) => {
-                return (<TR key={index}>
-                  {
-                    row.map((cell, index) => {
-                      return <TD onClick={() => this.selectColumn(index)}>{cell}</TD>
-                    })
-                  }
-                </TR>
-                )
-              })
+              ['Create', 'Edit', 'Delete'].map((head, index) =>
+                <Operation style={{
+                  backgroundColor: (currentOperation === index) ? '#F6EDE0' : '',
+                  color: (currentOperation === index) ? '#D69636' : ''
+                }} onClick={() => selectedOperation(index)} key={index}>{head}</Operation>)
             }
-          </TBody>
-        </Table>
-        <Popup rowIndex={this.state.currentFocusRow}>
-          <TopBar><PopupCloseButton onClick={this.closePopup}>x</PopupCloseButton></TopBar>
-          <BodyContent>
-            <H4>Edit business hour</H4>
-            <Nav>
-              {
-                ['Create', 'Edit', 'Delete'].map((head, index) =>
-                  <Operation style={{
-                    backgroundColor: (this.state.currentOperation === index) ? '#F6EDE0' : '',
-                    color: (this.state.currentOperation === index) ? '#D69636' : ''
-                  }} onClick={() => this.selectedOperation(index)} key={index}>{head}</Operation>)
-              }
-            </Nav>
-            <TimeInputZone className='TimeInputZone' style={{ 'margin-top': '10px' }}>
-              <div>
-                <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>Start from</span>
-                <TimeInput type="string"></TimeInput>
-                <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
-                <TimeInput type="string"></TimeInput>
-              </div>
-              <div>
-                <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>To</span>
-                <TimeInput type="string"></TimeInput>
-                <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
-                <TimeInput type="string"></TimeInput>
-              </div>
-            </TimeInputZone>
+          </Nav>
+          <TimeInputZone className='TimeInputZone' style={{ 'margin-top': '10px' }}>
             <div>
-              <SaveButton>Save</SaveButton>
+              <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>Start from</span>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })}></TimeInput>
+              <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeMinute: e.target.value })}></TimeInput>
             </div>
-          </BodyContent>
-        </Popup>
-        <div>
-          {
-            timePairArr.map((head, index) =>
-              <TimeTag head={head} onClick={() => this.openPopup(head)}>{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
-                (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
-                + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
-                  + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
+            <div>
+              <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>To</span>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeHour: e.target.value })}></TimeInput>
+              <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })}></TimeInput>
+            </div>
+          </TimeInputZone>
+          <div>
+            <SaveButton onClick={submitTime}>Save</SaveButton>
+          </div>
+        </BodyContent>
+      </Popup>
+      <div>
+        {
+          timePairArr.map((head, index) =>
+            <TimeTag head={head} onClick={() => openPopup(head)}>{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
+              (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
+              + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
+                + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
               - ${head.endTime >= 1300 ? Math.floor(head.endTime / 100) - 12 + ':'
-                  + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
-                  + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
-                    + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}</TimeTag>
-            )
-          }
-        </div>
+                + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
+                + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
+                  + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}</TimeTag>
+          )
+        }
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-const Calendar = () => {
-  //const {id} = this.props;
-  return <CalendarWrapper><Excel headers={headers} formStructure={formStructure} /></CalendarWrapper>;
+
+const Calendar = (props) => {
+  return <CalendarWrapper><Excel headers={headers} formStructure={formStructure} id={props.id} /></CalendarWrapper>;
 };
 
 export default Calendar;
