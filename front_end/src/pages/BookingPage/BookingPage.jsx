@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 import Banner from './components/Banner';
 import StoreInfo from './components/StoreInfo';
 import BookingPanel from './components/BookingPanel/BookingPanel';
-import Layout from '../../components/shared/Layout';
-import { Header } from '../../components/shared/Header/Header';
 import { useParams } from 'react-router-dom';
 import { useGetStoreQuery } from '../../store/api/storeApi';
 import ServiceList from './components/ServiceList';
@@ -29,21 +27,20 @@ const BookingPage = () => {
   const { data, isLoading, isSuccess, isError, error } = storeData;
 
   return (
-    <Layout>
-      <Header />
+    <>
       {isError && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {isSuccess && (
         <PageContainer>
           <Banner />
           <StoreInfoWrapper>
-            <StoreInfo store={data} />
+            <StoreInfo store={data} id={_id} />
             <BookingPanel id={_id} />
           </StoreInfoWrapper>
           <ServiceList id={_id} />
         </PageContainer>
       )}
-    </Layout>
+    </>
   );
 };
 

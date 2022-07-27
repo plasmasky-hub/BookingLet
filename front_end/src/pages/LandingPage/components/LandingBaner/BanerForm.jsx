@@ -60,12 +60,6 @@ const Wrapper = styled.div`
 const WrapperCategory = styled.div``;
 
 const BanerForm = ({ FormData, setFormData }) => {
-  // const [age, setAge] = React.useState('');
-
-  // const handleChange = (event) => {
-  //   setAge(event.target.value);
-  // };
-
   const { data: rootCategory, isSuccess: success } =
     useGetRootCategoriesQuery();
 

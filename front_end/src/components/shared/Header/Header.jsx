@@ -13,7 +13,7 @@ import { Box, Button, Modal } from '@mui/material';
 const StyledHeader = styled(Box)`
   width: 100vw;
   height: 72px;
-  margin-top: 10px;
+  top: 10px;
   background-color: rgba(251, 251, 251, 0.6);
   display: flex;
   flex-direction: row;
@@ -65,7 +65,7 @@ const RegisterButton = styled(Button)`
   }
 `;
 
-export const Header = () => {
+const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loginIsOpen, setLoginOpen] = useState(false);
   const [registerIsOpen, setRegisterOpen] = useState(false);
@@ -101,9 +101,7 @@ export const Header = () => {
     <StyledHeader>
       <Logo />
       {loggedIn ? (
-        <UserPanel 
-          setLoggedIn={setLoggedIn}
-        />
+        <UserPanel setLoggedIn={setLoggedIn} />
       ) : (
         <ButtonWrapper>
           <StyledLoginButton
@@ -124,7 +122,7 @@ export const Header = () => {
             aria-describedby="modal-modal-description"
             name="loginModal"
           >
-            <LoginModal 
+            <LoginModal
               loginClose={loginClose}
               registerOpen={registerOpen}
               setLoggedIn={setLoggedIn}
@@ -142,7 +140,7 @@ export const Header = () => {
             aria-describedby="modal-modal-description"
             name="registerModal"
           >
-            <RegisterModal 
+            <RegisterModal
               registerClose={registerClose}
               loginOpen={loginOpen}
             />
@@ -152,3 +150,5 @@ export const Header = () => {
     </StyledHeader>
   );
 };
+
+export default Header;
