@@ -66,9 +66,11 @@ const StoreCategory = ({ category, cardData: stores }) => {
             {category.name}
           </Typography>
           <ViewButton
-            onClick={() =>
-              navigate('/StoreListPage', { state: { filteredStores } })
-            }
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo(0, 0);
+              navigate('/StoreListPage', { state: { filteredStores } });
+            }}
           >
             view all
             <ArrowForwardIcon fontSize="small" />
