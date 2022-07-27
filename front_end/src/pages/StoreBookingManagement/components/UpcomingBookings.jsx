@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { ServiceDropdown } from "./ServiceDropdown";
-import { SwitchButton } from "./SwitchButton";
+// import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
 
 const UpcomingBookingWrappepr = styled.div`
@@ -37,13 +37,10 @@ export const UpcomingBookings = () => {
       <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
       <BookingManageWrapper>
         <ServiceDropdown />
-        <SwitchButton />
+        {/* <SwitchButton /> */}
       </BookingManageWrapper>
       {/* Table */}
       <BookingManagementTable />
-      {/* <BookingManagementTable />
-      <BookingManagementTable />
-      <BookingManagementTable /> */}
     </UpcomingBookingWrappepr>
   );
 };
