@@ -6,11 +6,26 @@ const calendarApi = apiSlice.injectEndpoints({
       query: (q) => `/calendar/businessTime?${q}`,
     }),
     getChartDate: builder.query({
-      query: (q) =>
-        `/calendar/chart?date=2022-07-30&serviceInfoId=62d5579230f835c4513d6c52`,
+      query: (q) => `/calendar/chart?${q}`,
+    }),
+    addStoreBusinessTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
+        method: 'POST',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['Calendar'],
+    }),
+    addCalendarTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/serviceInfo/${bodyObj.id}`,
+        method: 'POST',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['ServiceCalendar'],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetBusinessTimeQuery, useGetChartDateQuery } = calendarApi;
+export const { useGetBusinessTimeQuery, useGetChartDateQuery, useAddStoreBusinessTimeByIdMutation, useAddCalendarTimeByIdMutation } = calendarApi;

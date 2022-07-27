@@ -7,9 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)`
   display: flex;
-  max-width: 580px;
+  max-width: 1072.41px;
+  height: 149px;
   padding: 15px;
   gap: 20px;
+  border:0px;
+  background-color: #ececea;
 `;
 
 const Img = styled(CardMedia)`

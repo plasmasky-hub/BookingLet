@@ -181,19 +181,24 @@ async function getOrderByID(req, res) {
   }
   return res.status(200).json(order);
 }
-//get all
+
+
 async function getAllOrders(req, res) {
-  console.log('Finding all orders...');
-  //Order.find().sort().limit()--> pagination 分页处理
-  const orders = await Order.find().exec();
+  const { userId, storeId, showAll = false } = req.query;
+  let findQuery = {};
+  if (storeId !== undefined) { findQuery.storeId = storeId };
+  if (userId !== undefined) { findQuery.userId = userId };
+  let qty = showAll ? 99999 : 99;
+
+
+  const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).populate('storeId', 'name location tel').populate('userId', 'name tel email').limit(qty).exec();
+  console.log(orders)
   if (!orders) {
     return res.status(400).json({ error: 'Order not found' });
   }
-  if (JSON.stringify(orders) === '[]') {
-    return res.status(404).json({ error: 'Order data is empty in database' });
-  }
   return res.status(200).json(orders);
 }
+
 
 module.exports = {
   getAllOrders,
