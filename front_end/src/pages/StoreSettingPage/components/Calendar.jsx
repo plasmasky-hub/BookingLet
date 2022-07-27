@@ -195,7 +195,7 @@ const formStructure = [
 const TimeTag = styled.div`
   position: absolute;
   font-size: ${props => props.head.intervalQty < 19 ? '11px' : '13px'};
-  color: white;
+  color: white; 
   width : 67px;
   height: ${props => props.head.intervalQty * 2.25}px;
   border-radius: 3px;
@@ -238,7 +238,7 @@ const Excel = (props) => {
   const [currentOperation, setCurrentOperation] = useState(null);
   const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
   const [timeDelete, setTimeDelete] = useState(false);
-  //const [timeTagIndex, setTimeTagIndex] = useState(null);
+  const [timeTagIndex, setTimeTagIndex] = useState(-1);
 
   const selectColumn = (index) => {
     setCurrentFocusRow(index);
@@ -253,12 +253,13 @@ const Excel = (props) => {
     setCurrentFocusRow(0);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     setTimeDelete(false);
+    setTimeTagIndex(-1);
   }
 
   const openPopup = (head, index) => {
     setCurrentFocusRow(head.date);
     setCurrentOperation(1);
-    //setTimeTagIndex(index);
+    setTimeTagIndex(index);
 
     head.timeTagIndex = index;
     head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
@@ -466,14 +467,21 @@ const Excel = (props) => {
       <div>
         {
           timePairArr.map((head, index) =>
-            <TimeTag head={head} onClick={() => openPopup(head, index)} >{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
-              (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
-              + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
-                + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
+            <TimeTag head={head} onClick={() => openPopup(head, index)} style={{
+              'background-color': timeTagIndex === index ? '#397CC2' : '',
+              'box-shadow': timeTagIndex === index ? '5px 10px 10px rgba(0,0,0,0.65) ' : '',
+              'font-weight': timeTagIndex === index ? 'bold' : '',
+              'padding': timeTagIndex === index ? '2px' : ''
+            }}>
+              {`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
+                (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
+                + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
+                  + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
               - ${head.endTime >= 1300 ? Math.floor(head.endTime / 100) - 12 + ':'
-                + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
-                + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
-                  + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}</TimeTag>
+                  + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
+                  + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
+                    + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}
+            </TimeTag>
           )
         }
       </div>
