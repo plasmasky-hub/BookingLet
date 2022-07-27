@@ -70,6 +70,13 @@ const Header = () => {
   const [loginIsOpen, setLoginOpen] = useState(false);
   const [registerIsOpen, setRegisterOpen] = useState(false);
 
+  // await localStorage.setItem('loggedIn', loggedIn);
+
+  async function changeLoggedIn (props) {
+    await localStorage.setItem('loggedIn', props);
+    setLoggedIn(props);
+  }
+
   const loginOpen = () => {
     setLoginOpen(true);
     // this.LoginModal.loginOpen();
@@ -85,6 +92,7 @@ const Header = () => {
   const registerClose = () => {
     setRegisterOpen(false);
   };
+
   // const loginCallback = () => {
   // 	setIsOpen(false);
   // }
@@ -118,6 +126,7 @@ const Header = () => {
               loginClose={loginClose}
               registerOpen={registerOpen}
               setLoggedIn={setLoggedIn}
+              changeLoggedIn={changeLoggedIn}
             />
           </Modal>
 
