@@ -5,7 +5,7 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { BookingTable } from "../BookingTable/BookingTable";
 import {
   useGetOrdersQuery,
-  useUpdateOrderQuery,
+  // useUpdateOrderQuery,
 } from "../../../../store/api/orderApi";
 
 const BookingPageWrapper = styled(Container)`
@@ -25,24 +25,33 @@ const StyledChips = styled(Chip)`
   transition: ease-in-out 0.4s;
 `;
 
-const ChipBackground = "#7B8B6F";
-
-const chipItems = ["All", "Uncomfirmed", "Confirmed", "Done"];
+const chipItems = ["All", "Uncomfirmed", "Confirmed"];
 
 export const BookingHistory = () => {
   const { data, isSuccess } = useGetOrdersQuery();
-  const orders = isSuccess && data;
 
-  const [clicked, setClicked] = useState(ChipBackground);
-  const statusIndicator = chipItems.map((chipItems) => (
+  const [clicked, setClicked] = useState(0);
+
+  const statusIndicator = chipItems.map((chipItem, index) => (
     <StyledChips
-      label={chipItems}
-      sx={{ color: `${ChipBackground[clicked]}` }}
-      onClick={() => {
-        setClicked(ChipBackground);
-      }}
+      label={chipItem}
+      key={chipItem}
+      onClick={() => setClicked(index)}
+      sx={{ backgroundColor: index === clicked && "#7B8B6F" }}
     ></StyledChips>
   ));
+
+  let fiterOrders = isSuccess
+    ? clicked === 0
+      ? data
+      : clicked === 1
+      ? data.filter((e) => !e.bookingStatus)
+      : clicked === 2
+      ? data.filter((e) => e.bookingStatus)
+      : data.filter((e) => e.bookingStatus)
+    : "";
+  console.log(fiterOrders);
+
   return (
     <BookingPageWrapper>
       <h2>My Bookings</h2>
