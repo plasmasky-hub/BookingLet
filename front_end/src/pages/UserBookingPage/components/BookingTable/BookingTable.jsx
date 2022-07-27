@@ -85,7 +85,7 @@ const CollapsedNotice = styled(Box)`
   padding: 0 0 5px 40px;
 `;
 
-export const BookingTable = () => {
+export const BookingTable = ({ data }) => {
   const [statusIndex, setStatusIndex] = useState(1);
 
   const [open, setOpen] = useState(false);
@@ -93,7 +93,7 @@ export const BookingTable = () => {
   const handleClick = () => {
     setOpen(!open);
   };
-
+  console.log(data.userId);
   return (
     <>
       <StyledTableContainer component={Paper}>
@@ -102,7 +102,7 @@ export const BookingTable = () => {
             <TableCellImg src={BodyRelaxing} />
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
-            <h4>{TableHead.name}</h4>
+            <h4>{TableFoot.address}</h4>
             <p>{TableFoot.address}</p>
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
