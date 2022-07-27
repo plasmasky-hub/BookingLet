@@ -23,6 +23,10 @@ import {
 	InputAdornment,
 	IconButton,
     Link,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    FormLabel,
 } from '@mui/material';
 
 const RegisterModalBox = styled(Box)`
@@ -66,7 +70,7 @@ const RegisterTitle = styled(Typography)`
     color: white;
     font-size: 35px;
     font-weight: 600;
-    margin-top: 10px;
+    margin-top: 5px;
     text-shadow: 1px 1px 5px black;
 
 `
@@ -82,8 +86,8 @@ const RegisterSubTitle = styled(Typography)`
 
 const RegisterInputField = styled(TextField)`
     color: white;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     width: 100%;
 `
 
@@ -94,7 +98,7 @@ const TextFieldStyle = {
 }
 
 const RegisterButton = styled(Button)`
-    margin-top: 10px;
+    margin-top: 12px;
     height: 80%;
 	width: 300px;
     font-size: 1.3rem;
@@ -234,19 +238,34 @@ export const RegisterModal = (props) => {
                                     />
                                 </FormControl>
 
-                            </RegisterTextContainer>
-                        </Grid>
+                                <Grid container direction={'column'}>
+                                    <Grid item xs={4}>
+                                        <FormLabel color={'primary'} sx={{ mt: 2 }}>Role</FormLabel>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <RadioGroup
+                                            aria-labelledby="demo-radio-buttons-group-label"
+                                            defaultValue="customer"
+                                            name="role"
+                                            row
+                                        >
+                                            <FormControlLabel value="customer" control={<Radio />} label="Customer" />
+                                            <FormControlLabel value="business" control={<Radio />} label="Business" />
+                                        </RadioGroup>
+                                    </Grid>
+                                </Grid>
+                                
+                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
+                                    <RegisterButton 
+                                        variant='contained'
+                                        color='success'
+                                        type="submit"
+                                    >
+                                        Register
+                                    </RegisterButton>
+                                </Box>
 
-                        <Grid item xs={1}>
-                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                <RegisterButton 
-                                    variant='contained'
-                                    color='success'
-                                    type="submit"
-                                >
-                                    Register
-                                </RegisterButton>
-                            </Box>
+                            </RegisterTextContainer>
                         </Grid>
 
                     </Grid>
@@ -254,7 +273,7 @@ export const RegisterModal = (props) => {
                     <Grid container spacing={1} 
                         direction='row' 
                         justifyContent='center' 
-                        sx={{ mt: 2, fontStyle: 'italic'}}>
+                        sx={{ mt: 1, fontStyle: 'italic'}}>
                         <Grid item>
                             <Typography > Already a member ? </Typography> 
                         </Grid>
