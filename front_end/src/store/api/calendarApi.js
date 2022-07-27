@@ -10,11 +10,12 @@ const calendarApi = apiSlice.injectEndpoints({
         `/calendar/chart?date=2022-07-30&serviceInfoId=62d5579230f835c4513d6c52`,
     }),
     addStoreBusinessTimeById: builder.mutation({
-      query: (id, bodyObj) => ({
-        url: `/calendar/store/${id}`, //此处并没有传入id
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
         method: 'POST',
         body: bodyObj,
       }),
+      invalidatesTags: ['Calendar'],
     }),
   }),
   overrideExisting: false,

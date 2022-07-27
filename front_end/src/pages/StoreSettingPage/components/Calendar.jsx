@@ -13,12 +13,19 @@ const CalendarWrapper = styled(Paper)`
   justify-content: center;
 `;
 
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-left: 20px;
+`;
+
 const WeekBar = styled.div`
   background-color: lightgray;
   width: 489.16px;
   height: 30px;
   margin-left: 69.88px;
-  margin-top: 60px;
+  margin-top: 30px;
   margin-bottom: 30px;
   display: flex;
   justify-content: space-around;
@@ -194,10 +201,12 @@ const Excel = (props) => {
   const { data: storeData, isSuccess } = useGetStoreQuery(id);
   const dbBusinessHours = isSuccess && storeData.businessHours;
   const [AddStoreBusinessTime] = useAddStoreBusinessTimeByIdMutation();
+  //const [GetStore] = useGetStoreQuery(id);
 
   const [currentFocusRow, setCurrentFocusRow] = useState(0);
   const [currentOperation, setCurrentOperation] = useState(null);
   const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+  const [timeTagIndex, setTimeTagIndex] = useState(null);
 
   const selectColumn = (index) => {
     setCurrentFocusRow(index);
@@ -210,15 +219,46 @@ const Excel = (props) => {
 
   const closePopup = () => {
     setCurrentFocusRow(0);
+    setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
   }
 
-  const openPopup = (head) => {
+  const openPopup = (head, index) => {
     setCurrentFocusRow(head.date);
     setCurrentOperation(1);
+    setTimeTagIndex(index);
+
+    head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
+
+    setCreateTime({
+      ...createTime,
+      startTimeHour: (Math.floor(head.startTime / 100) + ''),
+      startTimeMinute: (head.startTime % 100 < 10 ? '0' + head.startTime % 100 : head.startTime % 100 + ''),
+      endTimeHour: (Math.floor(head.endTime / 100) + ''),
+      endTimeMinute: (head.endTime % 100 < 10 ? '0' + head.endTime % 100 : head.endTime % 100 + '')
+    });
   }
 
-  const submitTime = () => {
-    //明天加验证
+  const submitTime = async () => {
+    const regHour = /^[012]?\d$/;
+    const regMinute = /^[012345][05]$/;
+    if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
+      return alert('Please input correct hours (6:00 - 21:55)!');
+    }
+
+    if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
+      return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
+    }
+
+    let startTimeHourNum = parseInt(createTime.startTimeHour);
+    let endTimeHourNum = parseInt(createTime.endTimeHour);
+    let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
+    let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
+
+    if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
+      || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
+      return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
+    }
+
     const startTime = createTime.startTimeHour + createTime.startTimeMinute;
     const endTime = createTime.endTimeHour + createTime.endTimeMinute;
 
@@ -235,12 +275,15 @@ const Excel = (props) => {
     }
 
     const bodyObj = {
+      id: id,
       dayOfWeek: dayInWeek,
       openHour: startTime,
       closingHour: endTime
     }
-    console.log(bodyObj) 
-    const result1 = AddStoreBusinessTime(id, bodyObj);
+    console.log(bodyObj)
+    const result1 = await AddStoreBusinessTime(bodyObj);
+    setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+    //document.execCommand('Refresh');
   }
 
   //logic
@@ -276,18 +319,17 @@ const Excel = (props) => {
           startTime: element,
           endTime: endTime,
           intervalQty: intervalQty,
-          startTimePx: (-621 + (element / 100) * 27 + (element % 100) * 0.45)
+          startTimePx: (-621 + Math.floor(element / 100) * 27 + (element % 100) * 0.45)
         })
       }
     })
   })
-  //logic
 
 
 
   return (
     <div style={{ position: 'relative' }}>
-      <div>{id}</div>
+      <Title>Business Hours</Title>
       <WeekBar>
         {
           props.headers.map((head, index) =>
@@ -329,15 +371,15 @@ const Excel = (props) => {
           <TimeInputZone className='TimeInputZone' style={{ 'margin-top': '10px' }}>
             <div>
               <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>Start from</span>
-              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })}></TimeInput>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>
               <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
-              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeMinute: e.target.value })}></TimeInput>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeMinute: e.target.value })} value={createTime.startTimeMinute}></TimeInput>
             </div>
             <div>
               <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>To</span>
-              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeHour: e.target.value })}></TimeInput>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeHour: e.target.value })} value={createTime.endTimeHour}></TimeInput>
               <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
-              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })}></TimeInput>
+              <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>
             </div>
           </TimeInputZone>
           <div>
@@ -348,7 +390,7 @@ const Excel = (props) => {
       <div>
         {
           timePairArr.map((head, index) =>
-            <TimeTag head={head} onClick={() => openPopup(head)}>{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
+            <TimeTag head={head} onClick={() => openPopup(head, index)} >{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
               (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
               + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
                 + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
