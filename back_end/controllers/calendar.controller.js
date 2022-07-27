@@ -15,7 +15,6 @@ async function getStoreBusinessTimeById(req, res) {
 async function addStoreBusinessTimeById(req, res) {
     const { id } = req.params;
     let { dayOfWeek, openHour, closingHour } = req.body;
-    console.log(id, dayOfWeek, openHour, closingHour)
 
     const store = await Store.findById(id).exec();
 

@@ -9,11 +9,12 @@ const calendarApi = apiSlice.injectEndpoints({
       query: (q) => `/calendar/chart?${q}`,
     }),
     addStoreBusinessTimeById: builder.mutation({
-      query: (id, bodyObj) => ({
-        url: `/calendar/store/${id}`, //此处并没有传入id
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
         method: 'POST',
         body: bodyObj,
       }),
+      invalidatesTags: ['Calendar'],
     }),
   }),
   overrideExisting: false,
