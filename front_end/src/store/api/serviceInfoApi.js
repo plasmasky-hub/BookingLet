@@ -9,7 +9,7 @@ const serviceInfoApi = apiSlice.injectEndpoints({
 
     getServiceInfo: builder.query({
       query: (id) => `/serviceInfo/${id}`,
-      providesTags: ['Service'],
+      providesTags: ['Service', 'ServiceCalendar'],
     }),
 
     addServiceInfo: builder.mutation({
