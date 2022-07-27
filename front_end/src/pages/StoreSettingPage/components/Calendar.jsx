@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
-import {useGetStoreQuery} from '../../../store/api/storeApi'
+// import {useGetStoreQuery} from '../../../store/api/storeApi'
 
 
 const CalendarWrapper = styled(Paper)`
@@ -324,6 +324,7 @@ Object.keys(dbBusinessHours).forEach((key) => {
         startTimePx: (-621 + (element / 100) * 27 + (element % 100) * 0.45)
       })
     }
+    return null;
   })
 })
 

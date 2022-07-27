@@ -8,7 +8,7 @@ import { RegisterModal } from '../SignIn/Register';
 
 import LoginIcon from '@mui/icons-material/Login';
 
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal } from '@mui/material';
 
 const StyledHeader = styled(Box)`
   width: 100vw;
