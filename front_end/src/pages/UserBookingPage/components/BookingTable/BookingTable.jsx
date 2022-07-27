@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 import {
   Box,
   TableRow,
@@ -7,9 +7,9 @@ import {
   Collapse,
   ButtonGroup,
   Button,
-} from "@mui/material";
-import { useState } from "react";
-import BodyRelaxing from "../../../../assets/BodyRelaxing.png";
+} from '@mui/material';
+import { useState } from 'react';
+import BodyRelaxing from '../../../../assets/BodyRelaxing.png';
 
 const StyledTableContainer = styled(Box)`
   min-width: 800px;
@@ -28,20 +28,20 @@ const TableCellImg = styled.img`
 `;
 
 const TableHead = {
-  name: "Facial",
-  date: "Date",
-  time: "Time",
-  status: "Status",
+  name: 'Facial',
+  date: 'Date',
+  time: 'Time',
+  status: 'Status',
 };
 
 const TableFoot = {
-  address: "Adelaide",
-  date: "18/06/2022",
-  time: "13:00 - 14:00",
-  status: ["Confirmed", "Unconfirmed", "Cancelled"],
+  address: 'Adelaide',
+  date: '18/06/2022',
+  time: '13:00 - 14:00',
+  status: ['Confirmed', 'Unconfirmed', 'Cancelled'],
 };
 
-const StatusColor = ["#7B8B6F", "#CEA02C", "#D76D6D"];
+const StatusColor = ['#7B8B6F', '#CEA02C', '#D76D6D'];
 
 const StyledButtonGroup = styled(ButtonGroup)`
   width: 150px;
@@ -97,7 +97,7 @@ export const BookingTable = ({ data }) => {
   return (
     <>
       <StyledTableContainer component={Paper}>
-        <TableRow direction="column" sx={{ width: "1000px" }}>
+        <TableRow direction="column" sx={{ width: '1000px' }}>
           <TableCell sx={{ px: 3 }}>
             <TableCellImg src={BodyRelaxing} />
           </TableCell>
@@ -119,7 +119,7 @@ export const BookingTable = ({ data }) => {
               {TableFoot.status[statusIndex]}
             </p>
           </TableCell>
-          <TableCell sx={{ cursor: "pointer" }}>
+          <TableCell sx={{ cursor: 'pointer' }}>
             <p onClick={handleClick}>Order detail</p>
             <StyledButtonGroup
               variant="contained"
@@ -182,7 +182,7 @@ export const BookingTable = ({ data }) => {
                 <CollapsedTitle>
                   <p>Time of Order</p>
                   <p>Time of Booking</p>
-                  <p style={{ color: "#8E8E8E" }}>Note</p>
+                  <p style={{ color: '#8E8E8E' }}>Note</p>
                 </CollapsedTitle>
                 <div>
                   <p>15 Jun 2022 18:00:54</p>

@@ -1,12 +1,12 @@
-import styled from "@emotion/styled";
-import { useState } from "react";
-import { Container, Chip, Stack } from "@mui/material";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import { BookingTable } from "../BookingTable/BookingTable";
+import styled from '@emotion/styled';
+import { useState } from 'react';
+import { Container, Chip, Stack } from '@mui/material';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import { BookingTable } from '../BookingTable/BookingTable';
 import {
   useGetOrdersQuery,
   // useUpdateOrderQuery,
-} from "../../../../store/api/orderApi";
+} from '../../../../store/api/orderApi';
 
 const BookingPageWrapper = styled(Container)`
   width: 100%;
@@ -25,7 +25,7 @@ const StyledChips = styled(Chip)`
   transition: ease-in-out 0.4s;
 `;
 
-const chipItems = ["All", "Uncomfirmed", "Confirmed"];
+const chipItems = ['All', 'Uncomfirmed', 'Confirmed'];
 
 export const BookingHistory = () => {
   const { data, isSuccess } = useGetOrdersQuery();
@@ -37,7 +37,7 @@ export const BookingHistory = () => {
       label={chipItem}
       key={chipItem}
       onClick={() => setClicked(index)}
-      sx={{ backgroundColor: index === clicked && "#7B8B6F" }}
+      sx={{ backgroundColor: index === clicked && '#7B8B6F' }}
     ></StyledChips>
   ));
 
@@ -49,10 +49,13 @@ export const BookingHistory = () => {
       : clicked === 2
       ? data.filter((e) => e.bookingStatus)
       : data.filter((e) => e.bookingStatus)
-    : "";
+    : '';
   console.log(fiterOrders);
+  if (!fiterOrders) return <>no orders</>;
+  if (fiterOrders === '') return <>no orders</>;
 
   return (
+    // <>booking</>
     <BookingPageWrapper>
       <h2>My Bookings</h2>
       <Stack direction="row" spacing={1}>
@@ -64,10 +67,10 @@ export const BookingHistory = () => {
       <Stack direction="row" spacing={1} sx={{ py: 2 }}>
         {statusIndicator}
       </Stack>
-      <BookingTable />
-      <BookingTable />
-      <BookingTable />
-      <BookingTable />
+      <BookingTable data={fiterOrders[0]} />
+      <BookingTable data={fiterOrders[0]} />
+      <BookingTable data={fiterOrders[0]} />
+      <BookingTable data={fiterOrders[0]} />
     </BookingPageWrapper>
   );
 };
