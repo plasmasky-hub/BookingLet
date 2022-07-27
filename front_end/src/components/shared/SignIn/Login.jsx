@@ -80,15 +80,17 @@ const LoginButton = styled(Button)`
 
 export const LoginModal = (props) => {
 
+    const [login, { isLoading }] = useLoginMutation();
+    const [user, setUser] = useState(Object);
+    const [token, setToken] = useState("");
+    // const [isLogin, setIsLogin] = useState('false');
+
     const handleClickShowPassword = () => {
 		formik.setValues({
 		...formik.values,
 		showPassword: !formik.values.showPassword,
 		});
 	};
-
-    const [user, setUser] = useState(Object);
-    const [token, setToken] = useState("");
 
     useEffect(() => {
         localStorage.setItem("user", user);
@@ -98,9 +100,6 @@ export const LoginModal = (props) => {
         localStorage.setItem('token', token);
     }, [token]);
     
-
-    const [login, { isLoading }] = useLoginMutation();
-
     const showLocalStorage = () => {
         const user = localStorage.getItem('user');
         console.log("🚀 ~ file: Login.jsx ~ line 102 ~ showLocalStorage ~ user", user)
@@ -110,9 +109,9 @@ export const LoginModal = (props) => {
 
     const formik = useFormik({
         initialValues: {
-          email: '',
-          password: '',
-          showPassword: false,
+            email: '',
+            password: '',
+            showPassword: false,
         },
         handleClickShowPassword: handleClickShowPassword,
         validate: loginValidation,
@@ -122,18 +121,21 @@ export const LoginModal = (props) => {
             console.log( JSON.stringify(values, null, 2) );
             const loginResult = await login(values);
 
-            console.log(loginResult);
+            console.log("login result: " + loginResult);
             // close modal
             props.loginClose();
 
             // save data
             // console.log(typeof(loginResult.data.user));
             // setUser( JSON.parse(loginResult.data.user) );
-            setToken(loginResult.data.token);
+            // console.log(typeof(loginResult.data.token));
+            await setToken(loginResult.data.token);
+            await setUser(loginResult.data.user);
+            
+            // console.log(token);
 
-            console.log(token);
-
-            localStorage.setItem("token", JSON.stringify(token) );
+            await localStorage.setItem("token", JSON.stringify(loginResult.data.token) );
+            await localStorage.setItem("user", JSON.stringify(loginResult.data.user) );
 
             showLocalStorage();
 
