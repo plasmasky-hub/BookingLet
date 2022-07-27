@@ -47,7 +47,10 @@ export const PrevBookingTable = () => {
     <>
       <Table>
         <TableBody>
-          <TableRow direction="column" sx={{ minWidth: "800px" }}>
+          <TableRow
+            direction="column"
+            sx={{ minWidth: "800px", backgroundColor: "#fff" }}
+          >
             <TableCell sx={{ pl: 10, pt: 3 }}>
               <h4>
                 <strong>{itemTitle[0]}</strong>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Stack, Chip } from "@mui/material";
 import { ServiceDropdown } from "./ServiceDropdown";
@@ -62,11 +62,15 @@ const ServiceDropdownWrapper = styled.div`
 `;
 
 export const PreviousBookings = () => {
-  const BookingDateFilter = BookingDateChips.map((BookingDateChips) => (
+  const [clicked, setClicked] = useState(0);
+
+  const BookingDateFilter = BookingDateChips.map((BookingDateChips, index) => (
     <StyledBookingDateChips
       key={BookingDateChips}
       label={BookingDateChips}
       variant="filled"
+      onClick={() => setClicked(index)}
+      sx={{ backgroundColor: index === clicked && "#397CC2" }}
     />
   ));
 
@@ -89,9 +93,9 @@ export const PreviousBookings = () => {
       </BookingManageWrapper>
       {/* <BookingManagementTable /> */}
       <PrevBookingTable />
+      {/* <PrevBookingTable />
       <PrevBookingTable />
-      <PrevBookingTable />
-      <PrevBookingTable />
+      <PrevBookingTable /> */}
     </PreviousBookingWrappepr>
   );
 };
