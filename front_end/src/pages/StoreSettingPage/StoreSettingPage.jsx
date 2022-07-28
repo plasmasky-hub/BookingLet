@@ -45,7 +45,7 @@ const StoreSettingPage = () => {
           {display.ServiceInfo && (
             <ServiceInfo id={id} display={display} setDisplay={setDisplay} />
           )}
-          {display.ServiceCalendar && <ServiceCalendar id={display.serviceId} />}
+          {display.ServiceCalendar && <ServiceCalendar id={display.serviceId} storeId={id}/>}
         </ContentWrapper>
       )}
     </>
