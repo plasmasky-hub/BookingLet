@@ -244,9 +244,9 @@ export const LoginModal = (props) => {
               <FormControl
                 color="primary"
                 sx={TextFieldStyle}
-                error={
-                  formik.touched.password || Boolean(formik.errors.password)
-                }
+                // error={
+                //   formik.touched.password || Boolean(formik.errors.password)
+                // }
               >
                 <TextField
                   variant="outlined"
@@ -255,6 +255,10 @@ export const LoginModal = (props) => {
                   type={formik.values.showPassword ? 'text' : 'password'}
                   value={formik.values.password}
                   onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">

@@ -32,7 +32,7 @@ const RegisterModalBox = styled(Box)`
   justify-content: center;
   align-items: center;
   transform: translate(-50%, -50%);
-  background: rgba(47, 68, 73, 0.5);
+  background: rgba(47, 68, 73, 0.6);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 
@@ -141,7 +141,7 @@ export const RegisterModal = (props) => {
         const registerResult = await register(values);
 
         console.log(registerResult);
-        if (Boolean(registerResult.data.user)) {
+        if (Boolean(registerResult.data)) {
             props.registerClose();
             props.loginOpen();
         } else {
