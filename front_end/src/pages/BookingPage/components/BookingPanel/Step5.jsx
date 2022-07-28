@@ -54,7 +54,11 @@ const Step5 = ({ FormData, setFormData }) => {
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
       : FormData.date.getMonth() + 1
-  }-${FormData.date.getDate()}`;
+  }-${
+    FormData.date.getDate() < 10
+      ? `0${FormData.date.getDate()}`
+      : FormData.date.getDate()
+  }`;
 
   const order = {
     peopleNumber: FormData.people,
