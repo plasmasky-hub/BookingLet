@@ -49,19 +49,20 @@ const StoreContainer = styled.div`
 
 `
 
- const StoreState= ({userId}) => {
+ const StoreState= () => {
     // userId = '62d43d784d61d2e252076471';
-    userId = sessionStorage.getItem('userId');
-    const userData = useGetUserStoresQuery(userId);
+    const user = localStorage.getItem('user');
+    const userId = user._id;
+    const userStoreData = useGetUserStoresQuery(userId);
 
     const {
-      data: user,
+      data: stores,
       isLoading,
       isSuccess,
       isError,
       error,
-    } = userData;
-    console.log(user,userData);
+    } = userStoreData;
+    console.log(user,userStoreData);
     // const UserStores = useGetUserStoresQuery(_id)
     // const StoreContainers = 
 

@@ -15,8 +15,10 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 const newtheme = { ...theme, iconColor: '#7F96AF' };
+
 
 const ProfileBox = styled.div`
   width: 280px;
@@ -99,6 +101,8 @@ const UserLogOutBtn = styled(Button)`
 `;
 
 export const UserPanel = (props) => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const user = JSON.parse( localStorage.getItem("user") ); 
   // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
@@ -205,7 +209,9 @@ export const UserPanel = (props) => {
 
                 {UserInfo.role === 'Customer'
                   ? null 
-                  : <ListItemButton>
+                  : <ListItemButton 
+                      onClick={()=>navigate(`/StoreLandingPage`)}
+                    >
                       <ListItemIcon>
                         <HowToRegOutlinedIcon
                           sx={{ color: `${newtheme.palette.secondary.main}` }}
