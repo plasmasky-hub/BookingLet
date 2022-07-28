@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetServiceInfoQuery } from '../../../store/api/serviceInfoApi';
-import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation } from '../../../store/api/calendarApi';
+import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation, useSyncStoreCalendarToServiceMutation } from '../../../store/api/calendarApi';
 
 
 const CalendarWrapper = styled(Paper)`
@@ -242,12 +242,13 @@ const SyncButton = styled.a`
 
 
 const Excel = (props) => {
-    const { id } = props;
+    const { id, storeId } = props;
 
     const { data: serviceData, isSuccess } = useGetServiceInfoQuery(id);  // id试用62d5579230f835c4513d6c52
     let dbCalendarTemplate = isSuccess && serviceData.calendarTemplate;
     const [AddStoreBusinessTime] = useAddCalendarTimeByIdMutation();
     const [DeleteCalendarTime] = useDeleteCalendarTimeByIdMutation();
+    const [SyncStoreCalendarToService] = useSyncStoreCalendarToServiceMutation();
     //useDeleteCalendarTimeByIdMutation
 
     let calendarTimeSliceObj = { Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] };
@@ -447,11 +448,35 @@ const Excel = (props) => {
     }
 
 
+    const synchronizeTime = async () => {
+        let bodyObj = {
+            storeId: storeId,
+            serviceInfoId: id
+        }
+        let resultOfSync = await SyncStoreCalendarToService(bodyObj);
+        setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+        if (resultOfSync.data.Error !== undefined) {
+            alert(resultOfSync.data.Error);
+        }
+        
+        //////////////////////////////Temporary plan, to be revised later///////////////////////////////////////
+        bodyObj = {
+            id: id,
+            dayOfWeek: 'Sunday',
+            openHour: 2100,
+            closingHour: 2100
+        }
+        await AddStoreBusinessTime(bodyObj);
+        setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+
+    }
+
+
 
     return (
         <div style={{ position: 'relative' }}>
             <Title>Weekly Calendar</Title>
-            <SyncButton>Sync business time to calendar</SyncButton>
+            <SyncButton onClick={synchronizeTime}>Sync business time to calendar</SyncButton>
             <WeekBar>
                 {
                     props.headers.map((head, index) =>
@@ -550,7 +575,7 @@ const Excel = (props) => {
 
 
 const ServiceCalendar = (props) => {
-    return <CalendarWrapper><Excel headers={headers} formStructure={formStructure} id={props.id} /></CalendarWrapper>;
+    return <CalendarWrapper><Excel headers={headers} formStructure={formStructure} id={props.id} storeId={props.storeId} /></CalendarWrapper>;
 
 };
 
