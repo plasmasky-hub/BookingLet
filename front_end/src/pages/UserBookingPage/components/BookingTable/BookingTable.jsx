@@ -85,7 +85,8 @@ export const BookingTable = ({ data, clicked }) => {
   const handleClick = () => {
     setOpen(!open);
   };
-  console.log(data.orderTime.date);
+
+  console.log(typeof(data.bookingTime));
   return (
     <>
     { data && 
@@ -105,7 +106,7 @@ export const BookingTable = ({ data, clicked }) => {
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.time}</h4>
-            <p>{data.orderTime.startTime}</p>
+            <p>{`${data.orderTime.startTime.substring(0,2)}:${data.orderTime.startTime.substring(2,4)}`}</p>
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.status}</h4>
@@ -180,7 +181,7 @@ export const BookingTable = ({ data, clicked }) => {
                 </CollapsedTitle>
                 <div>
                   <p>{data.serviceInfoId.name}</p>
-                  <p>{data.bookingTime}</p>
+                  <p>{`${data.bookingTime.substring(0,10)} ${data.bookingTime.substring(11,19)}`}</p>
                   <p></p>
                 </div>
               </CollapsibleTable>
