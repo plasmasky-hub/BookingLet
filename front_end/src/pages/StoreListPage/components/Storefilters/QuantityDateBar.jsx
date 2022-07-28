@@ -15,12 +15,11 @@ const Wrapper = styled.div`
   display:flex;
   align-items:center;
   margin-rightL 50px;
-  `
+  `;
 const Iconset = styled.div`
-    display:flex;
-    align-items:center;
-  `
-
+  display: flex;
+  align-items: center;
+`;
 
 export default function SelectVariants() {
   const [state, setState] = React.useState('');
@@ -30,57 +29,54 @@ export default function SelectVariants() {
     setState(newState);
   };
 
-
-
-
   return (
     <Wrapper>
-      
-    <CalendarTodayIcon color="action"  sx={{ fontSize: 25, marginRight: '5px'}}/>
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
-        label="Choose time"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-        variant="filled"
-      />
-    </LocalizationProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          label="Choose time"
+          value={value}
+          onChange={(newValue) => {
+            setValue(newValue);
+          }}
+          renderInput={({ inputRef, inputProps, InputProps }) => (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {InputProps?.endAdornment}
+              <input
+                ref={inputRef}
+                {...inputProps}
+                style={{ marginLeft: '15px', borderRadius: '15px' }}
+              />
+            </Box>
+          )}
+          variant="filled"
+        />
+      </LocalizationProvider>
 
-    <Box >
-    <Iconset>
-    <LocationOnIcon color="action"  sx={{ fontSize: 25, marginLeft:'15px'}} />
+      <Box>
+        <Iconset>
+          <LocationOnIcon
+            color="action"
+            sx={{ fontSize: 25, marginLeft: '15px' }}
+          />
 
-    <ToggleButtonGroup
-      value={state}
-      exclusive
-      onChange={handleState}
-      variant="text" 
-      
-    >
-      <ToggleButton value="ALL">ALL
-      </ToggleButton>
-      <ToggleButton value="NSW">NSW
-      </ToggleButton>
-      <ToggleButton value="VIC">VIC
-      </ToggleButton>
-      <ToggleButton value="QLD">QLD
-      </ToggleButton>
-      <ToggleButton value="SA" >SA
-      </ToggleButton>
-      <ToggleButton value="WA"  >WA
-      </ToggleButton>
-      <ToggleButton value="TAS" >TAS
-      </ToggleButton>
-      <ToggleButton value="NT"  >NT
-      </ToggleButton>
-      <ToggleButton value="ACT"  >ACT
-      </ToggleButton>
-    </ToggleButtonGroup>
-    </Iconset>
-    </Box>
+          <ToggleButtonGroup
+            value={state}
+            exclusive
+            onChange={handleState}
+            variant="text"
+          >
+            <ToggleButton value="ALL">ALL</ToggleButton>
+            <ToggleButton value="NSW">NSW</ToggleButton>
+            <ToggleButton value="VIC">VIC</ToggleButton>
+            <ToggleButton value="QLD">QLD</ToggleButton>
+            <ToggleButton value="SA">SA</ToggleButton>
+            <ToggleButton value="WA">WA</ToggleButton>
+            <ToggleButton value="TAS">TAS</ToggleButton>
+            <ToggleButton value="NT">NT</ToggleButton>
+            <ToggleButton value="ACT">ACT</ToggleButton>
+          </ToggleButtonGroup>
+        </Iconset>
+      </Box>
     </Wrapper>
   );
 }
