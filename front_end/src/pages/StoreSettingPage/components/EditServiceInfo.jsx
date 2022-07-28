@@ -86,7 +86,7 @@ const EditServiceInfo = ({ service, id, display, isEdit, setIsEdit }) => {
     price: Form.price,
     description: Form.description,
   };
-  const sid = '62d4d57861e1f832ded64c18';
+  const sid = display.serviceId;
 
   return (
     <form>

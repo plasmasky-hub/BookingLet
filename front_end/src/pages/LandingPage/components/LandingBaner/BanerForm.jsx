@@ -74,7 +74,6 @@ const BanerForm = () => {
     state: '',
     search: '',
     isSearch: false,
-    q: '',
   });
 
   const date = `${FormData.date.getFullYear()}-${
@@ -183,7 +182,6 @@ const BanerForm = () => {
           mt: 3,
         }}
         onClick={() => {
-          // setFormData({ ...FormData, isSearch: true, q: q });
           navigate(`/StoreListPage${searchQuery}`);
         }}
       >
