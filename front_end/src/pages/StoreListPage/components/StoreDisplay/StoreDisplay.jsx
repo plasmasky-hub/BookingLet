@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 const ListWrapper = styled(Container)`
   max-width: 1024px;
-  margin: 100px auto 50px auto;
+  margin: 10px auto 50px auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 10px;

@@ -76,7 +76,7 @@ const StoreCard = ({
   const navigate = useNavigate();
 
   return (
-    <StyledCard variant="outlined">
+    <StyledCard variant="outlined" sx={{ m: 1 }}>
       {/* need data */}
       <Img component="img" image={food} alt="" />
       <Content>

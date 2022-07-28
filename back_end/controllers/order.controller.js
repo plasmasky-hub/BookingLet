@@ -128,7 +128,6 @@ async function updateOrderByID(req, res) {
 }
 // Store confirm order ->change booking status from false to true
 async function confirmOrder(req, res) {
-  console.log('Confirm Order');
   const { id } = req.params;
   const { bookingStatus } = req.body;
   const order = await Order.findByIdAndUpdate(
@@ -192,7 +191,6 @@ async function getAllOrders(req, res) {
 
 
   const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).populate('storeId', 'name location tel').populate('userId', 'name tel email').limit(qty).exec();
-  console.log(orders)
   if (!orders) {
     return res.status(400).json({ error: 'Order not found' });
   }
