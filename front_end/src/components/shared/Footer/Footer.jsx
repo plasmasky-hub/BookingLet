@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 const FooterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 376px;
   padding: 0 20px;
