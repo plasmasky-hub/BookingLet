@@ -4,7 +4,7 @@ import StoreDisplay from './components/StoreDisplay';
 import { useLocation } from 'react-router-dom';
 import StoreFilters from './components/Storefilters/StoreFilters';
 import { useGetStoresQuery } from '../../store/api/storeApi';
-import bannerbg from '../../assets/sushi.png';
+import bannerbg from '../../assets/display-banner.jpg';
 import { Box } from '@mui/material';
 
 const StoreResultBanner = styled.div`
