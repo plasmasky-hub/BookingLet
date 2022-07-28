@@ -1,7 +1,9 @@
 import UserBookingPageHeader from '../../../../assets/UserBookingPageHeader.png';
 import styled from '@emotion/styled';
 import { Avatar, Box, Grid } from '@mui/material';
-import { UserInfo } from '../../../../components/shared/Header/UserPanel';
+import { useGetUserQuery } from '../../../../store/api/userApi';
+import { BookingHistory } from '../BookingHistory/BookingHistory';
+// import { UserInfo } from '../../../../components/shared/Header/UserPanel';
 
 const UserBookingPageWrapper = styled(Box)({
     minWidth: '1000px',
@@ -51,11 +53,11 @@ const UserInfoContent = styled(Box)({
 
 const UserDataArr = ['Mobile', 'Email', 'Location'];
 
-const UserData = {
-    mobile: '0414123456',
-    email: 'nicolascage@gmail.com',
-    location: 'Adelaide',
-};
+// const UserData = {
+//     mobile: '0414123456',
+//     email: 'nicolascage@gmail.com',
+//     location: 'Adelaide',
+// };
 
 const UploadButton = styled('Button')({
     width: '186px',
@@ -66,18 +68,24 @@ const UploadButton = styled('Button')({
     cursor: 'pointer',
 });
 
-export const UserBookingHeader = () => {
+export const UserBookingHeader = (_id) => {
+    const { data, isLoading, isSuccess } = useGetUserQuery();
+    console.log(data);
+
+    if (isLoading) return <div>Loading</div>
+
+    if (isSuccess) return <BookingHistory />
     return (
         <UserBookingPageWrapper>
             <UserPageHeader>
                 <ProfileWrapper>
                     <StyledAvatar />
                     <UserInfoBox>
-                        <h3 style={{ paddingBottpm: '10px' }}>{UserInfo.name}</h3>
+                        <h3 style={{ paddingBottom: '10px' }}>{data.userId.name}</h3>
                         <UserInfoContent>
-                            <span><strong>{UserDataArr[0]}</strong>: {UserData.mobile}</span>
-                            <span><strong>{UserDataArr[1]}</strong>: {UserData.email}</span>
-                            <span><strong>{UserDataArr[2]}</strong>: {UserData.location}</span>
+                            <span><strong>{UserDataArr[0]}</strong>: {data.userId.mobile}</span>
+                            <span><strong>{UserDataArr[1]}</strong>: {data.userId.email}</span>
+                            <span><strong>{UserDataArr[2]}</strong>: {data.userId.location}</span>
                         </UserInfoContent>
                         <UploadButton variant="outlined" component="span">Upload My Profile</UploadButton>
                     </UserInfoBox>

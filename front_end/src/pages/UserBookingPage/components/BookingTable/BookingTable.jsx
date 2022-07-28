@@ -183,7 +183,7 @@ export const BookingTable = ({ data, clicked }) => {
                 </div>
               </CollapsibleTable>
               <CollapsedNotice>
-                Waiting for comfirmation from store. If no response, order will
+                Waiting for confirmation from store. If no response, order will
                 be seen as confirmed.
               </CollapsedNotice>
             </CollapsibleTableWrapper>

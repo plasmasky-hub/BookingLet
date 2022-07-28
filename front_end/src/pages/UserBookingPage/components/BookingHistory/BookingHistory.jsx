@@ -25,7 +25,7 @@ const StyledChips = styled(Chip)`
   transition: ease-in-out 0.4s;
 `;
 
-const chipItems = ['All', 'Uncomfirmed', 'Confirmed'];
+const chipItems = ['All', 'Unconfirmed', 'Confirmed'];
 
 export const BookingHistory = () => {
   const { data, isSuccess } = useGetOrdersQuery();
@@ -41,7 +41,7 @@ export const BookingHistory = () => {
     ></StyledChips>
   ));
 
-  let fiterOrders = isSuccess
+  let filterOrders = isSuccess
     ? clicked === 0
       ? data
       : clicked === 1
@@ -50,9 +50,9 @@ export const BookingHistory = () => {
       ? data.filter((e) => e.bookingStatus)
       : data.filter((e) => e.bookingStatus)
     : '';
-  console.log(fiterOrders);
-  if (!fiterOrders) return <>no orders</>;
-  if (fiterOrders === '') return <>no orders</>;
+  console.log(filterOrders);
+  if (!filterOrders) return <>no orders</>;
+  if (filterOrders === '') return <>no orders</>;
 
   return (
     // <>booking</>
@@ -67,10 +67,10 @@ export const BookingHistory = () => {
       <Stack direction="row" spacing={1} sx={{ py: 2 }}>
         {statusIndicator}
       </Stack>
-      <BookingTable data={fiterOrders[0]} />
-      <BookingTable data={fiterOrders[0]} />
-      <BookingTable data={fiterOrders[0]} />
-      <BookingTable data={fiterOrders[0]} />
+      <BookingTable data={filterOrders[0]} />
+      <BookingTable data={filterOrders[0]} />
+      <BookingTable data={filterOrders[0]} />
+      <BookingTable data={filterOrders[0]} />
     </BookingPageWrapper>
   );
 };
