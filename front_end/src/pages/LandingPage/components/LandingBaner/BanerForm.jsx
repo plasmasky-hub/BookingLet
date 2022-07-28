@@ -14,9 +14,8 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+// import { BrowserRouter  } from 'react-router-dom';
 import { useState } from 'react';
-import { useGetStoresQuery } from '../../../../store/api/storeApi';
 import { useNavigate } from 'react-router-dom';
 
 const BannerButton = styled(Button)({
@@ -64,12 +63,6 @@ const Wrapper = styled.div`
 const WrapperCategory = styled.div``;
 
 const BanerForm = () => {
-  // const [age, setAge] = React.useState('');
-
-  // const handleChange = (event) => {
-  //   setAge(event.target.value);
-  // };
-
   const navigate = useNavigate();
 
   const { data: rootCategory, isSuccess: success } =
@@ -83,6 +76,7 @@ const BanerForm = () => {
     isSearch: false,
     q: '',
   });
+
   const date = `${FormData.date.getFullYear()}-${
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
@@ -92,17 +86,10 @@ const BanerForm = () => {
   const category = FormData.category;
   const state = FormData.state;
   const query = FormData.search;
-  const q = `${category ? `category=${category}` : ''}${
+
+  const searchQuery = `?${category ? `category=${category}` : ''}${
     state ? `&state=${state}` : ''
   }${date ? `&date=${date}` : ''}${query ? `&query=${query}` : ''}`;
-
-  const query2 = FormData.isSearch ? FormData.q : '';
-
-  console.log(query2);
-  const { data: filteredStores, isSuccess } = useGetStoresQuery(query2);
-
-  console.log(isSuccess && filteredStores);
-  console.log(FormData.isSearch);
 
   return (
     <Wrapper>
@@ -195,8 +182,8 @@ const BanerForm = () => {
           mt: 3,
         }}
         onClick={() => {
-          setFormData({ ...FormData, isSearch: true, q: q });
-          navigate('/StoreListPage', { state: { filteredStores } });
+          // setFormData({ ...FormData, isSearch: true, q: q });
+          navigate(`/StoreListPage${searchQuery}`);
         }}
       >
         SEARCH

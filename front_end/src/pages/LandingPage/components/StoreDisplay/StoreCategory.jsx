@@ -69,7 +69,7 @@ const StoreCategory = ({ category, cardData: stores }) => {
             onClick={(e) => {
               e.preventDefault();
               window.scrollTo(0, 0);
-              navigate('/StoreListPage', { state: { filteredStores } });
+              navigate(`/StoreListPage?category=${category.id}`);
             }}
           >
             view all

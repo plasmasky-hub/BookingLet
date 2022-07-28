@@ -20,18 +20,18 @@ const StoreResultBanner = styled.div`
 
 const StoreListPage = () => {
   const location = useLocation();
-  const storesData = useGetStoresQuery();
+  const query = location.search;
+  const { data: stores, isSuccess } = useGetStoresQuery(query);
+  console.log(query);
 
   //const { data: stores, isLoading, isSuccess, isError, error } = storesData;
   //const storesData = JSON.parse(useGetStoresQuery().currentData);
-
-  let filteredStores = location.state.filteredStores;
 
   return (
     <>
       <StoreResultBanner />
       <StoreFilters />
-      <StoreDisplay stores={filteredStores} />
+      {isSuccess && <StoreDisplay stores={stores} />}
     </>
   );
 };
