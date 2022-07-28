@@ -48,6 +48,7 @@ const calendarApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['ServiceCalendar'],
     }),
+
   }),
   overrideExisting: false,
 });
@@ -55,3 +56,4 @@ const calendarApi = apiSlice.injectEndpoints({
 export const { useGetBusinessTimeQuery, useGetChartDateQuery, useAddStoreBusinessTimeByIdMutation,
   useDeleteStoreBusinessTimeByIdMutation, useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation,
   useSyncStoreCalendarToServiceMutation } = calendarApi;
+

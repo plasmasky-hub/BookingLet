@@ -5,6 +5,7 @@ import { useGetServiceInfoQuery } from '../../../store/api/serviceInfoApi';
 import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation, useSyncStoreCalendarToServiceMutation } from '../../../store/api/calendarApi';
 
 
+
 const CalendarWrapper = styled(Paper)`
   width: 613px;
   font-size: 30px !important;
@@ -470,13 +471,13 @@ const Excel = (props) => {
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
 
     }
-
-
+    
 
     return (
         <div style={{ position: 'relative' }}>
             <Title>Weekly Calendar</Title>
             <SyncButton onClick={synchronizeTime}>Sync business time to calendar</SyncButton>
+
             <WeekBar>
                 {
                     props.headers.map((head, index) =>
