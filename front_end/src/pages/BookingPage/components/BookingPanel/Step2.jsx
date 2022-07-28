@@ -49,7 +49,11 @@ const Step2 = ({ FormData, setFormData }) => {
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
       : FormData.date.getMonth() + 1
-  }-${FormData.date.getDate()}`;
+  }-${
+    FormData.date.getDate() < 10
+      ? `0${FormData.date.getDate()}`
+      : FormData.date.getDate() + 1
+  }`;
 
   /*******************************************************/
   //Fetch Data
@@ -68,7 +72,7 @@ const Step2 = ({ FormData, setFormData }) => {
         .filter((e) => e.availability === true)
         .map((e) => e.timeSlice)
     : null;
-
+  console.log('data:', data, 'chartData:', chartData);
   /*******************************************************/
   //Bar Chart
   /*******************************************************/
