@@ -68,7 +68,9 @@ export default function DevopsCard() {
       }}
     >
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-SX8ipZnrlQqKLZuiYFk0-8IxYJmX9KwGUNSKpnJ5L-Thh1O95hOZKq4yyTmVQD-XLdPqjCqolRtNKGmWpmK-rSM5nOfWWQU3htWmKpQ3.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-dQCYs4n7O99ksXuBIe33-hUFEL7g1J3pRmmdoMj5Z-Thh1O95hOZKq4yyTmVQD-pPyQD6Dd0IIAxWb8Okcj-GyCB3foS6YVP5hp5Ielg-AuPVTvNWsRwUs9sDiUtL-hRsijtRoprWAPgUxsBUf-FEm6qlm5S1IZM9zIfE1h.png"/>
+
         <h4>Xinglin Chen</h4>
         <p>Provide leadership and work collaboratively with the DevOps Group, including constructing development plans and proactively looking to solve operational issues.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -79,7 +81,9 @@ export default function DevopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-dQCYs4n7O99ksXuBIe33-hUFEL7g1J3pRmmdoMj5Z-Thh1O95hOZKq4yyTmVQD-pPyQD6Dd0IIAxWb8Okcj-GyCB3foS6YVP5hp5Ielg-AuPVTvNWsRwUs9sDiUtL-hRsijtRoprWAPgUxsBUf-FEm6qlm5S1IZM9zIfE1h.png"/>
+
         <h4>Yifan Yang</h4>
         <p>Enthusiastic DevOps Engineer, eager to contribute to team success through hard work, attention to detail and excellent organizational skills.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -90,7 +94,9 @@ export default function DevopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-egQLKXLotk1sj0mfi8TT-9NT1ah5Wny2GKiLLuGgT-Kz1iNefTjXoECb9QTyzc-grAvikGU9l1HWVmdgEPe-riIsXab43irL8E0451OD-QO9XDpXuFWwjkTjFgoGy-ZAiyC2nUcFdHyMJRFn9H.png"/>
+
         <h4>Sonia Ni</h4>
         <p>AWS Certified Solution Architect Associate,  skilled in Linux, Jenkins, Ansible, Docker, Kubernetes, AWS, Terraform, Grafana.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -101,7 +107,9 @@ export default function DevopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-34wOTOTmZwrSSdJiEz9a-egQLKXLotk1sj0mfi8TT-xpK3Fk6qh2MemlexMHzE-ZIA5n2ePmWz4l7uuafpJ-GyCB3foS6YVP5hp5Ielg-hRsijtRoprWAPgUxsBUf-WFeUuPCcj9VzwdjMhlVn-FEm6qlm5S1IZM9zIfE1h.png"/>
+
         <h4>Christina Chen</h4>
         <p>Highly motivated and adaptable DevOps Engineer who has the ability to learn fast and tailor solutions specific to the requirements of the individual project.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -112,7 +120,9 @@ export default function DevopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-34wOTOTmZwrSSdJiEz9a-egQLKXLotk1sj0mfi8TT-xpK3Fk6qh2MemlexMHzE-ZIA5n2ePmWz4l7uuafpJ-GyCB3foS6YVP5hp5Ielg-hRsijtRoprWAPgUxsBUf-WFeUuPCcj9VzwdjMhlVn-FEm6qlm5S1IZM9zIfE1h.png"/>
+
         <h4>Andy Wang</h4>
         <p>A motivated and problem-solving DevOps engineer who has developed solid knowledge and skills AWS, CICD,IaC,monitoring.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -123,7 +133,9 @@ export default function DevopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-34wOTOTmZwrSSdJiEz9a-egQLKXLotk1sj0mfi8TT-xpK3Fk6qh2MemlexMHzE-ZIA5n2ePmWz4l7uuafpJ-GyCB3foS6YVP5hp5Ielg-hRsijtRoprWAPgUxsBUf-WFeUuPCcj9VzwdjMhlVn-FEm6qlm5S1IZM9zIfE1h.png"/>
+
         <h4>Kevin Fan</h4>
         <p>A cloud engineer who has a solid understanding of DevOps tech tools and a lot of practices to deploy projects in the AWS</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {

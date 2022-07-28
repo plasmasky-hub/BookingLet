@@ -47,8 +47,6 @@ const BoxList = styled(Box)`
     margin-top: 100px;
     justify-content: center;
     align-items:center;
-    
-    
 
 `
 const BoxTitle = styled(Box)`
@@ -56,13 +54,9 @@ const BoxTitle = styled(Box)`
     justify-content:center;
     align-items:center;
     margin: 0 auto;
-    
-
 `
+export default function TeamList() {
 
-
-
-export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -90,7 +84,9 @@ export default function BasicTabs() {
       <TabPanel value={value} index={0} >
         <DevelopsCard/>
       </TabPanel>
-      <TabPanel value={value} index={1} >
+
+      <TabPanel value={value} index={1} >  
+
         <DevopsCard/>
       </TabPanel>
       <TabPanel value={value} index={2}>

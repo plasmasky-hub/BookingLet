@@ -111,7 +111,9 @@ export default function DevelopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-TOVkkp8ZQ693ky3pycp9-9w2GtCjVHacRKmmhy2A3-9m3qVgHfBsdmFN5EuagD-8IxYJmX9KwGUNSKpnJ5L-DAW8N71PAC2NID2Gv0CZ-ZwcI0elqMoYcW0Dn84wQ-JatX3m7gnzX3abVz3p2I-JZbDG08J6CBcUBVvcnYB-1FOs3w50IlYAjOPJzodH-Rd3VWEdzGalSScXWH4Aa.png"/>
+
         <h4>Anita Liu</h4>
         <p>A business graduate with technical skills. Dashing web developer with professional skill set.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -133,7 +135,9 @@ export default function DevelopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-I6CWPycmHoQX5YQhN7gt-C0ykfrlDx7AkQsLyLcNS-8IxYJmX9KwGUNSKpnJ5L-Thh1O95hOZKq4yyTmVQD-P5xxrLs0ZSa2YyUAjVrU-uKIf6cH0JRwz4dFK9sdu-4zyNlAoOhotO89n6QzR0.png"/>
+
         <h4>Yiyuan Tang</h4>
         <p>Results-driven computer science student from the University of Adelaide passionate about full-stack development.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {
@@ -144,7 +148,9 @@ export default function DevelopsCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-R7cVd1GzcUu4CbnXHAWe-6AczIj4OgrICPerAqTzg-Thh1O95hOZKq4yyTmVQD-vipDjSLZKo9rMBRSYbYi-3r6ujTPeAl1QKF0LLqhz-RxWA2xY8YhE8HmYuWfZl-xdYxHMjEtNxGTS25ddif.png"/>
+
         <h4>Xiang Ji</h4>
         <p>Graduated from the University of Adelaide with 2 years of experience in coding. Have strong interests in full-stack and network security.</p>
         <ButtonIcons aria-label="Linkedin" onClick={(e) => {

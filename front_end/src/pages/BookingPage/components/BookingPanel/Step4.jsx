@@ -11,6 +11,7 @@ const Title = styled.p`
 
 const Step4 = ({ FormData }) => {
   const date = FormData.date.toDateString().substring(4);
+  const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
   return (
     <>
@@ -40,7 +41,7 @@ const Step4 = ({ FormData }) => {
 
       <Title>Email</Title>
       <FlexWrapper P4>
-        <p>{FormData.email}</p>
+        <p>{userEmail}</p>
       </FlexWrapper>
     </>
   );

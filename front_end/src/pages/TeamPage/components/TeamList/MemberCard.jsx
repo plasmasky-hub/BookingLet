@@ -5,7 +5,6 @@ import Paper from '@mui/material/Paper';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import IconButton from '@mui/material/IconButton';
 
-
 const ButtonIcons = styled(IconButton)`
 
     align-self: flex-end;
@@ -67,8 +66,9 @@ export default function MemberCard() {
       <Cards elevation={3}>
         <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-SX8ipZnrlQqKLZuiYFk0-8IxYJmX9KwGUNSKpnJ5L-Thh1O95hOZKq4yyTmVQD-XLdPqjCqolRtNKGmWpmK-rSM5nOfWWQU3htWmKpQ3.png"/>
         <h4>Kris Wang</h4>
-        <p>The tutor of developer team</p>
-        <ButtonIcons aria-label="Linkedin" onClick={(e) => {
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames dignissim facilisis felis mollis pulvinar in.</p>
+        <ButtonIcons aria-label="delete" onClick={(e) => {
         e.preventDefault();
         window.open("https://www.linkedin.com/in/wang-chris/", "_blank");
         }}>
@@ -76,10 +76,12 @@ export default function MemberCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
-        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-LhLl9CuAb5E94Ene8bXZ-dQCYs4n7O99ksXuBIe33-xpK3Fk6qh2MemlexMHzE-Thh1O95hOZKq4yyTmVQD-bn9I5heSHGfzKb7KyNQm-ahIsL7J203yLTh5SVo8R-8aOPqJ8Njm4zWTvM6JK1-bbRDRC2sIfc9svbGSxDY.png"/>
+
+        <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-34wOTOTmZwrSSdJiEz9a-egQLKXLotk1sj0mfi8TT-xpK3Fk6qh2MemlexMHzE-ZIA5n2ePmWz4l7uuafpJ-GyCB3foS6YVP5hp5Ielg-hRsijtRoprWAPgUxsBUf-WFeUuPCcj9VzwdjMhlVn-FEm6qlm5S1IZM9zIfE1h.png"/>
         <h4>Williams</h4>
-        <p>The tutor of DevOps team</p>
-        <ButtonIcons aria-label="Linkedin" > 
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames dignissim facilisis felis mollis pulvinar in.</p>
+        <ButtonIcons aria-label="delete">
+
             <LinkedInIcon />
         </ButtonIcons>
       </Cards>
