@@ -52,7 +52,7 @@ const Step2 = ({ FormData, setFormData }) => {
   }-${
     FormData.date.getDate() < 10
       ? `0${FormData.date.getDate()}`
-      : FormData.date.getDate() + 1
+      : FormData.date.getDate()
   }`;
 
   /*******************************************************/
