@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+//import { useGetStoreQuery } from '../../../store/api/storeApi'
 
 export const BookingManageCategory = styled.h3`
   font-size: 0.8rem;
@@ -24,6 +25,13 @@ export const ServiceDropdown = () => {
   const handleChange = (event) => {
     setService(event.target.value);
   };
+  
+
+  //const{data} = useGetStoreQuery(id);
+
+  //console.log(data);
+
+
   return (
     <BookingManageDropdown>
       <BookingManageCategory>
