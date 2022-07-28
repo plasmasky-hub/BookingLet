@@ -1,63 +1,144 @@
 import styled from 'styled-components';
 import React from 'react';
-import LocationSortBar from './LocationSortBar'
-import QuantityDateBar from './QuantityDateBar'
-import SearchCategoryBar from './SearchCategoryBar'
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import { Box } from '@mui/system';
+import LocationSortBar from './LocationSortBar';
+import Select from '@mui/material/Select';
+import { Typography, Box, TextField, Button } from '@mui/material';
+import { LocalizationProvider } from '@mui/lab';
+import DatePicker from '@mui/lab/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
+
+const SearchButton = styled(Button)({
+  width: 120,
+  height: 35,
+  borderStyle: 'none',
+  cursor: 'pointer',
+  '&.MuiButton-root': {
+    backgroundColor: '#D08888',
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 600,
+  },
+});
 
 const SearchContainer = styled(Box)`
-    width:1173px;
-    height:190px;
-    margin: 90px auto;
-    padding-left:24px;
-`
-const SortBar = styled.div`
-  width: 1173px;
-  display:flex;
-  align-items:center;
-  color: #ffffff;
-  justify-content:space-between;
+  width: 1130px;
+  height: 120px;
+  margin: 20px auto;
+`;
+
+const WrapperFilter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
-  padding-right: 50px;
-`
+`;
 
-// const FakeData = {
-//     PeopleOptions: [1, 2, 3, 4, 5, 6, 7, 8],
-    
-//   };
-  
-// const Forms = [LocationSortBar, QuantityDateBar, SearchCategoryBar,];
+const WrapperCategory = styled.div``;
 
-const StoreFilters = () =>{
-    // const [step, setStep] = useState(0);
+const LocalizationProviderNew = styled(LocalizationProvider)`
+  padding-top: 110px;
+`;
 
-    // const Display = Forms[step];
-    // const [FormData, setFormData] = useState({
-    //     date: new Date(),
-    //     category: '',
-    //     person: 1,
-    //     state: 'all',
-    //     sortMethod: 'favoriteUserSize',
-    //     query: '',
-    //   });
-    const searchSubmit = (data) =>{
-       console.log(data);
-    }
-    return(
-        <SearchContainer component='form' onSubmit={searchSubmit}>
-        <h2>All restaurant in QLD with 109 results</h2>
-        
-        <SearchCategoryBar />
-        <QuantityDateBar />
-        <SortBar>
-          <Stack>
-          <Button variant="contained" type='submit' color='storelistbutton'>SEARCH</Button>
-          </Stack>
+const StoreFilters = ({ setQuery, stores, queryStr }) => {
+  const [FormData, setFormData] = useState({
+    date: new Date(),
+    state: '',
+  });
+  const date = `${FormData.date.getFullYear()}-${
+    FormData.date.getMonth() + 1 < 10
+      ? `0${FormData.date.getMonth() + 1}`
+      : FormData.date.getMonth() + 1
+  }-${FormData.date.getDate()}`;
+
+  const state = FormData.state;
+
+  const searchQuery = `?${state ? `&state=${state}` : ''}${
+    date ? `&date=${date}` : null
+  }`;
+  const query = `${searchQuery}${queryStr ? `&${queryStr}` : ''}`;
+
+  const searchSubmit = (data) => {
+    console.log(data);
+  };
+  return (
+    <SearchContainer component="form" onSubmit={searchSubmit}>
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontSize: '22px',
+          lineHeight: '28px',
+          color: 'white',
+        }}
+      >
+        {stores.length} results found
+      </Typography>
+      <WrapperFilter>
+        <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
+          <WrapperCategory>
+            <LocalizationProviderNew dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Date"
+                value={FormData.date}
+                onChange={(newValue) => {
+                  setFormData({ ...FormData, date: newValue });
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} variant="standard" p1="true" />
+                )}
+              />
+            </LocalizationProviderNew>
+            <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                State
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={FormData.state}
+                onChange={(e) =>
+                  setFormData({
+                    ...FormData,
+                    state: e.target.value,
+                  })
+                }
+                label="Age"
+              >
+                <MenuItem value="">
+                  <em>All</em>
+                </MenuItem>
+                <MenuItem value={'NSW'}>NSW</MenuItem>
+                <MenuItem value={'VIC'}>VIC</MenuItem>
+                <MenuItem value={'QLD'}>QLD</MenuItem>
+                <MenuItem value={'SA'}>SA</MenuItem>
+                <MenuItem value={'TAS'}>TAS</MenuItem>
+                <MenuItem value={'WA'}>WA</MenuItem>
+                <MenuItem value={'ACT'}>ACT</MenuItem>
+                <MenuItem value={'NT'}>NT</MenuItem>
+              </Select>
+            </FormControl>
+          </WrapperCategory>
+          <SearchButton
+            variant="contained"
+            disableRipple
+            sx={{
+              mt: 3,
+            }}
+            onClick={() => {
+              setQuery(query);
+              window.history.pushState(null, '', `/StoreListPage${query}`);
+            }}
+          >
+            SEARCH
+          </SearchButton>
+        </div>
+
         <LocationSortBar />
-        </SortBar>
-        </SearchContainer>
-    )
-}
+      </WrapperFilter>
+    </SearchContainer>
+  );
+};
 export default StoreFilters;

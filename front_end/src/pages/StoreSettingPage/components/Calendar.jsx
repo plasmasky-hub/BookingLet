@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetStoreQuery } from '../../../store/api/storeApi';
-import { useAddStoreBusinessTimeByIdMutation } from '../../../store/api/calendarApi'
+import { useAddStoreBusinessTimeByIdMutation, useDeleteStoreBusinessTimeByIdMutation, } from '../../../store/api/calendarApi'
 
 
 const CalendarWrapper = styled(Paper)`
@@ -138,7 +138,24 @@ const SaveButton = styled.a`
   background-color: #D69636;
   border-radius: 5px;
   margin-left: 178px;
-  margin-top: 20px;
+  margin-top: 15px;
+
+  &:hover {
+    color: black;
+  }
+`;
+
+const DeleteButton = styled.a`
+  display:inline-block; 
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: white;
+  background-color: #E27777;
+  border-radius: 5px;
+  margin-left: 173px;
+  margin-top: -4px;
 
   &:hover {
     color: black;
@@ -178,7 +195,7 @@ const formStructure = [
 const TimeTag = styled.div`
   position: absolute;
   font-size: ${props => props.head.intervalQty < 19 ? '11px' : '13px'};
-  color: white;
+  color: white; 
   width : 67px;
   height: ${props => props.head.intervalQty * 2.25}px;
   border-radius: 3px;
@@ -197,7 +214,13 @@ const TimeTag = styled.div`
 `;
 
 const TimeInputZone = styled.div`
-  
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const DeleteInfoZone = styled.div`
+  font-weight: bold;
+  padding: 5px;
 `;
 
 
@@ -208,12 +231,14 @@ const Excel = (props) => {
   const { data: storeData, isSuccess } = useGetStoreQuery(id);
   const dbBusinessHours = isSuccess && storeData.businessHours;
   const [AddStoreBusinessTime] = useAddStoreBusinessTimeByIdMutation();
+  const [DeleteStoreBusinessTime] = useDeleteStoreBusinessTimeByIdMutation();
   //const [GetStore] = useGetStoreQuery(id);
 
   const [currentFocusRow, setCurrentFocusRow] = useState(0);
   const [currentOperation, setCurrentOperation] = useState(null);
   const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
-  //const [timeTagIndex, setTimeTagIndex] = useState(null);
+  const [timeDelete, setTimeDelete] = useState(false);
+  const [timeTagIndex, setTimeTagIndex] = useState(-1);
 
   const selectColumn = (index) => {
     setCurrentFocusRow(index);
@@ -227,12 +252,14 @@ const Excel = (props) => {
   const closePopup = () => {
     setCurrentFocusRow(0);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+    setTimeDelete(false);
+    setTimeTagIndex(-1);
   }
 
   const openPopup = (head, index) => {
     setCurrentFocusRow(head.date);
     setCurrentOperation(1);
-    //setTimeTagIndex(index);
+    setTimeTagIndex(index);
 
     head.timeTagIndex = index;
     head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
@@ -288,10 +315,12 @@ const Excel = (props) => {
       openHour: startTime,
       closingHour: endTime
     }
-    console.log(bodyObj)
     await AddStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     //document.execCommand('Refresh');
+    setCurrentFocusRow(0);
+    setTimeTagIndex(-1);
+    setTimeDelete(false);
   }
 
   //logic
@@ -332,8 +361,63 @@ const Excel = (props) => {
       }
       return element;
     })
-
   })
+
+  const deleteTime = async () => {
+    const regHour = /^[012]?\d$/;
+    const regMinute = /^[012345][05]$/;
+    if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
+      return alert('Please input correct hours (6:00 - 21:55)!');
+    }
+
+    if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
+      return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
+    }
+
+    let startTimeHourNum = parseInt(createTime.startTimeHour);
+    let endTimeHourNum = parseInt(createTime.endTimeHour);
+    let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
+    let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
+
+    if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
+      || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
+      return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
+    }
+
+    
+    if (!timeDelete) {
+      return alert('Please select "YES" in radio!');
+    }
+
+    //DeleteStoreBusinessTime
+    let currentDayOfWeek = null;
+    switch (currentFocusRow) {
+      case 1: currentDayOfWeek = 'Monday'; break;
+      case 2: currentDayOfWeek = 'Tuesday'; break;
+      case 3: currentDayOfWeek = 'Wednesday'; break;
+      case 4: currentDayOfWeek = 'Thursday'; break;
+      case 5: currentDayOfWeek = 'Friday'; break;
+      case 6: currentDayOfWeek = 'Saturday'; break;
+      case 7: currentDayOfWeek = 'Sunday'; break;
+      default: currentDayOfWeek = null;
+    };
+
+    const bodyObj = {
+      id: id,
+      dayOfWeek: currentDayOfWeek,
+      openHour: createTime.startTimeHour + createTime.startTimeMinute,
+      closingHour: createTime.endTimeHour + createTime.endTimeMinute
+    }
+
+    let resultOfDelete = await DeleteStoreBusinessTime(bodyObj);
+    setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+    if (resultOfDelete.data.Error !== undefined) {
+      alert(resultOfDelete.data.Error);
+    }
+    setCurrentFocusRow(0);
+    setTimeTagIndex(-1);
+    setTimeDelete(false);
+  }
 
 
 
@@ -378,7 +462,7 @@ const Excel = (props) => {
                 }} onClick={() => selectedOperation(index)} key={index}>{head}</Operation>)
             }
           </Nav>
-          <TimeInputZone className='TimeInputZone' style={{ 'margin-top': '10px' }}>
+          <TimeInputZone className='TimeInputZone' style={{ 'display': currentOperation === 2 ? 'none' : '' }}>
             <div>
               <span style={{ 'font-weight': '900', 'font-size': '12px', 'margin-right': '15px' }}>Start from</span>
               <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>
@@ -391,23 +475,44 @@ const Excel = (props) => {
               <span style={{ 'font-weight': '600', 'font-size': '12px' }}>:</span>
               <TimeInput type="string" onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>
             </div>
+            <div>
+              <SaveButton onClick={submitTime}>Save</SaveButton>
+            </div>
           </TimeInputZone>
-          <div>
-            <SaveButton onClick={submitTime}>Save</SaveButton>
-          </div>
+          <DeleteInfoZone style={{ 'display': currentOperation === 2 ? '' : 'none' }}>
+            <p style={{ 'margin-bottom': '0px' }}>Do you want to <span style={{ 'color': '#E27777' }}>DELETE</span> this business hour from
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, startTimeHour: e.target.value })} value={createTime.startTimeHour}></TimeInput>:
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, startTimeMinute: e.target.value })} value={createTime.startTimeMinute}></TimeInput> to
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, endTimeHour: e.target.value })} value={createTime.endTimeHour}></TimeInput>:
+              <TimeInput type="string" style={{ 'color': '#E27777' }} onChange={(e) => setCreateTime({ ...createTime, endTimeMinute: e.target.value })} value={createTime.endTimeMinute}></TimeInput>?</p>
+            <div style={{ 'display': 'flex', 'justify-content': 'space-around', "padding": "0px 85px", 'margin-left': '-20px', 'margin-top': '10px' }}>
+              <input type="radio" id="yes" name="confirmation" onClick={() => setTimeDelete(true)} checked={timeDelete} /><span>Yes</span>
+              <input type="radio" id="no" name="confirmation" onClick={() => setTimeDelete(false)} checked={!timeDelete} /><span>No</span>
+            </div>
+            <div>
+              <DeleteButton onClick={deleteTime}>Delete</DeleteButton>
+            </div>
+          </DeleteInfoZone>
         </BodyContent>
       </Popup>
       <div>
         {
           timePairArr.map((head, index) =>
-            <TimeTag head={head} onClick={() => openPopup(head, index)} >{`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
-              (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
-              + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
-                + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
+            <TimeTag head={head} onClick={() => openPopup(head, index)} style={{
+              'background-color': timeTagIndex === index ? '#397CC2' : '',
+              'box-shadow': timeTagIndex === index ? '5px 10px 10px rgba(0,0,0,0.65) ' : '',
+              'font-weight': timeTagIndex === index ? 'bold' : '',
+              'padding': timeTagIndex === index ? '2px' : ''
+            }}>
+              {`${head.startTime >= 1300 ? Math.floor(head.startTime / 100) - 12 + ':' +
+                (head.startTime % (100) < 10 ? '0' + head.startTime % (100) : head.startTime % (100))
+                + ' PM' : Math.floor(head.startTime / 100) + ':' + (head.startTime % (100) < 10 ? '0'
+                  + head.startTime % (100) : head.startTime % (100)) + ' AM'} 
               - ${head.endTime >= 1300 ? Math.floor(head.endTime / 100) - 12 + ':'
-                + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
-                + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
-                  + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}</TimeTag>
+                  + (head.endTime % (100) < 10 ? '0' + head.endTime % (100) : head.endTime % (100))
+                  + ' PM' : Math.floor(head.endTime / 100) + ':' + (head.endTime % (100) < 10 ? '0'
+                    + head.endTime % (100) : head.endTime % (100)) + ' AM'}`}
+            </TimeTag>
           )
         }
       </div>

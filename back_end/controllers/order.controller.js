@@ -128,7 +128,6 @@ async function updateOrderByID(req, res) {
 }
 // Store confirm order ->change booking status from false to true
 async function confirmOrder(req, res) {
-  console.log('Confirm Order');
   const { id } = req.params;
   const { bookingStatus } = req.body;
   const order = await Order.findByIdAndUpdate(

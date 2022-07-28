@@ -16,6 +16,14 @@ const calendarApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Calendar'],
     }),
+    deleteStoreBusinessTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
+        method: 'DELETE',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['Calendar'],
+    }),
     addCalendarTimeById: builder.mutation({
       query: (bodyObj) => ({
         url: `/calendar/serviceInfo/${bodyObj.id}`,
@@ -24,8 +32,28 @@ const calendarApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['ServiceCalendar'],
     }),
+    deleteCalendarTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/serviceInfo/${bodyObj.id}`,
+        method: 'DELETE',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['ServiceCalendar'],
+    }),
+
+    syncStoreCalendarToService: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.storeId}/serviceInfo/${bodyObj.serviceInfoId}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['ServiceCalendar'],
+    }),
+
   }),
   overrideExisting: false,
 });
 
-export const { useGetBusinessTimeQuery, useGetChartDateQuery, useAddStoreBusinessTimeByIdMutation, useAddCalendarTimeByIdMutation } = calendarApi;
+export const { useGetBusinessTimeQuery, useGetChartDateQuery, useAddStoreBusinessTimeByIdMutation,
+  useDeleteStoreBusinessTimeByIdMutation, useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation,
+  useSyncStoreCalendarToServiceMutation } = calendarApi;
+
