@@ -3,6 +3,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styled from '@emotion/styled';
 import { useCreateOrderQuery } from '../../../../store/api/orderApi';
 import ErrorIcon from '@mui/icons-material/Error';
+import { Link } from 'react-router-dom';
 
 const CheckIconWrapper = styled.div`
   display: flex;
@@ -39,7 +40,7 @@ const Text = styled.div`
   line-height: 18px;
 `;
 
-const Link = styled.a`
+const StyledLink = styled(Link)`
   cursor: pointer;
   color: #7b8b6f;
   font-weight: 600;
@@ -85,7 +86,7 @@ const Step5 = ({ FormData, setFormData }) => {
             <Text>
               Congratulations. Your booking request has been sent to the
               business owner. The status of your booking could be checked in{' '}
-              <Link href="#">My booking</Link>
+              <StyledLink to="/UserBookingPage/">My booking</StyledLink>
             </Text>
           ) : (
             <Text>Sorry! {message}. Please try again.</Text>
