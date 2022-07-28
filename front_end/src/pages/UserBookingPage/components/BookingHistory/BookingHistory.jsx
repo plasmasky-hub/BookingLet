@@ -56,6 +56,8 @@ export const BookingHistory = () => {
 
   return (
     // <>booking</>
+    <>
+    { isSuccess && filterOrders &&
     <BookingPageWrapper>
       <h2>My Bookings</h2>
       <Stack direction="row" spacing={1}>
@@ -72,5 +74,7 @@ export const BookingHistory = () => {
       <BookingTable data={filterOrders[0]} />
       <BookingTable data={filterOrders[0]} />
     </BookingPageWrapper>
+    }
+    </>
   );
 };

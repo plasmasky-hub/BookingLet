@@ -33,7 +33,7 @@ const TableHead = {
 //   status: ["Confirmed", "Unconfirmed", "Cancelled"],
 // };
 
-const StatusColor = ["#7B8B6F", "#CEA02C", "#D76D6D"];
+// const StatusColor = ["#7B8B6F", "#CEA02C", "#D76D6D"];
 
 // const StyledButtonGroup = styled(ButtonGroup)`
 //   width: 150px;
@@ -79,14 +79,16 @@ const CollapsedNotice = styled(Box)`
 
 export const BookingTable = ({ data, clicked }) => {
   // const [statusIndex, setStatusIndex] = useState(1);
-
+//console.log(data)
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
-  // console.log(data.userId);
+  console.log(data.orderTime.date);
   return (
+    <>
+    { data && 
     <>
       <StyledTableContainer component={Paper}>
         <TableRow direction="column" sx={{ width: "1000px" }}>
@@ -99,16 +101,16 @@ export const BookingTable = ({ data, clicked }) => {
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.date}</h4>
-            <p>{data.orderTime.date.toLocaleDateString()}</p>
+            <p>{data.orderTime.date.toString().substring(0,10)}</p>
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.time}</h4>
-            <p>{data.orderTime.time}</p>
+            <p>{data.orderTime.startTime}</p>
           </TableCell>
           <TableCell sx={{ pr: 8 }}>
             <h4>{TableHead.status}</h4>
-            <p style={{ color: `${StatusColor[clicked]}` }}>
-              {/* {TableFoot.status} */}
+            <p style={{ color:  data.bookingStatus?'#7B8B6F':'#CEA02C' }}>
+              {data.bookingStatus?'Confirmed':'Unconfirmed'} 
             </p>
           </TableCell>
           <TableCell sx={{ cursor: "pointer" }}>
@@ -162,23 +164,23 @@ export const BookingTable = ({ data, clicked }) => {
             <CollapsibleTableWrapper>
               <CollapsibleTable>
                 <CollapsedTitle>
-                  <p>Service Name</p>
+                  <p>Store Name</p>
                   <p>Reference Number</p>
                   <p>Contact Number</p>
                 </CollapsedTitle>
                 <div>
-                  <p>Chinese Medicine Consultation </p>
-                  <p>R088034029385</p>
-                  <p>0414123456</p>
+                  <p>{data.storeId.name} </p>
+                  <p>{data._id}</p>
+                  <p>{data.storeId.tel}</p>
                 </div>
                 <CollapsedTitle>
-                  <p>Time of Order</p>
+                  <p>Service Name</p>
                   <p>Time of Booking</p>
                   <p style={{ color: "#8E8E8E" }}>Note</p>
                 </CollapsedTitle>
                 <div>
-                  <p>15 Jun 2022 18:00:54</p>
-                  <p>18 Jun 2022 13:00</p>
+                  <p>{data.serviceInfoId.name}</p>
+                  <p>{data.bookingTime}</p>
                   <p></p>
                 </div>
               </CollapsibleTable>
@@ -190,6 +192,8 @@ export const BookingTable = ({ data, clicked }) => {
           </Collapse>
         </TableRow>
       </StyledTableContainer>
+    </>
+  }
     </>
   );
 };
