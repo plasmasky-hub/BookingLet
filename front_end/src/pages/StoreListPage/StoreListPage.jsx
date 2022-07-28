@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import styled from 'styled-components';
 import StoreDisplay from './components/StoreDisplay';
 import { useLocation } from 'react-router-dom';
@@ -21,7 +21,9 @@ const StoreResultBanner = styled.div`
 
 const StoreListPage = () => {
   const location = useLocation();
-  const query = location.search;
+  const [query, setQuery] = useState(location.search);
+  const queryIndex = query.indexOf('query=');
+  const queryStr = queryIndex >= 0 ? query.substring(queryIndex) : '';
   const { data: stores, isSuccess } = useGetStoresQuery(query);
 
   return (
@@ -41,7 +43,13 @@ const StoreListPage = () => {
               'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
           }}
         >
-          <StoreFilters />
+          {isSuccess && (
+            <StoreFilters
+              setQuery={setQuery}
+              stores={stores}
+              queryStr={queryStr}
+            />
+          )}
           {isSuccess && <StoreDisplay stores={stores} />}
         </Box>
       </Box>
