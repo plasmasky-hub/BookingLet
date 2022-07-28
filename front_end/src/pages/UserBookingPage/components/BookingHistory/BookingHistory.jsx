@@ -69,10 +69,10 @@ export const BookingHistory = () => {
       <Stack direction="row" spacing={1} sx={{ py: 2 }}>
         {statusIndicator}
       </Stack>
-      <BookingTable data={filterOrders[0]} />
-      <BookingTable data={filterOrders[0]} />
-      <BookingTable data={filterOrders[0]} />
-      <BookingTable data={filterOrders[0]} />
+      {filterOrders.map((order)=>
+        <BookingTable data={order} key ={order.id} />
+      )}
+     
     </BookingPageWrapper>
     }
     </>
