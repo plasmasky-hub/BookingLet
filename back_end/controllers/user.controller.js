@@ -136,7 +136,7 @@ async function getUserStores(req, res){
 
     // const storeId = user.stores[0];
     // console.log("🚀 ~ file: user.controller.js ~ line 136 ~ getUserStores ~ storeId", storeId)
-    const users  = await User.findById(id).populate('stores').exec();
+    const userStores  = await User.findById(id).populate('stores').exec();
     // console.log("🚀 ~ file: user.controller.js ~ line 136 ~ getUserStores ~ stores", stores)
 
     // if(!stores){
@@ -145,7 +145,7 @@ async function getUserStores(req, res){
     //   });
     // }
 
-    res.json(users);
+    res.json(userStores);
   }
   catch(Error){
     // res.json('Error in finding user\'s store!');

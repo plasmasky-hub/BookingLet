@@ -49,20 +49,20 @@ const StoreContainer = styled.div`
 
 `
 
- const StoreState= () => {
-    // userId = '62d43d784d61d2e252076471';
-    const user = localStorage.getItem('user');
-    const userId = user._id;
-    const userStoreData = useGetUserStoresQuery(userId);
+ const StoreState= (props) => {
+    const id = '62d43d784d61d2e252076471';
+    // const id = props.userId;
+    console.log("🚀 ~ file: StoreState.jsx ~ line 55 ~ StoreState ~ id", id)
 
     const {
-      data: stores,
+      data: user,
       isLoading,
       isSuccess,
       isError,
       error,
-    } = userStoreData;
-    console.log(user,userStoreData);
+    } = useGetUserStoresQuery(id);
+
+    console.log(user);
     // const UserStores = useGetUserStoresQuery(_id)
     // const StoreContainers = 
 
@@ -73,14 +73,14 @@ const StoreContainer = styled.div`
             {isError && <p>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {isSuccess && (
-                 user.stores!== undefined &&(user?.stores.map((store) => 
-                  (<StoreContainer key= {store._id} >
-                     <StoreInfoBar storeId={store._id} />
-                     
-                     <hr />
-                     <OrderStatus />
-                 </StoreContainer>
-                 )
+                user.stores !== undefined && ( user?.stores.map((store) => 
+                    (<StoreContainer >
+                        <StoreInfoBar storeId={store._id} />
+                    
+                        <hr />
+                        <OrderStatus  storeId={store._id} orders={store.orders}/>
+                    </StoreContainer>
+                    )
                 ))
                 
             )}

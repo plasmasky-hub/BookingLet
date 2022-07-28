@@ -8,13 +8,25 @@ const PageContainer = styled.div`
     justify-content:center;
 `
 
-const StoreLandingPage = () =>(
-    <div>
+const StoreLandingPage = () => {
+    const user = JSON.parse( localStorage.getItem("user") ); 
+    // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
+    // console.log(typeof(user));
+    // console.log(user.name);
+
+    const userInfo = {
+        "name": user.name,
+        "role": user.role,
+        "id": user._id,
+    }
+
+    return (
         <PageContainer>
-            <UserInfo />
-            <StoreState />
+            <UserInfo userName={userInfo.name}/>
+            <StoreState userId = {userInfo.id}/>
         </PageContainer>
-    </div>
-);
+    )
+    
+};
 
 export default StoreLandingPage;
