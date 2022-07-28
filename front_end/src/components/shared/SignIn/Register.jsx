@@ -144,15 +144,16 @@ export const RegisterModal = (props) => {
 
         onSubmit: async (values) => {
             // alert("Register successful!");
-            alert( JSON.stringify(values, null, 2) );
+            // alert( JSON.stringify(values, null, 2) );
             const registerResult = await register(values);
 
-            console.log(registerResult);
-            if ( Boolean(registerResult.data.user) ){
+            // console.log(registerResult);
+            if ( Boolean(registerResult.data) ){
                 props.registerClose();
                 props.loginOpen();
             }
             else{
+                formik.values.role = 'Customer';
                 alert( JSON.stringify(registerResult.error.data ));
             }
             // refresh page
