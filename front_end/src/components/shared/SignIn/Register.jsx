@@ -86,8 +86,13 @@ const RegisterInputField = styled(TextField)`
 `;
 
 const TextFieldStyle = {
-  mt: 2,
-  width: '100%',
+	mt: 2,
+	width: '100%',
+	
+	'& .MuiOutlinedInput-root': {
+		backgroundColor: 'white',
+		borderRadius: '4px',
+	},
 };
 
 const RoleLabel = styled(Typography)`
@@ -189,6 +194,12 @@ export const RegisterModal = (props) => {
                   onChange={formik.handleChange}
                   error={formik.touched.name || Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
+				  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      borderRadius: '4px',
+                    },
+                  }}
                 />
 
                 <RegisterInputField
@@ -200,6 +211,12 @@ export const RegisterModal = (props) => {
                   onChange={formik.handleChange}
                   error={formik.touched.tel || Boolean(formik.errors.tel)}
                   helperText={formik.touched.tel && formik.errors.tel}
+				  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      borderRadius: '4px',
+                    },
+                  }}
                 />
 
                 <RegisterInputField
@@ -211,6 +228,12 @@ export const RegisterModal = (props) => {
                   onChange={formik.handleChange}
                   error={formik.touched.email || Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
+				  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      borderRadius: '4px',
+                    },
+                  }}
                 />
 
                 <FormControl
@@ -245,6 +268,7 @@ export const RegisterModal = (props) => {
                         </IconButton>
                       </InputAdornment>
                     }
+					
                   />
                 </FormControl>
 
