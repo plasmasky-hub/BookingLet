@@ -8,10 +8,6 @@ const StoreListPage = () => {
   const location = useLocation();
   const query = location.search;
   const { data: stores, isSuccess } = useGetStoresQuery(query);
-  console.log(query);
-
-  //const { data: stores, isLoading, isSuccess, isError, error } = storesData;
-  //const storesData = JSON.parse(useGetStoresQuery().currentData);
 
   return (
     <>
