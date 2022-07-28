@@ -15,9 +15,9 @@ pipeline {
         // DISTRIBUTION_ID = 'E6UWRGO0EHJ5Q'
     }
     
-    parameters {
-        choice choices: ['uat', 'prod'], description: 'choose Workspace', name: 'workspace'
-    }
+   // parameters {
+   //     choice choices: ['uat', 'prod'], description: 'choose Workspace', name: 'workspace'
+   // }
 
     stages {
         stage('Install packages') {
