@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
 import LocationSortBar from './LocationSortBar';
-import QuantityDateBar from './QuantityDateBar';
-import SearchCategoryBar from './SearchCategoryBar';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import { Typography, Box, TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/lab';
@@ -19,14 +15,6 @@ const SearchContainer = styled(Box)`
   width: 1130px;
   height: 120px;
   margin: 20px auto;
-`;
-const SortBar = styled.div`
-  display: flex;
-  align-items: center;
-  color: #ffffff;
-  justify-content: space-between;
-  margin-top: 20px;
-  padding-right: 50px;
 `;
 
 const WrapperFilter = styled.div`

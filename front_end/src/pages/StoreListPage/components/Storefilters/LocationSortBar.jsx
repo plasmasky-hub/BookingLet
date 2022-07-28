@@ -3,9 +3,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Box from '@mui/material/Box';
 import styled from 'styled-components';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ListIcon from '@mui/icons-material/List';
-import MenuItem from '@mui/material/MenuItem';
 
 const Wrapper = styled.div`
   display: flex;
