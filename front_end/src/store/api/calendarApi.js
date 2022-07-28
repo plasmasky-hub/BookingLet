@@ -6,8 +6,7 @@ const calendarApi = apiSlice.injectEndpoints({
       query: (q) => `/calendar/businessTime?${q}`,
     }),
     getChartDate: builder.query({
-      query: (q) =>
-        `/calendar/chart?date=2022-07-30&serviceInfoId=62d5579230f835c4513d6c52`,
+      query: (q) => `/calendar/chart?${q}`,
     }),
     addStoreBusinessTimeById: builder.mutation({
       query: (bodyObj) => ({

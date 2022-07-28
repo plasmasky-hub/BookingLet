@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const Store = require('../models/store');
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
+const { generateToken } = require('../utils/jwt');
 
 // GET all users
 async function getAllUsers(req, res) {
@@ -255,6 +257,62 @@ function checkUserInfo(data) {
   }
 }
 
+async function register(req, res) {
+	console.log('Register new user...');
+	
+	const { name,
+		tel,
+		email,
+		password,
+    role,
+  } = req.body;
+		
+	const checkEmail = await User.find({email});
+    // console.log("🚀 ~ file: user.controller.js ~ line 204 ~ register ~ checkName", checkName)
+	
+	if( checkEmail.length > 0 ){
+		return res.status(409).json('This Email has been used, please use another one!');
+	}
+	// Validation
+	// Check if username duplicate
+
+	const newUser = new User({
+		name: name,
+		tel: tel,
+		email: email,
+		password: password,
+    role: role,
+	});
+
+	await newUser.hashPassword();
+	await newUser.save();
+	// const token = await generateToken({email});
+
+	return res.status(200).json({user: newUser});
+
+}
+
+async function login(req, res) {
+	const { email, password } = req.body;
+
+	const currentUser = await User.findOne({ email }).exec();
+
+  if (!currentUser) {
+		return res.status(401).json({ error: "Invalid email account!" });
+	}
+
+  // console.log(validation.error.details[0].path);
+	const checkPassword = await currentUser.validatePassword(password);
+  // const checkPassword = ( password === currentUser.password )? true : false;
+	if (!checkPassword) {
+		return res.status(401).json({ error: "Invalid password!" });
+	};
+
+  const token = await generateToken({email});
+
+	return res.status(200).json({user: currentUser, token: token});
+}
+
 module.exports = {
   getAllUsers,
   getUserByID,
@@ -263,6 +321,11 @@ module.exports = {
   deleteUserByID,
   getUserStores,
   addOrCancelFavoriteStore,
+
+  login,
+  register,
+
   getFavouriteStoreById
+
   //addStoreToUser,
 };

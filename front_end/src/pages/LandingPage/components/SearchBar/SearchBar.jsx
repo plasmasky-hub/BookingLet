@@ -1,20 +1,19 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 import styled from 'styled-components';
 
-const SearchPaper = styled(Paper)({
+const SearchPaper = styled('div')({
   padding: '2px 4px',
   display: 'flex',
   alignItems: 'center',
-  width: 476,
+  width: 470,
+  height: 50,
   marginTop: 15,
   marginLeft: 0.31,
-  opacity: 0.6,
+  backgroundColor: '#FFFFFF',
+  borderRadius: 5,
 });
 
 export default function CustomizedInputBase() {
