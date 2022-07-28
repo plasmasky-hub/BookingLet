@@ -3,16 +3,14 @@ import LandingPage from './pages/LandingPage';
 import StoreListPage from './pages/StoreListPage';
 import BookingPage from './pages/BookingPage';
 import StoreLandingPage from './pages/StoreLandingPage';
-
+import TeamPage from './pages/TeamPage';
 import FavouriteStoreListPage from './pages/FavouriteStoreListPage';
 import StoreSettingPage from './pages/StoreSettingPage';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageLayout from './components/shared/PageLayout';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import Layout from './components/shared/Layout';
-import TeamPage from './pages/TeamPage';
 
 function App() {
   return (

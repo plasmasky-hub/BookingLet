@@ -47,22 +47,14 @@ const BoxList = styled(Box)`
     margin-top: 100px;
     justify-content: center;
     align-items:center;
-    
-    
-
 `
 const BoxTitle = styled(Box)`
     display:flex;
     justify-content:center;
     align-items:center;
     margin: 0 auto;
-    
-
 `
-
-
-
-export default function BasicTabs() {
+export default function TeamList() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -82,19 +74,19 @@ export default function BasicTabs() {
         sx={{ width: '100%' }}
     >
 
-          <Tab sx={{ fontSize:18 }} label="Tutors" {...a11yProps(0)} />
-          <Tab sx={{ fontSize:18 }} label="Developers" {...a11yProps(1)} />
-          <Tab sx={{ fontSize:18 }} label="DevOps" {...a11yProps(2)} />
+          <Tab sx={{ fontSize:18 }} label="Developers" {...a11yProps(0)} />
+          <Tab sx={{ fontSize:18 }} label="DevOps" {...a11yProps(1)} />
+          <Tab sx={{ fontSize:18 }} label="Tutors" {...a11yProps(2)} />
         </Tabs>
       </BoxTitle>
       <TabPanel value={value} index={0} >
-        <MemberCard/>
-      </TabPanel>
-      <TabPanel value={value} index={1} >
         <DevelopsCard/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={1} >  
         <DevopsCard/>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <MemberCard/>
       </TabPanel>
     </BoxList>
   );
