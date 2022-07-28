@@ -14,6 +14,9 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+// import { BrowserRouter  } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BannerButton = styled(Button)({
   width: 165,
@@ -47,7 +50,7 @@ const WrapperFilter = styled.div`
 // margin-left: 200px;
 //   margin-top: 50px;
 const Wrapper = styled.div`
-  width: 558px;
+  width: 565px;
   height: 240px;
   margin-top: 35px;
   padding: 15px;
@@ -59,9 +62,20 @@ const Wrapper = styled.div`
 
 const WrapperCategory = styled.div``;
 
-const BanerForm = ({ FormData, setFormData }) => {
+const BanerForm = () => {
+  const navigate = useNavigate();
+
   const { data: rootCategory, isSuccess: success } =
     useGetRootCategoriesQuery();
+
+  const [FormData, setFormData] = useState({
+    date: new Date(),
+    category: '',
+    state: '',
+    search: '',
+    isSearch: false,
+    q: '',
+  });
 
   const date = `${FormData.date.getFullYear()}-${
     FormData.date.getMonth() + 1 < 10
@@ -72,7 +86,8 @@ const BanerForm = ({ FormData, setFormData }) => {
   const category = FormData.category;
   const state = FormData.state;
   const query = FormData.search;
-  const q = `${category ? `category=${category}` : ''}${
+
+  const searchQuery = `?${category ? `category=${category}` : ''}${
     state ? `&state=${state}` : ''
   }${date ? `&date=${date}` : ''}${query ? `&query=${query}` : ''}`;
 
@@ -131,10 +146,11 @@ const BanerForm = ({ FormData, setFormData }) => {
               label="Age"
             >
               <MenuItem value="">
-                <em>None</em>
+                <em>All</em>
               </MenuItem>
               <MenuItem value={'NSW'}>NSW</MenuItem>
               <MenuItem value={'VIC'}>VIC</MenuItem>
+              <MenuItem value={'QLD'}>QLD</MenuItem>
               <MenuItem value={'SA'}>SA</MenuItem>
               <MenuItem value={'TAS'}>TAS</MenuItem>
               <MenuItem value={'WA'}>WA</MenuItem>
@@ -167,7 +183,8 @@ const BanerForm = ({ FormData, setFormData }) => {
           mt: 3,
         }}
         onClick={() => {
-          setFormData({ ...FormData, isSearch: true, q: q });
+          // setFormData({ ...FormData, isSearch: true, q: q });
+          navigate(`/StoreListPage${searchQuery}`);
         }}
       >
         SEARCH
