@@ -24,7 +24,7 @@ function App() {
             <Route path="/LandingPage" element={<LandingPage />}></Route>
             <Route path="/StoreListPage" element={<StoreListPage />}></Route>
             <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
-            <Route path="/StoreLandingPage" element={<StoreLandingPage />}></Route>
+            <Route path="/StoreLandingPage/:_id" element={<StoreLandingPage />}></Route>
             <Route
               path="/FavouriteStoreListPage/:_id"
               element={<FavouriteStoreListPage />}

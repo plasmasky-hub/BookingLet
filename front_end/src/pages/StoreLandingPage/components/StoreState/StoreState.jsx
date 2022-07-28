@@ -4,9 +4,10 @@ import StoreInfoBar from './components/StoreInfoBar/StoreInfoBar';
 import foodBg from '../../../../assets/foodBg.jpeg';
 import {useGetUserStoresQuery} from '../../../../store/api/userApi';
 
+
 const StoreInfoWrapper = styled.div`
     width:100%;
-    background-color: #FBFBFB;
+    background-color: #aabb9d;
     display:flex;
     justify-content: center;
     align-items:center;
@@ -38,7 +39,6 @@ const StoreContainer = styled.div`
     margin:20px auto;
     padding: 30px;
     //filter: brightness(50%);
-
     background-size: cover;
     border-radius: 10px;
     border-radius:32px;
@@ -48,7 +48,6 @@ const StoreContainer = styled.div`
     }
 
 `
-
 
  const StoreState= ({userId}) => {
     // userId = '62d43d784d61d2e252076471';
