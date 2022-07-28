@@ -103,7 +103,7 @@ const RegisterButton = styled(Button)`
   width: 300px;
   font-size: 1.3rem;
   border-radius: 5px;
-  background-color: ##7b8b6f;
+  background-color: #7b8b6f;
 `;
 
 export const RegisterModal = (props) => {
@@ -136,18 +136,18 @@ export const RegisterModal = (props) => {
     validateOnBlur: true,
 
     onSubmit: async (values) => {
-      // alert("Register successful!");
-      alert(JSON.stringify(values, null, 2));
-      const registerResult = await register(values);
+        // alert("Register successful!");
+        // alert(JSON.stringify(values, null, 2));
+        const registerResult = await register(values);
 
-      console.log(registerResult);
-      if (Boolean(registerResult.data.user)) {
-        props.registerClose();
-        props.loginOpen();
-      } else {
-        alert(JSON.stringify(registerResult.error.data));
-      }
-      // refresh page
+        console.log(registerResult);
+        if (Boolean(registerResult.data.user)) {
+            props.registerClose();
+            props.loginOpen();
+        } else {
+            alert(JSON.stringify(registerResult.error.data));
+        }
+        // refresh page
     },
   });
 

@@ -16,10 +16,8 @@ import {
   Button,
   FormControl,
   Grid,
-  InputLabel,
   TextField,
   Typography,
-  OutlinedInput,
   InputAdornment,
   IconButton,
   Link,
@@ -104,7 +102,7 @@ const LoginButton = styled(Button)`
   width: 300px;
   font-size: 1.3rem;
   border-radius: 5px;
-  background-color: ##7b8b6f;
+  background-color: #7b8b6f;
 `;
 
 export const LoginModal = (props) => {
