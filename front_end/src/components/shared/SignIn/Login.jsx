@@ -16,10 +16,8 @@ import {
   Button,
   FormControl,
   Grid,
-  InputLabel,
   TextField,
   Typography,
-  OutlinedInput,
   InputAdornment,
   IconButton,
   Link,
@@ -104,7 +102,7 @@ const LoginButton = styled(Button)`
   width: 300px;
   font-size: 1.3rem;
   border-radius: 5px;
-  background-color: ##7b8b6f;
+  background-color: #7b8b6f;
 `;
 
 export const LoginModal = (props) => {
@@ -246,9 +244,9 @@ export const LoginModal = (props) => {
               <FormControl
                 color="primary"
                 sx={TextFieldStyle}
-                error={
-                  formik.touched.password || Boolean(formik.errors.password)
-                }
+                // error={
+                //   formik.touched.password || Boolean(formik.errors.password)
+                // }
               >
                 <TextField
                   variant="outlined"
@@ -257,6 +255,10 @@ export const LoginModal = (props) => {
                   type={formik.values.showPassword ? 'text' : 'password'}
                   value={formik.values.password}
                   onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">

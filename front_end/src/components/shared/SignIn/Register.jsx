@@ -32,7 +32,7 @@ const RegisterModalBox = styled(Box)`
   justify-content: center;
   align-items: center;
   transform: translate(-50%, -50%);
-  background: rgba(47, 68, 73, 0.5);
+  background: rgba(47, 68, 73, 0.6);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 
@@ -86,8 +86,13 @@ const RegisterInputField = styled(TextField)`
 `;
 
 const TextFieldStyle = {
-  mt: 2,
-  width: '100%',
+	mt: 2,
+	width: '100%',
+	
+	'& .MuiOutlinedInput-root': {
+		backgroundColor: 'white',
+		borderRadius: '4px',
+	},
 };
 
 const RoleLabel = styled(Typography)`
@@ -103,7 +108,7 @@ const RegisterButton = styled(Button)`
   width: 300px;
   font-size: 1.3rem;
   border-radius: 5px;
-  background-color: ##7b8b6f;
+  background-color: #7b8b6f;
 `;
 
 export const RegisterModal = (props) => {
@@ -136,18 +141,18 @@ export const RegisterModal = (props) => {
     validateOnBlur: true,
 
     onSubmit: async (values) => {
-      // alert("Register successful!");
-      alert(JSON.stringify(values, null, 2));
-      const registerResult = await register(values);
+        // alert("Register successful!");
+        // alert(JSON.stringify(values, null, 2));
+        const registerResult = await register(values);
 
-      console.log(registerResult);
-      if (Boolean(registerResult.data.user)) {
-        props.registerClose();
-        props.loginOpen();
-      } else {
-        alert(JSON.stringify(registerResult.error.data));
-      }
-      // refresh page
+        console.log(registerResult);
+        if (Boolean(registerResult.data)) {
+            props.registerClose();
+            props.loginOpen();
+        } else {
+            alert(JSON.stringify(registerResult.error.data));
+        }
+        // refresh page
     },
   });
 
@@ -189,6 +194,12 @@ export const RegisterModal = (props) => {
                   onChange={formik.handleChange}
                   error={formik.touched.name || Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
+				  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      borderRadius: '4px',
+                    },
+                  }}
                 />
 
                 <RegisterInputField
@@ -200,6 +211,12 @@ export const RegisterModal = (props) => {
                   onChange={formik.handleChange}
                   error={formik.touched.tel || Boolean(formik.errors.tel)}
                   helperText={formik.touched.tel && formik.errors.tel}
+				  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      borderRadius: '4px',
+                    },
+                  }}
                 />
 
                 <RegisterInputField
@@ -211,6 +228,12 @@ export const RegisterModal = (props) => {
                   onChange={formik.handleChange}
                   error={formik.touched.email || Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
+				  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white',
+                      borderRadius: '4px',
+                    },
+                  }}
                 />
 
                 <FormControl
@@ -245,6 +268,7 @@ export const RegisterModal = (props) => {
                         </IconButton>
                       </InputAdornment>
                     }
+					
                   />
                 </FormControl>
 

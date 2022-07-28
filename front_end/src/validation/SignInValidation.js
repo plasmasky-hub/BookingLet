@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const loginValidation = (values) => {
-    console.log(typeof(values));
+    // console.log(typeof(values));
 
     const formateValues = JSON.parse(JSON.stringify(values));
 
@@ -11,11 +11,11 @@ export const loginValidation = (values) => {
         showPassword: Joi.boolean(),
     });
     
-    console.log('Checking login info format...');
+    // console.log('Checking login info format...');
     
     const  validation  = schema.validate(formateValues);
-    console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ error", validation);
-    console.log(typeof(validation));
+    // console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ error", validation);
+    // console.log(typeof(validation));
     // console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ validation", validation)
     
     // if there is no error, the "details" key will be undefined in error
@@ -45,7 +45,7 @@ export const loginValidation = (values) => {
 }
 
 export const registerValidation = (values) => {
-    console.log(typeof(values));
+    // console.log(typeof(values));
 
     const formateValues = JSON.parse(JSON.stringify(values));
 
@@ -61,8 +61,8 @@ export const registerValidation = (values) => {
     console.log('Checking register info format...');
     
     const  validation  = schema.validate(formateValues);
-    console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ validation", validation);
-    console.log(typeof(validation));
+    // console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ validation", validation);
+    // console.log(typeof(validation));
     // console.log("🚀 ~ file: SignInValidation.js ~ line 15 ~ loginValidation ~ validation", validation)
     
     // if there is no error, the "details" key will be undefined in error
