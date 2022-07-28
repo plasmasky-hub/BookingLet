@@ -15,8 +15,10 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 const newtheme = { ...theme, iconColor: '#7F96AF' };
+
 
 const ProfileBox = styled.div`
   width: 280px;
@@ -99,6 +101,8 @@ const UserLogOutBtn = styled(Button)`
 `;
 
 export const UserPanel = (props) => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const user = JSON.parse( localStorage.getItem("user") ); 
   // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
@@ -108,6 +112,7 @@ export const UserPanel = (props) => {
   const UserInfo = {
     "name": user.name,
     "role": user.role,
+    "id" : user._id,
   }
 
   async function logout(){
@@ -115,6 +120,20 @@ export const UserPanel = (props) => {
     await localStorage.setItem('loggedIn', false);
     await localStorage.setItem('user', null);
     await localStorage.setItem('token', '');
+  }
+
+  async function handleNavigate (url) {
+    setOpen(false);
+    await navigate(url);
+    window.scrollTo(0, 0);
+  }
+
+  const routeToStoreLandingPage = () => {
+    handleNavigate(`/StoreLandingPage`);
+  }
+
+  const routeToFavStore = () => {
+    handleNavigate(`/FavouriteStoreListPage/${UserInfo.id}`);
   }
 
   // console.log(UserInfo);
@@ -190,7 +209,7 @@ export const UserPanel = (props) => {
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
-                <ListItemButton>
+                <ListItemButton onClick={routeToFavStore}>
                   <ListItemIcon>
                     <MenuBookOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}
@@ -205,7 +224,9 @@ export const UserPanel = (props) => {
 
                 {UserInfo.role === 'Customer'
                   ? null 
-                  : <ListItemButton>
+                  : <ListItemButton 
+                      onClick={ routeToStoreLandingPage }
+                    >
                       <ListItemIcon>
                         <HowToRegOutlinedIcon
                           sx={{ color: `${newtheme.palette.secondary.main}` }}

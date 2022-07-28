@@ -9,7 +9,6 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import StoreIcon from '@mui/icons-material/Store';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import { useState } from 'react';
 import { useGetStoresQuery } from '../../store/api/storeApi';
 
 const ServicesPanel = styled(Box)({
@@ -36,20 +35,11 @@ const ServiceIntroImg = styled(Box)({
 });
 
 const LandingPage = () => {
-  const [FormData, setFormData] = useState({
-    date: new Date(),
-    category: '',
-    state: '',
-    search: '',
-    isSearch: false,
-    q: '',
-  });
-  const query = FormData.isSearch ? FormData.q : '';
-  const { data, isSuccess } = useGetStoresQuery(query);
+  const { data, isSuccess } = useGetStoresQuery('');
 
   return (
     <>
-      <LandingBanner FormData={FormData} setFormData={setFormData} />
+      <LandingBanner />
       {/* Section of Introduction */}
       <Box
         sx={{

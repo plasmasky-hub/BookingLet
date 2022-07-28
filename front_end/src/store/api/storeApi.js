@@ -3,7 +3,7 @@ import { apiSlice } from './apiSlice';
 const storeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getStores: builder.query({
-      query: (q) => `/store?${q}`,
+      query: (q) => `/store${q}`,
     }),
 
     getStore: builder.query({
