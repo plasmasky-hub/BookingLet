@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
+
 
 const FooterWrapper = styled.div`
   width: 100%;
@@ -11,6 +13,7 @@ const FooterWrapper = styled.div`
   margin-top: 100px;
   margin: 0 auto;
   background: #d9d9d9;
+  
   /* background-image: url(../../assets/img/p.jpg);
   background-repeat: no-repeat; */
 `;
@@ -26,9 +29,8 @@ const Discover = styled.div`
   flex-direction: column;
 `;
 const Title = styled.div`
-  font-family: "Helvetica";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 15px;
   line-height: 20px;
   color: #000000;
@@ -39,22 +41,20 @@ const Category = styled.div`
   justify-content: space-between;
   width: 124px;
   height: 122px;
-  font-family: "Helvetica Light";
   font-style: normal;
   font-weight: 300;
   font-size: 15px;
   line-height: 18px;
   color: #000000;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
-const CategoryAbout = styled.div`
+const CategoryAbout = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 124px;
   height: 70px;
-  font-family: "Helvetica Light";
   font-style: normal;
   font-weight: 300;
   font-size: 15px;
@@ -64,9 +64,9 @@ const CategoryAbout = styled.div`
 `;
 
 const Text = styled.div`
-  display: flex;
-  margin-left: 500px;
+  display: flex; 
   margin-top: 60px;
+  
 `;
 const TextLeft = styled.div`
   padding-left: 15px;
@@ -75,8 +75,10 @@ const TextIcon = styled.div`
   padding-left: 15px;
 `;
 
-const Footer = () => (
-  <FooterWrapper>
+const Footer = () => {
+  const navigate = useNavigate();
+  return(
+    <FooterWrapper>
     <FooterContainer>
       <Discover>
         <Title>Discover</Title>
@@ -88,33 +90,33 @@ const Footer = () => (
           <div>All Businesses</div>
         </Category>
       </Discover>
+      
+      <Discover>
+        <Title>Account</Title>
+        <Category>
+          <div>My Information</div>
+          <div>My Booking</div>
+          <div>My Favourite</div>
+          <div>My Store</div>
+          <div>Log out</div>
+        </Category>
+      </Discover>
       <div>
-        <Title>About Us</Title>
+        <Title>Help and support</Title>
         <CategoryAbout>
-          <div>Contact</div>
-          <div>Join Our Team</div>
-          <div>Blog</div>
+          <div>Claim</div>
+
         </CategoryAbout>
       </div>
       <Discover>
-        <Title>Discover</Title>
-        <Category>
-          <div>Dining</div>
-          <div>Entertainment</div>
-          <div>Health&Beauty</div>
-          <div>Life Service</div>
-          <div>All Businesses</div>
-        </Category>
-      </Discover>
-      <Discover>
-        <Title>Discover</Title>
-        <Category>
-          <div>Dining</div>
-          <div>Entertainment</div>
-          <div>Health&Beauty</div>
-          <div>Life Service</div>
-          <div>All Businesses</div>
-        </Category>
+        <Title>About Us</Title>
+        <CategoryAbout type = "button" onClick={(e) => {
+        navigate('/Teampage');
+        window.scrollTo(0, 0)
+      }}>
+          Our Team
+        </CategoryAbout>
+        
       </Discover>
     </FooterContainer>
 
@@ -126,6 +128,11 @@ const Footer = () => (
       <TextLeft>@2022Bookinglet</TextLeft>
     </Text>
   </FooterWrapper>
-);
+  );
+  
+
+
+}
+  
 
 export default Footer;
