@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, Collapse } from "@mui/material";
-import { ConfirmButton, DeclineButton } from "./BookingManagementButton";
+import { BookingManagementButton, ConfirmButton, DeclineButton } from "./BookingManagementButton";
 import { useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -140,10 +140,7 @@ export const BookingManagementTable = () => {
             <p>{itemContent[3]}</p>
           </StyledTableCell>
           <StyledTableCell>
-            <ConfirmButton />
-          </StyledTableCell>
-          <StyledTableCell>
-            <DeclineButton />
+            <BookingManagementButton/>
           </StyledTableCell>
           <StyledTableCell>
             <ShowDetailsWrapper onClick={() => setOpen(!open)}>
