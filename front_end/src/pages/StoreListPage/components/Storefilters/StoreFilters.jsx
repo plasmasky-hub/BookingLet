@@ -16,13 +16,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 
 const SearchContainer = styled(Box)`
-  width: 1173px;
-  height: 190px;
-  margin: 90px auto;
-  padding-left: 24px;
+  width: 1130px;
+  height: 120px;
+  margin: 20px auto;
 `;
 const SortBar = styled.div`
-  width: 1173px;
   display: flex;
   align-items: center;
   color: #ffffff;
@@ -32,7 +30,10 @@ const SortBar = styled.div`
 `;
 
 const WrapperFilter = styled.div`
-  margin-left: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 `;
 
 const WrapperCategory = styled.div``;
@@ -78,7 +79,7 @@ const StoreFilters = () => {
       <Typography
         sx={{
           fontWeight: 700,
-          fontSize: '24px',
+          fontSize: '22px',
           lineHeight: '28px',
           color: 'white',
         }}
@@ -99,28 +100,6 @@ const StoreFilters = () => {
               )}
             />
           </LocalizationProviderNew>
-          {/* <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Category
-            </InputLabel>
-            <Select
-              value={FormData.category}
-              onChange={(e) =>
-                setFormData({
-                  ...FormData,
-                  category: e.target.value,
-                })
-              }
-              label="Age"
-            >
-              {success &&
-                rootCategory.map((e) => (
-                  <MenuItem key={e.id} value={e.id}>
-                    {e.name}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl> */}
           <FormControl variant="standard" sx={{ ml: 1, minWidth: 150 }}>
             <InputLabel id="demo-simple-select-standard-label">
               State
@@ -138,10 +117,11 @@ const StoreFilters = () => {
               label="Age"
             >
               <MenuItem value="">
-                <em>None</em>
+                <em>All</em>
               </MenuItem>
               <MenuItem value={'NSW'}>NSW</MenuItem>
               <MenuItem value={'VIC'}>VIC</MenuItem>
+              <MenuItem value={'QLD'}>QLD</MenuItem>
               <MenuItem value={'SA'}>SA</MenuItem>
               <MenuItem value={'TAS'}>TAS</MenuItem>
               <MenuItem value={'WA'}>WA</MenuItem>
@@ -150,18 +130,8 @@ const StoreFilters = () => {
             </Select>
           </FormControl>
         </WrapperCategory>
-      </WrapperFilter>
-
-      {/* <SearchCategoryBar />
-      <QuantityDateBar /> */}
-      <SortBar>
-        {/* <Stack>
-          <Button variant="contained" type="submit" color="storelistbutton">
-            SEARCH
-          </Button>
-        </Stack> */}
         <LocationSortBar />
-      </SortBar>
+      </WrapperFilter>
     </SearchContainer>
   );
 };
