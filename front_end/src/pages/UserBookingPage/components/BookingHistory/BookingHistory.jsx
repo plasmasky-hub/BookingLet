@@ -28,7 +28,9 @@ const StyledChips = styled(Chip)`
 const chipItems = ['All', 'Unconfirmed', 'Confirmed'];
 
 export const BookingHistory = () => {
-  const { data, isSuccess } = useGetOrdersQuery();
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
+
+  const { data, isSuccess } = useGetOrdersQuery(userId);
 
   const [clicked, setClicked] = useState(0);
 
@@ -57,24 +59,23 @@ export const BookingHistory = () => {
   return (
     // <>booking</>
     <>
-    { isSuccess && filterOrders &&
-    <BookingPageWrapper>
-      <h2>My Bookings</h2>
-      <Stack direction="row" spacing={1}>
-        <FilterAltOutlinedIcon sx={{ mr: 1 }} />
-        <span>
-          <strong>Filter by booking status</strong>
-        </span>
-      </Stack>
-      <Stack direction="row" spacing={1} sx={{ py: 2 }}>
-        {statusIndicator}
-      </Stack>
-      {filterOrders.map((order)=>
-        <BookingTable data={order} key ={order.id} />
+      {isSuccess && filterOrders && (
+        <BookingPageWrapper>
+          <h2>My Bookings</h2>
+          <Stack direction="row" spacing={1}>
+            <FilterAltOutlinedIcon sx={{ mr: 1 }} />
+            <span>
+              <strong>Filter by booking status</strong>
+            </span>
+          </Stack>
+          <Stack direction="row" spacing={1} sx={{ py: 2 }}>
+            {statusIndicator}
+          </Stack>
+          {filterOrders.map((order) => (
+            <BookingTable data={order} key={order.id} />
+          ))}
+        </BookingPageWrapper>
       )}
-     
-    </BookingPageWrapper>
-    }
     </>
   );
 };

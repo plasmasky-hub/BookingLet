@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import { Box, TableRow, TableCell, Paper, Collapse } from "@mui/material";
-import { useState } from "react";
-import BodyRelaxing from "../../../../assets/BodyRelaxing.png";
+import styled from '@emotion/styled';
+import { Box, TableRow, TableCell, Paper, Collapse } from '@mui/material';
+import { useState } from 'react';
+import BodyRelaxing from '../../../../assets/BodyRelaxing.png';
 
 const StyledTableContainer = styled(Box)`
   min-width: 800px;
@@ -20,10 +20,10 @@ const TableCellImg = styled.img`
 `;
 
 const TableHead = {
-  name: "Facial",
-  date: "Date",
-  time: "Time",
-  status: "Status",
+  name: 'Facial',
+  date: 'Date',
+  time: 'Time',
+  status: 'Status',
 };
 
 // const TableFoot = {
@@ -79,44 +79,56 @@ const CollapsedNotice = styled(Box)`
 
 export const BookingTable = ({ data, clicked }) => {
   // const [statusIndex, setStatusIndex] = useState(1);
-//console.log(data)
+  //console.log(data)
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
 
-  console.log(typeof(data.bookingTime));
+  console.log(typeof data.bookingTime);
   return (
     <>
-    { data && 
-    <>
-      <StyledTableContainer component={Paper}>
-        <TableRow direction="column" sx={{ width: "1000px" }}>
-          <TableCell sx={{ px: 3 }}>
-            <TableCellImg src={BodyRelaxing} />
-          </TableCell>
-          <TableCell sx={{ pr: 8 }}>
-            <h4>{TableHead.address}</h4>
-            {/* <p>{TableFoot.address}</p> */}
-          </TableCell>
-          <TableCell sx={{ pr: 8 }}>
-            <h4>{TableHead.date}</h4>
-            <p>{data.orderTime.date.toString().substring(0,10)}</p>
-          </TableCell>
-          <TableCell sx={{ pr: 8 }}>
-            <h4>{TableHead.time}</h4>
-            <p>{`${data.orderTime.startTime.substring(0,2)}:${data.orderTime.startTime.substring(2,4)}`}</p>
-          </TableCell>
-          <TableCell sx={{ pr: 8 }}>
-            <h4>{TableHead.status}</h4>
-            <p style={{ color:  data.bookingStatus?'#7B8B6F':'#CEA02C' }}>
-              {data.bookingStatus?'Confirmed':'Unconfirmed'} 
-            </p>
-          </TableCell>
-          <TableCell sx={{ cursor: "pointer" }}>
-            <p onClick={handleClick}>Order detail</p>
-            {/* <StyledButtonGroup
+      {data && (
+        <>
+          <StyledTableContainer component={Paper}>
+            <TableRow direction="column" sx={{ width: '1000px' }}>
+              <TableCell sx={{ px: 3 }}>
+                <TableCellImg src={BodyRelaxing} />
+              </TableCell>
+              <TableCell sx={{ pr: 8 }}>
+                <h4>{TableHead.address}</h4>
+                {/* <p>{TableFoot.address}</p> */}
+              </TableCell>
+              <TableCell sx={{ pr: 8 }}>
+                <h4>{TableHead.date}</h4>
+                <p>{data.orderTime.date.toString().substring(0, 10)}</p>
+              </TableCell>
+              <TableCell sx={{ pr: 8 }}>
+                <h4>{TableHead.time}</h4>
+                <p>
+                  {data.orderTime.startTime.length < 4
+                    ? `0${data.orderTime.startTime.substring(
+                        0,
+                        1
+                      )}:${data.orderTime.startTime.substring(1, 4)}`
+                    : `${data.orderTime.startTime.substring(
+                        0,
+                        2
+                      )}:${data.orderTime.startTime.substring(2, 4)}`}
+                </p>
+              </TableCell>
+              <TableCell sx={{ pr: 8 }}>
+                <h4>{TableHead.status}</h4>
+                <p
+                  style={{ color: data.bookingStatus ? '#7B8B6F' : '#CEA02C' }}
+                >
+                  {data.bookingStatus ? 'Confirmed' : 'Unconfirmed'}
+                </p>
+              </TableCell>
+              <TableCell sx={{ cursor: 'pointer' }}>
+                <p onClick={handleClick}>Order detail</p>
+                {/* <StyledButtonGroup
               variant="contained"
               aria-label="outlined primary button group"
             >
@@ -158,43 +170,46 @@ export const BookingTable = ({ data, clicked }) => {
                 </CancelButton>
               )}
             </StyledButtonGroup> */}
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <CollapsibleTableWrapper>
-              <CollapsibleTable>
-                <CollapsedTitle>
-                  <p>Store Name</p>
-                  <p>Reference Number</p>
-                  <p>Contact Number</p>
-                </CollapsedTitle>
-                <div>
-                  <p>{data.storeId.name} </p>
-                  <p>{data._id}</p>
-                  <p>{data.storeId.tel}</p>
-                </div>
-                <CollapsedTitle>
-                  <p>Service Name</p>
-                  <p>Time of Booking</p>
-                  <p style={{ color: "#8E8E8E" }}>Note</p>
-                </CollapsedTitle>
-                <div>
-                  <p>{data.serviceInfoId.name}</p>
-                  <p>{`${data.bookingTime.substring(0,10)} ${data.bookingTime.substring(11,19)}`}</p>
-                  <p></p>
-                </div>
-              </CollapsibleTable>
-              <CollapsedNotice>
-                Waiting for confirmation from store. If no response, order will
-                be seen as confirmed.
-              </CollapsedNotice>
-            </CollapsibleTableWrapper>
-          </Collapse>
-        </TableRow>
-      </StyledTableContainer>
-    </>
-  }
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <CollapsibleTableWrapper>
+                  <CollapsibleTable>
+                    <CollapsedTitle>
+                      <p>Store Name</p>
+                      <p>Reference Number</p>
+                      <p>Contact Number</p>
+                    </CollapsedTitle>
+                    <div>
+                      <p>{data.storeId.name} </p>
+                      <p>{data._id}</p>
+                      <p>{data.storeId.tel}</p>
+                    </div>
+                    <CollapsedTitle>
+                      <p>Service Name</p>
+                      <p>Time of Booking</p>
+                      <p style={{ color: '#8E8E8E' }}>Note</p>
+                    </CollapsedTitle>
+                    <div>
+                      <p>{data.serviceInfoId.name}</p>
+                      <p>{`${data.bookingTime.substring(
+                        0,
+                        10
+                      )} ${data.bookingTime.substring(11, 19)}`}</p>
+                      <p></p>
+                    </div>
+                  </CollapsibleTable>
+                  <CollapsedNotice>
+                    Waiting for confirmation from store. If no response, order
+                    will be seen as confirmed.
+                  </CollapsedNotice>
+                </CollapsibleTableWrapper>
+              </Collapse>
+            </TableRow>
+          </StyledTableContainer>
+        </>
+      )}
     </>
   );
 };
