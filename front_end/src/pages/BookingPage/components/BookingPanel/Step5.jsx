@@ -3,6 +3,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styled from '@emotion/styled';
 import { useCreateOrderQuery } from '../../../../store/api/orderApi';
 import ErrorIcon from '@mui/icons-material/Error';
+import { Link } from 'react-router-dom';
 
 const CheckIconWrapper = styled.div`
   display: flex;
@@ -39,12 +40,13 @@ const Text = styled.div`
   line-height: 18px;
 `;
 
-const Link = styled.a`
+const StyledLink = styled(Link)`
   cursor: pointer;
   color: #7b8b6f;
   font-weight: 600;
 `;
 const Step5 = ({ FormData, setFormData }) => {
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
   const startTime = parseInt(FormData.startTimeStr.replace(':', ''));
   const endTime = parseInt(FormData.endTime.replace(':', ''));
 
@@ -52,40 +54,48 @@ const Step5 = ({ FormData, setFormData }) => {
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
       : FormData.date.getMonth() + 1
-  }-${FormData.date.getDate()}`;
+  }-${
+    FormData.date.getDate() < 10
+      ? `0${FormData.date.getDate()}`
+      : FormData.date.getDate()
+  }`;
 
   const order = {
     peopleNumber: FormData.people,
     orderTime: { date: date, startTime: startTime, endTime: endTime },
-    userId: '62d6bb04a4675b9cb600f21b',
+    userId: userId,
     serviceInfoId: FormData.service.id,
     tel: FormData.mobile,
     optionInfo: FormData.note,
   };
 
-  const { data, isSuccess, error } = useCreateOrderQuery(order);
-  const status = isSuccess ? data.decision.permission : error;
+  const { data, isSuccess } = useCreateOrderQuery(order);
+  const status = isSuccess && data.decision.permission;
   const message = isSuccess && data.decision.message;
 
   return (
     <>
-      <CheckIconWrapper>
-        {status ? <CheckIcon /> : <FailedIcon />}
-      </CheckIconWrapper>
-      <Title>
-        {status
-          ? 'Your requset has been sent successfully'
-          : 'Your requset failed'}
-      </Title>
+      {isSuccess && (
+        <>
+          <CheckIconWrapper>
+            {status ? <CheckIcon /> : <FailedIcon />}
+          </CheckIconWrapper>
+          <Title>
+            {status
+              ? 'Your requset has been sent successfully'
+              : 'Your requset failed'}
+          </Title>
 
-      {status ? (
-        <Text>
-          Congratulations. Your booking request has been sent to the business
-          owner. The status of your booking could be checked in{' '}
-          <Link href="#">My booking</Link>
-        </Text>
-      ) : (
-        <Text>Sorry! {message}. Please try again.</Text>
+          {status ? (
+            <Text>
+              Congratulations. Your booking request has been sent to the
+              business owner. The status of your booking could be checked in{' '}
+              <StyledLink to="/UserBookingPage/">My booking</StyledLink>
+            </Text>
+          ) : (
+            <Text>Sorry! {message}. Please try again.</Text>
+          )}
+        </>
       )}
     </>
   );

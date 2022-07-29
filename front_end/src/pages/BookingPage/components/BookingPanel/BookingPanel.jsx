@@ -36,6 +36,8 @@ const BookingPanel = ({ id }) => {
   const [step, setStep] = useState(0);
 
   const Display = Forms[step];
+  const userName = JSON.parse(localStorage.getItem('user')).name;
+  const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
   const [FormData, setFormData] = useState({
     date: new Date(),
@@ -44,8 +46,8 @@ const BookingPanel = ({ id }) => {
     duration: '',
     mobile: '',
     note: '',
-    name: 'Seven',
-    email: 'helloworld@gmail.com',
+    name: userName,
+    email: userEmail,
     send: false,
     startTime: '',
     endTime: '',

@@ -74,14 +74,17 @@ const BanerForm = () => {
     state: '',
     search: '',
     isSearch: false,
-    q: '',
   });
 
   const date = `${FormData.date.getFullYear()}-${
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
       : FormData.date.getMonth() + 1
-  }-${FormData.date.getDate()}`;
+  }-${
+    FormData.date.getDate() < 10
+      ? `0${FormData.date.getDate()}`
+      : FormData.date.getDate()
+  }`;
 
   const category = FormData.category;
   const state = FormData.state;
@@ -183,7 +186,6 @@ const BanerForm = () => {
           mt: 3,
         }}
         onClick={() => {
-          // setFormData({ ...FormData, isSearch: true, q: q });
           navigate(`/StoreListPage${searchQuery}`);
         }}
       >

@@ -20,9 +20,8 @@ const Content = styled(CardContent)`
   position: relative;
   padding: 0;
   h4 {
-    margin: 0 0 8px 0;
+    margin-bottom: -5px;
   }
-  span,
   p {
     font-size: 12px;
     color: #595959;
@@ -30,6 +29,24 @@ const Content = styled(CardContent)`
   p {
     margin-bottom: 18px;
   }
+`;
+
+const StyledSpan = styled.span`
+  font-size: 12px;
+  color: #595959;
+  display: inline-block;
+  margin-bottom: 10px;
+`;
+
+const AvlLabel = styled.span`
+  font-size: 11px;
+  padding: 4px 14px 3px 14px;
+  background-color: #7b8b6f;
+  border-radius: 50px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 `;
 
 const CardButton = styled(Button)`
@@ -44,7 +61,14 @@ const CardButton = styled(Button)`
 `;
 
 const StoreCard = ({
-  item: { _id, name, location, favoriteUsersSize, description },
+  item: {
+    _id,
+    name,
+    location,
+    favoriteUsersSize,
+    description,
+    isAvailableToday,
+  },
 }) => {
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
@@ -57,9 +81,10 @@ const StoreCard = ({
       <Img component="img" image={food} alt="" />
       <Content>
         <h4>{name}</h4>
-        <span>{`${address} | ${favoriteUsersSize} people add to booklet`}</span>
+        <StyledSpan>{`${address} | ${favoriteUsersSize} people add to booklet`}</StyledSpan>
         <p>{description}</p>
         <AddIcon />
+        {isAvailableToday && <AvlLabel>AVAILABLE TODAY</AvlLabel>}
         <CardButton
           onClick={() => navigate(`/BookingPage/${_id}`)}
           variant="contained"
