@@ -32,7 +32,7 @@ async function addStoreBusinessTimeById(req, res) {
 
 
 //req.body: {dayOfWeek: String, openHour: String, closingHour: String}
-async function deleteStoreBusinessTimeById(req, res) {
+async function deleteStoreBusinessTimeById(req, res) {  
     const { id } = req.params;
     let { dayOfWeek, openHour, closingHour } = req.body;
     const store = await Store.findById(id).exec();
@@ -45,7 +45,7 @@ async function deleteStoreBusinessTimeById(req, res) {
     for (let i = openHour; i < closingHour; i += 5) {
         if (i % 100 < 60) { storeTimeSliceArr.push(i); };
     }
-    const serviceInfos = await ServiceInfo.find({ store: id }).exec();
+    const serviceInfos = await ServiceInfo.find({ store: id, isDiscard: false }).exec(); 
 
     serviceInfos.map((info) => {
         storeTimeSliceArr.map((element) => {
