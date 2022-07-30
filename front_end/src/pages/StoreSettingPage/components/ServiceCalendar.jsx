@@ -504,9 +504,9 @@ const Excel = (props) => {
     }
 
 
-    const synchronizeTime = async () => {
-        setAnimationEnable(true);
-        
+    const synchronizeTime = async (timePairArr) => {
+        if (timePairArr.length === 0) { setAnimationEnable(true) };
+
         let bodyObj = {
             storeId: storeId,
             serviceInfoId: id
@@ -526,7 +526,7 @@ const Excel = (props) => {
         }
         await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
-        
+
         setTimeout(() => {
             setAnimationEnable(false);
         }, 2200);
@@ -537,7 +537,7 @@ const Excel = (props) => {
     return (
         <div style={{ position: 'relative' }}>
             <Title>Weekly Calendar</Title>
-            <SyncButton onClick={synchronizeTime}>Sync business time to calendar</SyncButton>
+            <SyncButton onClick={() => synchronizeTime(timePairArr)}>Sync business time to calendar</SyncButton>
 
             <WeekBar>
                 {
