@@ -32,7 +32,7 @@ async function addStoreBusinessTimeById(req, res) {
 
 
 //req.body: {dayOfWeek: String, openHour: String, closingHour: String}
-async function deleteStoreBusinessTimeById(req, res) {
+async function deleteStoreBusinessTimeById(req, res) {  
     const { id } = req.params;
     let { dayOfWeek, openHour, closingHour } = req.body;
     const store = await Store.findById(id).exec();
@@ -45,7 +45,7 @@ async function deleteStoreBusinessTimeById(req, res) {
     for (let i = openHour; i < closingHour; i += 5) {
         if (i % 100 < 60) { storeTimeSliceArr.push(i); };
     }
-    const serviceInfos = await ServiceInfo.find({ store: id, isDiscard: false }).exec();
+    const serviceInfos = await ServiceInfo.find({ store: id, isDiscard: false }).exec(); 
 
     serviceInfos.map((info) => {
         storeTimeSliceArr.map((element) => {
@@ -172,7 +172,6 @@ async function addServiceInfoCalendarById(req, res) {
 
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: { $gte: currentWeekMonday } }).exec();
     const matchedArrQty = bookingRecordArr.length;
-    let synchronizationUpdate = 0;
 
     for (let i = 0; i < matchedArrQty; i++) {
         for (let j = 0; j < timeSliceArr.length; j++) {
@@ -185,15 +184,14 @@ async function addServiceInfoCalendarById(req, res) {
             };
         }
         await bookingRecordArr[i].save();
-        synchronizationUpdate++
     }
 
     if (req.body.statistic === undefined) {
-        res.json({ serviceInfo, 'matchedBookingRecordQty': matchedArrQty, 'synchronizationUpdate': synchronizationUpdate });
+        res.json({ serviceInfo, 'matched bookingRecord Qty': matchedArrQty });
     } else {
-        req.body.statistic.addStage = synchronizationUpdate;
+        req.body.statistic.addStage = matchedArrQty;
         let updateStatistic = req.body.statistic;
-        res.json({ serviceInfo, synchronizationUpdate, updateStatistic });
+        res.json({ serviceInfo, updateStatistic });
     }
 
 }
@@ -242,8 +240,6 @@ async function deleteServiceInfoCalendarById(req, res) {
     const matchedArrQty = bookingRecordArr.length;
 
     let matchedRecordStatistic = [];
-    let unsynchronizedWeeks = [];
-    let synchronizationUpdate = 0;
     for (let i = 0; i < matchedArrQty; i++) {
         let deletePermission = true;
         for (let j = 0; j < timeSliceArr.length; j++) {
@@ -262,14 +258,11 @@ async function deleteServiceInfoCalendarById(req, res) {
                 };
             }
             await bookingRecordArr[i].save();
-            synchronizationUpdate++
-        } else {
-            unsynchronizedWeeks.push(bookingRecordArr[i].weekMonday.toString().substring(4, 16))
         }
     }
 
     if (req.body.openHourBefore === undefined) {
-        res.json({ serviceInfo, 'matchedBookingRecordQty': matchedArrQty, 'unsynchronizedWeeks': unsynchronizedWeeks, 'synchronizationUpdate': synchronizationUpdate, matchedRecordStatistic })
+        res.json({ serviceInfo, 'matched bookingRecord Qty': matchedArrQty, matchedRecordStatistic })
     } else {
         req.body.statistic = { deleteStage: matchedRecordStatistic }
     };
@@ -332,8 +325,8 @@ async function checkTimeIntervalAndBook(req, res) {
     if (!dateFormatCheckResult.permission) {
         return res.json(dateFormatCheckResult.message)
     };
-    let bookingDate = new Date(date);
-    let weekMonday = getWeekMonday(bookingDate);
+    let bookingDate = new Date(date); 
+    let weekMonday = getWeekMonday(bookingDate);  
 
     startHour = parseInt(startHour);
     endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
@@ -562,7 +555,7 @@ async function getChartDataByDateAndServiceInfo(req, res) {
     if (!dateFormatCheckResult.permission) {
         return res.json(dateFormatCheckResult.message)
     };
-
+    
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 

@@ -1,6 +1,4 @@
 import { React, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetStoreQuery } from '../../../store/api/storeApi';
@@ -283,11 +281,11 @@ const Excel = (props) => {
     const regHour = /^[012]?\d$/;
     const regMinute = /^[012345][05]$/;
     if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
-      return toast.error('Please input correct hours (6:00 - 22:55)!');
+      return alert('Please input correct hours (6:00 - 22:55)!');
     }
 
     if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
-      return toast.error('Please input correct minutes. Minimum resolution must be 5 minutes!');
+      return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
     }
 
     let startTimeHourNum = parseInt(createTime.startTimeHour);
@@ -297,7 +295,7 @@ const Excel = (props) => {
 
     if (startTimeHourNum > 22 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 22
       || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
-      return toast.error('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
+      return alert('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
     }
 
     const startTime = createTime.startTimeHour + createTime.startTimeMinute;
@@ -306,7 +304,7 @@ const Excel = (props) => {
     let startTimeNum = parseInt(startTime);
     let endTimeNum = parseInt(endTime);
     if (!(startTimeNum < endTimeNum)) {
-      return toast.error('End time must be later than start time !');
+      return alert('EndTime must be later than startTime !');
     }
 
     let dayInWeek = null;
@@ -393,7 +391,7 @@ const Excel = (props) => {
 
     let resultOfEdit = await UpdateStoreBusinessTime(bodyObj);
     if (resultOfEdit.data.Error !== undefined) {
-      toast.error(resultOfEdit.data.Error);
+      alert(resultOfEdit.data.Error);
     }
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     setCurrentFocusRow(0);
@@ -406,11 +404,11 @@ const Excel = (props) => {
     const regHour = /^[012]?\d$/;
     const regMinute = /^[012345][05]$/;
     if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
-      return toast.error('Please input correct hours (6:00 - 22:55)!');
+      return alert('Please input correct hours (6:00 - 22:55)!');
     }
 
     if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
-      return toast.error('Please input correct minutes. Minimum resolution must be 5 minutes!');
+      return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
     }
 
     let startTimeHourNum = parseInt(createTime.startTimeHour);
@@ -420,12 +418,12 @@ const Excel = (props) => {
 
     if (startTimeHourNum > 22 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 22
       || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
-      return toast.error('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
+      return alert('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
     }
 
 
     if (!timeDelete) {
-      return toast.error('Please select "YES" in radio!');
+      return alert('Please select "YES" in radio!');
     }
 
     //DeleteStoreBusinessTime
@@ -451,13 +449,13 @@ const Excel = (props) => {
     let startTimeNum = parseInt(bodyObj.openHour);
     let endTimeNum = parseInt(bodyObj.closingHour);
     if (!(startTimeNum < endTimeNum)) {
-      return toast.error('End time must be later than start time !');
+      return alert('EndTime must be later than startTime !');
     }
 
     let resultOfDelete = await DeleteStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     if (resultOfDelete.data.Error !== undefined) {
-      toast.error(resultOfDelete.data.Error);
+      alert(resultOfDelete.data.Error);
     }
     setCurrentFocusRow(0);
     setTimeTagIndex(-1);
@@ -561,19 +559,6 @@ const Excel = (props) => {
           )
         }
       </div>
-      <ToastContainer
-        style={{ fontSize: "16px" }}
-        theme="dark"
-        position="top-center"
-        autoClose={7000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 }
