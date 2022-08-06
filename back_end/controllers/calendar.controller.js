@@ -88,21 +88,15 @@ async function SyncStoreCalendarToService(req, res) {
     const { storeId, serviceInfoId } = req.params;
     const store = await Store.findById(storeId).exec();
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    
-    if (serviceInfo.store._id != storeId) { return res.json({ Error: 'Store and serviceInfo do not match!' }) };
+    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };
 
     let deletePermission = true;
     Object.keys(serviceInfo.calendarTemplate).forEach((key) => {
         if (serviceInfo.calendarTemplate[key].length > 0) {
             deletePermission = false;
-            res.json({ Error: 'Cannot sync because serviceInfo.calendarTemplate is not null!' })
+            res.json({ Error: 'Could not sync because serviceInfo.calendarTemplate is not null!' })
         }
     })
-
-    let currentDate = getCurrentDate();
-    let currentWeekMonday = getWeekMonday(currentDate);
-    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: { $gte: currentWeekMonday } }).exec();
-    if (bookingRecordArr.length > 0) { return res.json({ Error: 'Cannot sync because this serviceInfo has existing booking Record(s)!' }) };
 
     if (deletePermission) {
         Object.keys(store.businessHours).forEach((key) => {
