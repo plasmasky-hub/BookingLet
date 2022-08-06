@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 // import styled from "styled-components";
 import StoreInfText from "../StoreSetting/components/StoreInfText/StoreInfText";
 import StoreSmallText from "../StoreSetting/components/StoreInfSmallText/StoreSmallText";
@@ -9,7 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 
 const StoreInfWrapper = styled.div`
   width: 1233px;
-  height: 962px;
+  height: 862px;
   background-color: #fbfbfb;
   margin-left: 97px;
   margin-top: 38px;
@@ -21,11 +21,11 @@ const TopContainer = styled.div`
   justify-content: space-around;
   margin-left: 87px;
   padding-top: 117px;
-  height: 550px;
+  height: 450px;
 `;
 
 const StoreName = styled.div`
-  width: 284px;
+  width: 84px;
   height: 20px;
   font-family: "Helvetica";
   font-style: normal;
@@ -42,10 +42,11 @@ const WholeContainer = styled.div`
 const SmallTextContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-left: 87px;
+  margin-left: 75px;
   padding-top: 117px;
-  width: 422px;
-  margin-top: -100px;
+  width: 500px;
+  height: 200px;
+  margin-top: -105px;
 `;
 
 const Title = styled.div`
@@ -60,6 +61,14 @@ const Title = styled.div`
   font-size: 24px;
   line-height: 32px;
   color: #000000;
+`;
+
+const SmallTextWrapper = styled.div`
+  /* width: 400px; */
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 const StoreInfButton = styled(Button)`
@@ -92,7 +101,7 @@ const StoreInfName = styled.div`
 
 const Photo = styled.div`
   width: 154px;
-  height: 100px;
+  height: 124px;
   margin-left: 88px;
   margin-bottom: 40px;
   background-color: #d9d9d9;
@@ -108,7 +117,7 @@ const PhotoContainer = styled.div`
 
 const CheckboxContainer = styled(Button)`
   margin-left: 70px;
-  margin-top: 20px;
+  margin-top: 60px;
   color: #397cc2;
 `;
 
@@ -123,10 +132,10 @@ const PersonalSetting = () => (
         <Photo />
       </PhotoContainer>
       <TopContainer>
-        <StoreName>First Name</StoreName>
+        <StoreName>Name</StoreName>
         <StoreInfText />
-        <StoreName>Last Name</StoreName>
-        <StoreInfText />
+        {/* <StoreName>Last Name</StoreName>
+        <StoreInfText /> */}
         <StoreName>Mobile</StoreName>
         <StoreInfText />
         <StoreName>E-mail</StoreName>
@@ -134,14 +143,25 @@ const PersonalSetting = () => (
       </TopContainer>
 
       <SmallTextContainer>
-        <StoreSmallText />
+        <SmallTextWrapper>
+          <StoreName>City</StoreName>
+          <StoreSmallText />
+        </SmallTextWrapper>
+        <SmallTextWrapper>
+          <StoreName>Postcode</StoreName>
+          <StoreSmallText />
+        </SmallTextWrapper>
+        {/* <SmallTextWrapper>
+          <StoreName>State</StoreName> */}
         <StoreInfFilter />
-        <StoreSmallText />
+        {/* </SmallTextWrapper> */}
       </SmallTextContainer>
 
       <CheckboxContainer>
-        <Checkbox {...label} defaultChecked />I have read and agree to the Terms
-        & Conditions of Bookinglet
+      <Checkbox {...label} />
+        I have read and agree to the Terms & Conditions of Bookinglet
+        {/* <Checkbox {...label} defaultChecked />I have read and agree to the Terms
+        & Conditions of Bookinglet */}
       </CheckboxContainer>
       <ButtonContainer>
         <StoreInfButton left variant="contained">

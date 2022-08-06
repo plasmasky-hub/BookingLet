@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import InputAdornment from '@mui/material/InputAdornment';
 import { ModeEditOutline } from "@mui/icons-material";
@@ -26,11 +26,12 @@ const Text = styled(TextField)`
   background: #d9d9d9;
   border-radius: 5px;
   padding: 0;
+  margin-top: 15px;
 `;
 
 const StoreSmallText = () => (
-  <SmallTextWrapper>
-    <StoreName>City</StoreName>
+  <Fragment>
+    {/* <StoreName>City</StoreName> */}
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
@@ -45,7 +46,7 @@ const StoreSmallText = () => (
         disableUnderline:true
       }}
     />
-  </SmallTextWrapper>
+  </Fragment>
 );
 
 export default StoreSmallText;
