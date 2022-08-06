@@ -45,7 +45,7 @@ const Button = styled.button`
 const Register = () => (
   <RegisterWrapper>
     <RegisterLabel>
-      Register your business in Bookinglet to customize your booking service?
+      Register your business in Bookinglet to customize yourbooking service?
     </RegisterLabel>
     <Button onClick={() => {}}>Join Now</Button>
   </RegisterWrapper>

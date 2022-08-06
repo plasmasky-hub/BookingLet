@@ -12,8 +12,6 @@ import PageLayout from "./components/shared/PageLayout";
 import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
 import Layout from "./components/shared/Layout";
-import StoreSetting from "./pages/StoreSettingPage/components/StoreSetting";
-import PersonalSetting from "./pages/StoreSettingPage/components/PersonalSetting";
 
 function App() {
   return (
@@ -28,8 +26,6 @@ function App() {
             <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
             <Route path="/TeamPage" element={<TeamPage />}></Route>
             <Route path="/StoreLandingPage" element={<StoreLandingPage />}></Route>
-            <Route path="/StoreSetting" element={<StoreSetting />}></Route>
-            <Route path="/PersonalSetting" element={<PersonalSetting />}></Route>
 
             <Route
               path="/UserBookingPage/"
