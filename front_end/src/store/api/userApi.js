@@ -18,14 +18,6 @@ const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    updateUser: builder.mutation({
-      query: ({id, userObj}) => ({
-        url: `/user/${id}`,
-        method: "PUT",
-        body: userObj,
-      }),
-    }),
-
     getFavouriteStoreById: builder.query({
       query: (_id) => `/user/${_id}/FavouriteStoreList`,
     }),
@@ -84,7 +76,6 @@ export const {
   useGetUsersQuery,
   useGetUserQuery,
   useAddUserMutation,
-  useUpdateUserMutation,
   useGetFavouriteStoreByIdQuery,
   useLoginMutation,
   useRegisterMutation,
