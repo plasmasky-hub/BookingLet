@@ -205,17 +205,12 @@ const TimeTag = styled.div`
   margin-left: ${props => props.head.date * 69.88 + 1}px;
   margin-top: ${props => props.head.startTimePx}px;
 
-  animation-duration: 2s;
-  animation-name: slideleft;
-  @keyframes slideleft {
-    from {
-        margin-top: 100%;
-    }
-}
-
   &:hover {
     background-color: rgba(57, 124,	194, 0.7);
   };
+  &:active {
+    background-color: rgba(57, 124,	194, 1);
+  }
 `;
 
 const TimeInputZone = styled.div`
@@ -271,6 +266,7 @@ const Excel = (props) => {
     setOpenHourBefore(head.startTime);
     setClosingHourBefore(head.endTime);
 
+
     head.timeTagIndex = index;
     head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
 
@@ -307,12 +303,6 @@ const Excel = (props) => {
 
     const startTime = createTime.startTimeHour + createTime.startTimeMinute;
     const endTime = createTime.endTimeHour + createTime.endTimeMinute;
-
-    let startTimeNum = parseInt(startTime);
-    let endTimeNum = parseInt(endTime);
-    if (!(startTimeNum < endTimeNum)) {
-      return alert('EndTime must be later than startTime !');
-    }
 
     let dayInWeek = null;
     switch (currentFocusRow) {
@@ -453,12 +443,6 @@ const Excel = (props) => {
       closingHour: createTime.endTimeHour + createTime.endTimeMinute
     }
 
-    let startTimeNum = parseInt(bodyObj.openHour);
-    let endTimeNum = parseInt(bodyObj.closingHour);
-    if (!(startTimeNum < endTimeNum)) {
-      return alert('EndTime must be later than startTime !');
-    }
-
     let resultOfDelete = await DeleteStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     if (resultOfDelete.data.Error !== undefined) {
@@ -548,7 +532,7 @@ const Excel = (props) => {
       <div>
         {
           timePairArr.map((head, index) =>
-            <TimeTag head={head} key={head.date * 10000 * 10000 + head.startTime * 10000 + head.endTime} onClick={() => openPopup(head, index)} style={{
+            <TimeTag head={head} onClick={() => openPopup(head, index)} style={{
               'background-color': timeTagIndex === index ? '#397CC2' : '',
               'box-shadow': timeTagIndex === index ? '5px 10px 10px rgba(0,0,0,0.65) ' : '',
               'font-weight': timeTagIndex === index ? 'bold' : '',
