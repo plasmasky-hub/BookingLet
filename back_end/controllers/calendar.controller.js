@@ -262,6 +262,7 @@ async function deleteServiceInfoCalendarById(req, res) {
                 };
             }
             await bookingRecordArr[i].save();
+            
             synchronizationUpdate++
         } else {
             unsynchronizedWeeks.push(bookingRecordArr[i].weekMonday.toString().substring(4, 16))
