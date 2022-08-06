@@ -45,7 +45,7 @@ async function deleteStoreBusinessTimeById(req, res) {
     for (let i = openHour; i < closingHour; i += 5) {
         if (i % 100 < 60) { storeTimeSliceArr.push(i); };
     }
-    const serviceInfos = await ServiceInfo.find({ store: id }).exec();
+    const serviceInfos = await ServiceInfo.find({ store: id, isDiscard: false }).exec();
 
     serviceInfos.map((info) => {
         storeTimeSliceArr.map((element) => {
@@ -88,15 +88,21 @@ async function SyncStoreCalendarToService(req, res) {
     const { storeId, serviceInfoId } = req.params;
     const store = await Store.findById(storeId).exec();
     const serviceInfo = await ServiceInfo.findById(serviceInfoId).exec();
-    if (serviceInfo.store._id != storeId) { res.json({ Error: 'Store and serviceInfo do not match!' }) };
+    
+    if (serviceInfo.store._id != storeId) { return res.json({ Error: 'Store and serviceInfo do not match!' }) };
 
     let deletePermission = true;
     Object.keys(serviceInfo.calendarTemplate).forEach((key) => {
         if (serviceInfo.calendarTemplate[key].length > 0) {
             deletePermission = false;
-            res.json({ Error: 'Could not sync because serviceInfo.calendarTemplate is not null!' })
+            res.json({ Error: 'Cannot sync because serviceInfo.calendarTemplate is not null!' })
         }
     })
+
+    let currentDate = getCurrentDate();
+    let currentWeekMonday = getWeekMonday(currentDate);
+    const bookingRecordArr = await BookingRecord.find({ serviceInfoId: serviceInfoId, weekMonday: { $gte: currentWeekMonday } }).exec();
+    if (bookingRecordArr.length > 0) { return res.json({ Error: 'Cannot sync because this serviceInfo has existing booking Record(s)!' }) };
 
     if (deletePermission) {
         Object.keys(store.businessHours).forEach((key) => {
@@ -166,6 +172,7 @@ async function addServiceInfoCalendarById(req, res) {
 
     const bookingRecordArr = await BookingRecord.find({ serviceInfoId: id, weekMonday: { $gte: currentWeekMonday } }).exec();
     const matchedArrQty = bookingRecordArr.length;
+    let synchronizationUpdate = 0;
 
     for (let i = 0; i < matchedArrQty; i++) {
         for (let j = 0; j < timeSliceArr.length; j++) {
@@ -178,14 +185,15 @@ async function addServiceInfoCalendarById(req, res) {
             };
         }
         await bookingRecordArr[i].save();
+        synchronizationUpdate++
     }
 
     if (req.body.statistic === undefined) {
-        res.json({ serviceInfo, 'matched bookingRecord Qty': matchedArrQty });
+        res.json({ serviceInfo, 'matchedBookingRecordQty': matchedArrQty, 'synchronizationUpdate': synchronizationUpdate });
     } else {
-        req.body.statistic.addStage = matchedArrQty;
+        req.body.statistic.addStage = synchronizationUpdate;
         let updateStatistic = req.body.statistic;
-        res.json({ serviceInfo, updateStatistic });
+        res.json({ serviceInfo, synchronizationUpdate, updateStatistic });
     }
 
 }
@@ -234,6 +242,8 @@ async function deleteServiceInfoCalendarById(req, res) {
     const matchedArrQty = bookingRecordArr.length;
 
     let matchedRecordStatistic = [];
+    let unsynchronizedWeeks = [];
+    let synchronizationUpdate = 0;
     for (let i = 0; i < matchedArrQty; i++) {
         let deletePermission = true;
         for (let j = 0; j < timeSliceArr.length; j++) {
@@ -252,11 +262,14 @@ async function deleteServiceInfoCalendarById(req, res) {
                 };
             }
             await bookingRecordArr[i].save();
+            synchronizationUpdate++
+        } else {
+            unsynchronizedWeeks.push(bookingRecordArr[i].weekMonday.toString().substring(4, 16))
         }
     }
 
     if (req.body.openHourBefore === undefined) {
-        res.json({ serviceInfo, 'matched bookingRecord Qty': matchedArrQty, matchedRecordStatistic })
+        res.json({ serviceInfo, 'matchedBookingRecordQty': matchedArrQty, 'unsynchronizedWeeks': unsynchronizedWeeks, 'synchronizationUpdate': synchronizationUpdate, matchedRecordStatistic })
     } else {
         req.body.statistic = { deleteStage: matchedRecordStatistic }
     };
@@ -319,8 +332,8 @@ async function checkTimeIntervalAndBook(req, res) {
     if (!dateFormatCheckResult.permission) {
         return res.json(dateFormatCheckResult.message)
     };
-    let bookingDate = new Date(date); 
-    let weekMonday = getWeekMonday(bookingDate);  
+    let bookingDate = new Date(date);
+    let weekMonday = getWeekMonday(bookingDate);
 
     startHour = parseInt(startHour);
     endHour = endHour === undefined ? startHour + 5 : parseInt(endHour);
@@ -549,7 +562,7 @@ async function getChartDataByDateAndServiceInfo(req, res) {
     if (!dateFormatCheckResult.permission) {
         return res.json(dateFormatCheckResult.message)
     };
-    
+
     let weekMonday = getWeekMonday(new Date(date));
     let dayOfWeek = getDayOfWeek(new Date(date));
 
