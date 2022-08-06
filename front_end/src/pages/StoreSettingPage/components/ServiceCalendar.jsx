@@ -5,6 +5,7 @@ import { useGetServiceInfoQuery } from '../../../store/api/serviceInfoApi';
 import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation, useUpdateCalendarTimeByIdMutation, useSyncStoreCalendarToServiceMutation } from '../../../store/api/calendarApi';
 
 
+
 const CalendarWrapper = styled(Paper)`
   width: 613px;
   font-size: 30px !important;
@@ -205,17 +206,13 @@ const TimeTag = styled.div`
   margin-left: ${props => props.head.date * 69.88 + 1}px;
   margin-top: ${props => props.head.startTimePx}px;
 
-  ${props => props.isAnimation ? `
-    animation-duration: 2s;
-    animation-name: slideleft;
-    @keyframes slideleft {
-        from {
-            margin-top: 100%;
-        }
+  animation-duration: 2s;
+  animation-name: slideleft;
+  @keyframes slideleft {
+    from {
+        margin-top: 100%;
     }
-    ` : ''
-    }
-
+}
 
   &:hover {
     background-color: rgba(57, 124,	194, 0.7);
@@ -278,7 +275,6 @@ const Excel = (props) => {
     const [timeTagIndex, setTimeTagIndex] = useState(-1);
     const [openHourBefore, setOpenHourBefore] = useState(null);
     const [closingHourBefore, setClosingHourBefore] = useState(null);
-    const [animationEnable, setAnimationEnable] = useState(false);
 
 
     const selectColumn = (index) => {
@@ -503,9 +499,7 @@ const Excel = (props) => {
     }
 
 
-    const synchronizeTime = async (timePairArr) => {
-        if (timePairArr.length === 0) { setAnimationEnable(true) };
-
+    const synchronizeTime = async () => {
         let bodyObj = {
             storeId: storeId,
             serviceInfoId: id
@@ -526,17 +520,13 @@ const Excel = (props) => {
         await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
 
-        setTimeout(() => {
-            setAnimationEnable(false);
-        }, 2200);
-
     }
 
 
     return (
         <div style={{ position: 'relative' }}>
             <Title>Weekly Calendar</Title>
-            <SyncButton onClick={() => synchronizeTime(timePairArr)}>Sync business time to calendar</SyncButton>
+            <SyncButton onClick={synchronizeTime}>Sync business time to calendar</SyncButton>
 
             <WeekBar>
                 {
@@ -612,7 +602,7 @@ const Excel = (props) => {
             <div>
                 {
                     timePairArr.map((head, index) =>
-                        <TimeTag head={head} isAnimation={animationEnable} key={head.date * 10000 * 10000 + head.startTime * 10000 + head.endTime} onClick={() => openPopup(head, index)} style={{
+                        <TimeTag head={head} key={head.date * 10000 * 10000 + head.startTime * 10000 + head.endTime} onClick={() => openPopup(head, index)} style={{
                             'background-color': timeTagIndex === index ? '#397CC2' : '',
                             'box-shadow': timeTagIndex === index ? '5px 10px 10px rgba(0,0,0,0.65) ' : '',
                             'font-weight': timeTagIndex === index ? 'bold' : '',

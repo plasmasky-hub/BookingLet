@@ -205,6 +205,14 @@ const TimeTag = styled.div`
   margin-left: ${props => props.head.date * 69.88 + 1}px;
   margin-top: ${props => props.head.startTimePx}px;
 
+  animation-duration: 2s;
+  animation-name: slideleft;
+  @keyframes slideleft {
+    from {
+        margin-top: 100%;
+    }
+}
+
   &:hover {
     background-color: rgba(57, 124,	194, 0.7);
   };
