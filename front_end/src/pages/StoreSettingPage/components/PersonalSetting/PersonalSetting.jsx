@@ -21,7 +21,7 @@ const TopContainer = styled.div`
   justify-content: space-around;
   margin-left: 87px;
   padding-top: 117px;
-  height: 630px;
+  height: 550px;
 `;
 
 const StoreName = styled.div`
@@ -91,16 +91,16 @@ const StoreInfName = styled.div`
 `;
 
 const Photo = styled.div`
-  width: 237px;
-  height: 168px;
+  width: 154px;
+  height: 100px;
   margin-left: 88px;
   margin-bottom: 40px;
   background-color: #d9d9d9;
 `;
 
 const PhotoContainer = styled.div`
-  width: 237px;
-  height: 200px;
+  width: 154px;
+  height: 100px;
   margin-left: 628px;
   margin-top: 98px;
   position: absolute;
@@ -123,13 +123,13 @@ const PersonalSetting = () => (
         <Photo />
       </PhotoContainer>
       <TopContainer>
-        <StoreName>Store Name</StoreName>
+        <StoreName>First Name</StoreName>
         <StoreInfText />
-        <StoreName>Address Line 1</StoreName>
+        <StoreName>Last Name</StoreName>
         <StoreInfText />
-        <StoreName>Address Line 2 （Optional）</StoreName>
+        <StoreName>Mobile</StoreName>
         <StoreInfText />
-        <StoreName>Address Line 2 （Optional）</StoreName>
+        <StoreName>E-mail</StoreName>
         <StoreInfText />
       </TopContainer>
 
