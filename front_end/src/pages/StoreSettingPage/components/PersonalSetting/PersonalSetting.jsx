@@ -65,9 +65,9 @@ const Title = styled.div`
 const StoreInfButton = styled(Button)`
   width: 92px;
   height: 34px;
-  background-color: ${(props) => (props.left ? "#d3ac72" : "#397cc2")};
+  background-color: ${(props) => (props.left ? "#D76D6D" : "#7B8B6F")};
   &:hover {
-    background: ${(props) => (props.left ? "#d3ac72" : "#397cc2")};
+    background: ${(props) => (props.left ? "#D76D6D" : "#7B8B6F")};
   }
 `;
 
