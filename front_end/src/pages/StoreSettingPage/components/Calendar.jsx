@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetStoreQuery } from '../../../store/api/storeApi';
-import { useAddStoreBusinessTimeByIdMutation, useDeleteStoreBusinessTimeByIdMutation, useUpdateStoreBusinessTimeByIdMutation } from '../../../store/api/calendarApi'
+import { useAddStoreBusinessTimeByIdMutation, useDeleteStoreBusinessTimeByIdMutation, useUpdateStoreBusinessTimeByIdMutation} from '../../../store/api/calendarApi'
 
 
 const CalendarWrapper = styled(Paper)`
@@ -248,8 +248,7 @@ const Excel = (props) => {
   }
 
   const selectedOperation = (index) => {
-    if (currentOperation === 0) { setCurrentOperation(0) };
-    if ((currentOperation === 1 || currentOperation === 2) && index !== 0) { setCurrentOperation(index) };
+    setCurrentOperation(index);
   }
 
   const closePopup = () => {
@@ -332,7 +331,7 @@ const Excel = (props) => {
       editTime(id, dayInWeek, startTime, endTime);
       return;
     }
-
+    
     await AddStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     setCurrentFocusRow(0);
@@ -386,11 +385,11 @@ const Excel = (props) => {
       id: id,
       dayOfWeek: dayInWeek,
       openHourBefore: openHourBefore.toString(),
-      closingHourBefore: (closingHourBefore % 100 === 55 ? closingHourBefore + 45 : closingHourBefore + 5).toString(),
+      closingHourBefore: (closingHourBefore % 100 === 55 ? closingHourBefore + 45 : closingHourBefore + 5).toString(), 
       openHourAfter: startTime,
       closingHourAfter: endTime
     }
-
+    
     let resultOfEdit = await UpdateStoreBusinessTime(bodyObj);
     if (resultOfEdit.data.Error !== undefined) {
       toast.error(resultOfEdit.data.Error);

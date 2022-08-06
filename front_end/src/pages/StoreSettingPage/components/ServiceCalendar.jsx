@@ -294,8 +294,7 @@ const Excel = (props) => {
     }
 
     const selectedOperation = (index) => {
-        if (currentOperation === 0) { setCurrentOperation(0) };
-        if ((currentOperation === 1 || currentOperation === 2) && index !== 0) { setCurrentOperation(index) };
+        setCurrentOperation(index);
     }
 
     const closePopup = () => {
@@ -376,7 +375,7 @@ const Excel = (props) => {
         if (currentOperation === 1) {
             editTime(id, dayInWeek, startTime, endTime);
             return;
-        }
+          }
 
         const resultOfAdd = await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
