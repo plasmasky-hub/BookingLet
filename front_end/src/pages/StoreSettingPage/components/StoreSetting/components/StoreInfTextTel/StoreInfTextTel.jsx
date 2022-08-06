@@ -12,14 +12,14 @@ const Text = styled(TextField)`
 `;
 
 const StoreInfText = (
-  {name}
+  {mobile}
 ) => (
   <Fragment>
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
       // defaultValue="Han’s Massage"
-      defaultValue={name}
+      defaultValue={mobile}
       variant="filled"
       InputProps={{
         endAdornment: (
