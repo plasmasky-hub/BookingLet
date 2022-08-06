@@ -58,6 +58,19 @@ async function getUserByID(req, res) {
       error: 'User info not found!'
     });
   }
+  
+    switch (user.location.state) {
+        case 'NSW': user.location.state = 1; break;
+        case 'VIC': user.location.state = 2; break;
+        case 'SA': user.location.state = 3; break;
+        case 'TAS': user.location.state = 4; break;
+        case 'WA': user.location.state = 5; break;
+        case 'NT': user.location.state = 6; break;
+        case 'ACT': user.location.state = 7; break;
+        case 'QSL': user.location.state = 8; break;
+        default: user.location.state = null;
+    }
+
   res.json(user);
 }
 
