@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetStoreQuery } from '../../../store/api/storeApi';
-import { useAddStoreBusinessTimeByIdMutation, useDeleteStoreBusinessTimeByIdMutation, useUpdateStoreBusinessTimeByIdMutation} from '../../../store/api/calendarApi'
+import { useAddStoreBusinessTimeByIdMutation, useDeleteStoreBusinessTimeByIdMutation, } from '../../../store/api/calendarApi'
 
 
 const CalendarWrapper = styled(Paper)`
@@ -232,7 +232,6 @@ const Excel = (props) => {
   const dbBusinessHours = isSuccess && storeData.businessHours;
   const [AddStoreBusinessTime] = useAddStoreBusinessTimeByIdMutation();
   const [DeleteStoreBusinessTime] = useDeleteStoreBusinessTimeByIdMutation();
-  const [UpdateStoreBusinessTime] = useUpdateStoreBusinessTimeByIdMutation();
   //const [GetStore] = useGetStoreQuery(id);
 
   const [currentFocusRow, setCurrentFocusRow] = useState(0);
@@ -240,8 +239,6 @@ const Excel = (props) => {
   const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
   const [timeDelete, setTimeDelete] = useState(false);
   const [timeTagIndex, setTimeTagIndex] = useState(-1);
-  const [openHourBefore, setOpenHourBefore] = useState(null);
-  const [closingHourBefore, setClosingHourBefore] = useState(null);
 
   const selectColumn = (index) => {
     setCurrentFocusRow(index);
@@ -263,9 +260,6 @@ const Excel = (props) => {
     setCurrentFocusRow(head.date);
     setCurrentOperation(1);
     setTimeTagIndex(index);
-    setOpenHourBefore(head.startTime);
-    setClosingHourBefore(head.endTime);
-
 
     head.timeTagIndex = index;
     head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
@@ -279,12 +273,11 @@ const Excel = (props) => {
     });
   }
 
-
   const submitTime = async () => {
     const regHour = /^[012]?\d$/;
     const regMinute = /^[012345][05]$/;
     if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
-      return alert('Please input correct hours (6:00 - 22:55)!');
+      return alert('Please input correct hours (6:00 - 21:55)!');
     }
 
     if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
@@ -296,9 +289,9 @@ const Excel = (props) => {
     let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
     let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
 
-    if (startTimeHourNum > 22 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 22
+    if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
       || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
-      return alert('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
+      return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
     }
 
     const startTime = createTime.startTimeHour + createTime.startTimeMinute;
@@ -322,14 +315,9 @@ const Excel = (props) => {
       openHour: startTime,
       closingHour: endTime
     }
-
-    if (currentOperation === 1) {
-      editTime(id, dayInWeek, startTime, endTime);
-      return;
-    }
-    
     await AddStoreBusinessTime(bodyObj);
     setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+    //document.execCommand('Refresh');
     setCurrentFocusRow(0);
     setTimeTagIndex(-1);
     setTimeDelete(false);
@@ -375,33 +363,11 @@ const Excel = (props) => {
     })
   })
 
-
-  const editTime = async (id, dayInWeek, startTime, endTime) => {
-    const bodyObj = {
-      id: id,
-      dayOfWeek: dayInWeek,
-      openHourBefore: openHourBefore.toString(),
-      closingHourBefore: (closingHourBefore % 100 === 55 ? closingHourBefore + 45 : closingHourBefore + 5).toString(), 
-      openHourAfter: startTime,
-      closingHourAfter: endTime
-    }
-    
-    let resultOfEdit = await UpdateStoreBusinessTime(bodyObj);
-    if (resultOfEdit.data.Error !== undefined) {
-      alert(resultOfEdit.data.Error);
-    }
-    setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
-    setCurrentFocusRow(0);
-    setTimeTagIndex(-1);
-    setTimeDelete(false);
-  }
-
-
   const deleteTime = async () => {
     const regHour = /^[012]?\d$/;
     const regMinute = /^[012345][05]$/;
     if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
-      return alert('Please input correct hours (6:00 - 22:55)!');
+      return alert('Please input correct hours (6:00 - 21:55)!');
     }
 
     if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
@@ -413,12 +379,12 @@ const Excel = (props) => {
     let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
     let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
 
-    if (startTimeHourNum > 22 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 22
+    if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
       || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
-      return alert('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
+      return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
     }
 
-
+    
     if (!timeDelete) {
       return alert('Please select "YES" in radio!');
     }
