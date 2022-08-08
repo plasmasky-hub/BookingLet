@@ -25,7 +25,7 @@ const StyledItemTitle = styled.h4`
   font-weight: 600;
 `;
 
-const itemContent = ["20 Feb 2020", "14:00 - 15:00", "2", "Oil massage"];
+// const itemContent = ["20 Feb 2020", "14:00 - 15:00", "2", "Oil massage"];
 
 const StyledTableRow = styled.div`
   display: flex;
@@ -112,9 +112,9 @@ const CollapedTableRowContent = [
   "We would like to know about the membership card.",
 ];
 
-export const BookingManagementTable = () => {
-  const { data, isSuccess } = useGetOrdersQuery();
+export const BookingManagementTable = ({ data }) => {
   const [open, setOpen] = useState(false);
+  console.log(data);
 
   return (
     <>
@@ -126,25 +126,28 @@ export const BookingManagementTable = () => {
                 <StyledItemTitle>
                   <strong>{itemTitle[0]}</strong>
                 </StyledItemTitle>
-                <p>{data.orderTime}</p>
+                <p>{data.orderTime.date.toString().substring(0, 10)}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
                   <strong>{itemTitle[1]}</strong>
                 </StyledItemTitle>
-                <p>{itemContent[1]}</p>
+                <p>{`${data.orderTime.startTime.substring(
+                  0,
+                  2
+                )}:${data.orderTime.startTime.substring(2, 4)}`}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
                   <strong>{itemTitle[2]}</strong>
                 </StyledItemTitle>
-                <p>{itemContent[2]}</p>
+                <p>{data.peopleNumber}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
                   <strong>{itemTitle[3]}</strong>
                 </StyledItemTitle>
-                <p>{itemContent[3]}</p>
+                <p>{data.serviceInfoId.name}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <BookingManagementButton />

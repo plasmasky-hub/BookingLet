@@ -2,6 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import { UpcomingBookings } from "./components/UpcomingBookings";
 import { PreviousBookings } from "./components/PreviousBookings";
+import { useParams } from "react-router-dom";
+import { useGetStoreQuery } from "../../store/api/storeApi";
 
 const StoreBookingWrapper = styled.div`
   min-width: 1000px;
@@ -21,8 +23,6 @@ const ServiceName = styled.h1`
   font-weight: 700;
 `;
 
-const services = "Traditional Chinese Massage";
-
 const ViewOrdersButton = styled.button`
   background-color: #d69636;
   color: #fff;
@@ -34,12 +34,19 @@ const ViewOrdersButton = styled.button`
 `;
 
 export const StoreBookingManagement = () => {
+  let { id } = useParams();
+  const { data: store } = useGetStoreQuery(id);
   return (
-    <StoreBookingWrapper>
-      <ServiceName>{services}</ServiceName>
-      <ViewOrdersButton>View orders in calendar</ViewOrdersButton>
-      <UpcomingBookings />
-      <PreviousBookings />
-    </StoreBookingWrapper>
+    <>
+      {store && (
+        <StoreBookingWrapper>
+          <ServiceName>{store.name}</ServiceName>
+          <ViewOrdersButton>View orders in calendar</ViewOrdersButton>
+          <UpcomingBookings />
+          <PreviousBookings />
+        </StoreBookingWrapper>
+      )}
+      ;
+    </>
   );
 };
