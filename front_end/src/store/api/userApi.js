@@ -17,9 +17,65 @@ const userApi = apiSlice.injectEndpoints({
         body: user,
       }),
     }),
+
+    updateUser: builder.mutation({
+      query: ({id, userObj}) => ({
+        url: `/user/${id}`,
+        method: "PUT",
+        body: userObj,
+      }),
+    }),
+
     getFavouriteStoreById: builder.query({
       query: (_id) => `/user/${_id}/FavouriteStoreList`,
     }),
+
+
+    getUserStores: builder.query({
+      query: (_id) => `/user/${_id}/stores`,
+    }),
+
+    // getStore: builder.query({
+    //   query: (_id) => `/store/${_id}`,
+    // }),
+
+
+    addOrCancelFavoriteStore: builder.mutation({ 
+      query: ({ userId, storeId }) => ({ 
+        url: '/user/addOrCancelFavoriteStore', 
+        method: 'POST', 
+        body: { userId: userId, storeId: storeId, },
+
+      }),
+    }),
+
+    login: builder.mutation({
+			query: (data) => ({
+				url:"/user/login",
+				method: "POST",
+				body: {
+					email: data.email,
+					password: data.password,
+				}
+			}),
+			// transformResponse: (response) => response,
+		}),
+
+    register: builder.mutation({
+			query: (data) => ({
+				url:"/user/register",
+				method: "POST",
+				body: {
+          name: data.name,
+          tel: data.tel,
+					email: data.email,
+					password: data.password,
+          role: data.role,
+				}
+			}),
+			// transformResponse: (response) => response,
+		}),
+
   }),
   overrideExisting: false,
 });
@@ -28,5 +84,10 @@ export const {
   useGetUsersQuery,
   useGetUserQuery,
   useAddUserMutation,
+  useUpdateUserMutation,
   useGetFavouriteStoreByIdQuery,
+  useLoginMutation,
+  useRegisterMutation,
+  useGetUserStoresQuery,
+  useAddOrCancelFavoriteStoreMutation,
 } = userApi;

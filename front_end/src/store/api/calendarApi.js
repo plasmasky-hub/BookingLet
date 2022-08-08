@@ -6,11 +6,71 @@ const calendarApi = apiSlice.injectEndpoints({
       query: (q) => `/calendar/businessTime?${q}`,
     }),
     getChartDate: builder.query({
-      query: (q) =>
-        `/calendar/chart?date=2022-07-30&serviceInfoId=62d5579230f835c4513d6c52`,
+      query: (q) => `/calendar/chart?${q}`,
     }),
+    addStoreBusinessTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
+        method: 'POST',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['Calendar'],
+    }),
+    deleteStoreBusinessTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
+        method: 'DELETE',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['Calendar'],
+    }),
+    updateStoreBusinessTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.id}`,
+        method: 'PUT',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['Calendar'],
+    }),
+
+    addCalendarTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/serviceInfo/${bodyObj.id}`,
+        method: 'POST',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['ServiceCalendar'],
+    }),
+    deleteCalendarTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/serviceInfo/${bodyObj.id}`,
+        method: 'DELETE',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['ServiceCalendar'],
+    }),
+    updateCalendarTimeById: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/serviceInfo/${bodyObj.id}`,
+        method: 'PUT',
+        body: bodyObj,
+      }),
+      invalidatesTags: ['ServiceCalendar'],
+    }),
+
+    syncStoreCalendarToService: builder.mutation({
+      query: (bodyObj) => ({
+        url: `/calendar/store/${bodyObj.storeId}/serviceInfo/${bodyObj.serviceInfoId}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['ServiceCalendar'],
+    }),
+
   }),
   overrideExisting: false,
 });
 
-export const { useGetBusinessTimeQuery, useGetChartDateQuery } = calendarApi;
+export const { useGetBusinessTimeQuery, useGetChartDateQuery, useAddStoreBusinessTimeByIdMutation,
+  useDeleteStoreBusinessTimeByIdMutation, useUpdateStoreBusinessTimeByIdMutation, useAddCalendarTimeByIdMutation,
+  useDeleteCalendarTimeByIdMutation, useUpdateCalendarTimeByIdMutation, useSyncStoreCalendarToServiceMutation } = calendarApi;
+

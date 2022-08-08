@@ -6,7 +6,7 @@ const Banner = styled.div`
   height: 256px;
   background-image: url(${food});
   background-size: cover;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 `;
 
 export default Banner;

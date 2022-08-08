@@ -18,8 +18,17 @@ const theme = createTheme({
     secondary: {
       main: '#7f96af',
     },
+    buttonOrange:{
+      main: '#D69636'
+    },
+    buttonBlue:{
+      main: '#397CC2'
+    },
     background: {
       default: '#ececea',
+    },
+    storelistbutton: {
+      main: '#7b8b6f',
     },
   },
   components: {

@@ -1,6 +1,4 @@
 import { React, useState } from 'react';
-import Layout from '../../components/shared/Layout';
-import { Header } from '../../components/shared/Header/Header';
 import styled from '@emotion/styled';
 import Calendar from './components/Calendar';
 import StoreInfo from './components/StoreInfo';
@@ -9,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import StoreSetting from './components/StoreSetting';
 import ServiceInfo from './components/ServiceInfo';
 import ServiceList from './components/ServiceList';
+import ServiceCalendar from './components/ServiceCalendar';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -32,11 +31,10 @@ const StoreSettingPage = () => {
   });
 
   return (
-    <Layout>
-      <Header />
+    <>
       {isSuccess && (
         <ContentWrapper>
-          {display.StoreCalendar && <Calendar a="Store" />}
+          {display.StoreCalendar && <Calendar id={id} />}
           {display.StoreInfo && (
             <StoreInfo store={data} display={display} setDisplay={setDisplay} />
           )}
@@ -47,10 +45,10 @@ const StoreSettingPage = () => {
           {display.ServiceInfo && (
             <ServiceInfo id={id} display={display} setDisplay={setDisplay} />
           )}
-          {display.ServiceCalendar && <Calendar a="Service" />}
+          {display.ServiceCalendar && <ServiceCalendar id={display.serviceId} storeId={id}/>}
         </ContentWrapper>
       )}
-    </Layout>
+    </>
   );
 };
 

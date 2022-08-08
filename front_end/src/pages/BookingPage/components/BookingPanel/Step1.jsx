@@ -5,6 +5,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MenuItem } from '@mui/material';
 import StyledTextField from './StyledTextField';
 import { useGetAllServiceInfosQuery } from '../../../../store/api/serviceInfoApi';
+import styled from '@emotion/styled';
+
+const Title = styled.p`
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
 
 const Step1 = ({ FormData, setFormData, id }) => {
   const {
@@ -25,13 +32,14 @@ const Step1 = ({ FormData, setFormData, id }) => {
     'Saturday',
   ];
   const weekDay = week[FormData.date.getDay()];
-
+  console.log(isSuccess && services);
   const filteredService = isSuccess
     ? services.filter((el) => {
         let c;
         const a = Object.entries(el.calendarTemplate);
         a.map((b) => {
           if (b[0] === weekDay && b[1].length > 0) c = true;
+          return c;
         });
         return c === true;
       })
@@ -54,26 +62,30 @@ const Step1 = ({ FormData, setFormData, id }) => {
 
   return (
     <>
+      <Title>Date</Title>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
-          label="Date"
           value={FormData.date}
           onChange={(newValue) => {
             setFormData({ ...FormData, date: newValue });
           }}
           renderInput={(params) => (
-            <StyledTextField {...params} variant="standard" p1="true" />
+            <StyledTextField {...params} variant="standard" />
           )}
         />
       </LocalizationProvider>
+
       {isError && <p>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {isSuccess && (
         <>
+          {filteredService.length > 0 || (
+            <p style={{ color: '#d76d6d' }}>Please choose another day!</p>
+          )}
+          <Title>Service</Title>
           <StyledTextField
             select
-            label="Service"
-            value={FormData.service || 'Please choose another day'}
+            value={FormData.service || ''}
             onChange={(event) => {
               setFormData({ ...FormData, service: event.target.value });
             }}
@@ -87,23 +99,25 @@ const Step1 = ({ FormData, setFormData, id }) => {
                 </MenuItem>
               ))
             ) : (
-              <MenuItem value="Please choose another day" className="menuItem">
-                Please choose another day
-              </MenuItem>
+              <MenuItem value="" className="menuItem"></MenuItem>
             )}
           </StyledTextField>
-
+          <Title>Number Of People</Title>
           <StyledTextField
             select
-            label="Number of people"
             value={FormData.people}
             onChange={(event) => {
-              setFormData({ ...FormData, people: event.target.value });
+              setFormData({
+                ...FormData,
+                people: event.target.value,
+              });
             }}
             variant="standard"
             p1="true"
           >
-            {peopleOption()}
+            {peopleOption() || (
+              <MenuItem value="" className="menuItem"></MenuItem>
+            )}
           </StyledTextField>
         </>
       )}

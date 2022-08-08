@@ -5,9 +5,10 @@ import dining from '../../../assets/dining.jpeg';
 import { useGetAllServiceInfosQuery } from '../../../store/api/serviceInfoApi';
 
 const ServiceListWrapper = styled(Paper)`
-  width: 1173px;
-  margin: 60px auto;
+  width: 1180px;
+  margin-top: 60px;
   box-sizing: border-box;
+  border-radius: 0 0 10px 10px;
 `;
 
 const ListHeader = styled.div`
@@ -56,7 +57,7 @@ const ServiceList = ({ id }) => {
         {isSuccess
           ? services.map((e) => {
               return (
-                <ListGrid>
+                <ListGrid key={e.id}>
                   <p>{e.name}</p>
                   <p>{e.price}</p>
                   <p>{e.description}</p>

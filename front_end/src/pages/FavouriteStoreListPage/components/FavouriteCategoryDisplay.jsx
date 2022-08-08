@@ -7,7 +7,10 @@ import { useGetRootCategoriesQuery } from "../../../store/api/categoryApi";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 100px auto;
+
   width: 1159px;
   top:171px;
   left: 145px;

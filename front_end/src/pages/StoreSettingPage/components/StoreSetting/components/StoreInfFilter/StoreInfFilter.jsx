@@ -1,15 +1,15 @@
 import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
+// import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import styled from "styled-components";
 
 export default function StoreInfFilter() {
-  const [age, setAge] = React.useState("");
+  const [state, setState] = React.useState("");
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setState(event.target.value);
   };
 
   const StoreName = styled.div`
@@ -22,32 +22,39 @@ export default function StoreInfFilter() {
     font-weight: 700;
     font-size: 15px;
     line-height: 20px;
-    margin-bottom: 5px;
+    margin-bottom: 13px;
+    margin-left: 15px;
+  `;
+
+  const Wrapper = styled.div`
+    margin-top: 5px;
+    margin-left: -15px;
   `;
 
   const StoreInfFilter = styled(Select)`
-    width: 108px;
+    width: 138px;
     height: 56px;
     background: #d9d9d9;
     border-radius: 5px;
     padding: 0;
+    margin-left: 15px;
   `;
 
   return (
     <div className="wrapper_filter">
-      <FormControl
+      <Wrapper
         variant="standard"
-        sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:-0.0001 }}
+        sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop: -0.0001 }}
       >
         <StoreName>State</StoreName>
         <StoreInfFilter
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={age}
+          value={state}
           onChange={handleChange}
-          label="Age"
+          label="state"
         >
-          <MenuItem value="">
+          <MenuItem value="NSW">
             <em>None</em>
           </MenuItem>
           <MenuItem value={10}>NSW</MenuItem>
@@ -56,7 +63,7 @@ export default function StoreInfFilter() {
           <MenuItem value={40}>TAS</MenuItem>
           <MenuItem value={50}>WA</MenuItem>
         </StoreInfFilter>
-      </FormControl>
+      </Wrapper>
     </div>
   );
 }
