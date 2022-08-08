@@ -187,7 +187,7 @@ async function getAllOrders(req, res) {
   let findQuery = {};
   if (storeId !== undefined) { findQuery.storeId = storeId };
   if (userId !== undefined) { findQuery.userId = userId };
-  let qty = showAll ? 99999 : 99;
+  let qty = showAll ? 99999 : 999;
 
   
   const orders = await Order.find(findQuery).sort({ bookingTime: -1 }).populate('storeId', 'name location tel').populate('userId', 'name tel email').populate('serviceInfoId', 'name description').limit(qty).exec();
