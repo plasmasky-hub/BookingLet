@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { ServiceDropdown } from "./ServiceDropdown";
 import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
+import { useParams } from "react-router-dom";
 import { useGetOrdersQuery } from "../../../store/api/orderApi";
 import { useGetStoreQuery } from "../../../store/api/storeApi";
 
@@ -34,12 +35,13 @@ export const BookingManageWrapper = styled.div`
 `;
 
 export const UpcomingBookings = () => {
-  const { data: order } = useGetOrdersQuery();
-  const { data: store } = useGetStoreQuery();
+  let { id } = useParams();
+  // const { data: order } = useGetOrdersQuery();
+  const { data: store } = useGetStoreQuery(id);
 
   return (
     <>
-      {store && order && (
+      {store && (
         <UpcomingBookingWrappepr>
           <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
           <BookingManageWrapper>
@@ -47,7 +49,7 @@ export const UpcomingBookings = () => {
             <SwitchButton />
           </BookingManageWrapper>
           {/* Table */}
-          <BookingManagementTable data={order} key={order.id} />
+          {/* <BookingManagementTable data={order} key={order.id} /> */}
         </UpcomingBookingWrappepr>
       )}
     </>
