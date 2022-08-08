@@ -16,7 +16,7 @@ const orderApi = apiSlice.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useCreateOrderQuery } = orderApi;
+export const { useCreateOrderQuery, useGetOrdersQuery } = orderApi;
 
 
 // userId=62d6bb04a4675b9cb600f21b

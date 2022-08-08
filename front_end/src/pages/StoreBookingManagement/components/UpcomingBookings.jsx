@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { ServiceDropdown } from "./ServiceDropdown";
-// import { SwitchButton } from "./SwitchButton";
+import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
+import { useGetOrdersQuery } from "../../../store/api/orderApi";
+import { useGetStoreQuery } from "../../../store/api/storeApi";
 
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
@@ -32,15 +34,22 @@ export const BookingManageWrapper = styled.div`
 `;
 
 export const UpcomingBookings = () => {
+  const { data: order } = useGetOrdersQuery();
+  const { data: store } = useGetStoreQuery();
+
   return (
-    <UpcomingBookingWrappepr>
-      <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
-      <BookingManageWrapper>
-        <ServiceDropdown />
-        {/* <SwitchButton /> */}
-      </BookingManageWrapper>
-      {/* Table */}
-      <BookingManagementTable />
-    </UpcomingBookingWrappepr>
+    <>
+      {store && order && (
+        <UpcomingBookingWrappepr>
+          <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
+          <BookingManageWrapper>
+            <ServiceDropdown data={store} key={store.id} />
+            <SwitchButton />
+          </BookingManageWrapper>
+          {/* Table */}
+          <BookingManagementTable data={order} key={order.id} />
+        </UpcomingBookingWrappepr>
+      )}
+    </>
   );
 };

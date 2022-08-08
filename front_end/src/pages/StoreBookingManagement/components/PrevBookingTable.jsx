@@ -77,7 +77,7 @@ export const PrevBookingTable = () => {
             </TableCell>
             <TableCell sx={{ pl: 5, pt: 3 }}>
               <Typography sx={{ color: "#8E8E8E", fontWeight: 700, pr: 4 }}>
-                The order have been finished{" "}
+                Order have been finished{" "}
               </Typography>
             </TableCell>
             <TableCell>

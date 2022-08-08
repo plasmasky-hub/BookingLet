@@ -93,9 +93,6 @@ export const PreviousBookings = () => {
       </BookingManageWrapper>
       {/* <BookingManagementTable /> */}
       <PrevBookingTable />
-      {/* <PrevBookingTable />
-      <PrevBookingTable />
-      <PrevBookingTable /> */}
     </PreviousBookingWrappepr>
   );
 };
