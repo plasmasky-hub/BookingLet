@@ -42,6 +42,16 @@ const StoreName = styled.div`
   line-height: 20px;
 `;
 
+const StoreTitle = styled.div`
+  width: 384px;
+  height: 20px;
+  font-family: "Helvetica";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+`;
+
 const WholeContainer = styled.div`
   padding-top: 50px;
   margin-left: 90px;
@@ -98,7 +108,7 @@ const ButtonContainer = styled(Button)`
 
 const StoreInfName = styled.div`
   width: 210px;
-  margin-left: 88px;
+  margin-left: 92px;
   margin-top: 20px;
   font-family: "Helvetica";
   font-style: normal;
@@ -157,7 +167,7 @@ const PersonalSetting = () => {
       {isSuccess && (
         <StoreInfWrapper>
           <WholeContainer>
-            <Title>My Profile</Title>
+            <Title>Store Information</Title>
             <PhotoContainer>
               <StoreInfName>Photo</StoreInfName>
               <Photo />
@@ -165,14 +175,14 @@ const PersonalSetting = () => {
               <PhotoMenu />
             </PhotoContainer>
             <TopContainer>
-              <StoreName>Name</StoreName>
+              <StoreTitle>Store Name</StoreTitle>
               {/* <StoreInfText defaultValue={isSuccess && data.naem}/> */}
               <StoreInfText name={isSuccess && data.name} />
               {/* <StoreName>Last Name</StoreName>
         <StoreInfText /> */}
-              <StoreName>Mobile</StoreName>
+              <StoreTitle>Address Line 1</StoreTitle>
               <StoreInfTextTel mobile={isSuccess && data.tel} />
-              <StoreName>E-mail</StoreName>
+              <StoreTitle>Address Line 2 （Optional）</StoreTitle>
               <StoreInfTextEmail email={isSuccess && data.email} />
             </TopContainer>
 
