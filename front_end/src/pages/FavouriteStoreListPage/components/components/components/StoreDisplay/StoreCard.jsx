@@ -47,8 +47,9 @@ const CardButton = styled(Button)`
 `;
 
 const StoreCard = ({
-  item: { _id, name, location, favoriteUsersSize, description },
+  item: { _id, name, location, favoriteUsersSize,favoriteUsers, description },
 }) => {
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
 
@@ -62,7 +63,7 @@ const StoreCard = ({
         <h4>{name}</h4>
         <span>{`${address} | ${favoriteUsersSize} people add to booklet`}</span>
         <p>{description}</p>
-        <AddIcon />
+        <AddIcon userId={userId} id={_id} favoriteUsers={favoriteUsers} />
         <CardButton
           onClick={() => navigate(`/BookingPage/${_id}`)}
           variant="contained"
