@@ -5,7 +5,7 @@ import { useGetAllServiceInfosQuery } from '../../../store/api/serviceInfoApi';
 import AddIcon from '@mui/icons-material/Add';
 
 const ServiceListWrapper = styled(Paper)`
-  width: 285px;
+  width: 200px;
   background-color: #d9d9d9;
   padding: 60px 0;
   text-align: center;

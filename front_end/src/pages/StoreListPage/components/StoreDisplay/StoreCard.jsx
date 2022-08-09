@@ -71,7 +71,8 @@ const StoreCard = ({
     isAvailableToday,
   },
 }) => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user ? user._id : null;
 
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;

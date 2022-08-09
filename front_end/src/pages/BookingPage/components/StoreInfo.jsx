@@ -63,10 +63,11 @@ const ExpandButton = styled(Button)`
 `;
 
 const StoreInfo = ({
-  store: { name, description, location, favoriteUsers },
+  store: { name, description, location, favoriteUsers, photo },
   id,
 }) => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user ? user._id : null;
 
   const favorite = favoriteUsers.includes(userId);
   const [isFavorite, setIsFavorite] = useState(favorite);
@@ -99,7 +100,7 @@ const StoreInfo = ({
           </ExpandButton>
         </StoreIntro>
         <StoreImg>
-          <img src={food} alt="StoreImage" />
+          <img src={photo[0]} alt="StoreImage" />
         </StoreImg>
       </ContentWrapper>
       <BookingButton

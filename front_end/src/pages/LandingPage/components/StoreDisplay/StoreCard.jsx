@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Typography, Box, Chip } from '@mui/material';
 import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
-// import Button from '@mui/material/Button';
 import food from '../../../../assets/food.jpg';
 import { useNavigate } from 'react-router-dom';
 
@@ -77,7 +76,6 @@ const StoreCard = ({
       <ImgWrapper>
         {/* need data */}
         <img src={food} alt="food" />
-        {/* need user data and function */}
         <AddIcon favoriteUsers={favoriteUsers} />
         {isAvailableToday ? <span>AVAILABLE TODAY</span> : null}
       </ImgWrapper>
