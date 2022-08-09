@@ -1,5 +1,5 @@
 import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
+// import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -38,7 +38,7 @@ export default function CategoryFilter() {
     <CategoryContainer>
       <FormControl
         variant="standard"
-        sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:2, marginLeft:11.5 }}
+        sx={{ m: 1, minWidth: 108, marginLeft: -1, marginTop:2, /*marginLeft:11.5*/ }}
       >
         <StoreName>Category</StoreName>
         <SelectStoreInf

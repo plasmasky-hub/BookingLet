@@ -136,6 +136,10 @@ export const UserPanel = (props) => {
     handleNavigate(`/FavouriteStoreListPage/${UserInfo.id}`);
   }
 
+  const routeToUserBooking = () => {
+    handleNavigate(`/UserBookingPage`);
+  }
+
   // console.log(UserInfo);
 
   return (
@@ -197,7 +201,7 @@ export const UserPanel = (props) => {
                   <ListItemText primary={'My Info'} sx={{ color: 'white' }} />
                 </ListItemButton>
                 <Divider variant="middle" />
-                <ListItemButton>
+                <ListItemButton onClick={routeToUserBooking}>
                   <ListItemIcon>
                     <BookmarkAddedOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}

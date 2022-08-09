@@ -9,14 +9,14 @@ const schema = new mongoose.Schema({
         unique: true,
         dropDups: true
     },
-    photo: [{
+    photo: {
         type: String
-      }],
+    },
     isDiscard: {
         type: Boolean,
         default: false
     }
-    
+
 },
     {
         toJSON: {
