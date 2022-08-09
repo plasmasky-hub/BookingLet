@@ -2,7 +2,8 @@ import React from 'react';
 import BanerForm from './BanerForm';
 import styled from 'styled-components';
 // import homebg from '../../../../assets/home-bg.jpg';
-import bannerbg from '../../../../assets/home-banner.jpg';
+// import bannerbg from '../../../../assets/home-banner.jpg';
+import newBannerBg from '../../../../assets/newBannerBg.svg';
 // import Stack from '@mui/material/Stack';
 import { Typography, Box } from '@mui/material';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -21,9 +22,9 @@ const BannerWrapper = styled.div`
   height: calc(100vh - 120px);
   min-height: 750px;
   box-sizing: border-box;
-  background-image: url(${bannerbg});
+  background-image: url(${newBannerBg});
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 `;
 
 const BannerContainer = styled.div`
@@ -31,20 +32,15 @@ const BannerContainer = styled.div`
   padding-top: 200px;
 `;
 
-const BannerLabel = styled.div`
-  color: #ffffff;
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 37px;
-  width: 374px;
-  height: 76px;
-`;
+
 
 const LandingBanner = ({ FormData, setFormData }) => (
   <BannerWrapper sx={{ position: 'relative' }}>
     <BannerContainer>
-      <BannerLabel>What would you like to book today?</BannerLabel>
-      <BanerForm FormData={FormData} setFormData={setFormData} />
+      
+      <BanerForm FormData={FormData} setFormData={setFormData}>
+      </BanerForm>
+      
     </BannerContainer>
     <Box
       sx={{

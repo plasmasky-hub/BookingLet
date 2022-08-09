@@ -12,8 +12,8 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { useGetStoresQuery } from '../../store/api/storeApi';
 
 const ServicesPanel = styled(Box)({
-  background:
-    'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
+  // background:
+  //   'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
 });
 
 const TestimonyImg = styled(Box)({
@@ -38,13 +38,20 @@ const LandingPage = () => {
   const { data, isSuccess } = useGetStoresQuery('');
 
   return (
-    <>
+    <Box 
+      sx={{
+        background:'linear-gradient( -50deg, #57b6bf, #D7F6F6 45%, #d5f2f2db 50%, #C6D6D9 );',
+      }}
+    >
       <LandingBanner />
       {/* Section of Introduction */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
+          // background:
+          // 'linear-gradient( -50deg, #57b6bf, #D7F6F6 45%, #d5f2f2db 50%, #C6D6D9 );',
+
         }}
       >
         <Box
@@ -54,8 +61,9 @@ const LandingPage = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            background:
-              'linear-gradient(249.64deg, rgba(89, 96, 107, 0.352) 0%, rgba(187, 200, 148, 0.4) 99.48%)',
+            // background:
+              // 'linear-gradient(249.64deg, rgba(89, 96, 107, 0.352) 0%, rgba(187, 200, 148, 0.4) 99.48%)',
+              // 'linear-gradient( -50deg, #57b6bf, #D7F6F6 45%, #d5f2f2db 50%, #C6D6D9 );',
           }}
         >
           <Box
@@ -67,8 +75,8 @@ const LandingPage = () => {
               justifyContent: 'center',
               flexDirection: 'column',
               mt: '40px',
-              background:
-                'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
+              // background:
+              //   'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
               borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.15)',
               backdropFilter: 'blur(20px)',
@@ -247,7 +255,7 @@ const LandingPage = () => {
         sx={{
           width: '100%',
           height: 450,
-          background: '#637765',
+          // background: '#637765',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -302,7 +310,7 @@ const LandingPage = () => {
           <Register />
         </ServicesPanel>
       </Box>
-    </>
+    </Box>
   );
 };
 

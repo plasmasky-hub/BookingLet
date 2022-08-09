@@ -9,8 +9,8 @@ import { Box } from '@mui/material';
 
 const Layout = styled(Box)({
   minWidth: 1240,
-  background:
-    'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
+  // background:
+    // 'linear-gradient(249.64deg, #57b6bf 100%, #D7F6F6 99.48%, #d5f2f2db, #c6d6d90)',
 });
 
 export default Layout;
