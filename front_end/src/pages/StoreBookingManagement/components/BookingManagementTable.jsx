@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Box, Collapse } from "@mui/material";
 import {
@@ -5,11 +6,13 @@ import {
   // ConfirmButton,
   // DeclineButton,
 } from "./BookingManagementButton";
-import { useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { IconButton, Typography } from "@mui/material";
 import { useGetOrdersQuery } from "../../../store/api/orderApi";
+import ReactDOM from 'react-dom';
+import ReactPaginate from 'react-paginate';
+
 
 const TableWrapper = styled(Box)`
   min-width: 800px;
@@ -24,8 +27,6 @@ const itemTitle = ["Date", "Time", "Person", "Service"];
 const StyledItemTitle = styled.h4`
   font-weight: 600;
 `;
-
-// const itemContent = ["20 Feb 2020", "14:00 - 15:00", "2", "Oil massage"];
 
 const StyledTableRow = styled.div`
   display: flex;
@@ -112,6 +113,8 @@ const CollapedTableRowContent = [
   "We would like to know about the membership card.",
 ];
 
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 export const BookingManagementTable = ({ data }) => {
   const [open, setOpen] = useState(false);
   console.log(data);
@@ -171,25 +174,25 @@ export const BookingManagementTable = ({ data }) => {
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[0]}
                     </StyledCollapedTableRowTitle>
-                    <p>{CollapedTableRowContent[0]}</p>
+                    <p>{ }</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[1]}
                     </StyledCollapedTableRowTitle>
-                    <p>{CollapedTableRowContent[1]}</p>
+                    <p>{data.userId.tel}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[2]}
                     </StyledCollapedTableRowTitle>
-                    <p>{CollapedTableRowContent[2]}</p>
+                    <p>{data.bookingTime.toString()}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[3]}
                     </StyledCollapedTableRowTitle>
-                    <p>{CollapedTableRowContent[3]}</p>
+                    <p>{data.optionInfo}</p>
                   </CollapedTableCell>
                 </CollapedTableRow>
               </CollapsibleTableRowWrapper>

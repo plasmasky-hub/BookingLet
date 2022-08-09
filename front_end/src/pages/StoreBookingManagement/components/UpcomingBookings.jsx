@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { ServiceDropdown } from "./ServiceDropdown";
 import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
 import { useParams } from "react-router-dom";
-import { useGetOrdersByStoreIdQuery } from "../../../store/api/orderApi";
+import { useGetOrdersQuery, useGetOrdersByStoreIdQuery } from "../../../store/api/orderApi";
 
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
@@ -33,16 +33,18 @@ export const BookingManageWrapper = styled.div`
   margin-bottom: 30px;
 `;
 
+
 export const UpcomingBookings = () => {
   let { id } = useParams();
-  console.log(id);
   const { data: orders, isSuccess } = useGetOrdersByStoreIdQuery(
     `62d5572a30f835c4513d6c4e`
   );
-  console.log(isSuccess && orders);
+
+  const { data: users, success } = useGetOrdersQuery(id);
+  console.log(success && users);
   return (
     <>
-      {orders && (
+      {orders && isSuccess && (
         <UpcomingBookingWrappepr>
           <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
           <BookingManageWrapper>
@@ -52,6 +54,9 @@ export const UpcomingBookings = () => {
           {/* Table */}
           {orders.map((order) => (
             <BookingManagementTable data={order} key={order.id} />
+          ))}
+          {users.map((user) => (
+            <BookingManagementTable data={user} key={user.id} />
           ))}
         </UpcomingBookingWrappepr>
       )}
