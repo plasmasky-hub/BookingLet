@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import styled from '@emotion/styled';
+import { useAddOrCancelFavoriteStoreMutation } from '../../../../store/api/userApi';
 
-const AddIcon = () => {
-  const [icon, setIcon] = useState(BookmarkBorderIcon);
+const AddIcon = ({ userId, id, favoriteUsers }) => {
+  const [AddOrCancelFavoriteStore] = useAddOrCancelFavoriteStoreMutation();
+  const [icon, setIcon] = useState(
+    favoriteUsers.includes(userId) ? BookmarkIcon : BookmarkBorderIcon
+  );
 
   const ChangeIcon = () => {
-    setIcon(icon === BookmarkBorderIcon ? BookmarkIcon : BookmarkBorderIcon);
+    setIcon(icon === BookmarkIcon ? BookmarkBorderIcon : BookmarkIcon);
+    AddOrCancelFavoriteStore({ userId, id });
   };
 
   const AddIcon = styled(icon)`
