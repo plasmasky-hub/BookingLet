@@ -66,10 +66,13 @@ const StoreCard = ({
     name,
     location,
     favoriteUsersSize,
+    favoriteUsers,
     description,
     isAvailableToday,
   },
 }) => {
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
+
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
 
@@ -83,7 +86,7 @@ const StoreCard = ({
         <h4>{name}</h4>
         <StyledSpan>{`${address} | ${favoriteUsersSize} people add to booklet`}</StyledSpan>
         <p>{description}</p>
-        <AddIcon />
+        <AddIcon userId={userId} id={_id} favoriteUsers={favoriteUsers} />
         {isAvailableToday && <AvlLabel>AVAILABLE TODAY</AvlLabel>}
         <CardButton
           onClick={() => navigate(`/BookingPage/${_id}`)}
