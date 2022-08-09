@@ -10,9 +10,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { IconButton, Typography } from "@mui/material";
 import { useGetOrdersQuery } from "../../../store/api/orderApi";
-import ReactDOM from 'react-dom';
-import ReactPaginate from 'react-paginate';
-
+import ReactDOM from "react-dom";
+import ReactPaginate from "react-paginate";
 
 const TableWrapper = styled(Box)`
   min-width: 800px;
@@ -117,7 +116,6 @@ const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const BookingManagementTable = ({ data }) => {
   const [open, setOpen] = useState(false);
-  console.log(data);
 
   return (
     <>
@@ -174,7 +172,7 @@ export const BookingManagementTable = ({ data }) => {
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[0]}
                     </StyledCollapedTableRowTitle>
-                    <p>{ }</p>
+                    <p>{data._id}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
@@ -186,7 +184,10 @@ export const BookingManagementTable = ({ data }) => {
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[2]}
                     </StyledCollapedTableRowTitle>
-                    <p>{data.bookingTime.toString()}</p>
+                    <p>{`${data.bookingTime.substring(
+                      0,
+                      10
+                    )} ${data.bookingTime.substring(12, 16)}`}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>

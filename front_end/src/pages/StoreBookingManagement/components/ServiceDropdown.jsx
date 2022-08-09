@@ -1,7 +1,6 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-//import { useGetStoreQuery } from '../../../store/api/storeApi'
+import React from "react";
+import styled from "@emotion/styled";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 export const BookingManageCategory = styled.h3`
   font-size: 0.8rem;
@@ -20,25 +19,20 @@ const BookingManageDropdown = styled.div`
   align-items: baseline;
 `;
 
-export const ServiceDropdown = () => {
-  const [service, setService] = React.useState('');
+export const ServiceDropdown = ({ resultOfOrders, orders1 }) => {
+  const [service, setService] = React.useState("");
   const handleChange = (event) => {
     setService(event.target.value);
   };
-  
-
-  //const{data} = useGetStoreQuery(id);
-
-  //console.log(data);
-
 
   return (
     <BookingManageDropdown>
-      <BookingManageCategory>
-        Service
-      </BookingManageCategory>
+      <BookingManageCategory>Service</BookingManageCategory>
       {/* dropdown & content      */}
-      <FormControl  sx={{minWidth: 200, background: '#fff', color: '#8E8E8E' }} size="small">
+      <FormControl
+        sx={{ minWidth: 200, background: "#fff", color: "#8E8E8E" }}
+        size="small"
+      >
         <InputLabel id="demo-simple-select-label">All</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -47,11 +41,11 @@ export const ServiceDropdown = () => {
           label="Service"
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {resultOfOrders.serviceInfoArr.map((e) => (
+            <MenuItem value={e[0]}>{e[0]}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </BookingManageDropdown>
-  )
+  );
 };
