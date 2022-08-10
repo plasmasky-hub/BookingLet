@@ -57,6 +57,7 @@ const StoreCard = ({
     name,
     location,
     favoriteUsersSize,
+    favoriteUsers,
     isAvailableToday,
     maxPersonPerSectionForStore,
   },
@@ -77,7 +78,7 @@ const StoreCard = ({
         {/* need data */}
         <img src={food} alt="food" />
         {/* need user data and function */}
-        <AddIcon />
+        <AddIcon favoriteUsers={favoriteUsers} />
         {isAvailableToday ? <span>AVAILABLE TODAY</span> : null}
       </ImgWrapper>
       <Box sx={{ pl: 2 }}>

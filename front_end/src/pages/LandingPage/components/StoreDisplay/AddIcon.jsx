@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import styled from '@emotion/styled';
 
-const AddIcon = () => {
-  const [add, setAdd] = useState(false);
+const AddIcon = ({ favoriteUsers }) => {
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
 
-  const handleClick = () => {
-    setAdd(!add);
-  };
+  const add = favoriteUsers.includes(userId);
+
+  // const handleClick = () => {
+  //   setAdd(!add);
+  // };
 
   const color = add ? '#D69636' : '#fff';
 
@@ -19,7 +21,7 @@ const AddIcon = () => {
     cursor: pointer;
   `;
 
-  return <AddIcon onClick={handleClick} />;
+  return <AddIcon /*onClick={handleClick}*/ />;
 };
 
 export default AddIcon;
