@@ -15,7 +15,7 @@ import EditServiceInfo from './EditServiceInfo';
 const ServiceInfoWrapper = styled(Paper)`
   width: 470px;
   background-color: #c1cbd7;
-  padding: 60px 40px 20px 40px;
+  padding: 60px 60px 20px 60px;
 `;
 
 const Title = styled.p`
@@ -30,16 +30,23 @@ const SubTitle = styled.p`
   margin-bottom: 15px;
 `;
 
-const StyledLabel = styled.label`
+const GridWrapper = styled.div`
   font-size: 14px;
+  display: grid;
+  grid-template-columns: 35fr 65fr;
+  margin-bottom: 10px;
   input {
-    margin-left: 20px;
+    width: 100%;
   }
 `;
 
+const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const StyledSelect = styled.select`
-  width: 140px;
-  margin-left: 20px;
   padding: 5px;
 `;
 
@@ -118,81 +125,73 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
         <>
           <form>
             <fieldset disabled={show}>
-              <p>
-                <StyledLabel>
-                  Service Name:
-                  <input
-                    value={show ? service.name : Form.name}
-                    onChange={(e) =>
-                      service && setForm({ ...Form, name: e.target.value })
-                    }
-                  />
-                </StyledLabel>
-              </p>
-              <p>
-                <StyledLabel>
-                  Category :
-                  <StyledSelect
-                    value={show ? service.rootCategory.id : Form.rootCategory}
-                    onChange={(e) =>
-                      setForm({
-                        ...Form,
-                        rootCategory: e.target.value,
-                        subCategories: subCategory[0].id,
-                      })
-                    }
-                  >
-                    {isSuccess &&
-                      rootCategory.map((e) => (
-                        <option key={e.id} value={e.id}>
-                          {e.name}
-                        </option>
-                      ))}
-                  </StyledSelect>
-                </StyledLabel>
-              </p>
-              <p>
-                <StyledLabel>
-                  Subcategory :
-                  <StyledSelect
-                    value={
-                      show ? service.subCategories[0].id : Form.subCategories
-                    }
-                    onChange={(e) =>
-                      setForm({ ...Form, subCategories: e.target.value })
-                    }
-                  >
-                    {success &&
-                      subCategory.map((e) => (
-                        <option key={e.id} value={e.id}>
-                          {e.name}
-                        </option>
-                      ))}
-                  </StyledSelect>
-                </StyledLabel>
-              </p>
-              <p>
-                <StyledLabel>
-                  Duration Type:
-                  <StyledSelect
-                    value={
-                      show ? service.duration.durationType : Form.durationType
-                    }
-                    onChange={(e) =>
-                      setForm({ ...Form, durationType: e.target.value })
-                    }
-                  >
-                    <option value="fixed">Fixed</option>
-                    <option value="unlimited">Unlimited</option>
-                    <option value="changeable">Changable</option>
-                  </StyledSelect>
-                </StyledLabel>
-              </p>
+              <GridWrapper>
+                <label>Service Name:</label>
+                <input
+                  value={show ? service.name : Form.name}
+                  onChange={(e) =>
+                    service && setForm({ ...Form, name: e.target.value })
+                  }
+                />
+              </GridWrapper>
+              <GridWrapper>
+                <label>Category :</label>
+                <StyledSelect
+                  value={show ? service.rootCategory.id : Form.rootCategory}
+                  onChange={(e) =>
+                    setForm({
+                      ...Form,
+                      rootCategory: e.target.value,
+                      subCategories: subCategory[0].id,
+                    })
+                  }
+                >
+                  {isSuccess &&
+                    rootCategory.map((e) => (
+                      <option key={e.id} value={e.id}>
+                        {e.name}
+                      </option>
+                    ))}
+                </StyledSelect>
+              </GridWrapper>
+              <GridWrapper>
+                <label>Subcategory :</label>
+                <StyledSelect
+                  value={
+                    show ? service.subCategories[0].id : Form.subCategories
+                  }
+                  onChange={(e) =>
+                    setForm({ ...Form, subCategories: e.target.value })
+                  }
+                >
+                  {success &&
+                    subCategory.map((e) => (
+                      <option key={e.id} value={e.id}>
+                        {e.name}
+                      </option>
+                    ))}
+                </StyledSelect>
+              </GridWrapper>
+              <GridWrapper>
+                <label>Duration Type:</label>
+                <StyledSelect
+                  value={
+                    show ? service.duration.durationType : Form.durationType
+                  }
+                  onChange={(e) =>
+                    setForm({ ...Form, durationType: e.target.value })
+                  }
+                >
+                  <option value="fixed">Fixed</option>
+                  <option value="unlimited">Unlimited</option>
+                  <option value="changeable">Changable</option>
+                </StyledSelect>
+              </GridWrapper>
               {((!show && Form.durationType !== 'unlimited') ||
                 (show && service.duration.durationType !== 'unlimited')) && (
-                <p>
-                  <StyledLabel>
-                    Duration:
+                <GridWrapper>
+                  <label>Duration:</label>
+                  <FlexWrapper>
                     <input
                       value={
                         show
@@ -207,7 +206,13 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                           minimum: parseInt(e.target.value),
                         })
                       }
-                      style={{ width: '40px', marginRight: '20px' }}
+                      style={{
+                        width:
+                          (!show && Form.durationType === 'fixed') ||
+                          (show && service.duration.durationType === 'fixed')
+                            ? '70%'
+                            : '60px',
+                      }}
                     />
                     {((!show && Form.durationType === 'changeable') ||
                       (show &&
@@ -228,62 +233,54 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                               maximum: parseInt(e.target.value),
                             })
                           }
-                          style={{ width: '40px', marginRight: '20px' }}
+                          style={{ width: '60px' }}
                         />
                       </>
                     )}
                     hour(s)
-                  </StyledLabel>
-                </p>
+                  </FlexWrapper>
+                </GridWrapper>
               )}
-              <p>
-                <StyledLabel>
-                  Person Limit:
-                  <input
-                    value={
-                      show
-                        ? service.maxPersonPerSection
-                        : Form.maxPersonPerSection
-                    }
-                    onChange={(e) =>
-                      setForm({
-                        ...Form,
-                        maxPersonPerSection: parseInt(e.target.value),
-                      })
-                    }
-                  />
-                </StyledLabel>
-              </p>
-              <p>
-                <StyledLabel>
-                  Service Quantity:
-                  <input
-                    value={
-                      show
-                        ? service.maxServicePerSection
-                        : Form.maxServicePerSection
-                    }
-                    onChange={(e) =>
-                      setForm({
-                        ...Form,
-                        maxServicePerSection: parseInt(e.target.value),
-                      })
-                    }
-                  />
-                </StyledLabel>
-              </p>
+              <GridWrapper>
+                <label>Person Limit:</label>
+                <input
+                  value={
+                    show
+                      ? service.maxPersonPerSection
+                      : Form.maxPersonPerSection
+                  }
+                  onChange={(e) =>
+                    setForm({
+                      ...Form,
+                      maxPersonPerSection: parseInt(e.target.value),
+                    })
+                  }
+                />
+              </GridWrapper>
+              <GridWrapper>
+                <label>Service Quantity:</label>
+                <input
+                  value={
+                    show
+                      ? service.maxServicePerSection
+                      : Form.maxServicePerSection
+                  }
+                  onChange={(e) =>
+                    setForm({
+                      ...Form,
+                      maxServicePerSection: parseInt(e.target.value),
+                    })
+                  }
+                />
+              </GridWrapper>
               <SubTitle>Optional Field</SubTitle>
-              <p>
-                <StyledLabel>
-                  price:
-                  <input
-                    value={show ? service.price : Form.price}
-                    onChange={(e) =>
-                      setForm({ ...Form, price: e.target.value })
-                    }
-                  />
-                </StyledLabel>
-              </p>
+              <GridWrapper>
+                <label>price:</label>
+                <input
+                  value={show ? service.price : Form.price}
+                  onChange={(e) => setForm({ ...Form, price: e.target.value })}
+                />
+              </GridWrapper>
               <p style={{ fontSize: '14px' }}>Description:</p>
               <textarea
                 value={show ? service.description : Form.description}
@@ -291,8 +288,7 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                   setForm({ ...Form, description: e.target.value })
                 }
                 rows="4"
-                cols="40"
-                style={{ fontSize: '14px' }}
+                style={{ fontSize: '14px', width: '100%' }}
               />
             </fieldset>
           </form>

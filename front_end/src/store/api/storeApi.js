@@ -4,11 +4,12 @@ const storeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getStores: builder.query({
       query: (q) => `/store${q}`,
+      providesTags: ['Favorite'],
     }),
 
     getStore: builder.query({
       query: (_id) => `/store/${_id}`,
-      providesTags: ['Calendar'],
+      providesTags: ['Calendar', 'Favorite'],
     }),
 
     addStore: builder.mutation({
