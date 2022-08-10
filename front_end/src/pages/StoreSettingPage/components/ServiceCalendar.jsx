@@ -1,9 +1,10 @@
 import { React, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
 import { useGetServiceInfoQuery } from '../../../store/api/serviceInfoApi';
-import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation, useSyncStoreCalendarToServiceMutation } from '../../../store/api/calendarApi';
-
+import { useAddCalendarTimeByIdMutation, useDeleteCalendarTimeByIdMutation, useUpdateCalendarTimeByIdMutation, useSyncStoreCalendarToServiceMutation } from '../../../store/api/calendarApi';
 
 
 const CalendarWrapper = styled(Paper)`
@@ -206,6 +207,23 @@ const TimeTag = styled.div`
   margin-left: ${props => props.head.date * 69.88 + 1}px;
   margin-top: ${props => props.head.startTimePx}px;
 
+  ${props => props.isAnimation ? `
+    animation-duration: 2s;
+    animation-name: slideleft;
+    @keyframes slideleft {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    ` : ''
+    }
+
+
   &:hover {
     background-color: rgba(57, 124,	194, 0.7);
   };
@@ -250,7 +268,7 @@ const Excel = (props) => {
     const [AddStoreBusinessTime] = useAddCalendarTimeByIdMutation();
     const [DeleteCalendarTime] = useDeleteCalendarTimeByIdMutation();
     const [SyncStoreCalendarToService] = useSyncStoreCalendarToServiceMutation();
-    //useDeleteCalendarTimeByIdMutation
+    const [UpdateCalendarTime] = useUpdateCalendarTimeByIdMutation();
 
     let calendarTimeSliceObj = { Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] };
     Object.keys(dbCalendarTemplate).forEach((key) => {
@@ -265,6 +283,9 @@ const Excel = (props) => {
     const [createTime, setCreateTime] = useState({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
     const [timeDelete, setTimeDelete] = useState(false);
     const [timeTagIndex, setTimeTagIndex] = useState(-1);
+    const [openHourBefore, setOpenHourBefore] = useState(null);
+    const [closingHourBefore, setClosingHourBefore] = useState(null);
+    const [animationEnable, setAnimationEnable] = useState(false);
 
 
     const selectColumn = (index) => {
@@ -273,7 +294,8 @@ const Excel = (props) => {
     }
 
     const selectedOperation = (index) => {
-        setCurrentOperation(index);
+        if (currentOperation === 0) { setCurrentOperation(0) };
+        if ((currentOperation === 1 || currentOperation === 2) && index !== 0) { setCurrentOperation(index) };
     }
 
     const closePopup = () => {
@@ -287,6 +309,8 @@ const Excel = (props) => {
         setCurrentFocusRow(head.date);
         setCurrentOperation(1);
         setTimeTagIndex(index);
+        setOpenHourBefore(head.startTime);
+        setClosingHourBefore(head.endTime);
 
         head.timeTagIndex = index;
         head.endTime = (head.endTime + 5) % 100 === 60 ? head.endTime + 45 : head.endTime + 5;
@@ -304,11 +328,11 @@ const Excel = (props) => {
         const regHour = /^[012]?\d$/;
         const regMinute = /^[012345][05]$/;
         if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
-            return alert('Please input correct hours (6:00 - 21:55)!');
+            return toast.error('Please input correct hours (6:00 - 22:55)!');
         }
 
         if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
-            return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
+            return toast.error('Please input correct minutes. Minimum resolution must be 5 minutes!');
         }
 
         let startTimeHourNum = parseInt(createTime.startTimeHour);
@@ -316,13 +340,19 @@ const Excel = (props) => {
         let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
         let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
 
-        if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
+        if (startTimeHourNum > 22 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 22
             || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
-            return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
+            return toast.error('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
         }
 
         const startTime = createTime.startTimeHour + createTime.startTimeMinute;
         const endTime = createTime.endTimeHour + createTime.endTimeMinute;
+
+        let startTimeNum = parseInt(startTime);
+        let endTimeNum = parseInt(endTime);
+        if (!(startTimeNum < endTimeNum)) {
+            return toast.error('End time must be later than start time !');
+        }
 
         let dayInWeek = null;
         switch (currentFocusRow) {
@@ -343,9 +373,18 @@ const Excel = (props) => {
             closingHour: endTime
         }
 
+        if (currentOperation === 1) {
+            editTime(id, dayInWeek, startTime, endTime);
+            return;
+        }
+
         const resultOfAdd = await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
-        if (resultOfAdd.data.Error !== undefined) { alert(resultOfAdd.data.Error) };
+        if (resultOfAdd.data.Error !== undefined) {
+            toast.error(resultOfAdd.data.Error)
+        } else if (resultOfAdd.data.synchronizationUpdate > 0) {
+            toast.success(`Synchronization: booking records in ${resultOfAdd.data.synchronizationUpdate} weeks updated.`)
+        };
         setCurrentFocusRow(0);
         setTimeTagIndex(-1);
         setTimeDelete(false);
@@ -393,15 +432,38 @@ const Excel = (props) => {
     })
 
 
+    const editTime = async (id, dayInWeek, startTime, endTime) => {
+        const bodyObj = {
+            id: id,
+            dayOfWeek: dayInWeek,
+            openHourBefore: openHourBefore.toString(),
+            closingHourBefore: (closingHourBefore % 100 === 55 ? closingHourBefore + 45 : closingHourBefore + 5).toString(),
+            openHourAfter: startTime,
+            closingHourAfter: endTime
+        }
+
+        let resultOfEdit = await UpdateCalendarTime(bodyObj);
+        if (resultOfEdit.data.Error !== undefined) {
+            toast.error(resultOfEdit.data.Error);
+        } else if (resultOfEdit.data.synchronizationUpdate > 0) {
+            toast.success(`Synchronization: booking records in ${resultOfEdit.data.synchronizationUpdate} weeks updated.`)
+        };
+        setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
+        setCurrentFocusRow(0);
+        setTimeTagIndex(-1);
+        setTimeDelete(false);
+    }
+
+
     const deleteTime = async () => {
         const regHour = /^[012]?\d$/;
         const regMinute = /^[012345][05]$/;
         if (!regHour.test(createTime.startTimeHour) || !regHour.test(createTime.endTimeHour)) {
-            return alert('Please input correct hours (6:00 - 21:55)!');
+            return toast.error('Please input correct hours (6:00 - 22:55)!');
         }
 
         if (!regMinute.test(createTime.startTimeMinute) || !regMinute.test(createTime.endTimeMinute)) {
-            return alert('Please input correct minutes. Minimum resolution must be 5 minutes!');
+            return toast.error('Please input correct minutes. Minimum resolution must be 5 minutes!');
         }
 
         let startTimeHourNum = parseInt(createTime.startTimeHour);
@@ -409,13 +471,13 @@ const Excel = (props) => {
         let startTimeMinuteNum = parseInt(createTime.startTimeMinute);
         let endTimeMinuteNum = parseInt(createTime.endTimeMinute);
 
-        if (startTimeHourNum > 21 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 21
+        if (startTimeHourNum > 22 || startTimeHourNum < 6 || endTimeHourNum < 6 || endTimeHourNum > 22
             || startTimeMinuteNum > 59 || startTimeMinuteNum < 0 || endTimeMinuteNum > 59 || endTimeMinuteNum < 0) {
-            return alert('Business Time must in [6:00 AM - 9:55 PM (21:55)] !');
+            return toast.error('Business Time must in [6:00 AM - 9:55 PM (22:55)] !');
         }
 
         if (!timeDelete) {
-            return alert('Please select "YES" in radio!');
+            return toast.error('Please select "YES" in radio!');
         }
 
         //DeleteCalendarTime
@@ -438,18 +500,29 @@ const Excel = (props) => {
             closingHour: createTime.endTimeHour + createTime.endTimeMinute
         }
 
+        let startTimeNum = parseInt(bodyObj.openHour);
+        let endTimeNum = parseInt(bodyObj.closingHour);
+        if (!(startTimeNum < endTimeNum)) {
+            return toast.error('End time must be later than start time !');
+        }
+
         let resultOfDelete = await DeleteCalendarTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
         if (resultOfDelete.data.Error !== undefined) {
-            alert(resultOfDelete.data.Error);
-        }
+            toast.error(resultOfDelete.data.Error);
+        } else if (resultOfDelete.data.matchedBookingRecordQty > 0) {
+            toast.success(`Synchronization: booking records in ${resultOfDelete.data.synchronizationUpdate} of ${resultOfDelete.data.matchedBookingRecordQty} weeks deleted.`)
+            toast.info(`Weeks cannot synchronize (since booking already exists ): ${resultOfDelete.data.unsynchronizedWeeks.length > 0 ? resultOfDelete.data.unsynchronizedWeeks : 'null'}`)
+        };
         setCurrentFocusRow(0);
         setTimeTagIndex(-1);
         setTimeDelete(false);
     }
 
 
-    const synchronizeTime = async () => {
+    const synchronizeTime = async (timePairArr) => {
+        if (timePairArr.length === 0) { setAnimationEnable(true) };
+
         let bodyObj = {
             storeId: storeId,
             serviceInfoId: id
@@ -457,9 +530,9 @@ const Excel = (props) => {
         let resultOfSync = await SyncStoreCalendarToService(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
         if (resultOfSync.data.Error !== undefined) {
-            alert(resultOfSync.data.Error);
+            toast.error(resultOfSync.data.Error);
         }
-        
+
         //////////////////////////////Temporary plan, to be revised later///////////////////////////////////////
         bodyObj = {
             id: id,
@@ -470,13 +543,17 @@ const Excel = (props) => {
         await AddStoreBusinessTime(bodyObj);
         setCreateTime({ startTimeHour: '', startTimeMinute: '', endTimeHour: '', endTimeMinute: '' });
 
+        setTimeout(() => {
+            setAnimationEnable(false);
+        }, 2200);
+
     }
-    
+
 
     return (
         <div style={{ position: 'relative' }}>
             <Title>Weekly Calendar</Title>
-            <SyncButton onClick={synchronizeTime}>Sync business time to calendar</SyncButton>
+            <SyncButton onClick={() => synchronizeTime(timePairArr)}>Sync business time to calendar</SyncButton>
 
             <WeekBar>
                 {
@@ -552,7 +629,7 @@ const Excel = (props) => {
             <div>
                 {
                     timePairArr.map((head, index) =>
-                        <TimeTag head={head} onClick={() => openPopup(head, index)} style={{
+                        <TimeTag head={head} isAnimation={animationEnable} key={head.date * 10000 * 10000 + head.startTime * 10000 + head.endTime} onClick={() => openPopup(head, index)} style={{
                             'background-color': timeTagIndex === index ? '#397CC2' : '',
                             'box-shadow': timeTagIndex === index ? '5px 10px 10px rgba(0,0,0,0.65) ' : '',
                             'font-weight': timeTagIndex === index ? 'bold' : '',
@@ -570,6 +647,19 @@ const Excel = (props) => {
                     )
                 }
             </div>
+            <ToastContainer
+                style={{ fontSize: "16px" }}
+                theme="dark"
+                position="top-center"
+                autoClose={7000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     );
 }

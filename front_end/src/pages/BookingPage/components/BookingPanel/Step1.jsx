@@ -32,7 +32,7 @@ const Step1 = ({ FormData, setFormData, id }) => {
     'Saturday',
   ];
   const weekDay = week[FormData.date.getDay()];
-
+  console.log(isSuccess && services);
   const filteredService = isSuccess
     ? services.filter((el) => {
         let c;

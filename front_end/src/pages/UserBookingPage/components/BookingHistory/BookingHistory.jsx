@@ -25,7 +25,9 @@ const StyledChips = styled(Chip)`
 const chipItems = ["All", "Unconfirmed", "Confirmed"];
 
 export const BookingHistory = () => {
-  const { data, isSuccess } = useGetOrdersQuery();
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
+
+  const { data, isSuccess } = useGetOrdersQuery(userId);
 
   const [clicked, setClicked] = useState(0);
 

@@ -80,7 +80,11 @@ const BanerForm = () => {
     FormData.date.getMonth() + 1 < 10
       ? `0${FormData.date.getMonth() + 1}`
       : FormData.date.getMonth() + 1
-  }-${FormData.date.getDate()}`;
+  }-${
+    FormData.date.getDate() < 10
+      ? `0${FormData.date.getDate()}`
+      : FormData.date.getDate()
+  }`;
 
   const category = FormData.category;
   const state = FormData.state;

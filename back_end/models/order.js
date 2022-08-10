@@ -11,6 +11,7 @@ const Schema = new mongoose.Schema({
     date: { type: Date, required: true },
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
+    timestamp: { type: Date, required: true }
   },
   bookingStatus: {
     type: Boolean,

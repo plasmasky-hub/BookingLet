@@ -539,9 +539,6 @@ async function discardStoreById(req, res) {
         }
         res.sendStatus(204);
     }
-
-
-
 }
 
 
@@ -591,6 +588,16 @@ async function checkStoreUpdate(data) {
 }
 
 
+async function addPhotoToStore(req, res) {
+    const { storeId, photoURL } = req.body;
+    const store = await Store.findById(storeId).exec();
+    if (!store) { return res.json('store not found (p1)') }
+    store.photo.addToSet(photoURL);
+    store.save()
+    res.json(store)
+}
+
+
 
 module.exports = {
     getAllStores,
@@ -598,5 +605,6 @@ module.exports = {
     addStore,
     updateStoreById,
     discardStoreById,
-    getDiscardedStores
+    getDiscardedStores,
+    addPhotoToStore
 }
