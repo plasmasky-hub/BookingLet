@@ -3,14 +3,9 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import styled from '@emotion/styled';
 
 const AddIcon = ({ favoriteUsers }) => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
-
-  const add = favoriteUsers.includes(userId);
-
-  // const handleClick = () => {
-  //   setAdd(!add);
-  // };
-
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user ? user._id : null;
+  const add = userId && favoriteUsers.includes(userId);
   const color = add ? '#D69636' : '#fff';
 
   const AddIcon = styled(BookmarkIcon)`
@@ -21,7 +16,7 @@ const AddIcon = ({ favoriteUsers }) => {
     cursor: pointer;
   `;
 
-  return <AddIcon /*onClick={handleClick}*/ />;
+  return <AddIcon />;
 };
 
 export default AddIcon;
