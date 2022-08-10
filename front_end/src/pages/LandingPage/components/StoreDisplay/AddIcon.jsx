@@ -5,9 +5,7 @@ import styled from '@emotion/styled';
 const AddIcon = ({ favoriteUsers }) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const userId = user ? user._id : null;
-
-  const add = favoriteUsers && userId ? favoriteUsers.includes(userId) : false;
-
+  const add = userId && favoriteUsers.includes(userId);
   const color = add ? '#D69636' : '#fff';
 
   const AddIcon = styled(BookmarkIcon)`
