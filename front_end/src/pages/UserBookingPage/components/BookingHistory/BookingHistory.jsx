@@ -1,12 +1,9 @@
-import styled from '@emotion/styled';
-import { useState } from 'react';
-import { Container, Chip, Stack } from '@mui/material';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import { BookingTable } from '../BookingTable/BookingTable';
-import {
-  useGetOrdersQuery,
-  // useUpdateOrderQuery,
-} from '../../../../store/api/orderApi';
+import styled from "@emotion/styled";
+import { useState } from "react";
+import { Container, Chip, Stack } from "@mui/material";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { BookingTable } from "../BookingTable/BookingTable";
+import { useGetOrdersQuery } from "../../../../store/api/orderApi";
 
 const BookingPageWrapper = styled(Container)`
   width: 100%;
@@ -25,7 +22,7 @@ const StyledChips = styled(Chip)`
   transition: ease-in-out 0.4s;
 `;
 
-const chipItems = ['All', 'Unconfirmed', 'Confirmed'];
+const chipItems = ["All", "Unconfirmed", "Confirmed"];
 
 export const BookingHistory = () => {
   const { data, isSuccess } = useGetOrdersQuery();
@@ -37,7 +34,7 @@ export const BookingHistory = () => {
       label={chipItem}
       key={chipItem}
       onClick={() => setClicked(index)}
-      sx={{ backgroundColor: index === clicked && '#7B8B6F' }}
+      sx={{ backgroundColor: index === clicked && "#7B8B6F" }}
     ></StyledChips>
   ));
 
@@ -49,32 +46,30 @@ export const BookingHistory = () => {
       : clicked === 2
       ? data.filter((e) => e.bookingStatus)
       : data.filter((e) => e.bookingStatus)
-    : '';
+    : "";
   console.log(filterOrders);
   if (!filterOrders) return <>no orders</>;
-  if (filterOrders === '') return <>no orders</>;
+  if (filterOrders === "") return <>no orders</>;
 
   return (
-    // <>booking</>
     <>
-    { isSuccess && filterOrders &&
-    <BookingPageWrapper>
-      <h2>My Bookings</h2>
-      <Stack direction="row" spacing={1}>
-        <FilterAltOutlinedIcon sx={{ mr: 1 }} />
-        <span>
-          <strong>Filter by booking status</strong>
-        </span>
-      </Stack>
-      <Stack direction="row" spacing={1} sx={{ py: 2 }}>
-        {statusIndicator}
-      </Stack>
-      {filterOrders.map((order)=>
-        <BookingTable data={order} key ={order.id} />
+      {isSuccess && filterOrders && (
+        <BookingPageWrapper>
+          <h2>My Bookings</h2>
+          <Stack direction="row" spacing={1}>
+            <FilterAltOutlinedIcon sx={{ mr: 1 }} />
+            <span>
+              <strong>Filter by booking status</strong>
+            </span>
+          </Stack>
+          <Stack direction="row" spacing={1} sx={{ py: 2 }}>
+            {statusIndicator}
+          </Stack>
+          {filterOrders.map((order) => (
+            <BookingTable data={order} key={order.id} />
+          ))}
+        </BookingPageWrapper>
       )}
-     
-    </BookingPageWrapper>
-    }
     </>
   );
 };

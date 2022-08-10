@@ -4,9 +4,8 @@ import { UserBookingHeader } from "./components/Header/Header";
 export const UserBookingPage = () => {
   return (
     <div>
-
       <UserBookingHeader />
-       <BookingHistory />
+      <BookingHistory />
     </div>
   );
 };
