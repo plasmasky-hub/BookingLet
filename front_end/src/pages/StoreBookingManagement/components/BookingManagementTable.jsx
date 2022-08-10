@@ -9,9 +9,9 @@ import {
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { IconButton, Typography } from "@mui/material";
-import { useGetOrdersQuery } from "../../../store/api/orderApi";
-import ReactDOM from "react-dom";
-import ReactPaginate from "react-paginate";
+// import { useGetOrdersQuery } from "../../../store/api/orderApi";
+// import ReactDOM from "react-dom";
+// import ReactPaginate from "react-paginate";
 
 const TableWrapper = styled(Box)`
   min-width: 800px;
@@ -104,13 +104,6 @@ const StyledCollapedTableRowTitle = styled.h4`
   color: #fff;
   font-weight: 600;
 `;
-
-const CollapedTableRowContent = [
-  "1234567890",
-  "0412345678",
-  "18 Jun 2022 13:00",
-  "We would like to know about the membership card.",
-];
 
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 

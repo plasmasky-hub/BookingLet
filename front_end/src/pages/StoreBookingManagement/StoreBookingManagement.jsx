@@ -4,7 +4,7 @@ import { UpcomingBookings } from "./components/UpcomingBookings";
 import { PreviousBookings } from "./components/PreviousBookings";
 import { useParams } from "react-router-dom";
 import { useGetStoreQuery } from "../../store/api/storeApi";
-
+import { BasicPagination } from "./components/Pagination";
 /* -------------------------------------------------------------------------- */
 
 const StoreBookingWrapper = styled.div`
@@ -45,7 +45,9 @@ export const StoreBookingManagement = () => {
           <ServiceName>{store.name}</ServiceName>
           <ViewOrdersButton>View orders in calendar</ViewOrdersButton>
           <UpcomingBookings />
+          <BasicPagination />
           <PreviousBookings />
+          <BasicPagination />
         </StoreBookingWrapper>
       )}
       ;

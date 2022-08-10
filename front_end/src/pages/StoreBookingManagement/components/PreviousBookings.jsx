@@ -5,8 +5,10 @@ import { ServiceDropdown } from "./ServiceDropdown";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { BookingManageWrapper } from "./UpcomingBookings";
 import { BookingManageCategory } from "./ServiceDropdown";
-// import { BookingManagementTable } from './BookingManagementTable';
+// import { BookingManagementTable } from "./BookingManagementTable";
 import { PrevBookingTable } from "./PrevBookingTable";
+import { useParams } from "react-router-dom";
+import { useGetOrdersByStoreIdQuery } from "../../../store/api/orderApi";
 
 const PreviousBookingWrappepr = styled.div`
   min-width: 800px;
@@ -42,7 +44,7 @@ const DateWrapper = styled.div`
   align-items: baseline;
 `;
 
-const BookingDateChips = ["All", "This week", "This month", "This year"];
+const BookingDateChips = ["All", "This month", "This year"];
 
 const StyledBookingDateChips = styled(Chip)`
   height: 22px;
@@ -62,6 +64,8 @@ const ServiceDropdownWrapper = styled.div`
 `;
 
 export const PreviousBookings = () => {
+  let { id } = useParams();
+  const { data, isSuccess } = useGetOrdersByStoreIdQuery(id);
   const [clicked, setClicked] = useState(0);
 
   const BookingDateFilter = BookingDateChips.map((BookingDateChips, index) => (
@@ -74,25 +78,36 @@ export const PreviousBookings = () => {
     />
   ));
 
+  if (!data) return <>no orders</>;
+  if (data === "") return <>no orders</>;
+
   return (
-    <PreviousBookingWrappepr>
-      <PreviousBookingTitle>Previous Bookings</PreviousBookingTitle>
-      <BookingManageWrapper>
-        <BookingDateFilterWrapper>
-          <DateWrapper>
-            <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
-            <BookingManageCategory>Booking Date</BookingManageCategory>
-          </DateWrapper>
-          <Stack direction="row" spacing={2}>
-            {BookingDateFilter}
-          </Stack>
-        </BookingDateFilterWrapper>
-        <ServiceDropdownWrapper>
-          <ServiceDropdown />
-        </ServiceDropdownWrapper>
-      </BookingManageWrapper>
-      {/* <BookingManagementTable /> */}
-      <PrevBookingTable />
-    </PreviousBookingWrappepr>
+    <>
+      {data && isSuccess && (
+        <PreviousBookingWrappepr>
+          <PreviousBookingTitle>Previous Bookings</PreviousBookingTitle>
+          <BookingManageWrapper>
+            <BookingDateFilterWrapper>
+              <DateWrapper>
+                <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
+                <BookingManageCategory>Booking Date</BookingManageCategory>
+              </DateWrapper>
+              <Stack direction="row" spacing={2}>
+                {BookingDateFilter}
+              </Stack>
+            </BookingDateFilterWrapper>
+            <ServiceDropdownWrapper>
+              <ServiceDropdown />
+            </ServiceDropdownWrapper>
+          </BookingManageWrapper>
+          {/* {orders.map((order) => (
+            <BookingManagementTable data={order} key={order.id} />
+          ))} */}
+          {data.map((data) => (
+            <PrevBookingTable data={data} key={data.id} />
+          ))}
+        </PreviousBookingWrappepr>
+      )}
+    </>
   );
 };

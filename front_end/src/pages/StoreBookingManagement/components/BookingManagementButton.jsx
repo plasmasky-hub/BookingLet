@@ -41,7 +41,7 @@ export const DeclineButton = styled.button`
   align-items: center;
 `;
 
-const ConfirmedButton = styled.div`
+export const FinishedButton = styled.div`
   width: 242px;
   height: 42px;
   border-radius: 15px;
@@ -60,7 +60,7 @@ export const BookingManagementButton = () => {
   // const [show, setShow] = useState(false);
   return (
     <ActionButtonWrapper>
-      <ConfirmButton >
+      <ConfirmButton>
         <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
         {UpcomingBookingStatus[0]}
       </ConfirmButton>
@@ -69,10 +69,10 @@ export const BookingManagementButton = () => {
         {UpcomingBookingStatus[1]}
       </DeclineButton>
       {/* {show === true ? (
-      //   <ConfirmedButton>
+      //   <FinishedButton>
       //     <DoneOutlinedIcon />
-      //     Order has been confirmed
-      //   </ConfirmedButton>
+      //     Order finished
+      //   </FinishedButton>
       // ) : (
       //   ""
       // )}*/}

@@ -41,9 +41,7 @@ export const ServiceDropdown = ({ resultOfOrders, orders1 }) => {
           label="Service"
           onChange={handleChange}
         >
-          {resultOfOrders.serviceInfoArr.map((e) => (
-            <MenuItem value={e[0]}>{e[0]}</MenuItem>
-          ))}
+          <MenuItem value={10}></MenuItem>
         </Select>
       </FormControl>
     </BookingManageDropdown>
