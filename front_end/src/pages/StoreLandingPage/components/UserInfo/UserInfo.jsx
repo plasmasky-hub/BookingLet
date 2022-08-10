@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 const UserInfoWrapper = styled.div`
     height:377px;
-    background-image:url(${homebg});
+    /* background-image:url(${homebg}); */
     background-size: cover;
     margin-top:124px;
-  
+
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 
 `
 const UserInfoContainer = styled.div`

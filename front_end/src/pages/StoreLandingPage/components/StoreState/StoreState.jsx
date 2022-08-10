@@ -7,11 +7,16 @@ import {useGetUserStoresQuery} from '../../../../store/api/userApi';
 
 const StoreInfoWrapper = styled.div`
     width:100%;
-    background-color: #aabb9d;
+    /* background-color: #aabb9d; */
     display:flex;
     justify-content: center;
     align-items:center;
-    
+    background-color: #ffffff5a;
+    backdrop-filter: blur(20px);
+    /* border-radius: 15px; */
+    /* padding: 30px; */
+    margin-bottom: 20px;
+
 `
 const StoreInfoContainer = styled.div`
     display:relative;

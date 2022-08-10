@@ -6,6 +6,8 @@ import StoreState from "./components/StoreState/StoreState";
 const PageContainer = styled.div`
     margin: 0 auto;
     justify-content:center;
+    background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )',
+
 `
 
 const StoreLandingPage = () => {

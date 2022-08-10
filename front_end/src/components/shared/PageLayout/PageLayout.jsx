@@ -7,7 +7,7 @@ const PageLayout = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  // backgroundColor: 'linear-gradient(249.64deg, #57b6bf 100%, #D7F6F6 99.48%, #d5f2f2db, #c6d6d9)',
+  background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
 });
 
 export default PageLayout;
