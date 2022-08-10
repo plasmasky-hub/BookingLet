@@ -43,7 +43,7 @@ const LandingPage = () => {
   return (
     <Box 
       sx={{
-        background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
+        // background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
         // backgroundImage: 'url(newBannerBg)',
       }}
     >
