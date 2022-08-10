@@ -19,31 +19,44 @@ const BookingManageDropdown = styled.div`
   align-items: baseline;
 `;
 
-export const ServiceDropdown = ({ resultOfOrders, orders1 }) => {
+export const ServiceDropdown = ({ orders }) => {
   const [service, setService] = React.useState("");
   const handleChange = (event) => {
     setService(event.target.value);
   };
 
+  // if (!orders) return <>no orders</>;
+  // if (orders === "") return <>no orders</>;
+
   return (
-    <BookingManageDropdown>
-      <BookingManageCategory>Service</BookingManageCategory>
-      {/* dropdown & content      */}
-      <FormControl
-        sx={{ minWidth: 200, background: "#fff", color: "#8E8E8E" }}
-        size="small"
-      >
-        <InputLabel id="demo-simple-select-label">All</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={service}
-          label="Service"
-          onChange={handleChange}
-        >
-          <MenuItem value={10}></MenuItem>
-        </Select>
-      </FormControl>
-    </BookingManageDropdown>
+    <>
+      {orders && (
+        <>
+          <BookingManageDropdown>
+            <BookingManageCategory>Service</BookingManageCategory>
+            {/* dropdown & content      */}
+            <FormControl
+              sx={{ minWidth: 200, background: "#fff", color: "#8E8E8E" }}
+              size="small"
+            >
+              <InputLabel id="demo-simple-select-label">All</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={service}
+                label="Service"
+                onChange={handleChange}
+              >
+                {orders.map((order) => (
+                  <MenuItem value={order[0]} key={order.id}>
+                    {order.serviceInfoId.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </BookingManageDropdown>
+        </>
+      )}
+    </>
   );
 };

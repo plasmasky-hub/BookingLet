@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Collapse } from "@mui/material";
 import {
@@ -9,9 +9,6 @@ import {
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { IconButton, Typography } from "@mui/material";
-// import { useGetOrdersQuery } from "../../../store/api/orderApi";
-// import ReactDOM from "react-dom";
-// import ReactPaginate from "react-paginate";
 
 const TableWrapper = styled(Box)`
   min-width: 800px;
@@ -104,8 +101,6 @@ const StyledCollapedTableRowTitle = styled.h4`
   color: #fff;
   font-weight: 600;
 `;
-
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const BookingManagementTable = ({ data }) => {
   const [open, setOpen] = useState(false);

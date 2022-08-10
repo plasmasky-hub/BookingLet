@@ -4,7 +4,10 @@ import { ServiceDropdown } from "./ServiceDropdown";
 import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
 import { useParams } from "react-router-dom";
-import { useGetOrdersByStoreIdQuery } from "../../../store/api/orderApi";
+import {
+  useGetOrdersQuery,
+  useGetOrdersByStoreIdQuery,
+} from "../../../store/api/orderApi";
 
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
@@ -35,9 +38,9 @@ export const BookingManageWrapper = styled.div`
 
 export const UpcomingBookings = () => {
   let { id } = useParams();
+  // const { data: services, isLoaded } = useGetOrdersQuery(id);
   const { data: orders, isSuccess } = useGetOrdersByStoreIdQuery(id);
 
-  // // Time picking
   // const prevOrdersAll = [];
   // const prevOrdersThisYear = [];
   // const prevOrdersThisMonth = [];
@@ -135,7 +138,9 @@ export const UpcomingBookings = () => {
         <UpcomingBookingWrappepr>
           <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
           <BookingManageWrapper>
-            <ServiceDropdown />
+            {orders.map((order) => (
+              <ServiceDropdown data={order} key={order.id} />
+            ))}
             <SwitchButton />
           </BookingManageWrapper>
           {/* Table */}
