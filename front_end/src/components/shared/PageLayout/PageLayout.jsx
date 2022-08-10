@@ -8,6 +8,7 @@ const PageLayout = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
+
 });
 
 export default PageLayout;

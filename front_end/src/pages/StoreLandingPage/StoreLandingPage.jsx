@@ -2,11 +2,14 @@ import React from "react";
 import styled from 'styled-components';
 import UserInfo from "./components/UserInfo/UserInfo";
 import StoreState from "./components/StoreState/StoreState";
+import bubbles from "../../assets/WechatIMG826.png"
 
 const PageContainer = styled.div`
     margin: 0 auto;
     justify-content:center;
-    background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )',
+    /* background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )', */
+    background-image: url(${bubbles});
+    background-size: contain;
 
 `
 

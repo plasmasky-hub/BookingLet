@@ -15,12 +15,12 @@ const UserInfoWrapper = styled.div`
 
 `
 const UserInfoContainer = styled.div`
-    width: 500px;
+    width: 600px;
     padding:60px;
     align-items: flex-start;
 `
 const UserName = styled.div`
-    font-family: 'Helvetica';
+    font-family: 'Poppins';
     font-style: normal;
     font-weight: 700;
     font-size: 30px;
