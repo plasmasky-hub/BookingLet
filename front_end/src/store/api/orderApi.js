@@ -15,8 +15,11 @@ const orderApi = apiSlice.injectEndpoints({
     getOrdersByStoreId: builder.query({
       query: (id) => `/orders/?storeId=${id}`,
     }),
+    getOrdersByServiceInfoId: builder.query({
+      query: (id) => `/orders/?serviceInfoId=${id}`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateOrderQuery, useGetOrdersQuery, useGetOrdersByStoreIdQuery } = orderApi;
+export const { useCreateOrderQuery, useGetOrdersQuery, useGetOrdersByStoreIdQuery, useGetOrdersByServiceInfoIdQuery } = orderApi;

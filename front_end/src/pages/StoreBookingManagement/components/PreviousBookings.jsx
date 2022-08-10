@@ -8,7 +8,9 @@ import { BookingManageCategory } from "./ServiceDropdown";
 // import { BookingManagementTable } from "./BookingManagementTable";
 import { PrevBookingTable } from "./PrevBookingTable";
 import { useParams } from "react-router-dom";
+import { useGetStoreQuery } from "../../../store/api/storeApi";
 import { useGetOrdersByStoreIdQuery } from "../../../store/api/orderApi";
+import { BasicPagination } from "./Pagination";
 
 const PreviousBookingWrappepr = styled.div`
   min-width: 800px;
@@ -66,6 +68,7 @@ const ServiceDropdownWrapper = styled.div`
 export const PreviousBookings = () => {
   let { id } = useParams();
   const { data, isSuccess } = useGetOrdersByStoreIdQuery(id);
+  const { data: store } = useGetStoreQuery(id);
   const [clicked, setClicked] = useState(0);
 
   const BookingDateFilter = BookingDateChips.map((BookingDateChips, index) => (
@@ -97,7 +100,7 @@ export const PreviousBookings = () => {
               </Stack>
             </BookingDateFilterWrapper>
             <ServiceDropdownWrapper>
-              <ServiceDropdown />
+              <ServiceDropdown data={store} />
             </ServiceDropdownWrapper>
           </BookingManageWrapper>
           {/* {orders.map((order) => (
@@ -106,6 +109,7 @@ export const PreviousBookings = () => {
           {data.map((data) => (
             <PrevBookingTable data={data} key={data.id} />
           ))}
+          <BasicPagination />
         </PreviousBookingWrappepr>
       )}
     </>
