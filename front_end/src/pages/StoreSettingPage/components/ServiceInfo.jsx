@@ -15,7 +15,7 @@ import EditServiceInfo from './EditServiceInfo';
 const ServiceInfoWrapper = styled(Paper)`
   width: 470px;
   background-color: #c1cbd7;
-  padding: 60px 60px 20px 60px;
+  padding: 60px 50px 20px 50px;
 `;
 
 const Title = styled.p`
@@ -330,6 +330,7 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                 onClick={() =>
                   setDisplay({
                     ...display,
+                    ServiceList: display.ServiceCalendar ? true : false,
                     StoreInfo: display.ServiceCalendar ? true : false,
                     ServiceCalendar: display.ServiceCalendar ? false : true,
                   })
