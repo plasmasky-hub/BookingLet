@@ -254,7 +254,6 @@ function createTimestampInUpdate(orderTime) {
   let orderSecond = '00';
 
   orderTime.timestamp = new Date(`${orderYear}-${orderMonth}-${orderDate} ${orderHour}:${orderMinute}:${orderSecond}`);
-  return timestamp;
 }
 
 
