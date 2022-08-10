@@ -3,7 +3,6 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
-import food from '../../../assets/food.jpg';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useAddOrCancelFavoriteStoreMutation } from '../../../store/api/userApi';
 

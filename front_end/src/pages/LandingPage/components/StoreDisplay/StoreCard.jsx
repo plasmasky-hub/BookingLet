@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Typography, Box, Chip } from '@mui/material';
 import AddIcon from './AddIcon';
 import styled from '@emotion/styled';
-import food from '../../../../assets/food.jpg';
 import { useNavigate } from 'react-router-dom';
 
 const CardWrapper = styled(Card)`
@@ -59,6 +58,7 @@ const StoreCard = ({
     favoriteUsers,
     isAvailableToday,
     maxPersonPerSectionForStore,
+    photo,
   },
 }) => {
   const { state, city, postcode } = location;
@@ -74,8 +74,7 @@ const StoreCard = ({
       }}
     >
       <ImgWrapper>
-        {/* need data */}
-        <img src={food} alt="food" />
+        <img src={photo[0]} alt="food" />
         <AddIcon favoriteUsers={favoriteUsers} />
         {isAvailableToday ? <span>AVAILABLE TODAY</span> : null}
       </ImgWrapper>
