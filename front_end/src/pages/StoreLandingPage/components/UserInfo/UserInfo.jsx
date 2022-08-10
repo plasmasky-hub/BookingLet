@@ -5,13 +5,16 @@ import { useNavigate } from 'react-router-dom';
 
 
 const UserInfoWrapper = styled.div`
-    height:377px;
     /* background-image:url(${homebg}); */
-    background-size: cover;
+
+    width: 100vw;
     margin-top:124px;
+    margin-left: calc(40px);
 
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
+    padding: 20px;
+
 
 `
 const UserInfoContainer = styled.div`
@@ -27,6 +30,7 @@ const UserName = styled.div`
     line-height: 32px;
     color:#FFFFFF;
     padding: 20px 0;
+    /* text-shadow: 1px 1px 1px #000; */
 `
 const RegisterButton =styled.div`
   width: 240px;

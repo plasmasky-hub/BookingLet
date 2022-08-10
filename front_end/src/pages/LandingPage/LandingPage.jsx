@@ -11,7 +11,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { useGetStoresQuery } from '../../store/api/storeApi';
 
-import newBannerBg from '../../assets/WechatIMG825.png';
+// import newBannerBg from '../../assets/WechatIMG825.png';
 
 
 const ServicesPanel = styled(Box)({
@@ -43,7 +43,7 @@ const LandingPage = () => {
   return (
     <Box 
       sx={{
-        background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
+        // background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
         // backgroundImage: 'url(newBannerBg)',
       }}
     >
@@ -79,7 +79,7 @@ const LandingPage = () => {
               justifyContent: 'center',
               flexDirection: 'column',
               mt: '40px',
-              // background:
+              background: '#ffffff51',
               //   'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
               borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.15)',

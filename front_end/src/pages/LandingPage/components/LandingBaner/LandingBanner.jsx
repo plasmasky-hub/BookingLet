@@ -47,9 +47,9 @@ const LandingBanner = ({ FormData, setFormData }) => (
         width: 1100,
         display: 'flex',
         position: 'absolute',
-        top: 'calc(100vh - 180px)',
+        top: 'calc(100vh - 150px)',
         left: '50vw',
-        marginLeft: '-560px',
+        marginLeft: '-550px',
       }}
     >
       <Box

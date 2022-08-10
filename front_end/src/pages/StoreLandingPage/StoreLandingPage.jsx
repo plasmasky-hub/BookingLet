@@ -2,7 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 import UserInfo from "./components/UserInfo/UserInfo";
 import StoreState from "./components/StoreState/StoreState";
-import bubbles from "../../assets/WechatIMG826.png"
+import bubbles from "../../assets/WechatIMG827.png"
 
 const PageContainer = styled.div`
     margin: 0 auto;
@@ -10,6 +10,8 @@ const PageContainer = styled.div`
     /* background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )', */
     background-image: url(${bubbles});
     background-size: contain;
+    /* background-color: #ffffff50;
+    backdrop-filter: blur(8px); */
 
 `
 

@@ -7,7 +7,7 @@ import { useGetStoreQuery } from '../../../../../../store/api/storeApi';
 const StoreInfoBarWrapper =styled.div`
     display:flex;
     justify-content:space-between;
-    color:#FFFFFF;
+    color:#000;
     position: relative;
 `
 const VerticalDivider = styled.div`
@@ -20,7 +20,7 @@ const NameAndCateory = styled.div`
     display:flex;
     font-family: 'Helvetica';
     font-style: normal;
-    color: #FFFFFF;
+    color: #000;
 `
 
 const StoreName =styled.div`

@@ -1,58 +1,60 @@
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import OrderStatus from './components/OrderStatus/OrderStatus';
 import StoreInfoBar from './components/StoreInfoBar/StoreInfoBar';
 import foodBg from '../../../../assets/foodBg.jpeg';
 import {useGetUserStoresQuery} from '../../../../store/api/userApi';
+import { styled } from '@mui/material/styles';
+
+import { Box } from '@mui/material';
 
 
-const StoreInfoWrapper = styled.div`
-    width:100%;
+const StoreInfoWrapper = styled(Box)( ({theme}) => ({
+    [theme.breakpoints.up(600)]: {
+        width: '500px',
+
+    },
+    [theme.breakpoints.up(1000)]: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:'1000px',
+    },
+    
     /* background-color: #aabb9d; */
-    display:flex;
-    justify-content: center;
-    align-items:center;
-    background-color: #ffffff5a;
+    display:'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    /* background-color: #ffffff5a;
     backdrop-filter: blur(20px);
     /* border-radius: 15px; */
     /* padding: 30px; */
-    margin-bottom: 20px;
+    margin: 'auto',
 
-`
-const StoreInfoContainer = styled.div`
-    display:relative;
-    margin-top: 50px;
-    width: 90%;
-    margin-left:-70x;
-    .h2{
-        font-family: 'Helvetica';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 26px;
-        color: #000000;
+}));
 
-    }
-    
-`
+const StoreContainer = styled(Box)( ({theme}) => ({
 
-const StoreContainer = styled.div`
-    width: 90%;
-    height: 257px;
-    background-image:url(${foodBg}) ;
-    align-items:center;
-    justify-content:center;
-    margin:20px auto;
-    padding: 30px;
+    width: '100%',
+    height: '257px',
+    // background-image: url(${foodBg}) ;
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '20px',
+    padding: '30px',
     //filter: brightness(50%);
-    background-size: cover;
-    border-radius: 10px;
-    border-radius:32px;
-    box-shadow: 0 0 16px rgb(0 0 0 / 50%);
-    .hr{
-        border-top: 0.8px solid #a4a4a4;
-    }
+    backgroundColor: '#ffffff71',
+    backgroundSize: "cover",
+    borderRadius: '32px',
 
-`
+    boxShadow: '0 0 16px rgb(0 0 0 / 50%)',
+    backdropFilter: 'blur(20px)',
+    // '@hr'{
+    //     border-top: 0.8px solid #a4a4a4;
+    // }
+
+    color: '#000',
+
+}));
 
  const StoreState= (props) => {
     const id = '62d43d784d61d2e252076471';
@@ -73,8 +75,6 @@ const StoreContainer = styled.div`
 
     return ( 
         <StoreInfoWrapper>
-            <StoreInfoContainer>
-            <h2>Opened Stores</h2>
             {isError && <p>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {isSuccess && (
@@ -89,9 +89,6 @@ const StoreContainer = styled.div`
                 ))
                 
             )}
-            
-            <h2>Closed Stores</h2>
-            </StoreInfoContainer>
         </StoreInfoWrapper>
      );
 }

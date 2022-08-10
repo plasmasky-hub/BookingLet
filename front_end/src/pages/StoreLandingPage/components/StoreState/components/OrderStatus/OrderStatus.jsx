@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const OrdersWrapper= styled.div`
-    color:#FFFFFF;
+    color:#000;
     font-family: 'Helvetica';
     justify-content:center;
 `
