@@ -25,7 +25,7 @@ const StyledChips = styled(Chip)`
 const chipItems = ["All", "Unconfirmed", "Confirmed"];
 
 export const BookingHistory = () => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const userId = JSON.parse(localStorage.getItem("user"))._id;
 
   const { data, isSuccess } = useGetOrdersQuery(userId);
 
@@ -49,7 +49,6 @@ export const BookingHistory = () => {
       ? data.filter((e) => e.bookingStatus)
       : data.filter((e) => e.bookingStatus)
     : "";
-  console.log(filterOrders);
   if (!filterOrders) return <>no orders</>;
   if (filterOrders === "") return <>no orders</>;
 

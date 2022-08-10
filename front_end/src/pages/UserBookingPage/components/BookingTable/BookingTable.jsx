@@ -76,21 +76,21 @@ export const BookingTable = ({ data }) => {
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
                 <h4>{TableHead.date}</h4>
-                <p>{data.orderTime.date.toString().substring(0, 10)}</p>
+                <p>{data.orders.orderTime.date.toString().substring(0, 10)}</p>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
                 <h4>{TableHead.time}</h4>
-                <p>{`${data.orderTime.startTime.substring(
+                <p>{`${data.orders.orderTime.startTime.substring(
                   0,
                   2
-                )}:${data.orderTime.startTime.substring(2, 4)}`}</p>
+                )}:${data.orders.orderTime.startTime.substring(2, 4)}`}</p>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
                 <h4>{TableHead.status}</h4>
                 <p
                   style={{ color: data.bookingStatus ? "#7B8B6F" : "#CEA02C" }}
                 >
-                  {data.bookingStatus ? "Confirmed" : "Unconfirmed"}
+                  {data.orders.bookingStatus ? "Confirmed" : "Unconfirmed"}
                 </p>
               </TableCell>
               <TableCell sx={{ cursor: "pointer" }}>
