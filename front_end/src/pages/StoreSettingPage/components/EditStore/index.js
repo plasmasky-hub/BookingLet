@@ -15,6 +15,8 @@ import { useUpdateStoreMutation } from '../../../../store/api/storeApi';
 const StoreInfWrapper = styled.div`
   width: 1347px;
   height: 1036px;
+  /* width: 1140px;
+  height: 725.5px; */
   background-color: #fbfbfb;
   margin-left: 97px;
   margin-top: 38px;
