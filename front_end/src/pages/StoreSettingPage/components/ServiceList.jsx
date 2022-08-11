@@ -5,8 +5,14 @@ import { useGetAllServiceInfosQuery } from '../../../store/api/serviceInfoApi';
 import AddIcon from '@mui/icons-material/Add';
 
 const ServiceListWrapper = styled(Paper)`
-  width: 285px;
-  background-color: #d9d9d9;
+  width: 200px;
+  background: linear-gradient(
+    250.42deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.08) 101.65%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
   padding: 60px 0;
   text-align: center;
 `;
@@ -15,7 +21,6 @@ const Title = styled.p`
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 40px;
-  color: #397cc2;
 `;
 
 const List = styled.ul`
@@ -25,7 +30,7 @@ const List = styled.ul`
   padding: 0;
   li {
     background-color: #f0f0f0;
-    padding: 10px 20px;
+    padding: 8px 0;
     cursor: pointer;
     display: flex;
     justify-content: center;

@@ -15,7 +15,7 @@ const CategoryWrapper = styled.div`
   margin-top: 36px;
   display: flex;
   flex-direction: column;
-  background-color: #ececea;
+  background: rgba(217, 217, 217, 0.4);
 `;
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -38,7 +38,10 @@ const AccordionSummary = styled(MuiAccordionSummary)`
   width: 1159px;
 `;
 const AccordionDetails = styled(MuiAccordionDetails)`
-  background-color: #ececea;
+  background: rgba(217, 217, 217);
+  /* opacity: 0.4; */
+
+  /* background-color: rgba(217, 217, 217, 0.4); */
 `;
 
 const FavouriteStore = ({ category }) => {
@@ -60,7 +63,7 @@ const FavouriteStore = ({ category }) => {
         <AccordionSummary
           id="banner1"
           aria-controls="banner1-content"
-          sx={{ boxShadow: 3 }}
+          sx={{ boxShadow: 3}}
           expandIcon={<ExpandMoreIcon fontSize="24px" sx={{ color: "#fff" }} />}
         >
           <Typography fontSize="24px" sx={{ color: "#fff" }}>

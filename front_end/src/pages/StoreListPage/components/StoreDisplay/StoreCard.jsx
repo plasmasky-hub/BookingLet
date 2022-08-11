@@ -2,7 +2,6 @@ import { Card, CardContent, CardMedia, Button } from '@mui/material';
 import React from 'react';
 import styled from '@emotion/styled';
 import AddIcon from './AddIcon';
-import food from '../../../../assets/food.jpg';
 import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)`
@@ -66,10 +65,15 @@ const StoreCard = ({
     name,
     location,
     favoriteUsersSize,
+    favoriteUsers,
     description,
     isAvailableToday,
+    photo,
   },
 }) => {
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user)._id : null;
+
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
 
@@ -77,13 +81,12 @@ const StoreCard = ({
 
   return (
     <StyledCard variant="outlined" sx={{ m: 1 }}>
-      {/* need data */}
-      <Img component="img" image={food} alt="" />
+      <Img component="img" image={photo[0]} alt="" />
       <Content>
         <h4>{name}</h4>
         <StyledSpan>{`${address} | ${favoriteUsersSize} people add to booklet`}</StyledSpan>
         <p>{description}</p>
-        <AddIcon />
+        <AddIcon userId={userId} id={_id} favoriteUsers={favoriteUsers} />
         {isAvailableToday && <AvlLabel>AVAILABLE TODAY</AvlLabel>}
         <CardButton
           onClick={() => navigate(`/BookingPage/${_id}`)}
