@@ -34,18 +34,20 @@ const StoreSettingPage = () => {
     <>
       {isSuccess && (
         <ContentWrapper>
-          {display.StoreCalendar && <Calendar id={id} />}
-          {display.StoreInfo && (
-            <StoreInfo store={data} display={display} setDisplay={setDisplay} />
-          )}
-          {display.StoreSetting && <StoreSetting />}
           {display.ServiceList && (
             <ServiceList id={id} display={display} setDisplay={setDisplay} />
           )}
           {display.ServiceInfo && (
             <ServiceInfo id={id} display={display} setDisplay={setDisplay} />
           )}
-          {display.ServiceCalendar && <ServiceCalendar id={display.serviceId} storeId={id}/>}
+          {display.StoreInfo && (
+            <StoreInfo store={data} display={display} setDisplay={setDisplay} />
+          )}
+          {display.ServiceCalendar && (
+            <ServiceCalendar id={display.serviceId} storeId={id} />
+          )}
+          {display.StoreCalendar && <Calendar id={id} />}
+          {display.StoreSetting && <StoreSetting />}
         </ContentWrapper>
       )}
     </>
