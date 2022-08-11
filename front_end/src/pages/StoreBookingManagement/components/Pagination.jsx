@@ -10,11 +10,14 @@ const StyledPagination = styled.div`
   align-items: center;
 `;
 
-export const BasicPagination = () => {
+export const BasicPagination = (props) => {
+  const pageQty = props.pageQty;
+  const handlePageClick = props.handlePageClick;
+
   return (
     <StyledPagination>
       <Stack spacing={2}>
-        <Pagination count={10} />
+        <Pagination count={pageQty} onChange={handlePageClick} />
       </Stack>
     </StyledPagination>
   );

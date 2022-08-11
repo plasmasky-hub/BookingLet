@@ -104,8 +104,6 @@ const StyledCollapedTableRowTitle = styled.h4`
 
 export const BookingManagementTable = ({ data }) => {
   const [open, setOpen] = useState(false);
-  // console.log(data, "222");
-  // console.log(data[1].orders, "333");
 
   return (
     <>
@@ -117,30 +115,28 @@ export const BookingManagementTable = ({ data }) => {
                 <StyledItemTitle>
                   <strong>{itemTitle[0]}</strong>
                 </StyledItemTitle>
-                <p>
-                  {data[0].orders.orderTime.date.toString().substring(0, 10)}
-                </p>
+                <p>{data.orderTime.date.toString().substring(0, 10)}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
                   <strong>{itemTitle[1]}</strong>
                 </StyledItemTitle>
-                <p>{`${data.orders.orderTime.startTime.substring(
+                <p>{`${data.orderTime.startTime.substring(
                   0,
                   2
-                )}:${data.orders.orderTime.startTime.substring(2, 4)}`}</p>
+                )}:${data.orderTime.startTime.substring(2, 4)}`}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
                   <strong>{itemTitle[2]}</strong>
                 </StyledItemTitle>
-                <p>{data.orders.peopleNumber}</p>
+                <p>{data.peopleNumber}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
                   <strong>{itemTitle[3]}</strong>
                 </StyledItemTitle>
-                <p>{data.orders.serviceInfoId.name}</p>
+                <p>{data.serviceInfoId.name}</p>
               </StyledTableCell>
               <StyledTableCell>
                 <BookingManagementButton />
@@ -164,28 +160,28 @@ export const BookingManagementTable = ({ data }) => {
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[0]}
                     </StyledCollapedTableRowTitle>
-                    <p>{data.orders._id}</p>
+                    <p>{data._id}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[1]}
                     </StyledCollapedTableRowTitle>
-                    <p>{data.orders.userId.tel}</p>
+                    <p>{data.userId.tel}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[2]}
                     </StyledCollapedTableRowTitle>
-                    <p>{`${data.orders.bookingTime.substring(
+                    <p>{`${data.bookingTime.substring(
                       0,
                       10
-                    )} ${data.orders.bookingTime.substring(12, 16)}`}</p>
+                    )} ${data.bookingTime.substring(12, 16)}`}</p>
                   </CollapedTableCell>
                   <CollapedTableCell>
                     <StyledCollapedTableRowTitle>
                       {CollapedTableRowTitle[3]}
                     </StyledCollapedTableRowTitle>
-                    <p>{data.orders.optionInfo}</p>
+                    <p>{data.optionInfo}</p>
                   </CollapedTableCell>
                 </CollapedTableRow>
               </CollapsibleTableRowWrapper>

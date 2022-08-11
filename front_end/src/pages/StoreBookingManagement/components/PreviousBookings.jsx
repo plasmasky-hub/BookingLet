@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Stack, Chip } from "@mui/material";
 import { ServiceDropdown } from "./ServiceDropdown";
@@ -8,8 +8,7 @@ import { BookingManageCategory } from "./ServiceDropdown";
 // import { BookingManagementTable } from "./BookingManagementTable";
 import { PrevBookingTable } from "./PrevBookingTable";
 import { useParams } from "react-router-dom";
-import { useGetStoreQuery } from "../../../store/api/storeApi";
-import { useGetOrdersByStoreIdQuery } from "../../../store/api/orderApi";
+import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
 import { BasicPagination } from "./Pagination";
 
 const PreviousBookingWrappepr = styled.div`
@@ -65,10 +64,31 @@ const ServiceDropdownWrapper = styled.div`
   align-items: end;
 `;
 
-export const PreviousBookings = () => {
+export const PreviousBookings = (props) => {
+  // const orders = props.orders;
   let { id } = useParams();
-  const { data, isSuccess } = useGetOrdersByStoreIdQuery(id);
-  const { data: store } = useGetStoreQuery(id);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data: ordersInfo, isSuccess } = useGetOrdersByParamsQuery({
+    storeId: id,
+    periodLimiter: "allPrev",
+    page: currentPage,
+  });
+
+  const [orders, setOrders] = useState(ordersInfo?.orders);
+
+  useEffect(() => {
+    setOrders(ordersInfo?.orders);
+  }, [ordersInfo]);
+
+  const handlePageClick = (_event, page) => {
+    setCurrentPage(page);
+    setOrders(ordersInfo.orders);
+  };
+  const store = props.store;
+  // console.log(orders);
+
+  // const { data: store } = useGetStoreQuery(id);
   const [clicked, setClicked] = useState(0);
 
   const BookingDateFilter = BookingDateChips.map((BookingDateChips, index) => (
@@ -81,12 +101,14 @@ export const PreviousBookings = () => {
     />
   ));
 
-  if (!data) return <>no orders</>;
-  if (data === "") return <>no orders</>;
+  // if (orders.length === 0) return <>no orders</>;
+  // if (ordersInfo === undefined) return <>no orders</>;
+
+  const pageQty = ordersInfo?.pageQty;
 
   return (
     <>
-      {data && isSuccess && (
+      {orders && isSuccess && (
         <PreviousBookingWrappepr>
           <PreviousBookingTitle>Previous Bookings</PreviousBookingTitle>
           <BookingManageWrapper>
@@ -106,10 +128,14 @@ export const PreviousBookings = () => {
           {/* {orders.map((order) => (
             <BookingManagementTable data={order} key={order.id} />
           ))} */}
-          {data.map((data) => (
-            <PrevBookingTable data={data} key={data.id} />
+          {orders.length === 0 && <>no orders</>}
+          {orders?.map((order) => (
+            <PrevBookingTable data={order} key={order._id} />
           ))}
-          <BasicPagination />
+          <BasicPagination
+            pageQty={pageQty}
+            handlePageClick={handlePageClick}
+          />
         </PreviousBookingWrappepr>
       )}
     </>

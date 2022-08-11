@@ -4,11 +4,8 @@ import { ServiceDropdown } from "./ServiceDropdown";
 import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
 import { useParams } from "react-router-dom";
-import {
-  useGetOrdersByStoreIdQuery,
-  useGetOrdersByServiceInfoIdQuery,
-} from "../../../store/api/orderApi";
-import { useGetStoreQuery } from "../../../store/api/storeApi";
+import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
+// import { storeApi } from "../../../store/api/storeApi";
 import { BasicPagination } from "./Pagination";
 
 const UpcomingBookingWrappepr = styled.div`
@@ -38,30 +35,52 @@ export const BookingManageWrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-export const UpcomingBookings = () => {
+export const UpcomingBookings = (props) => {
   let { id } = useParams();
-  const { data: orders, isSuccess } = useGetOrdersByStoreIdQuery(id);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // console.log(orders, "111");
-  const { data: store } = useGetStoreQuery(id);
+  const { data: ordersInfo, isSuccess } = useGetOrdersByParamsQuery({
+    storeId: id,
+    periodLimiter: "coming",
+    page: currentPage,
+  });
 
-  if (!orders) return <>no orders</>;
-  if (orders === "") return <>no orders</>;
+  const [orders, setOrders] = useState(ordersInfo?.orders);
+
+  useEffect(() => {
+    setOrders(ordersInfo?.orders);
+  }, [ordersInfo]);
+
+  const handlePageClick = (_event, page) => {
+    setCurrentPage(page);
+    setOrders(ordersInfo.orders);
+  };
+  const store = props.store;
+  // const { data: store } = useGetStoreQuery(id);
+
+  // if (!ordersInfo) return <>no orders</>;
+  // if (orders.length === 0) return <>no orders</>;
+  if (ordersInfo === undefined) return <>no orders</>;
+
+  const pageQty = ordersInfo?.pageQty;
 
   return (
     <>
-      {orders && isSuccess && store && (
+      {orders && store && (
         <UpcomingBookingWrappepr>
           <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
           <BookingManageWrapper>
             <ServiceDropdown data={store} />
             <SwitchButton />
           </BookingManageWrapper>
-          {/* Table */}
+          {orders.length === 0 && <>no orders</>}
           {orders.map((order) => {
-            return <BookingManagementTable data={order} key={order.id} />;
+            return <BookingManagementTable data={order} key={order._id} />;
           })}
-          <BasicPagination />
+          <BasicPagination
+            pageQty={pageQty}
+            handlePageClick={handlePageClick}
+          />
         </UpcomingBookingWrappepr>
       )}
     </>

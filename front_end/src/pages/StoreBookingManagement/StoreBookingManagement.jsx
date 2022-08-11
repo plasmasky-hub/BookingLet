@@ -4,6 +4,7 @@ import { UpcomingBookings } from "./components/UpcomingBookings";
 import { PreviousBookings } from "./components/PreviousBookings";
 import { useParams } from "react-router-dom";
 import { useGetStoreQuery } from "../../store/api/storeApi";
+import { useGetOrdersByStoreIdQuery } from "../../store/api/orderApi";
 
 const StoreBookingWrapper = styled.div`
   min-width: 1000px;
@@ -36,19 +37,18 @@ const ViewOrdersButton = styled.button`
 export const StoreBookingManagement = () => {
   let { id } = useParams();
   const { data: store } = useGetStoreQuery(id);
-  // console.log(store, "444");
 
   return (
     <>
       {store && (
         <StoreBookingWrapper>
           {store.serviceInfos.map((serviceInfo) => (
-            <ServiceName>{serviceInfo.name}</ServiceName>
+            <ServiceName key={serviceInfo.id}>{serviceInfo.name}</ServiceName>
           ))}
 
           <ViewOrdersButton>View orders in calendar</ViewOrdersButton>
-          <UpcomingBookings />
-          <PreviousBookings />
+          <UpcomingBookings store={store} />
+          <PreviousBookings store={store} />
         </StoreBookingWrapper>
       )}
       ;
