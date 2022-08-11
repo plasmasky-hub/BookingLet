@@ -41,6 +41,8 @@ export const BookingManageWrapper = styled.div`
 export const UpcomingBookings = () => {
   let { id } = useParams();
   const { data: orders, isSuccess } = useGetOrdersByStoreIdQuery(id);
+
+  // console.log(orders, "111");
   const { data: store } = useGetStoreQuery(id);
 
   if (!orders) return <>no orders</>;
@@ -56,9 +58,9 @@ export const UpcomingBookings = () => {
             <SwitchButton />
           </BookingManageWrapper>
           {/* Table */}
-          {orders.map((order) => (
-            <BookingManagementTable data={order} key={order.id} />
-          ))}
+          {orders.map((order) => {
+            return <BookingManagementTable data={order} key={order.id} />;
+          })}
           <BasicPagination />
         </UpcomingBookingWrappepr>
       )}

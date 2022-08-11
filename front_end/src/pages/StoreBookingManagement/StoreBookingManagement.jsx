@@ -36,6 +36,7 @@ const ViewOrdersButton = styled.button`
 export const StoreBookingManagement = () => {
   let { id } = useParams();
   const { data: store } = useGetStoreQuery(id);
+  // console.log(store, "444");
 
   return (
     <>

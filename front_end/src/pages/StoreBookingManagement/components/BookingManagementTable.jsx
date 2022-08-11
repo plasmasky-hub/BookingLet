@@ -104,6 +104,8 @@ const StyledCollapedTableRowTitle = styled.h4`
 
 export const BookingManagementTable = ({ data }) => {
   const [open, setOpen] = useState(false);
+  // console.log(data, "222");
+  // console.log(data[1].orders, "333");
 
   return (
     <>
@@ -115,7 +117,9 @@ export const BookingManagementTable = ({ data }) => {
                 <StyledItemTitle>
                   <strong>{itemTitle[0]}</strong>
                 </StyledItemTitle>
-                <p>{data.orders.orderTime.date.toString().substring(0, 10)}</p>
+                <p>
+                  {data[0].orders.orderTime.date.toString().substring(0, 10)}
+                </p>
               </StyledTableCell>
               <StyledTableCell>
                 <StyledItemTitle>
