@@ -6,6 +6,13 @@ import StoreInfFilter from "../StoreSetting/components/StoreInfFilter/StoreInfFi
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
+import StoreInfTextEmail from "../StoreSetting/components/StoreInfTextEmail/StoreInfTextEmail";
+import StoreInfTextTel from "../StoreSetting/components/StoreInfTextTel/StoreInfTextTel";
+import StoreInfSmallPostcode from "../StoreSetting/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
+import {
+  useUpdateUserMutation,
+  useGetUserQuery,
+} from "../../../../store/api/userApi";
 
 const StoreInfWrapper = styled.div`
   width: 1233px;
@@ -123,55 +130,69 @@ const CheckboxContainer = styled(Button)`
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-const PersonalSetting = () => (
-  <StoreInfWrapper>
-    <WholeContainer>
-      <Title>My Profile</Title>
-      <PhotoContainer>
-        <StoreInfName>Photo</StoreInfName>
-        <Photo />
-      </PhotoContainer>
-      <TopContainer>
-        <StoreName>Name</StoreName>
-        <StoreInfText />
-        {/* <StoreName>Last Name</StoreName>
+const PersonalSetting = () => {
+  const userId = JSON.parse(localStorage.getItem("user"))._id;
+  const [UpdateUser] = useUpdateUserMutation();
+  const { data, isSuccess } = useGetUserQuery(userId);
+  
+
+  console.log(isSuccess && data);
+  console.log(isSuccess && data.name);
+  return (
+    <>
+      {isSuccess && (
+        <StoreInfWrapper>
+          <WholeContainer>
+            <Title>My Profile</Title>
+            <PhotoContainer>
+              <StoreInfName>Photo</StoreInfName>
+              <Photo />
+            </PhotoContainer>
+            <TopContainer>
+              <StoreName>Name</StoreName>
+              {/* <StoreInfText defaultValue={isSuccess && data.naem}/> */}
+              <StoreInfText name={isSuccess && data.name}/>
+              {/* <StoreName>Last Name</StoreName>
         <StoreInfText /> */}
-        <StoreName>Mobile</StoreName>
-        <StoreInfText />
-        <StoreName>E-mail</StoreName>
-        <StoreInfText />
-      </TopContainer>
+              <StoreName>Mobile</StoreName>
+              <StoreInfTextTel mobile={isSuccess && data.tel}/>
+              <StoreName>E-mail</StoreName>
+              <StoreInfTextEmail email={isSuccess && data.email}/>
+            </TopContainer>
 
-      <SmallTextContainer>
-        <SmallTextWrapper>
-          <StoreName>City</StoreName>
-          <StoreSmallText />
-        </SmallTextWrapper>
-        <SmallTextWrapper>
-          <StoreName>Postcode</StoreName>
-          <StoreSmallText />
-        </SmallTextWrapper>
-        {/* <SmallTextWrapper>
+            <SmallTextContainer>
+              <SmallTextWrapper>
+                <StoreName>City</StoreName>
+                <StoreSmallText city={isSuccess && data.location.city}/>
+              </SmallTextWrapper>
+              <SmallTextWrapper>
+                <StoreName>Postcode</StoreName>
+                <StoreInfSmallPostcode Postcode={isSuccess && data.location.postcode}/>
+              </SmallTextWrapper>
+              {/* <SmallTextWrapper>
           <StoreName>State</StoreName> */}
-        <StoreInfFilter />
-        {/* </SmallTextWrapper> */}
-      </SmallTextContainer>
+              <StoreInfFilter citystate={isSuccess && data.location.state}/>
+              {/* </SmallTextWrapper> */}
+            </SmallTextContainer>
 
-      <CheckboxContainer>
-      <Checkbox {...label} />
-        I have read and agree to the Terms & Conditions of Bookinglet
-        {/* <Checkbox {...label} defaultChecked />I have read and agree to the Terms
+            <CheckboxContainer>
+              <Checkbox {...label} />I have read and agree to the Terms &
+              Conditions of Bookinglet
+              {/* <Checkbox {...label} defaultChecked />I have read and agree to the Terms
         & Conditions of Bookinglet */}
-      </CheckboxContainer>
-      <ButtonContainer>
-        <StoreInfButton left variant="contained">
-          Preview
-        </StoreInfButton>
+            </CheckboxContainer>
+            <ButtonContainer>
+              <StoreInfButton left variant="contained">
+                Preview
+              </StoreInfButton>
 
-        <StoreInfButton variant="contained">Save</StoreInfButton>
-      </ButtonContainer>
-    </WholeContainer>
-  </StoreInfWrapper>
-);
+              <StoreInfButton variant="contained">Save</StoreInfButton>
+            </ButtonContainer>
+          </WholeContainer>
+        </StoreInfWrapper>
+      )}
+    </>
+  );
+};
 
 export default PersonalSetting;

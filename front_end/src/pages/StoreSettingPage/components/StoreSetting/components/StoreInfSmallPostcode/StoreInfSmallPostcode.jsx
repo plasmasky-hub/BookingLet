@@ -29,20 +29,20 @@ const Text = styled(TextField)`
   margin-top: 15px;
 `;
 
-const StoreSmallText = (
-  {city,Form,setForm}
+const StoreInfSmallPostcode = (
+  {postcode,Form,setForm}
 ) => (
   <Fragment>
     {/* <StoreName>City</StoreName> */}
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
-      defaultValue={city}
+      defaultValue={postcode}
       variant="filled"
       onChange={(e) =>
         setForm({
           ...Form,
-          city: e.target.value,
+          postcode: e.target.value,
         })
       }
       InputProps={{
@@ -57,4 +57,4 @@ const StoreSmallText = (
   </Fragment>
 );
 
-export default StoreSmallText;
+export default StoreInfSmallPostcode;

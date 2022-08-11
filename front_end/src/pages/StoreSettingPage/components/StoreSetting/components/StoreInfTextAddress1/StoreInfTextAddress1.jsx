@@ -11,20 +11,20 @@ const Text = styled(TextField)`
   padding: 0;
 `;
 
-const StoreInfText = (
-  {name,setForm,Form}
+const StoreInfTextAddress1 = (
+  {address1,setForm,Form}
 ) => (
   <Fragment>
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
       // defaultValue="Han’s Massage"
-      defaultValue={name}
+      defaultValue={address1}
       variant="filled"
       onChange={(e) =>
         setForm({
           ...Form,
-          name: e.target.value,
+          address1: e.target.value,
         })
       }
       InputProps={{
@@ -39,4 +39,4 @@ const StoreInfText = (
   </Fragment>
 );
 
-export default StoreInfText;
+export default StoreInfTextAddress1;

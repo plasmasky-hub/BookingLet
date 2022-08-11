@@ -3,7 +3,9 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
-export default function Description() {
+export default function Description(
+  {descrip,Form,setForm}
+) {
   // const [value, setValue] = React.useState("Controlled");
 
   const DescriptionField = styled(TextField)`
@@ -26,6 +28,13 @@ export default function Description() {
         multiline
         rows={6}
         variant="filled"
+        defaultValue={descrip}
+        onChange={(e) =>
+          setForm({
+            ...Form,
+            descrip: e.target.value,
+          })
+        }
         InputProps={{
           style: {
             width: "397px",
