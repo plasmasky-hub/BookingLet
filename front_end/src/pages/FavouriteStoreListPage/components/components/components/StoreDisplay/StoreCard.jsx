@@ -11,7 +11,7 @@ const StyledCard = styled(Card)`
   height: 149px;
   padding: 15px;
   gap: 20px;
-  border:0px;
+  border: 0px;
   background-color: #ececea;
 `;
 
@@ -47,9 +47,10 @@ const CardButton = styled(Button)`
 `;
 
 const StoreCard = ({
-  item: { _id, name, location, favoriteUsersSize,favoriteUsers, description },
+  item: { _id, name, location, favoriteUsersSize, favoriteUsers, description },
 }) => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user)._id : null;
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
 
