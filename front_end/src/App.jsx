@@ -13,7 +13,7 @@ import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
 import Layout from "./components/shared/Layout";
 import StoreSetting from "./pages/StoreSettingPage/components/StoreSetting";
-import PersonalSetting from "./pages/StoreSettingPage/components/PersonalSetting";
+import PersonalSetting from "./pages/PersonalSetting";
 
 function App() {
   return (

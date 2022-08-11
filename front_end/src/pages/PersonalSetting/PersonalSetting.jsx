@@ -1,18 +1,18 @@
 import React, { Fragment } from "react";
 // import styled from "styled-components";
-import StoreInfText from "../StoreSetting/components/StoreInfText/StoreInfText";
-import StoreSmallText from "../StoreSetting/components/StoreInfSmallText/StoreSmallText";
-import StoreInfFilter from "../StoreSetting/components/StoreInfFilter/StoreInfFilter";
+import StoreInfText from "../StoreSettingPage/components/StoreSetting/components/StoreInfText/StoreInfText";
+import StoreSmallText from "../StoreSettingPage/components/StoreSetting/components/StoreInfSmallText/StoreSmallText";
+import StoreInfFilter from "../StoreSettingPage/components/StoreSetting/components/StoreInfFilter/StoreInfFilter";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import StoreInfTextEmail from "../StoreSetting/components/StoreInfTextEmail/StoreInfTextEmail";
-import StoreInfTextTel from "../StoreSetting/components/StoreInfTextTel/StoreInfTextTel";
-import StoreInfSmallPostcode from "../StoreSetting/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
+import StoreInfTextEmail from "../StoreSettingPage/components/StoreSetting/components/StoreInfTextEmail/StoreInfTextEmail";
+import StoreInfTextTel from "../StoreSettingPage/components/StoreSetting/components/StoreInfTextTel/StoreInfTextTel";
+import StoreInfSmallPostcode from "../StoreSettingPage/components/StoreSetting/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
 import {
   useUpdateUserMutation,
   useGetUserQuery,
-} from "../../../../store/api/userApi";
+} from "../../store/api/userApi";
 
 const StoreInfWrapper = styled.div`
   width: 1233px;
