@@ -10,7 +10,7 @@ import dining from '../../../../assets/dining_category.jpg';
 const Container = styled.div`
   width: 100%;
   display: flex;
-  background-image: url(${dining});
+  /* background-image: url(${dining}); */
   background-repeat: no-repeat;
   background-size: cover;
 `;
