@@ -2,7 +2,6 @@ import { Card, CardContent, CardMedia, Button } from '@mui/material';
 import React from 'react';
 import styled from '@emotion/styled';
 import AddIcon from './AddIcon';
-import food from '../../../../../../assets/food.jpg';
 import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)`
@@ -12,7 +11,7 @@ const StyledCard = styled(Card)`
   padding: 15px;
   gap: 20px;
   border: 0px;
-  background-color: #ececea;
+  background-color: rgba(217, 217, 217, 0.4);
 `;
 
 const Img = styled(CardMedia)`
@@ -47,7 +46,15 @@ const CardButton = styled(Button)`
 `;
 
 const StoreCard = ({
-  item: { _id, name, location, favoriteUsersSize, favoriteUsers, description },
+  item: {
+    _id,
+    name,
+    location,
+    favoriteUsersSize,
+    favoriteUsers,
+    description,
+    photo,
+  },
 }) => {
   const user = localStorage.getItem('user');
   const userId = user ? JSON.parse(user)._id : null;
@@ -58,8 +65,10 @@ const StoreCard = ({
 
   return (
     <StyledCard variant="outlined">
-      {/* need data */}
+      {/* need data 
       <Img component="img" image={food} alt="" />
+      */}
+      <Img component="img" image={photo[0]} alt="" />
       <Content>
         <h4>{name}</h4>
         <span>{`${address} | ${favoriteUsersSize} people add to booklet`}</span>

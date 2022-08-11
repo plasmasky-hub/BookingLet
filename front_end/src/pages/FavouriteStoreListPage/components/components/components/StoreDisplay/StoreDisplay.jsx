@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 const CardsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  
 `;
 
 const StoreDisplay = ({favoriteStores}) => {
