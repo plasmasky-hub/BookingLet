@@ -12,6 +12,10 @@ const schema = new mongoose.Schema({
     photo: {
         type: String
     },
+    backgroundPhoto: {
+        type: String,
+        default: 'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/rachel-park-hrlvr2ZlUNk-unsplash.jpg'
+    },
     isDiscard: {
         type: Boolean,
         default: false
