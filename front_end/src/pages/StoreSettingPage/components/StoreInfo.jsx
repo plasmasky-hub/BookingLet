@@ -61,7 +61,7 @@ const StoreInfo = ({
           onClick={() =>
             setDisplay({
               ...display,
-              StoreSetting: true,
+              EditStore: true,
               StoreInfo: false,
               ServiceList: false,
               ServiceInfo: false,

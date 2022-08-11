@@ -1,16 +1,16 @@
-import { React, useState } from "react";
+import { React, useState } from 'react';
 // import styled from "styled-components";
-import StoreInfText from "../StoreSetting/components/StoreInfText/StoreInfText";
-import StoreSmallText from "../StoreSetting/components/StoreInfSmallText/StoreSmallText";
-import StoreInfFilter from "../StoreSetting/components/StoreInfFilter/StoreInfFilter";
-import styled from "@emotion/styled";
-import { Button } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import StoreInfSmallPostcode from "../StoreSetting/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
-import Description from "./components/Description/Description";
-import StoreInfTextAddress1 from "./components/StoreInfTextAddress1";
-import StoreInfTextAddress2 from "./components/StoreInfTextAddress2";
-import { useUpdateStoreMutation } from "../../../../store/api/storeApi";
+import StoreInfText from '../EditStore/components/StoreInfText/StoreInfText';
+import StoreSmallText from '../EditStore/components/StoreInfSmallText/StoreSmallText';
+import StoreInfFilter from '../EditStore/components/StoreInfFilter/StoreInfFilter';
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import StoreInfSmallPostcode from '../EditStore/components/StoreInfSmallPostcode/StoreInfSmallPostcode';
+import Description from './components/Description/Description';
+import StoreInfTextAddress1 from './components/StoreInfTextAddress1';
+import StoreInfTextAddress2 from './components/StoreInfTextAddress2';
+import { useUpdateStoreMutation } from '../../../../store/api/storeApi';
 
 const StoreInfWrapper = styled.div`
   width: 1347px;
@@ -34,7 +34,7 @@ const TopContainer = styled.div`
 const StoreName = styled.div`
   width: 84px;
   height: 20px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -44,7 +44,7 @@ const StoreName = styled.div`
 const StoreTitle = styled.div`
   width: 384px;
   height: 20px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -72,7 +72,7 @@ const Title = styled.div`
   height: 32px;
   margin-left: 85px;
   padding-top: 40px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -91,9 +91,9 @@ const SmallTextWrapper = styled.div`
 const StoreInfButton = styled(Button)`
   width: 92px;
   height: 34px;
-  background-color: ${(props) => (props.left ? "#D76D6D" : "#7B8B6F")};
+  background-color: ${(props) => (props.left ? '#D76D6D' : '#7B8B6F')};
   &:hover {
-    background: ${(props) => (props.left ? "#D76D6D" : "#7B8B6F")};
+    background: ${(props) => (props.left ? '#D76D6D' : '#7B8B6F')};
   }
 `;
 
@@ -109,7 +109,7 @@ const StoreInfName = styled.div`
   width: 210px;
   margin-left: 92px;
   margin-top: 20px;
-  font-family: "Helvetica";
+  font-family: 'Helvetica';
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -151,10 +151,10 @@ const DescriptionWrapper = styled.div`
   margin-top: 40px;
 `;
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-const PersonalSetting = ({ store, display, setDisplay }) => {
-  const userId = JSON.parse(localStorage.getItem("user"))._id;
+const EditStore = ({ store, display, setDisplay }) => {
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
   const [UpdateStore] = useUpdateStoreMutation();
   // const { data, isSuccess } = useGetUserQuery(userId);
 
@@ -178,15 +178,15 @@ const PersonalSetting = ({ store, display, setDisplay }) => {
     },
     description: Form.descrip,
     name: Form.name,
-    tel: "0422388787",
+    tel: '0422388787',
   };
 
   const id = store.id;
 
-  console.log(store, "d");
+  console.log(store, 'd');
   console.log(store.location.state);
-  console.log(Form, "f");
-  console.log(newForm, "g");
+  console.log(Form, 'f');
+  console.log(newForm, 'g');
 
   return (
     <>
@@ -285,10 +285,10 @@ const PersonalSetting = ({ store, display, setDisplay }) => {
                   if (newForm) {
                     let r = await UpdateStore({ newForm, id });
                     // await UpdateStore({newForm,id});
-                    console.log(r, "b");
+                    console.log(r, 'b');
                     setDisplay({
                       ...display,
-                      StoreSetting: false,
+                      EditStore: false,
                       StoreInfo: true,
                       ServiceList: true,
                       ServiceInfo: true,
@@ -306,4 +306,4 @@ const PersonalSetting = ({ store, display, setDisplay }) => {
   );
 };
 
-export default PersonalSetting;
+export default EditStore;
