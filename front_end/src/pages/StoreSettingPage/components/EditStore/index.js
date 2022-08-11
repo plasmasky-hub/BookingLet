@@ -286,7 +286,7 @@ const EditStore = ({ store, display, setDisplay }) => {
                     console.log(r, 'b');
                     setDisplay({
                       ...display,
-                      StoreSetting: false,
+                      EditStore: false,
                       StoreInfo: true,
                       ServiceList: true,
                       ServiceInfo: true,

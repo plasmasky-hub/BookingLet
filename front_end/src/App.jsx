@@ -12,7 +12,7 @@ import PageLayout from './components/shared/PageLayout';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import Layout from './components/shared/Layout';
-import StoreSetting from './pages/StoreSettingPage/components/StoreSetting';
+import EditStore from './pages/StoreSettingPage/components/EditStore';
 import PersonalSetting from './pages/PersonalSetting';
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
               path="/StoreLandingPage"
               element={<StoreLandingPage />}
             ></Route>
-            {/* <Route path="/StoreSetting" element={<StoreSetting />}></Route> */}
+            <Route path="/EditStore" element={<EditStore />}></Route>
             <Route
               path="/PersonalSetting"
               element={<PersonalSetting />}
