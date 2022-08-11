@@ -8,11 +8,11 @@ import styled from "styled-components";
 export default function StoreInfFilter({
   citystate,Form,setForm
 }) {
-  const [state, setState] = React.useState(citystate);
+  // const [state, setState] = React.useState(citystate);
 
-  const handleChange = (event) => {
-    setState(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setState(event.target.value);
+  // };
 
   const StoreName = styled.div`
     width: 84px;
@@ -55,27 +55,27 @@ export default function StoreInfFilter({
           // value={state}
           // defaultValue={citystate}
           // state={citystate}
-          // value={state}
+          value={citystate}
           // onChange={handleChange}
           onChange={(e) =>
             setForm({
               ...Form,
-              postcode: e.target.value,
+              citystate: e.target.value,
             })
           }
           label="state"
         >
-          <MenuItem value="NSW">
+          {/* <MenuItem value="NSW">
             <em>None</em>
-          </MenuItem>
-          <MenuItem value={1}>NSW</MenuItem>
-          <MenuItem value={2}>VIC</MenuItem>
-          <MenuItem value={3}>SA</MenuItem>
-          <MenuItem value={4}>TAS</MenuItem>
-          <MenuItem value={5}>WA</MenuItem>
-          <MenuItem value={6}>NT</MenuItem>
-          <MenuItem value={7}>ACT</MenuItem>
-          <MenuItem value={8}>QSL</MenuItem>
+          </MenuItem> */}
+          <MenuItem value="NSW">NSW</MenuItem>
+          <MenuItem value="VIC">VIC</MenuItem>
+          <MenuItem value="SA">SA</MenuItem>
+          <MenuItem value="TAS">TAS</MenuItem>
+          <MenuItem value="WA">WA</MenuItem>
+          <MenuItem value="NT">NT</MenuItem>
+          <MenuItem value="ACT">ACT</MenuItem>
+          <MenuItem value="QSL">QSL</MenuItem>
         </StoreInfFilter>
       </Wrapper>
     </div>
