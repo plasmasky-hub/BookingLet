@@ -10,8 +10,8 @@ const StyledCard = styled(Card)`
   height: 149px;
   padding: 15px;
   gap: 20px;
-  border:0px;
-  background-color: rgba(217, 217, 217,0.4);
+  border: 0px;
+  background-color: rgba(217, 217, 217, 0.4);
 `;
 
 const Img = styled(CardMedia)`
@@ -46,9 +46,18 @@ const CardButton = styled(Button)`
 `;
 
 const StoreCard = ({
-  item: { _id, name, location, favoriteUsersSize,favoriteUsers, description,photo },
+  item: {
+    _id,
+    name,
+    location,
+    favoriteUsersSize,
+    favoriteUsers,
+    description,
+    photo,
+  },
 }) => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const user = localStorage.getItem('user');
+  const userId = user ? JSON.parse(user)._id : null;
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;
 
