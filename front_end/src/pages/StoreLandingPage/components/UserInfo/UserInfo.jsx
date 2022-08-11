@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
-import homebg from '../../../../assets/storeInfo-bg.jpeg';
+// import homebg from '../../../../assets/storeLandingImg.jpg';
 import { useNavigate } from 'react-router-dom';
 
 
 const UserInfoWrapper = styled.div`
-    /* background-image:url(${homebg}); */
 
     width: 100vw;
-    margin-top:124px;
+    /* margin-top:124px; */
     margin-left: calc(40px);
 
     border-top-left-radius: 25px;
@@ -21,6 +20,7 @@ const UserInfoContainer = styled.div`
     width: 600px;
     padding:60px;
     align-items: flex-start;
+    
 `
 const UserName = styled.div`
     font-family: 'Poppins';
@@ -28,7 +28,7 @@ const UserName = styled.div`
     font-weight: 700;
     font-size: 30px;
     line-height: 32px;
-    color:#FFFFFF;
+    color:#000;
     padding: 20px 0;
     /* text-shadow: 1px 1px 1px #000; */
 `

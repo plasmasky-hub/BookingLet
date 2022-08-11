@@ -273,7 +273,7 @@ const LandingPage = () => {
               sx={{
                 fontWeight: 'bold',
                 fontSize: 32,
-                color: 'white',
+                color: '#000',
                 lineHeight: '48px',
               }}
             >
@@ -284,7 +284,7 @@ const LandingPage = () => {
               sx={{
                 fontWeight: 400,
                 fontSize: 16,
-                color: 'white',
+                color: '#000',
                 lineHeight: '18px',
                 fontStyle: 'italic',
                 pt: 1,
@@ -297,7 +297,7 @@ const LandingPage = () => {
               sx={{
                 fontWeight: 400,
                 fontSize: 16,
-                color: 'white',
+                color: '#000',
                 lineHeight: '18px',
               }}
             >

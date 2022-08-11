@@ -11,15 +11,15 @@ const StyledLogo = styled(Box)`
   font-size: 1.5rem;
   font-weight: 700;
   color: #000;
-  padding-left: 80px;
+  /* padding-left: 80px; */
   cursor: pointer;
   height: 100%;
   width: 100%;
   align-items: center;
 
   img {
-    height: 34px;
-    width: 150px;
+    /* height: 34px; */
+    width: 100%;
   }
 `;
 
