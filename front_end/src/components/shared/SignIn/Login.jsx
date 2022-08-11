@@ -109,7 +109,6 @@ export const LoginModal = (props) => {
   const [login, { isLoading }] = useLoginMutation();
   const [user, setUser] = useState(Object);
   const [token, setToken] = useState('');
-  setUser(null);
   // const [isLogin, setIsLogin] = useState('false');
 
   const handleClickShowPassword = () => {
