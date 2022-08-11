@@ -4,7 +4,7 @@ import Calendar from './components/Calendar';
 import StoreInfo from './components/StoreInfo';
 import { useGetStoreQuery } from '../../store/api/storeApi';
 import { useParams } from 'react-router-dom';
-import StoreSetting from './components/StoreSetting';
+import EditStore from './components/EditStore';
 import ServiceInfo from './components/ServiceInfo';
 import ServiceList from './components/ServiceList';
 import ServiceCalendar from './components/ServiceCalendar';
@@ -23,7 +23,7 @@ const StoreSettingPage = () => {
   const [display, setDisplay] = useState({
     StoreCalendar: false,
     StoreInfo: true,
-    StoreSetting: false,
+    EditStore: false,
     ServiceInfo: true,
     ServiceList: true,
     ServiceCalendar: false,
@@ -47,7 +47,9 @@ const StoreSettingPage = () => {
             <ServiceCalendar id={display.serviceId} storeId={id} />
           )}
           {display.StoreCalendar && <Calendar id={id} />}
-          {display.StoreSetting && <StoreSetting store={data} display={display} setDisplay={setDisplay}/>}
+          {display.EditStore && (
+            <EditStore store={data} display={display} setDisplay={setDisplay} />
+          )}
         </ContentWrapper>
       )}
     </>
