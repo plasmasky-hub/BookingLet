@@ -30,7 +30,7 @@ const Text = styled(TextField)`
 `;
 
 const StoreSmallText = (
-  {city}
+  {city,Form,setForm}
 ) => (
   <Fragment>
     {/* <StoreName>City</StoreName> */}
@@ -39,6 +39,12 @@ const StoreSmallText = (
       id="input-with-icon-textfield"
       defaultValue={city}
       variant="filled"
+      onChange={(e) =>
+        setForm({
+          ...Form,
+          city: e.target.value,
+        })
+      }
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

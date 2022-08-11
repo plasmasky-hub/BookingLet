@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { React, useState } from "react";
 // import styled from "styled-components";
 import StoreInfText from "../StoreSetting/components/StoreInfText/StoreInfText";
 import StoreSmallText from "../StoreSetting/components/StoreInfSmallText/StoreSmallText";
@@ -6,14 +6,12 @@ import StoreInfFilter from "../StoreSetting/components/StoreInfFilter/StoreInfFi
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import StoreInfTextEmail from "../StoreSetting/components/StoreInfTextEmail/StoreInfTextEmail";
-import StoreInfTextTel from "../StoreSetting/components/StoreInfTextTel/StoreInfTextTel";
 import StoreInfSmallPostcode from "../StoreSetting/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
 import Description from "./components/Description/Description";
-import {
-  useUpdateUserMutation,
-  useGetUserQuery,
-} from "../../../../store/api/userApi";
+import StoreInfTextAddress1 from "./components/StoreInfTextAddress1";
+import StoreInfTextAddress2 from "./components/StoreInfTextAddress2";
+import { useUpdateStoreMutation } from "../../../../store/api/storeApi";
+import { Update } from "@mui/icons-material";
 
 const StoreInfWrapper = styled.div`
   width: 1347px;
@@ -152,19 +150,46 @@ const DescriptionWrapper = styled.div`
   margin-top: 40px;
 `;
 
-
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-const PersonalSetting = () => {
+const PersonalSetting = ({ store, display, setDisplay }) => {
   const userId = JSON.parse(localStorage.getItem("user"))._id;
-  const [UpdateUser] = useUpdateUserMutation();
-  const { data, isSuccess } = useGetUserQuery(userId);
+  const [UpdateStore] = useUpdateStoreMutation();
+  // const { data, isSuccess } = useGetUserQuery(userId);
 
-  console.log(isSuccess && data);
-  console.log(isSuccess && data.name);
+  const [Form, setForm] = useState({
+    name: store.name,
+    address1: store.location.street,
+    address2: store.location.suburb,
+    city: store.location.city,
+    postcode: store.location.postcode,
+    citystate: store.location.state,
+    descrip: store.description,
+  });
+
+  const newForm = {
+    location: {
+      state: Form.citystate,
+      city: Form.city,
+      suburb: Form.address2,
+      street: Form.address1,
+      postcode: Form.postcode,
+    },
+    description: Form.descrip,
+    name: Form.name,
+    tel: "0422388787",
+  };
+
+  const id = store.id;
+
+  console.log(store, "d");
+  console.log(store.location.state);
+  console.log(Form, "f");
+  console.log(newForm, "g");
+
   return (
     <>
-      {isSuccess && (
+      {
         <StoreInfWrapper>
           <WholeContainer>
             <Title>Store Information</Title>
@@ -177,35 +202,57 @@ const PersonalSetting = () => {
             <TopContainer>
               <StoreTitle>Store Name</StoreTitle>
               {/* <StoreInfText defaultValue={isSuccess && data.naem}/> */}
-              <StoreInfText name={isSuccess && data.name} />
+              <StoreInfText name={Form.name} setForm={setForm} Form={Form} />
               {/* <StoreName>Last Name</StoreName>
         <StoreInfText /> */}
               <StoreTitle>Address Line 1</StoreTitle>
-              <StoreInfTextTel mobile={isSuccess && data.tel} />
+              <StoreInfTextAddress1
+                address1={Form.address1}
+                setForm={setForm}
+                Form={Form}
+              />
               <StoreTitle>Address Line 2 （Optional）</StoreTitle>
-              <StoreInfTextEmail email={isSuccess && data.email} />
+              <StoreInfTextAddress2
+                address2={Form.address2}
+                setForm={setForm}
+                Form={Form}
+              />
             </TopContainer>
 
             <SmallTextContainer>
               <SmallTextWrapper>
                 <StoreName>City</StoreName>
-                <StoreSmallText city={isSuccess && data.location.city} />
+                <StoreSmallText
+                  city={Form.city}
+                  setForm={setForm}
+                  Form={Form}
+                />
               </SmallTextWrapper>
               <SmallTextWrapper>
                 <StoreName>Postcode</StoreName>
                 <StoreInfSmallPostcode
-                  Postcode={isSuccess && data.location.postcode}
+                  postcode={Form.postcode}
+                  setForm={setForm}
+                  Form={Form}
                 />
               </SmallTextWrapper>
               {/* <SmallTextWrapper>
           <StoreName>State</StoreName> */}
-              <StoreInfFilter citystate={isSuccess && data.location.state} />
+              <StoreInfFilter
+                citystate={Form.citystate}
+                setForm={setForm}
+                Form={Form}
+              />
               {/* </SmallTextWrapper> */}
             </SmallTextContainer>
 
             <DescriptionWrapper>
               <StoreInfName>Description</StoreInfName>
-              <Description />
+              <Description
+                descrip={Form.descrip}
+                setForm={setForm}
+                Form={Form}
+              />
             </DescriptionWrapper>
 
             <CheckboxContainer>
@@ -215,15 +262,45 @@ const PersonalSetting = () => {
         & Conditions of Bookinglet */}
             </CheckboxContainer>
             <ButtonContainer>
-              <StoreInfButton left variant="contained">
-                Preview
+              <StoreInfButton
+                left
+                variant="contained"
+                onClick={() =>
+                  setDisplay({
+                    ...display,
+                    StoreSetting: false,
+                    StoreInfo: true,
+                    ServiceList: true,
+                    ServiceInfo: true,
+                  })
+                }
+              >
+                Back
               </StoreInfButton>
 
-              <StoreInfButton variant="contained">Save</StoreInfButton>
+              <StoreInfButton
+                variant="contained"
+                onClick={async () => {
+                  if (newForm) {
+                    let r = await UpdateStore({ newForm, id });
+                    // await UpdateStore({newForm,id});
+                    console.log(r, "b");
+                    setDisplay({
+                      ...display,
+                      StoreSetting: false,
+                      StoreInfo: true,
+                      ServiceList: true,
+                      ServiceInfo: true,
+                    });
+                  }
+                }}
+              >
+                Save
+              </StoreInfButton>
             </ButtonContainer>
           </WholeContainer>
         </StoreInfWrapper>
-      )}
+      }
     </>
   );
 };

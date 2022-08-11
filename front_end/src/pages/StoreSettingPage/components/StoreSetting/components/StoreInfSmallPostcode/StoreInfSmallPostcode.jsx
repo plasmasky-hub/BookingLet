@@ -30,15 +30,21 @@ const Text = styled(TextField)`
 `;
 
 const StoreInfSmallPostcode = (
-  {Postcode}
+  {postcode,Form,setForm}
 ) => (
   <Fragment>
     {/* <StoreName>City</StoreName> */}
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
-      defaultValue={Postcode}
+      defaultValue={postcode}
       variant="filled"
+      onChange={(e) =>
+        setForm({
+          ...Form,
+          postcode: e.target.value,
+        })
+      }
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

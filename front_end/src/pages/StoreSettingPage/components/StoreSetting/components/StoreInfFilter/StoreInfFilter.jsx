@@ -6,7 +6,7 @@ import Select from "@mui/material/Select";
 import styled from "styled-components";
 
 export default function StoreInfFilter({
-  citystate
+  citystate,Form,setForm
 }) {
   const [state, setState] = React.useState(citystate);
 
@@ -52,11 +52,17 @@ export default function StoreInfFilter({
         <StoreInfFilter
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={state}
+          // value={state}
           // defaultValue={citystate}
           // state={citystate}
           // value={state}
-          onChange={handleChange}
+          // onChange={handleChange}
+          onChange={(e) =>
+            setForm({
+              ...Form,
+              postcode: e.target.value,
+            })
+          }
           label="state"
         >
           <MenuItem value="NSW">
