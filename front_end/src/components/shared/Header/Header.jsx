@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Logo } from '../../shared/Logo/Logo';
 import { UserPanel } from './UserPanel';
@@ -69,13 +69,23 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loginIsOpen, setLoginOpen] = useState(false);
   const [registerIsOpen, setRegisterOpen] = useState(false);
+  // var token = localStorage.getItem('token');
 
   // await localStorage.setItem('loggedIn', loggedIn);
 
   async function changeLoggedIn (props) {
-    await localStorage.setItem('loggedIn', props);
+    // await localStorage.setItem('loggedIn', props);
     setLoggedIn(props);
   }
+
+  useEffect ( () => {
+    // const current = localStorage.getItem('token');
+    // console.log(typeof(current));
+    // console.log("🚀 ~ file: Header.jsx ~ line 82 ~ useEffect ~ current", current)
+    const token = localStorage.getItem('token');
+    token === '' ? setLoggedIn(false) : setLoggedIn(true);
+
+  },[])
 
   const loginOpen = () => {
     setLoginOpen(true);
@@ -100,7 +110,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <Logo />
-      {loggedIn ? (
+      { loggedIn ? (
         <UserPanel setLoggedIn={setLoggedIn} />
       ) : (
         <ButtonWrapper>

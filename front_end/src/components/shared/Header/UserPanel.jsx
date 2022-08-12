@@ -117,8 +117,8 @@ export const UserPanel = (props) => {
 
   async function logout(){
     props.setLoggedIn(false);
-    await localStorage.setItem('loggedIn', false);
-    await localStorage.setItem('user', null);
+    // await localStorage.setItem('loggedIn', false);
+    await localStorage.setItem('user', '');
     await localStorage.setItem('token', '');
   }
 
