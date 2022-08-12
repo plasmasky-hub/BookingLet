@@ -5,12 +5,14 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import styled from "styled-components";
 
-export default function StoreInfFilter() {
-  const [state, setState] = React.useState("");
+export default function StoreInfFilter({
+  citystate,Form,setForm
+}) {
+  // const [state, setState] = React.useState(citystate);
 
-  const handleChange = (event) => {
-    setState(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setState(event.target.value);
+  // };
 
   const StoreName = styled.div`
     width: 84px;
@@ -50,18 +52,30 @@ export default function StoreInfFilter() {
         <StoreInfFilter
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={state}
-          onChange={handleChange}
+          // value={state}
+          // defaultValue={citystate}
+          // state={citystate}
+          value={citystate}
+          // onChange={handleChange}
+          onChange={(e) =>
+            setForm({
+              ...Form,
+              citystate: e.target.value,
+            })
+          }
           label="state"
         >
-          <MenuItem value="NSW">
+          {/* <MenuItem value="NSW">
             <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>NSW</MenuItem>
-          <MenuItem value={20}>VIC</MenuItem>
-          <MenuItem value={30}>SA</MenuItem>
-          <MenuItem value={40}>TAS</MenuItem>
-          <MenuItem value={50}>WA</MenuItem>
+          </MenuItem> */}
+          <MenuItem value="NSW">NSW</MenuItem>
+          <MenuItem value="VIC">VIC</MenuItem>
+          <MenuItem value="SA">SA</MenuItem>
+          <MenuItem value="TAS">TAS</MenuItem>
+          <MenuItem value="WA">WA</MenuItem>
+          <MenuItem value="NT">NT</MenuItem>
+          <MenuItem value="ACT">ACT</MenuItem>
+          <MenuItem value="QSL">QSL</MenuItem>
         </StoreInfFilter>
       </Wrapper>
     </div>

@@ -71,8 +71,9 @@ const StoreCard = ({
     photo,
   },
 }) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user ? user._id : null;
+  let user = localStorage.getItem('user');
+  if (user === '[object Object]' || user === 'null') user = '';
+  const userId = user ? JSON.parse(user)._id : null;
 
   const { state, city, postcode } = location;
   const address = `${postcode} ${city} ${state}`;

@@ -429,7 +429,8 @@ async function addStore(req, res) {
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
     const { name, owner, tel, location, description, rootCategories } = validatedData;  //= req.body;
-    const store = new Store({ name, owner, tel, location, description, rootCategories });
+    const photo = ['https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/default.jpg'];
+    const store = new Store({ name, owner, tel, location, description, rootCategories, photo });
     await store.save();
 
     const user = await User.findById(owner).exec();
@@ -479,6 +480,7 @@ async function addStore(req, res) {
  *                      
 */
 async function updateStoreById(req, res) {
+    console.log(req.body);
     const validatedData = await checkStoreUpdate(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
