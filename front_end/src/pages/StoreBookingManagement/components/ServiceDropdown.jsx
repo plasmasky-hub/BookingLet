@@ -19,18 +19,16 @@ const BookingManageDropdown = styled.div`
   align-items: baseline;
 `;
 
-export const ServiceDropdown = ({ data }) => {
-  const [service, setService] = React.useState("");
-  const handleChange = (event) => {
-    setService(event.target.value);
-  };
-
-  if (!data) return <>no services</>;
-  if (data === "") return <>no services</>;
+export const ServiceDropdown = (props) => {
+  const options = props.options;
+  const currentOption = props.currentOption;
+  const onChangeEvent = props.onChangeEvent;
+  if (!options) return <>no services</>;
+  if (options === "") return <>no services</>;
 
   return (
     <>
-      {data && (
+      {options && (
         <>
           <BookingManageDropdown>
             <BookingManageCategory>Service</BookingManageCategory>
@@ -43,13 +41,13 @@ export const ServiceDropdown = ({ data }) => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={service}
+                value={currentOption}
                 label="Service"
-                onChange={handleChange}
+                onChange={(e) => onChangeEvent(e)}
               >
-                {data.serviceInfos.map((service) => (
-                  <MenuItem value={service.name} key={service.id}>
-                    {service.name}
+                {options.map((option) => (
+                  <MenuItem value={option.id} key={option.id}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </Select>

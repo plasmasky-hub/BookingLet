@@ -20,7 +20,7 @@ const orderApi = apiSlice.injectEndpoints({
         let baseUrl = `/orders`
         let stringParams = []
         for (const key in params) {
-          if (Object.hasOwnProperty.call(params, key)) {
+          if (Object.hasOwnProperty.call(params, key) && params[key] !== "") {
             stringParams.push(`${key}=${params[key]}`)
           }
         }
@@ -31,8 +31,29 @@ const orderApi = apiSlice.injectEndpoints({
     getOrdersByServiceInfoId: builder.query({
       query: (id) => `/orders/?serviceInfoId=${id}`,
     }),
+    updateOrder: builder.mutation({
+      query: (id, params) => ({
+        url: `/orders/${id}`,
+        method: 'PUT',
+        body: params,
+      }),
+    }),
+    confirmOrder: builder.mutation({
+      query: (id) => ({
+        url: `/orders/${id}/store`,
+        method: 'PUT',
+        body: {},
+      }),
+    }),
+    deleteOrder: builder.mutation({
+      query: (id) => ({
+        url: `/orders/${id}`,
+        method: 'DELETE',
+        body: {},
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateOrderQuery, useGetOrdersQuery, useGetOrdersByStoreIdQuery, useGetOrdersByServiceInfoIdQuery, useGetOrdersByParamsQuery } = orderApi;
+export const { useCreateOrderQuery, useGetOrdersQuery, useGetOrdersByStoreIdQuery, useGetOrdersByServiceInfoIdQuery, useGetOrdersByParamsQuery, useUpdateOrderMutation, useConfirmOrderMutation, useDeleteOrderMutation } = orderApi;

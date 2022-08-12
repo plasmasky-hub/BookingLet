@@ -5,17 +5,16 @@ import { ServiceDropdown } from "./ServiceDropdown";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { BookingManageWrapper } from "./UpcomingBookings";
 import { BookingManageCategory } from "./ServiceDropdown";
-// import { BookingManagementTable } from "./BookingManagementTable";
 import { PrevBookingTable } from "./PrevBookingTable";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
 import { BasicPagination } from "./Pagination";
 
 const PreviousBookingWrappepr = styled.div`
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
   height: 500px;
-  padding: 50px 0;
+  padding: 30px 0;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -32,7 +31,7 @@ const BookingDateFilterWrapper = styled.div`
   height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: baseline;
 `;
 
@@ -45,7 +44,11 @@ const DateWrapper = styled.div`
   align-items: baseline;
 `;
 
-const BookingDateChips = ["All", "This month", "This year"];
+const BookingDateChips = {
+  allPrev: "All",
+  monthPrev: "This month",
+  yearPrev: "This year",
+};
 
 const StyledBookingDateChips = styled(Chip)`
   height: 22px;
@@ -55,6 +58,7 @@ const StyledBookingDateChips = styled(Chip)`
   text-align: center;
   align-items: center;
   cursor: pointer;
+  margin-left: 20px;
 `;
 
 const ServiceDropdownWrapper = styled.div`
@@ -68,12 +72,25 @@ export const PreviousBookings = (props) => {
   // const orders = props.orders;
   let { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPeriod, setCurrentPeriod] = useState("allPrev");
+  const [currentService, setCurrentService] = useState("");
 
-  const { data: ordersInfo, isSuccess } = useGetOrdersByParamsQuery({
-    storeId: id,
-    periodLimiter: "allPrev",
-    page: currentPage,
-  });
+  const handleSelectService = (e) => {
+    setCurrentService(e.target.value);
+  };
+
+  const { data: ordersInfo, isSuccess } = useGetOrdersByParamsQuery(
+    {
+      storeId: id,
+      periodLimiter: currentPeriod,
+      page: currentPage,
+      serviceInfoId: currentService,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 2000,
+    }
+  );
 
   const [orders, setOrders] = useState(ordersInfo?.orders);
 
@@ -83,23 +100,32 @@ export const PreviousBookings = (props) => {
 
   const handlePageClick = (_event, page) => {
     setCurrentPage(page);
-    setOrders(ordersInfo.orders);
+  };
+
+  const setPeriod = (_event, period) => {
+    setCurrentPeriod(period);
   };
   const store = props.store;
-  // console.log(orders);
 
-  // const { data: store } = useGetStoreQuery(id);
-  const [clicked, setClicked] = useState(0);
-
-  const BookingDateFilter = BookingDateChips.map((BookingDateChips, index) => (
-    <StyledBookingDateChips
-      key={BookingDateChips}
-      label={BookingDateChips}
-      variant="filled"
-      onClick={() => setClicked(index)}
-      sx={{ backgroundColor: index === clicked && "#397CC2" }}
-    />
-  ));
+  const BookingDateFilter = () => {
+    let result = [];
+    for (const key in BookingDateChips) {
+      if (Object.hasOwnProperty.call(BookingDateChips, key)) {
+        result.push(
+          <StyledBookingDateChips
+            key={key}
+            label={BookingDateChips[key]}
+            variant="filled"
+            onClick={(e) => setPeriod(e, key)}
+            sx={{
+              backgroundColor: currentPeriod === key && "#397CC2",
+            }}
+          />
+        );
+      }
+    }
+    return result;
+  };
 
   // if (orders.length === 0) return <>no orders</>;
   // if (ordersInfo === undefined) return <>no orders</>;
@@ -118,11 +144,15 @@ export const PreviousBookings = (props) => {
                 <BookingManageCategory>Booking Date</BookingManageCategory>
               </DateWrapper>
               <Stack direction="row" spacing={2}>
-                {BookingDateFilter}
+                {BookingDateFilter()}
               </Stack>
             </BookingDateFilterWrapper>
             <ServiceDropdownWrapper>
-              <ServiceDropdown data={store} />
+              <ServiceDropdown
+                options={[{ id: "", name: "All" }].concat(store.serviceInfos)}
+                currentOption={currentService}
+                onChangeEvent={handleSelectService}
+              />
             </ServiceDropdownWrapper>
           </BookingManageWrapper>
           {/* {orders.map((order) => (

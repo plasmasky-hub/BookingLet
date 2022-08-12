@@ -5,7 +5,6 @@ import { SwitchButton } from "./SwitchButton";
 import { BookingManagementTable } from "./BookingManagementTable";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
-// import { storeApi } from "../../../store/api/storeApi";
 import { BasicPagination } from "./Pagination";
 
 const UpcomingBookingWrappepr = styled.div`
@@ -39,11 +38,31 @@ export const UpcomingBookings = (props) => {
   let { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: ordersInfo, isSuccess } = useGetOrdersByParamsQuery({
-    storeId: id,
-    periodLimiter: "coming",
-    page: currentPage,
-  });
+  const [currentService, setCurrentService] = useState("");
+
+  const handleSelectService = (e) => {
+    setCurrentService(e.target.value);
+  };
+
+  const [switchStatus, setSwitchStatus] = useState(true);
+
+  const handleSwitchButton = (e) => {
+    setSwitchStatus(e.target.value);
+  };
+
+  const { data: ordersInfo } = useGetOrdersByParamsQuery(
+    {
+      storeId: id,
+      periodLimiter: "coming",
+      page: currentPage,
+      serviceInfoId: currentService,
+      onlyShowUnconfirmedBooking: switchStatus,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 2000,
+    }
+  );
 
   const [orders, setOrders] = useState(ordersInfo?.orders);
 
@@ -53,7 +72,6 @@ export const UpcomingBookings = (props) => {
 
   const handlePageClick = (_event, page) => {
     setCurrentPage(page);
-    setOrders(ordersInfo.orders);
   };
   const store = props.store;
   // const { data: store } = useGetStoreQuery(id);
@@ -70,8 +88,12 @@ export const UpcomingBookings = (props) => {
         <UpcomingBookingWrappepr>
           <UpcomingBookingTitle>Upcoming Bookings</UpcomingBookingTitle>
           <BookingManageWrapper>
-            <ServiceDropdown data={store} />
-            <SwitchButton />
+            <ServiceDropdown
+              options={[{ id: "", name: "All" }].concat(store.serviceInfos)}
+              currentOption={currentService}
+              onChangeEvent={handleSelectService}
+            />
+            <SwitchButton orders={orders} onChangeEvent={handleSwitchButton} />
           </BookingManageWrapper>
           {orders.length === 0 && <>no orders</>}
           {orders.map((order) => {

@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import {
+  useConfirmOrderMutation,
+  useDeleteOrderMutation,
+} from "../../../store/api/orderApi";
 
 const ActionButtonWrapper = styled.div`
   display: flex;
@@ -11,7 +15,7 @@ const ActionButtonWrapper = styled.div`
   align-items: center;
 `;
 
-export const ConfirmButton = styled.button`
+const StyledConfirmButton = styled.button`
   width: 120px;
   height: 42px;
   border-style: none;
@@ -27,7 +31,16 @@ export const ConfirmButton = styled.button`
   cursor: pointer;
 `;
 
-export const DeclineButton = styled.button`
+const ConfirmButton = ({ onClickEvent }) => {
+  return (
+    <StyledConfirmButton onClick={(e) => onClickEvent(e, true)}>
+      <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
+      {UpcomingBookingStatus[0]}
+    </StyledConfirmButton>
+  );
+};
+
+const StyledDeclineButton = styled.button`
   width: 120px;
   height: 42px;
   border-style: none;
@@ -41,7 +54,16 @@ export const DeclineButton = styled.button`
   align-items: center;
 `;
 
-export const FinishedButton = styled.div`
+const DeclineButton = ({ onClickEvent }) => {
+  return (
+    <StyledDeclineButton onClick={(e) => onClickEvent(e, false)}>
+      <CancelOutlinedIcon sx={{ width: "20px", height: "20px" }} />
+      {UpcomingBookingStatus[1]}
+    </StyledDeclineButton>
+  );
+};
+
+const StyledActionResult = styled.div`
   width: 242px;
   height: 42px;
   border-radius: 15px;
@@ -54,28 +76,59 @@ export const FinishedButton = styled.div`
   align-items: center;
 `;
 
+const ShowActionResult = ({ message }) => {
+  return (
+    <StyledActionResult>
+      <DoneOutlinedIcon />
+      Order has been {message}
+    </StyledActionResult>
+  );
+};
+
 const UpcomingBookingStatus = ["Confirm", "Decline"];
 
-export const BookingManagementButton = () => {
-  // const [show, setShow] = useState(false);
+const ShowMessageText = ["confirmed", "canceled"];
+
+export const BookingManagementButton = ({ data }) => {
+  const [
+    confirmOrder, // This is the destructured mutation result
+  ] = useConfirmOrderMutation();
+
+  const [
+    declineOrder, // This is the destructured mutation result
+  ] = useDeleteOrderMutation();
+
+  const [isClick, setIsClick] = useState(
+    data.bookingStatus || data.cancelStatus
+  );
+  const [isShowConfirmedMessage, setIsShowConfirmedMessage] = useState(
+    data.bookingStatus
+  );
+
+  const onConfirm = (_e, isConfirmed) => {
+    setIsClick(true);
+    setIsShowConfirmedMessage(isConfirmed);
+    if (isConfirmed) {
+      confirmOrder(data._id);
+    } else {
+      declineOrder(data._id);
+    }
+  };
+
   return (
     <ActionButtonWrapper>
-      <ConfirmButton>
-        <DateRangeOutlinedIcon sx={{ width: "20px", height: "20px" }} />
-        {UpcomingBookingStatus[0]}
-      </ConfirmButton>
-      <DeclineButton>
-        <CancelOutlinedIcon sx={{ width: "20px", height: "20px" }} />
-        {UpcomingBookingStatus[1]}
-      </DeclineButton>
-      {/* {show === true ? (
-      //   <FinishedButton>
-      //     <DoneOutlinedIcon />
-      //     Order finished
-      //   </FinishedButton>
-      // ) : (
-      //   ""
-      // )}*/}
+      {!isClick ? (
+        [
+          <ConfirmButton onClickEvent={onConfirm} key={"confirmButton"} />,
+          <DeclineButton onClickEvent={onConfirm} key={"declineButton"} />,
+        ]
+      ) : (
+        <ShowActionResult
+          message={
+            isShowConfirmedMessage ? ShowMessageText[0] : ShowMessageText[1]
+          }
+        />
+      )}
     </ActionButtonWrapper>
   );
 };

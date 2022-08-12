@@ -4,12 +4,11 @@ import { UpcomingBookings } from "./components/UpcomingBookings";
 import { PreviousBookings } from "./components/PreviousBookings";
 import { useParams } from "react-router-dom";
 import { useGetStoreQuery } from "../../store/api/storeApi";
-import { useGetOrdersByStoreIdQuery } from "../../store/api/orderApi";
 
 const StoreBookingWrapper = styled.div`
   min-width: 1000px;
   width: 100%;
-  height: 100vh;
+  height: 160vh;
   background-color: #e1e6ed;
   padding: 80px 80px;
   display: flex;

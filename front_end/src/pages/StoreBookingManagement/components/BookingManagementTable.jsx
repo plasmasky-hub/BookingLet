@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Collapse } from "@mui/material";
-import {
-  BookingManagementButton,
-  // ConfirmButton,
-  // DeclineButton,
-} from "./BookingManagementButton";
+import { BookingManagementButton } from "./BookingManagementButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { IconButton, Typography } from "@mui/material";
 
 const TableWrapper = styled(Box)`
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
   height: 100px;
   background: #fff;
-  padding: 10px 50px;
+  padding: 10px;
 `;
 
 const itemTitle = ["Date", "Time", "Person", "Service"];
@@ -27,18 +23,24 @@ const StyledItemTitle = styled.h4`
 const StyledTableRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 `;
 
 const StyledTableCell = styled.div`
-  width: 100px;
-  height: 73px;
+  width: 90px;
+  height: 70px;
   border-bottom: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  &:nth-of-type(4) {
+    width: 180px;
+  }
+  &:nth-of-type(5) {
+    width: 220px;
+  }
 `;
 
 const ShowDetailsWrapper = styled.div`
@@ -53,10 +55,10 @@ const ShowDetailsWrapper = styled.div`
 `;
 
 const CollapsibleTableRowWrapper = styled.div`
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
-  height: 80px;
-  padding: 10px 50px;
+  height: 70px;
+  padding: 10px;
   background-color: #8e8e8e;
   display: flex;
   flex-direction: row;
@@ -67,25 +69,25 @@ const CollapsibleTableRowWrapper = styled.div`
 `;
 
 const CollapedTableRow = styled.div`
+  min-width: 1000px;
+  width: 100%;
+  height: 70px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px;
 `;
 
 const CollapedTableCell = styled.div`
-  width: 200px;
-  height: 63px;
+  width: 250px;
+  height: 70px;
   border-bottom: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   color: #fff;
-  &:last-child {
-    width: 400px;
-  }
 `;
 
 const CollapedTableRowTitle = [
@@ -139,7 +141,7 @@ export const BookingManagementTable = ({ data }) => {
                 <p>{data.serviceInfoId.name}</p>
               </StyledTableCell>
               <StyledTableCell>
-                <BookingManagementButton />
+                <BookingManagementButton data={data} />
               </StyledTableCell>
               <StyledTableCell>
                 <ShowDetailsWrapper onClick={() => setOpen(!open)}>

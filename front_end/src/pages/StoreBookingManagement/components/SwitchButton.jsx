@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { BookingManageCategory } from './ServiceDropdown'
-import { Switch } from '@mui/material';
+import React from "react";
+import styled from "@emotion/styled";
+import { BookingManageCategory } from "./ServiceDropdown";
+import { Switch } from "@mui/material";
 
 const BookingManagementFilter = styled.div`
   min-width: 200px;
@@ -14,11 +14,19 @@ const BookingManagementFilter = styled.div`
   align-items: baseline;
 `;
 
-export const SwitchButton = () => {
+export const SwitchButton = (props) => {
+  const orders = props.orders;
+  const onChangeEvent = props.onChange;
   return (
-    <BookingManagementFilter>
-        <Switch disabled size="small"/>
-          <BookingManageCategory>Only show unconfirmed bookings</BookingManageCategory>
-    </BookingManagementFilter>
-  )
-}
+    <>
+      {orders && (
+        <BookingManagementFilter>
+          <Switch size="small" onChange={(e) => onChangeEvent(e)} />
+          <BookingManageCategory>
+            Only show unconfirmed bookings
+          </BookingManageCategory>
+        </BookingManagementFilter>
+      )}
+    </>
+  );
+};

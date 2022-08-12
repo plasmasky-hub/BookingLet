@@ -13,13 +13,13 @@ const ShowDetailsWrapper = styled.div`
   color: #8e8e8e;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   cursor: pointer;
 `;
 
 const CollapsibleTableRowWrapper = styled.div`
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
   height: 100px;
   background-color: #8e8e8e;
@@ -47,7 +47,7 @@ export const PrevBookingTable = ({ data }) => {
             <TableBody>
               <TableRow
                 direction="column"
-                sx={{ minWidth: "800px", backgroundColor: "#fff" }}
+                sx={{ minWidth: "1000px", backgroundColor: "#fff" }}
               >
                 <TableCell sx={{ pl: 10, pt: 3 }}>
                   <h4>
