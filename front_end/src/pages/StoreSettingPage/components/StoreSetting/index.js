@@ -11,7 +11,6 @@ import Description from "./components/Description/Description";
 import StoreInfTextAddress1 from "./components/StoreInfTextAddress1";
 import StoreInfTextAddress2 from "./components/StoreInfTextAddress2";
 import { useUpdateStoreMutation } from "../../../../store/api/storeApi";
-import { Update } from "@mui/icons-material";
 
 const StoreInfWrapper = styled.div`
   width: 1347px;
