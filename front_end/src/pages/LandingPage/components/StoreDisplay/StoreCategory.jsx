@@ -5,12 +5,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import dining from '../../../../assets/dining_category.jpg';
+// import dining from '../../../../assets/dining_category.jpg';
 
 const Container = styled.div`
   width: 100%;
   display: flex;
-  /* background-image: url(${dining}); */
   background-repeat: no-repeat;
   background-size: cover;
 `;
@@ -48,7 +47,9 @@ const StoreCategory = ({ category, cardData: stores }) => {
   return (
     <>
       <Box sx={{ height: '90px' }} id={category.name} />
-      <Container>
+      <Container
+        style={{ backgroundImage: `url(${category.backgroundPhoto})` }}
+      >
         <Box
           sx={{
             display: 'flex',
