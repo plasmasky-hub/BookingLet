@@ -50,7 +50,7 @@ function App() {
               path="/StoreSettingPage/:id"
               element={<StoreSettingPage />}
             ></Route>
-            <Route path="/Error" element={<ErrorHandle />}></Route>
+            <Route path="/*" element={<ErrorHandle />}></Route>
           </Routes>
         </Layout>
         <Footer />
