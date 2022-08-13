@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { ServiceDropdown } from "./ServiceDropdown";
 import { SwitchButton } from "./SwitchButton";
-import { BookingManagementTable } from "./BookingManagementTable";
+import { UpcomingBookingTableRow } from "./UpcomingBookingTableRow";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
 import { BasicPagination } from "./Pagination";
@@ -10,7 +10,7 @@ import { BasicPagination } from "./Pagination";
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
   width: 100%;
-  height: 800px;
+  height: 1000px;
   padding: 50px 0;
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@ export const UpcomingBookings = (props) => {
           </BookingManageWrapper>
           {orders.length === 0 && <>no orders</>}
           {orders.map((order) => {
-            return <BookingManagementTable data={order} key={order._id} />;
+            return <UpcomingBookingTableRow data={order} key={order._id} />;
           })}
           <BasicPagination
             pageQty={pageQty}

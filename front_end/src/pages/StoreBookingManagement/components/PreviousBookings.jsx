@@ -5,7 +5,7 @@ import { ServiceDropdown } from "./ServiceDropdown";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { BookingManageWrapper } from "./UpcomingBookings";
 import { BookingManageCategory } from "./ServiceDropdown";
-import { PrevBookingTable } from "./PrevBookingTable";
+import { PrevBookingTableRow } from "./PrevBookingTableRow";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
 import { BasicPagination } from "./Pagination";
@@ -155,12 +155,9 @@ export const PreviousBookings = (props) => {
               />
             </ServiceDropdownWrapper>
           </BookingManageWrapper>
-          {/* {orders.map((order) => (
-            <BookingManagementTable data={order} key={order.id} />
-          ))} */}
           {orders.length === 0 && <>no orders</>}
           {orders?.map((order) => (
-            <PrevBookingTable data={order} key={order._id} />
+            <PrevBookingTableRow data={order} key={order._id} />
           ))}
           <BasicPagination
             pageQty={pageQty}

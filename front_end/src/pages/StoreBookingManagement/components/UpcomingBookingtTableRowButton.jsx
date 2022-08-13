@@ -11,7 +11,7 @@ import {
 const ActionButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -27,7 +27,7 @@ const StyledConfirmButton = styled.button`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 10px;
   cursor: pointer;
 `;
 
@@ -52,6 +52,7 @@ const StyledDeclineButton = styled.button`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  cursor: pointer;
 `;
 
 const DeclineButton = ({ onClickEvent }) => {
@@ -64,7 +65,7 @@ const DeclineButton = ({ onClickEvent }) => {
 };
 
 const StyledActionResult = styled.div`
-  width: 242px;
+  width: 240px;
   height: 42px;
   border-radius: 15px;
   color: #2f72bd;
@@ -89,7 +90,7 @@ const UpcomingBookingStatus = ["Confirm", "Decline"];
 
 const ShowMessageText = ["confirmed", "canceled"];
 
-export const BookingManagementButton = ({ data }) => {
+export const UpcomingBookingtTableRowButton = ({ data }) => {
   const [
     confirmOrder, // This is the destructured mutation result
   ] = useConfirmOrderMutation();

@@ -16,6 +16,7 @@ const StoreBookingWrapper = styled.div`
   justify-content: start;
   align-items: start;
   align-content: flex-start;
+  margin-top: 80px;
 `;
 
 const ServiceName = styled.h1`

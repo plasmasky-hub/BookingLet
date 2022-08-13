@@ -21,7 +21,7 @@ const ShowDetailsWrapper = styled.div`
 const CollapsibleTableRowWrapper = styled.div`
   min-width: 1000px;
   width: 100%;
-  height: 100px;
+  height: 80px;
   background-color: #8e8e8e;
   display: flex;
   flex-direction: row;
@@ -36,7 +36,19 @@ const CollapedTableRowTitle = [
   "Note",
 ];
 
-export const PrevBookingTable = ({ data }) => {
+const StyledCollapedTableRowTitle = styled.h4`
+  min-width: 107px;
+  height: 20px;
+  color: #fff;
+  font-weight: 600;
+`;
+
+const StyledCollapedTableRowText = styled.p`
+  color: #fff;
+  font-weight: 400;
+`;
+
+export const PrevBookingTableRow = ({ data }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -49,13 +61,13 @@ export const PrevBookingTable = ({ data }) => {
                 direction="column"
                 sx={{ minWidth: "1000px", backgroundColor: "#fff" }}
               >
-                <TableCell sx={{ pl: 10, pt: 3 }}>
+                <TableCell>
                   <h4>
                     <strong>{itemTitle[0]}</strong>
                   </h4>
                   <p>{data.orderTime.date.toString().substring(0, 10)}</p>
                 </TableCell>
-                <TableCell sx={{ px: 5, pt: 3 }}>
+                <TableCell>
                   <h4>
                     <strong>{itemTitle[1]}</strong>
                   </h4>
@@ -64,21 +76,21 @@ export const PrevBookingTable = ({ data }) => {
                     2
                   )}:${data.orderTime.startTime.substring(2, 4)}`}</p>
                 </TableCell>
-                <TableCell sx={{ px: 5, pt: 3 }}>
+                <TableCell>
                   <h4>
                     <strong>{itemTitle[2]}</strong>
                   </h4>
                   <p>{data.peopleNumber}</p>
                 </TableCell>
-                <TableCell sx={{ px: 5, pt: 3 }}>
+                <TableCell>
                   <h4>
                     <strong>{itemTitle[3]}</strong>
                   </h4>
                   <p>{data.serviceInfoId.name}</p>
                 </TableCell>
-                <TableCell sx={{ pl: 5, pt: 3 }}>
+                <TableCell>
                   <Typography sx={{ color: "#8E8E8E", fontWeight: 700, pr: 4 }}>
-                    Order Finished{" "}
+                    Order Finished
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -103,33 +115,44 @@ export const PrevBookingTable = ({ data }) => {
                 <TableCell>
                   <Collapse in={open} timeout="auto" unmountOnExit>
                     <CollapsibleTableRowWrapper>
-                      <TableCell sx={{ pl: 10, pt: 3 }}>
-                        <h4>
-                          <strong>{CollapedTableRowTitle[0]}</strong>
-                        </h4>
-                        <p>{data._id}</p>
-                      </TableCell>
-                      <TableCell sx={{ px: 5, pt: 3 }}>
-                        <h4>
-                          <strong>{CollapedTableRowTitle[1]}</strong>
-                        </h4>
-                        <p>{data.userId.tel}</p>
-                      </TableCell>
-                      <TableCell sx={{ px: 5, pt: 3 }}>
-                        <h4>
-                          <strong>{CollapedTableRowTitle[2]}</strong>
-                        </h4>
-                        <p>{`${data.bookingTime.substring(
-                          0,
-                          10
-                        )} ${data.bookingTime.substring(12, 16)}`}</p>
-                      </TableCell>
-                      <TableCell sx={{ px: 5, pt: 3 }}>
-                        <h4>
-                          <strong>{CollapedTableRowTitle[3]}</strong>
-                        </h4>
-                        <p>{data.optionInfo}</p>
-                      </TableCell>
+                      <TableRow direction="column" sx={{ minWidth: "1000px" }}>
+                        <TableCell>
+                          <StyledCollapedTableRowTitle>
+                            <strong>{CollapedTableRowTitle[0]}</strong>
+                          </StyledCollapedTableRowTitle>
+                          <StyledCollapedTableRowText>
+                            {data._id}
+                          </StyledCollapedTableRowText>
+                        </TableCell>
+                        <TableCell>
+                          <StyledCollapedTableRowTitle>
+                            <strong>{CollapedTableRowTitle[1]}</strong>
+                          </StyledCollapedTableRowTitle>
+                          <StyledCollapedTableRowText>
+                            {data.userId.tel}
+                          </StyledCollapedTableRowText>
+                        </TableCell>
+                        <TableCell>
+                          <StyledCollapedTableRowTitle>
+                            <strong>{CollapedTableRowTitle[2]}</strong>
+                          </StyledCollapedTableRowTitle>
+                          <StyledCollapedTableRowText>{`${data.bookingTime.substring(
+                            0,
+                            10
+                          )} ${data.bookingTime.substring(
+                            12,
+                            16
+                          )}`}</StyledCollapedTableRowText>
+                        </TableCell>
+                        <TableCell>
+                          <StyledCollapedTableRowTitle>
+                            <strong>{CollapedTableRowTitle[3]}</strong>
+                          </StyledCollapedTableRowTitle>
+                          <StyledCollapedTableRowText>
+                            {data.optionInfo}
+                          </StyledCollapedTableRowText>
+                        </TableCell>
+                      </TableRow>
                     </CollapsibleTableRowWrapper>
                   </Collapse>
                 </TableCell>
