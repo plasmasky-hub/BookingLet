@@ -4,11 +4,11 @@ import { useState } from "react";
 import BodyRelaxing from "../../../../assets/BodyRelaxing.png";
 
 const StyledTableContainer = styled(Box)`
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   background-color: #f0f0f0;
   margin-bottom: 8px;
@@ -29,13 +29,18 @@ const TableHead = {
 const CollapsibleTableWrapper = styled(Box)`
   min-width: 1000px;
   width: 100%;
-  height: 160px;
-  background-color: #fff;
+  height: 180px;
+  /* background-color: #fff; */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: start;
 `;
 
 const CollapsibleTable = styled(Box)`
+  min-width: 1000px;
+  width: 100%;
+  padding: 10px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -51,12 +56,13 @@ const CollapsedNotice = styled(Box)`
   width: 100%;
   font-style: italic;
   color: #d76d6d;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 0 0 5px 40px;
 `;
 
 export const BookingTable = ({ data }) => {
   const [open, setOpen] = useState(false);
+  console.log(data);
 
   const handleClick = () => {
     setOpen(!open);
@@ -68,29 +74,47 @@ export const BookingTable = ({ data }) => {
         <>
           <StyledTableContainer component={Paper}>
             <TableRow direction="column" sx={{ width: "1000px" }}>
-              <TableCell sx={{ px: 3 }}>
+              <TableCell>
                 <TableCellImg src={BodyRelaxing} />
+                {/* {data.backgroundPhoto[0]} */}
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.address}</h4>
+                <h4>
+                  <strong>{TableHead.address}</strong>
+                </h4>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.date}</h4>
-                <p>{data.orders.orderTime.date.toString().substring(0, 10)}</p>
+                <h4>
+                  <strong>{TableHead.date}</strong>
+                </h4>
+                <p>
+                  {new Intl.DateTimeFormat("en-AU", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }).format(Date.parse(data.bookingTime))}
+                </p>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.time}</h4>
-                <p>{`${data.orders.orderTime.startTime.substring(
-                  0,
-                  2
-                )}:${data.orders.orderTime.startTime.substring(2, 4)}`}</p>
+                <h4>
+                  <strong>{TableHead.time}</strong>
+                </h4>
+                <p>
+                  {new Intl.DateTimeFormat("en-AU", {
+                    hour: "2-digit",
+                    minute: "numeric",
+                    hourCycle: "h23",
+                  }).format(Date.parse(data.bookingTime))}
+                </p>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.status}</h4>
+                <h4>
+                  <strong>{TableHead.status}</strong>
+                </h4>
                 <p
                   style={{ color: data.bookingStatus ? "#7B8B6F" : "#CEA02C" }}
                 >
-                  {data.orders.bookingStatus ? "Confirmed" : "Unconfirmed"}
+                  {data.bookingStatus ? "Confirmed" : "Unconfirmed"}
                 </p>
               </TableCell>
               <TableCell sx={{ cursor: "pointer" }}>
@@ -118,10 +142,17 @@ export const BookingTable = ({ data }) => {
                     </CollapsedTitle>
                     <div>
                       <p>{data.serviceInfoId.name}</p>
-                      <p>{`${data.bookingTime.substring(
-                        0,
-                        10
-                      )} ${data.bookingTime.substring(11, 19)}`}</p>
+                      <p>{`${new Intl.DateTimeFormat("en-AU", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }).format(
+                        Date.parse(data.bookingTime)
+                      )} ${new Intl.DateTimeFormat("en-AU", {
+                        hour: "2-digit",
+                        minute: "numeric",
+                        hourCycle: "h23",
+                      }).format(Date.parse(data.bookingTime))}`}</p>
                       <p></p>
                     </div>
                   </CollapsibleTable>

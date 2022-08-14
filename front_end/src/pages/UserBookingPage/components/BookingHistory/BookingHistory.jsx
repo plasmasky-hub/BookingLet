@@ -24,10 +24,8 @@ const StyledChips = styled(Chip)`
 
 const chipItems = ["All", "Unconfirmed", "Confirmed"];
 
-export const BookingHistory = () => {
-  const userId = JSON.parse(localStorage.getItem("user"))._id;
-
-  const { data, isSuccess } = useGetOrdersQuery(userId);
+export const BookingHistory = ({ user }) => {
+  const { data, isSuccess } = useGetOrdersQuery(user._id);
 
   const [clicked, setClicked] = useState(0);
 
@@ -39,16 +37,18 @@ export const BookingHistory = () => {
       sx={{ backgroundColor: index === clicked && "#7B8B6F" }}
     ></StyledChips>
   ));
+  const orders = data?.orders;
 
   let filterOrders = isSuccess
     ? clicked === 0
-      ? data
+      ? orders
       : clicked === 1
-      ? data.filter((e) => !e.bookingStatus)
+      ? orders.filter((e) => !e.bookingStatus)
       : clicked === 2
-      ? data.filter((e) => e.bookingStatus)
-      : data.filter((e) => e.bookingStatus)
-    : "";
+      ? orders.filter((e) => e.bookingStatus)
+      : orders.filter((e) => e.bookingStatus)
+    : [];
+
   if (!filterOrders) return <>no orders</>;
   if (filterOrders === "") return <>no orders</>;
 
@@ -67,7 +67,7 @@ export const BookingHistory = () => {
             {statusIndicator}
           </Stack>
           {filterOrders.map((order) => (
-            <BookingTable data={order} key={order.id} />
+            <BookingTable data={order} key={order._id} />
           ))}
         </BookingPageWrapper>
       )}
