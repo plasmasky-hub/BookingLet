@@ -1,14 +1,14 @@
-import styled from '@emotion/styled';
-import React from 'react';
-import { useState } from 'react';
-import { Logo } from '../../shared/Logo/Logo';
-import { UserPanel } from './UserPanel';
-import { LoginModal } from '../SignIn/Login';
-import { RegisterModal } from '../SignIn/Register';
+import styled from "@emotion/styled";
+import React from "react";
+import { useState } from "react";
+import { Logo } from "../../shared/Logo/Logo";
+import { UserPanel } from "./UserPanel";
+import { LoginModal } from "../SignIn/Login";
+import { RegisterModal } from "../SignIn/Register";
 
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
 
-import { Box, Button, Modal } from '@mui/material';
+import { Box, Button, Modal } from "@mui/material";
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -72,8 +72,8 @@ const Header = () => {
 
   // await localStorage.setItem('loggedIn', loggedIn);
 
-  async function changeLoggedIn (props) {
-    await localStorage.setItem('loggedIn', props);
+  async function changeLoggedIn(props) {
+    await localStorage.setItem("loggedIn", props);
     setLoggedIn(props);
   }
 
@@ -147,6 +147,8 @@ const Header = () => {
           </Modal>
         </ButtonWrapper>
       )}
+      {setLoggedIn === true && <UserPanel />}
+      {setLoggedIn === false && <ButtonWrapper />}
     </StyledHeader>
   );
 };
