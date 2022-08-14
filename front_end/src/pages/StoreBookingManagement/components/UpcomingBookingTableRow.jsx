@@ -65,11 +65,11 @@ const CollapsibleTableRowWrapper = styled.div`
   min-width: 1000px;
   width: 100%;
   height: 90px;
-  padding: 20px 0;
+  padding-top: 10px;
   background-color: #8e8e8e;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: start;
   color: #fff;
   box-shadow: inset 1px 1px 15px rgba(0, 0, 0, 0.5);
@@ -127,13 +127,13 @@ const StyledCollapedTableRowText = styled.p`
   font-weight: 400;
 `;
 
-const useStyles = makeStyles((theme) => ({
-  TableRow: {
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "colomn",
-    },
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   TableRow: {
+//     [theme.breakpoints.down("sm")]: {
+//       flexDirection: "colomn",
+//     },
+//   },
+// }));
 
 export const UpcomingBookingTableRow = ({ data }) => {
   const [open, setOpen] = useState(false);
