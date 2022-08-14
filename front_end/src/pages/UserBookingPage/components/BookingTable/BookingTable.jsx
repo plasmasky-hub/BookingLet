@@ -1,7 +1,16 @@
 import styled from "@emotion/styled";
-import { Box, TableRow, TableCell, Paper, Collapse } from "@mui/material";
+import {
+  Box,
+  TableRow,
+  TableCell,
+  Paper,
+  Collapse,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
-import BodyRelaxing from "../../../../assets/BodyRelaxing.png";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const StyledTableContainer = styled(Box)`
   min-width: 1000px;
@@ -25,6 +34,17 @@ const TableHead = {
   time: "Time",
   status: "Status",
 };
+
+const ShowDetailsWrapper = styled.div`
+  width: 75px;
+  height: 18px;
+  color: #8e8e8e;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+`;
 
 const CollapsibleTableWrapper = styled(Box)`
   min-width: 1000px;
@@ -62,7 +82,6 @@ const CollapsedNotice = styled(Box)`
 
 export const BookingTable = ({ data }) => {
   const [open, setOpen] = useState(false);
-  console.log(data);
 
   const handleClick = () => {
     setOpen(!open);
@@ -75,8 +94,7 @@ export const BookingTable = ({ data }) => {
           <StyledTableContainer component={Paper}>
             <TableRow direction="column" sx={{ width: "1000px" }}>
               <TableCell>
-                <TableCellImg src={BodyRelaxing} />
-                {/* {data.backgroundPhoto[0]} */}
+                <TableCellImg src={data.storeId.photo[0]} />
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
                 <h4>
@@ -118,7 +136,19 @@ export const BookingTable = ({ data }) => {
                 </p>
               </TableCell>
               <TableCell sx={{ cursor: "pointer" }}>
-                <p onClick={handleClick}>Order detail</p>
+                <ShowDetailsWrapper
+                  onClick={handleClick}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton aria-label="expand row" size="small">
+                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                  </IconButton>
+                  <Typography>Details</Typography>
+                </ShowDetailsWrapper>
               </TableCell>
             </TableRow>
             <TableRow>

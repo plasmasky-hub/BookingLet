@@ -1,8 +1,7 @@
 import UserBookingPageHeader from "../../../../assets/UserBookingPageHeader.png";
 import styled from "@emotion/styled";
 import { Avatar, Box, Grid } from "@mui/material";
-// import { useGetUserQuery } from "../../../../store/api/userApi";
-// import { BookingHistory } from "../BookingHistory/BookingHistory";
+import { Link } from "react-router-dom";
 
 const UserBookingPageWrapper = styled(Box)({
   minWidth: "1000px",
@@ -81,9 +80,15 @@ export const UserBookingHeader = ({ user }) => {
                 <strong>{UserDataArr[2]}</strong>: {user.location?.state}
               </span>
             </UserInfoContent>
-            <UploadButton variant="outlined" component="span">
-              Upload My Profile
-            </UploadButton>
+            <Link to={"/Personal Setting"}>
+              <UploadButton
+                variant="outlined"
+                component="span"
+                style={{ color: "#000" }}
+              >
+                Update My Profile
+              </UploadButton>
+            </Link>
           </UserInfoBox>
         </ProfileWrapper>
       </UserPageHeader>
