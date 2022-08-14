@@ -8,7 +8,10 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useGetFavouriteStoreByIdQuery } from "../../../../store/api/userApi";
 import { useParams } from "react-router-dom";
-import dinning from "../../../../assets/dining.jpeg";
+
+
+// import dinning from "../../../../assets/dining.jpeg";
+
 
 const CategoryWrapper = styled.div`
   position: relative;
@@ -17,9 +20,13 @@ const CategoryWrapper = styled.div`
   flex-direction: column;
   background: rgba(217, 217, 217, 0.4);
 `;
+
+
+
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
+  
   "&:not(:last-child)": {
     borderBottom: 0,
   },
@@ -28,9 +35,11 @@ const Accordion = styled((props) => (
   },
 }));
 
+
+
 const AccordionSummary = styled(MuiAccordionSummary)`
   text-transform: uppercase;
-  background-image: url(${dinning});
+  background-color: rgba(0,0,0,0.4);
   background-repeat: no-repeat;
   background-size: cover;
   height: 90px;
@@ -40,7 +49,6 @@ const AccordionSummary = styled(MuiAccordionSummary)`
 const AccordionDetails = styled(MuiAccordionDetails)`
   background: rgba(217, 217, 217);
   /* opacity: 0.4; */
-
   /* background-color: rgba(217, 217, 217, 0.4); */
 `;
 
@@ -48,7 +56,6 @@ const FavouriteStore = ({ category }) => {
   // const cardData = useGetStoresQuery();
   let { _id } = useParams();
   const cardData = useGetFavouriteStoreByIdQuery(_id);
-
   const { data: favoriteStores, isSuccess, error } = cardData;
 
   const filteredStore = isSuccess
@@ -59,17 +66,25 @@ const FavouriteStore = ({ category }) => {
 
   return (
     <CategoryWrapper>
-      <Accordion>
+ 
+      <Accordion >
+      <div style={{background:'rgba(0,0,0,0.5)',width:'1159px',height:'90px',overflow:'hidden',zIndex:'99'}}>
         <AccordionSummary
           id="banner1"
           aria-controls="banner1-content"
-          sx={{ boxShadow: 3}}
-          expandIcon={<ExpandMoreIcon fontSize="24px" sx={{ color: "#fff" }} />}
+          // sx={{borderRadius:'16px'}}
+          style={{backgroundImage:`url(${category.photo})`}}
         >
-          <Typography fontSize="24px" sx={{ color: "#fff" }}>
-            {category.name}
+        
+        <div style={{background:'rgba(0,0,0,0.4)',width:'1159px',height:'90px',overflow:'hidden'}}>
+          <Typography fontSize="27px" sx={{ color: "#fff",marginTop:'20px',marginLeft:'40px'}}>
+            {category.name} 
+            <ExpandMoreIcon fontSize="24px" sx={{color:"#fff"}}/>
           </Typography>
+        </div>
+      
         </AccordionSummary>
+        </div>
         <AccordionDetails>
           <div>
             {isSuccess ? (
@@ -79,7 +94,9 @@ const FavouriteStore = ({ category }) => {
             )}
           </div>
         </AccordionDetails>
+
       </Accordion>
+  
     </CategoryWrapper>
   );
 };
