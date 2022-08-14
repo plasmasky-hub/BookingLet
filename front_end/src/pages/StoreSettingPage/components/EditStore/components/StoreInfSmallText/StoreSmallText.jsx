@@ -29,14 +29,22 @@ const Text = styled(TextField)`
   margin-top: 15px;
 `;
 
-const StoreSmallText = () => (
+const StoreSmallText = (
+  {city,Form,setForm}
+) => (
   <Fragment>
     {/* <StoreName>City</StoreName> */}
     <Text
       hiddenLabel
       id="input-with-icon-textfield"
-      defaultValue="Sydney"
+      defaultValue={city}
       variant="filled"
+      onChange={(e) =>
+        setForm({
+          ...Form,
+          city: e.target.value,
+        })
+      }
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
