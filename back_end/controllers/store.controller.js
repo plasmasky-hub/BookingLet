@@ -1,8 +1,10 @@
 const Store = require('../models/store');
 const ServiceInfo = require('../models/serviceInfo');
+const SubCategory = require('../models/subCategory');
 const User = require('../models/user');
 const { getDayOfWeek, checkDateFormat } = require('./calendar.controller');
 const Joi = require('joi');
+const { array } = require('joi');
 
 
 /** 
@@ -429,7 +431,8 @@ async function addStore(req, res) {
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
     const { name, owner, tel, location, description, rootCategories } = validatedData;  //= req.body;
-    const store = new Store({ name, owner, tel, location, description, rootCategories });
+    const photo = ['https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/default.jpg'];
+    const store = new Store({ name, owner, tel, location, description, rootCategories, photo });
     await store.save();
 
     const user = await User.findById(owner).exec();
@@ -479,6 +482,7 @@ async function addStore(req, res) {
  *                      
 */
 async function updateStoreById(req, res) {
+    console.log(req.body);
     const validatedData = await checkStoreUpdate(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
@@ -588,13 +592,138 @@ async function checkStoreUpdate(data) {
 }
 
 
+let backgroundGroup = [
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/yoga.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/weeding.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/tattoo3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/tattoo2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/tattoo1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/tabletennis.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/roomescape2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/roomescape1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pool2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pool1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pool.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pet3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pet2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/movinghouse.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/massage3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/massage2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/massage1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/manicure4.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/manicure3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pet1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/manicure2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/manicure1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/karaoke3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/karaoke2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/karaoke1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/housekeepingmaintenance3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/housekeepingmaintenance2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/gym3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/gym2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/gym1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/gokart.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/gaming2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/gaming1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/housekeepingmaintenance1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/dancing.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/boxing2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/boxing1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/basketball.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/alternativemedicine3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/alternativemedicine2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/alternativemedicine1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pizza3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pizza2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/westernfood4.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/westernfood3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/westernfood2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/westernfood1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/snacks2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/snacks1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/pizza1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/localfood3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/localfood2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/localfood1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/hamburger3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/hamburger1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/frenchfood3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/frenchfood2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/frenchfood1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/fastfood3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/fastfood2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/fastfood1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/chinesefood3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/chinesefood1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/bread2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/bread1.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/asianfood3.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/asianfood2.jpg',
+    'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/asianfood1.jpg'
+];
+let defaultPic = 'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/default.jpg'
+
 async function addPhotoToStore(req, res) {
-    const { storeId, photoURL } = req.body;
-    const store = await Store.findById(storeId).exec();
-    if (!store) { return res.json('store not found (p1)') }
-    store.photo.addToSet(photoURL);
-    store.save()
-    res.json(store)
+    await Store.aggregate([
+        {
+            $lookup:
+            {
+                from: "serviceinfos",
+                localField: "serviceInfos",
+                foreignField: "_id",
+                as: "serviceInfoDetails"
+            }
+        },
+        {
+            $match: {
+                $and:
+                    [
+                        { isDiscard: false },
+                        { serviceInfos: { $ne: [] } }
+                    ]
+            }
+        },
+    ]).then((stores) => {
+        stores.forEach(async (store) => {
+            const foodArr = ['westernfood', 'frenchfood', 'asianfood', 'bread', 'fastfood', 'snacks', 'pizza', 'localfood', 'hamburger'];
+            const subCategoryId = store.serviceInfoDetails[0].subCategories[0];
+            const subCategory = await SubCategory.findById(subCategoryId).exec();
+            const storeInstance = await Store.findById(store._id).exec();
+
+            if (subCategory) {
+                storeInstance.backgroundPhoto = 'no picture found';                               //error store id: 62d58f14f0cb496848ef9da0 Moving Speedy
+                const storeSubCateName0 = subCategory.name;
+                let storeSubCateName = storeSubCateName0.toLowerCase().split(' ').join('');
+
+                if (storeSubCateName === 'petgrooming' || storeSubCateName === 'petmedical') { storeSubCateName = 'pet' };
+                if (storeSubCateName === 'chinesefood') { storeSubCateName = foodArr[Math.floor((Math.random() * foodArr.length))] };
+
+                console.log(storeSubCateName)
+                picIndex = backgroundGroup.findIndex(element => element.search(storeSubCateName) !== -1)
+
+                while (picIndex === -1) {
+                    storeSubCateName = foodArr[Math.floor((Math.random() * foodArr.length))];
+                    picIndex = backgroundGroup.findIndex(element => element.search(storeSubCateName) !== -1);
+                }
+
+                if (picIndex === -1) {
+                    console.log('no picture');
+                } else {
+                    console.log(backgroundGroup[picIndex]);
+                    storeInstance.backgroundPhoto = backgroundGroup[picIndex];
+                    backgroundGroup.splice(picIndex, 1);
+                }
+                await storeInstance.save();
+            }
+        })
+        res.json(stores)
+    }).catch((error) => {
+        res.json(error)
+    })
+
+
+
 }
 
 

@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 // `;
 
 const Layout = styled(Box)({
-  minWidth: 1240,
+  width: 1240,
   background:
     'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
 });

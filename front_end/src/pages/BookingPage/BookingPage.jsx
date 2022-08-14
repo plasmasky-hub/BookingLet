@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Banner from './components/Banner';
 import StoreInfo from './components/StoreInfo';
 import BookingPanel from './components/BookingPanel/BookingPanel';
 import { useParams } from 'react-router-dom';
@@ -24,6 +23,13 @@ const StoreInfoWrapper = styled.div`
   align-items: flex-start;
 `;
 
+const Banner = styled.div`
+  width: 100%;
+  height: 256px;
+  background-size: cover;
+  border-radius: 10px 10px 0 0;
+`;
+
 const BookingPage = () => {
   let { _id } = useParams();
   const storeData = useGetStoreQuery(_id);
@@ -45,7 +51,7 @@ const BookingPage = () => {
                 'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
             }}
           >
-            <Banner />
+            <Banner style={{ backgroundImage: `url(${data.photo[0]})` }} />
             <StoreInfoWrapper>
               <StoreInfo store={data} id={_id} />
               <BookingPanel id={_id} />
