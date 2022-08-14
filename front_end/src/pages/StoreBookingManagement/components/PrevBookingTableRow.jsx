@@ -65,16 +65,25 @@ export const PrevBookingTableRow = ({ data }) => {
                   <h4>
                     <strong>{itemTitle[0]}</strong>
                   </h4>
-                  <p>{data.orderTime.date.toString().substring(0, 10)}</p>
+                  <p>
+                    {new Intl.DateTimeFormat("en-AU", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    }).format(Date.parse(data.bookingTime))}
+                  </p>
                 </TableCell>
                 <TableCell>
                   <h4>
                     <strong>{itemTitle[1]}</strong>
                   </h4>
-                  <p>{`${data.orderTime.startTime.substring(
-                    0,
-                    2
-                  )}:${data.orderTime.startTime.substring(2, 4)}`}</p>
+                  <p>
+                    {new Intl.DateTimeFormat("en-AU", {
+                      hour: "2-digit",
+                      minute: "numeric",
+                      hourCycle: "h23",
+                    }).format(Date.parse(data.bookingTime))}
+                  </p>
                 </TableCell>
                 <TableCell>
                   <h4>

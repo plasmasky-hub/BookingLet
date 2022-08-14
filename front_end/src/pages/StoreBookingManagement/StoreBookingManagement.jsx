@@ -8,7 +8,7 @@ import { useGetStoreQuery } from "../../store/api/storeApi";
 const StoreBookingWrapper = styled.div`
   min-width: 1000px;
   width: 100%;
-  height: 160vh;
+  height: 180vh;
   background-color: #e1e6ed;
   padding: 80px 80px;
   display: flex;

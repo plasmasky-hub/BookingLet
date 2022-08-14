@@ -10,8 +10,8 @@ import { BasicPagination } from "./Pagination";
 const UpcomingBookingWrappepr = styled.div`
   min-width: 800px;
   width: 100%;
-  height: 1000px;
-  padding: 50px 0;
+  /* height: 900px; */
+  padding: 80px 0;
   display: flex;
   flex-direction: column;
   justify-content: start;
