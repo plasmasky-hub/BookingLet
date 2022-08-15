@@ -9,6 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 import StoreInfTextEmail from "../StoreSettingPage/components/EditStore/components/StoreInfTextEmail/StoreInfTextEmail";
 import StoreInfTextTel from "../StoreSettingPage/components/EditStore/components/StoreInfTextTel/StoreInfTextTel";
 import StoreInfSmallPostcode from "../StoreSettingPage/components/EditStore/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
+import { useNavigate } from 'react-router-dom';
 import {
   useUpdateUserMutation,
   useGetUserQuery,
@@ -149,12 +150,14 @@ const PersonalForm = ({ personaldata, id }) => {
       street: Form.address1,
       postcode: Form.postcode,
     },
-    email:Form.email,
+    email: Form.email,
     name: Form.name,
     tel: Form.mobile,
   };
-  console.log(userObj,'y');
-  console.log(Form,'o');
+
+  const navigate = useNavigate();
+  console.log(userObj, "y");
+  console.log(Form, "o");
   // console.log(isSuccess && personaldata.name);
   return (
     <>
@@ -212,24 +215,28 @@ const PersonalForm = ({ personaldata, id }) => {
           & Conditions of Bookinglet */}
           </CheckboxContainer>
           <ButtonContainer>
-            <StoreInfButton left variant="contained">
-              Preview
+            <StoreInfButton
+              left
+              variant="contained"
+              onClick={() => navigate(`/LandingPage`)}
+            >
+              Back
             </StoreInfButton>
 
             <StoreInfButton
               variant="contained"
               onClick={() => {
-                UpdateUser({id,userObj});
-                console.log(id,'yyy')
+                UpdateUser({ id, userObj });
+                console.log(id, "yyy");
                 setForm({ ...Form });
               }}
-            //   onClick={async () => {
-            //     if (newForm) {
-            //       let r = await UpdateUser({ newForm });
-            //       // await UpdateStore({newForm,id});
-            //       console.log(r, "y");
-            //     }
-            //   }}
+              //   onClick={async () => {
+              //     if (newForm) {
+              //       let r = await UpdateUser({ newForm });
+              //       // await UpdateStore({newForm,id});
+              //       console.log(r, "y");
+              //     }
+              //   }}
             >
               Save
             </StoreInfButton>
