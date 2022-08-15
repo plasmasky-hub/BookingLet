@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const ErrorWrapper = styled.div`
   margin: 120px auto 40px auto;
@@ -26,13 +27,16 @@ const StyledButton = styled(Button)`
   color: #000;
   background-color: #fff;
   border-radius: 10px;
+  padding: 5px 15px;
 `;
 
 const ErrorHandle = () => {
   const navigate = useNavigate();
+  const LoginText = useLocation().state;
+
   return (
     <ErrorWrapper>
-      <p>Page Not Found</p>
+      <p>{LoginText || '404 - Page Not Found'}</p>
       <StyledButton onClick={() => navigate('/')}>Back To Home</StyledButton>
     </ErrorWrapper>
   );
