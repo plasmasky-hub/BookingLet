@@ -10,7 +10,6 @@ const AddIcon = ({ favoriteUsers }) => {
   if (user === '[object Object]' || user === 'null') {
     user = '';
   }
-
   const userId = user ? JSON.parse(user)._id : null;
   const add = userId && favoriteUsers.includes(userId);
   const color = add ? '#D69636' : '#fff';
