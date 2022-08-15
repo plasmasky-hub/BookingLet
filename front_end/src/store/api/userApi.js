@@ -8,6 +8,7 @@ const userApi = apiSlice.injectEndpoints({
 
     getUser: builder.query({
       query: (_id) => `/user/${_id}`,
+      providesTags: ['PersonalData'],
     }),
 
     addUser: builder.mutation({
@@ -24,6 +25,7 @@ const userApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body: userObj,
       }),
+      invalidatesTags: ['PersonalData'],
     }),
 
     getFavouriteStoreById: builder.query({

@@ -13,7 +13,8 @@ import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import Layout from './components/shared/Layout';
 import EditStore from './pages/StoreSettingPage/components/EditStore';
-import PersonalSetting from './pages/PersonalSetting';
+import PersonalSetting from './pages/PersonalSetting/PersonalSetting';
+import AddNewStore from './pages/AddNewStore';
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
             <Route
               path="/PersonalSetting"
               element={<PersonalSetting />}
+            ></Route>
+            <Route
+              path="/AddNewStore"
+              element={<AddNewStore />}
             ></Route>
 
             <Route
