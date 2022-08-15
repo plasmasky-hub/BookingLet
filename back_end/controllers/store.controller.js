@@ -427,6 +427,7 @@ async function getStoreById(req, res) {
  *                      
 */
 async function addStore(req, res) {
+    console.log(req.body);
     const validatedData = await checkStore(req.body);
     if (validatedData.error !== undefined) { return res.status(404).json(validatedData.error) };
 
