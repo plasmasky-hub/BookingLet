@@ -1,18 +1,18 @@
-import React from 'react';
-import CheckIcon from '@mui/icons-material/Check';
-import styled from '@emotion/styled';
-import { MenuItem } from '@mui/material';
-import StyledTextField from './StyledTextField';
-import FlexWrapper from './FlexWrapper';
-import 'antd/dist/antd.min.css';
-import { TimePicker } from 'antd';
+import React from "react";
+import CheckIcon from "@mui/icons-material/Check";
+import styled from "@emotion/styled";
+import { MenuItem } from "@mui/material";
+import StyledTextField from "./StyledTextField";
+import FlexWrapper from "./FlexWrapper";
+import "antd/dist/antd.min.css";
+import { TimePicker } from "antd";
 import {
   useGetBusinessTimeQuery,
   useGetChartDateQuery,
-} from '../../../../store/api/calendarApi';
-import { Bar } from 'react-chartjs-2';
+} from "../../../../store/api/calendarApi";
+import { Bar } from "react-chartjs-2";
 // eslint-disable-next-line no-unused-vars
-import { Chart } from 'chart.js/auto';
+import { Chart } from "chart.js/auto";
 
 const Title = styled.p`
   font-size: 14px;
@@ -72,7 +72,7 @@ const Step2 = ({ FormData, setFormData }) => {
         .filter((e) => e.availability === true)
         .map((e) => e.timeSlice)
     : null;
-  console.log('data:', data, 'chartData:', chartData);
+  console.log("data:", data, "chartData:", chartData);
   /*******************************************************/
   //Bar Chart
   /*******************************************************/
@@ -81,10 +81,10 @@ const Step2 = ({ FormData, setFormData }) => {
   if (success) {
     color = chartData.colorArr.map((e) =>
       e === true
-        ? 'rgba(75,192,192,1)'
+        ? "rgba(75,192,192,1)"
         : e === false
-        ? 'rgba(153, 39, 61, 0.8)'
-        : 'rgba(229, 221, 221, 0.8)'
+        ? "rgba(153, 39, 61, 0.8)"
+        : "rgba(229, 221, 221, 0.8)"
     );
     label = chartData.labelArr.map((el) => {
       return el < 10
@@ -102,7 +102,7 @@ const Step2 = ({ FormData, setFormData }) => {
     labels: label,
     datasets: [
       {
-        label: '',
+        label: "",
         backgroundColor: color,
         data: stateData,
       },
@@ -128,9 +128,9 @@ const Step2 = ({ FormData, setFormData }) => {
   };
 
   const endTime =
-    startHour && FormData.duration && FormData.duration !== 'unlimited'
+    startHour && FormData.duration && FormData.duration !== "unlimited"
       ? showEndTime(startHour, startMinute, FormData.duration)
-      : '';
+      : "";
   /*******************************************************/
   //Disabled Time
   /*******************************************************/
@@ -138,11 +138,11 @@ const Step2 = ({ FormData, setFormData }) => {
   const getDisabledTime = () => {
     let businessTimeArr;
 
-    if (durationInfo.durationType === 'unlimited') {
+    if (durationInfo.durationType === "unlimited") {
       businessTimeArr = dbBusinessTimeArr;
     }
 
-    if (durationInfo.durationType === 'changeable' || 'fixed') {
+    if (durationInfo.durationType === "changeable" || "fixed") {
       const getEndTime = (start, duration) => {
         const m = (start % 100) + duration * 60;
         return (
@@ -152,7 +152,7 @@ const Step2 = ({ FormData, setFormData }) => {
 
       // need to improve or delete
       const duration =
-        durationInfo.durationType === 'fixed'
+        durationInfo.durationType === "fixed"
           ? durationInfo.fixedDuration
           : FormData.duration;
 
@@ -201,7 +201,7 @@ const Step2 = ({ FormData, setFormData }) => {
 
       return newElement;
     });
-    return filteredDayTimeSliceArr.map((el) => el.split(':').map(Number));
+    return filteredDayTimeSliceArr.map((el) => el.split(":").map(Number));
   };
 
   const getDisableHour = () => {
@@ -232,7 +232,7 @@ const Step2 = ({ FormData, setFormData }) => {
   const getDurationArr = () => {
     let changeableArr = [];
     let minimum, maximum;
-    if (durationInfo.durationType === 'changeable') {
+    if (durationInfo.durationType === "changeable") {
       minimum = durationInfo.changeableDuration.minimum;
       maximum = durationInfo.changeableDuration.maximum;
       for (let i = minimum; i <= maximum; i += 0.25) changeableArr.push(i);
@@ -240,17 +240,17 @@ const Step2 = ({ FormData, setFormData }) => {
       if (FormData.startTime) {
         changeableArr = changeableArr.filter((el) => {
           const endTimeStr = showEndTime(startHour, startMinute, el);
-          const endTimeNum = parseInt(endTimeStr.replace(':', ''));
+          const endTimeNum = parseInt(endTimeStr.replace(":", ""));
           return dbBusinessTimeArr.includes(endTimeNum) || el === minimum;
         });
       }
     }
 
-    return durationInfo.durationType === 'unlimited'
-      ? ['unlimited']
-      : durationInfo.durationType === 'fixed'
+    return durationInfo.durationType === "unlimited"
+      ? ["unlimited"]
+      : durationInfo.durationType === "fixed"
       ? [durationInfo.fixedDuration]
-      : durationInfo.durationType === 'changeable'
+      : durationInfo.durationType === "changeable"
       ? changeableArr
       : null;
   };
@@ -279,7 +279,7 @@ const Step2 = ({ FormData, setFormData }) => {
           })
         }
         hideDisabledOptions
-        style={{ marginBottom: '20px', width: '100%' }}
+        style={{ marginBottom: "20px", width: "100%" }}
         variant="standard"
       />
 
@@ -299,9 +299,9 @@ const Step2 = ({ FormData, setFormData }) => {
         {isSuccess ? (
           getDurationArr().map((e) => (
             <MenuItem key={e} value={e} className="menuItem">
-              {e !== 'unlimited'
+              {e !== "unlimited"
                 ? `${Math.floor(e / 1)} hour ${
-                    (e % 1) * 60 === 0 ? '' : (e % 1) * 60 + ' minutes'
+                    (e % 1) * 60 === 0 ? "" : (e % 1) * 60 + " minutes"
                   }`
                 : e}
             </MenuItem>

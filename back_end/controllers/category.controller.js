@@ -67,6 +67,15 @@ const Joi = require('joi')
 async function getAllRootCategories(req, res) {
     const rootCategories = await RootCategory.find({ isDiscard: false }).exec();
     res.json(rootCategories);
+
+    /*
+    const rootCategories = await RootCategory.find({ isDiscard: false }).exec();
+    rootCategories.map((e)=>{
+        e.backgroundPhoto = '123';
+        e.save()
+    })
+    res.json(rootCategories);
+    */
 }
 
 

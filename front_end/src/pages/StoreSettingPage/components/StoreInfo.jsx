@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { Paper, Button } from '@mui/material';
 
 const StoreInfoWrapper = styled(Paper)`
-  width: 558px;
+  width: 470px;
   background-color: #fbfbfb;
-  padding: 60px 60px;
+  padding: 60px 40px;
 `;
 
 const Title = styled.p`
@@ -61,7 +61,7 @@ const StoreInfo = ({
           onClick={() =>
             setDisplay({
               ...display,
-              StoreSetting: true,
+              EditStore: true,
               StoreInfo: false,
               ServiceList: false,
               ServiceInfo: false,

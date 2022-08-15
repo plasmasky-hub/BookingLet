@@ -4,11 +4,12 @@ const storeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getStores: builder.query({
       query: (q) => `/store${q}`,
+      providesTags: ['Favorite'],
     }),
 
     getStore: builder.query({
       query: (_id) => `/store/${_id}`,
-      providesTags: ['Calendar'],
+      providesTags: ['Calendar', 'Favorite' , 'Store'],
     }),
 
     addStore: builder.mutation({
@@ -20,11 +21,12 @@ const storeApi = apiSlice.injectEndpoints({
     }),
 
     updateStore: builder.mutation({
-      query: (store) => ({
-        url: `/store/${store.id}`,
+      query: ({newForm,id}) => ({
+        url: `/store/${id}`,
         method: 'PUT',
-        body: store,
+        body: {...newForm},
       }),
+      invalidatesTags: ['Store'],
     }),
 
     deleteStore: builder.mutation({
