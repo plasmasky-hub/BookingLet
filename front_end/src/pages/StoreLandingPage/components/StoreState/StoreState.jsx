@@ -5,29 +5,17 @@ import foodBg from '../../../../assets/foodBg.jpeg';
 import {useGetUserStoresQuery} from '../../../../store/api/userApi';
 
 
-const StoreInfoWrapper = styled.div`
-    width:100%;
-    background-color: #aabb9d;
-    display:flex;
-    justify-content: center;
-    align-items:center;
-    
-`
-const StoreInfoContainer = styled.div`
-    display:relative;
-    margin-top: 50px;
-    width: 90%;
-    margin-left:-70x;
-    .h2{
-        font-family: 'Helvetica';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 26px;
-        color: #000000;
 
-    }
-    
+const StoreInfoContainer = styled.div`
+    display:absolute;
+    width: 90%;
+    /* margin-left:-70x; */
+    margin: auto;
+    background-color:#ffffff58;
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top:-30px;
 `
 
 const StoreContainer = styled.div`
@@ -37,11 +25,10 @@ const StoreContainer = styled.div`
     align-items:center;
     justify-content:center;
     margin:20px auto;
-    padding: 30px;
+    padding: 25px;
     //filter: brightness(50%);
     background-size: cover;
-    border-radius: 10px;
-    border-radius:32px;
+    border-radius:10px;
     box-shadow: 0 0 16px rgb(0 0 0 / 50%);
     .hr{
         border-top: 0.8px solid #a4a4a4;
@@ -67,9 +54,7 @@ const StoreContainer = styled.div`
     // const StoreContainers = 
 
     return ( 
-        <StoreInfoWrapper>
             <StoreInfoContainer>
-            <h2>Opened Stores</h2>
             {isError && <p>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {isSuccess && (
@@ -85,9 +70,8 @@ const StoreContainer = styled.div`
                 
             )}
             
-            <h2>Closed Stores</h2>
             </StoreInfoContainer>
-        </StoreInfoWrapper>
+        
      );
 }
  

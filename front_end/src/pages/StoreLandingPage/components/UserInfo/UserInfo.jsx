@@ -9,6 +9,7 @@ const UserInfoWrapper = styled.div`
     background-image:url(${homebg});
     background-size: cover;
     margin-top:124px;
+    display:absolute;
   
 
 `

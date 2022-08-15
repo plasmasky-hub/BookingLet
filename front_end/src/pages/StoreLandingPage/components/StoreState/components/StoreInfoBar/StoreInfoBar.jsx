@@ -9,6 +9,7 @@ const StoreInfoBarWrapper =styled.div`
     justify-content:space-between;
     color:#FFFFFF;
     position: relative;
+    font-size:14px;
 `
 const VerticalDivider = styled.div`
     width:2px;
@@ -21,13 +22,13 @@ const NameAndCateory = styled.div`
     font-family: 'Helvetica';
     font-style: normal;
     color: #FFFFFF;
+    margin-bottom:10px;
 `
 
 const StoreName =styled.div`
-    font-weight: 700;
+    font-weight: 600;
     font-size: 24px;
     line-height: 32px;
-    
 `
 
 const StoreCategory = styled.div`
@@ -35,6 +36,7 @@ const StoreCategory = styled.div`
     font-size: 15px;
     line-height: 20px;
     text-align:center;
+    padding-top:10px;
 `
 
 const StoreInfoBar = ({storeId}) =>{
@@ -67,12 +69,10 @@ return (
                 <VerticalDivider />
                 <StoreCategory> {makeCategoryName(store.rootCategories)}</StoreCategory>
                 </NameAndCateory>
-                    <div>{makeAddress(store.location.street)},{makeAddress(store.location.suburb)},{makeAddress(store.location.city)},{makeAddress(store.location.state)},{makeAddress(store.location.postcode)}</div>
+                    <i>{makeAddress(store.location.street)},{makeAddress(store.location.suburb)},{makeAddress(store.location.city)},{makeAddress(store.location.state)},{makeAddress(store.location.postcode)}</i>
             </div>
         )}
-        <FormControlLabel 
-        control={<Switch defaultChecked color="buttonOrange" />} 
-        label="current status" />
+        
     </StoreInfoBarWrapper>
 )};
  

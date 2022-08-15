@@ -6,6 +6,7 @@ import StoreState from "./components/StoreState/StoreState";
 const PageContainer = styled.div`
     margin: 0 auto;
     justify-content:center;
+    display:relative;
 `
 
 const StoreLandingPage = () => {

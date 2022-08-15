@@ -10,9 +10,10 @@ const OrdersWrapper = styled.div`
 `;
 
 const ViewAndEditButton = styled.div`
-  width: 90%;
+  /* width: 90%; */
   display: flex;
   justify-content: flex-end;
+  padding-top:50px;
 `;
 
 const ViewStoreButton = styled(Button)`
@@ -21,12 +22,14 @@ const ViewStoreButton = styled(Button)`
   width: 25%;
   font-family: "Helvetica";
   justify-items: end;
+  margin-right:0px;
 `;
 
 const EditStoreInfoButton = styled(Button)`
   width: 60%;
   height: 37px;
   width: 25%;
+  
 `;
 const OrderStatus = (props) => {
   const navigate = useNavigate();
@@ -39,7 +42,7 @@ const OrderStatus = (props) => {
 
       <ViewAndEditButton>
         <EditStoreInfoButton
-          sx={{ mr: 2, textTransform: "capitalize" }}
+          sx={{ mr: 2, textTransform: "capitalize", borderRadius: 3 }}
           variant="contained"
           color="buttonBlue"
           onClick={() => navigate(`/StoreSettingPage/${props.storeId}`)}
@@ -47,7 +50,7 @@ const OrderStatus = (props) => {
           Edit Store Information
         </EditStoreInfoButton>
         <ViewStoreButton
-          sx={{ textTransform: "capitalize" }}
+          sx={{ textTransform: "capitalize", borderRadius:3}}
           variant="contained"
           color="buttonOrange"
           onClick={() => navigate(`/StoreBookingManagement/${props.storeId}`)}
