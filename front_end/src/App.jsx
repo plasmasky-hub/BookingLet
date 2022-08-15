@@ -42,30 +42,6 @@ function App() {
             <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
             <Route path="/TeamPage" element={<TeamPage />}></Route>
             <Route path="/EditStore" element={<EditStore />}></Route>
-<<<<<<< HEAD
-=======
-            <Route
-              path="/PersonalSetting"
-              element={<PersonalSetting />}
-            ></Route>
-            <Route
-              path="/StoreBookingManagement/:id"
-              element={<StoreBookingManagement />}
-            ></Route>
-
-            <Route
-              path="/UserBookingPage/"
-              element={<UserBookingPage />}
-            ></Route>
-            <Route
-              path="/FavouriteStoreListPage/:_id"
-              element={<FavouriteStoreListPage />}
-            ></Route>
-            <Route
-              path="/StoreSettingPage/:id"
-              element={<StoreSettingPage />}
-            ></Route>
->>>>>>> 3df26600810d28e5d797ad136c29b4ca10e11abf
             <Route path="/*" element={<ErrorHandle />}></Route>
           </Routes>
         </Layout>
