@@ -27,6 +27,7 @@ async function addUser(req, res) {
 
 
 async function updateUserByID(req, res) {
+  console.log(req.body,'ooo');
   if (req.body.location.state === undefined || req.body.location.city === undefined || req.body.location.postcode === undefined) {
     return res.json('location cannot be null');
   } else if (req.body.location.postcode < 200 || req.body.location.postcode > 9999) {
@@ -59,19 +60,19 @@ async function getUserByID(req, res) {
     });
   }
 
-  /*
-  switch (user.location.state) {
-    case 'NSW': user.location.state = 1; break;
-    case 'VIC': user.location.state = 2; break;
-    case 'SA': user.location.state = 3; break;
-    case 'TAS': user.location.state = 4; break;
-    case 'WA': user.location.state = 5; break;
-    case 'NT': user.location.state = 6; break;
-    case 'ACT': user.location.state = 7; break;
-    case 'QSL': user.location.state = 8; break;
-    default: user.location.state = null;
-  }
-  */
+  
+    // switch (user.location.state) {
+    //     case 'NSW': user.location.state = 1; break;
+    //     case 'VIC': user.location.state = 2; break;
+    //     case 'SA': user.location.state = 3; break;
+    //     case 'TAS': user.location.state = 4; break;
+    //     case 'WA': user.location.state = 5; break;
+    //     case 'NT': user.location.state = 6; break;
+    //     case 'ACT': user.location.state = 7; break;
+    //     case 'QSL': user.location.state = 8; break;
+    //     default: user.location.state = null;
+    // }
+
 
   res.json(user);
 }
