@@ -59,6 +59,7 @@ async function getUserByID(req, res) {
       error: 'User info not found!'
     });
   }
+
   
     // switch (user.location.state) {
     //     case 'NSW': user.location.state = 1; break;
@@ -71,6 +72,7 @@ async function getUserByID(req, res) {
     //     case 'QSL': user.location.state = 8; break;
     //     default: user.location.state = null;
     // }
+
 
   res.json(user);
 }
@@ -90,17 +92,17 @@ async function deleteUserByID(req, res) {
 }
 
 async function getUserStores(req, res) {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    console.log("🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user", user)
+  const { id } = req.params;
+  const user = await User.findById(id);
+  console.log("🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user", user)
 
-    if (!user) {
-      return res.status(404).json({ error: 'User info not found!' });
-    }
+  if (!user) {
+    return res.status(404).json({ error: 'User info not found!' });
+  }
 
-    const userStores = await User.findById(id).populate('stores').exec();
-    res.json(userStores);
-  
+  const userStores = await User.findById(id).populate('stores').exec();
+  res.json(userStores);
+
 }
 
 
