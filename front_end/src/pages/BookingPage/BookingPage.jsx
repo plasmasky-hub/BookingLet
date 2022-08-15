@@ -51,7 +51,9 @@ const BookingPage = () => {
                 'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
             }}
           >
-            <Banner style={{ backgroundImage: `url(${data.photo[0]})` }} />
+            <Banner
+              style={{ backgroundImage: `url(${data.backgroundPhoto})` }}
+            />
             <StoreInfoWrapper>
               <StoreInfo store={data} id={_id} />
               <BookingPanel id={_id} />
