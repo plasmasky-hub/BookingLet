@@ -13,7 +13,7 @@ import { useGetStoresQuery } from '../../store/api/storeApi';
 
 const ServicesPanel = styled(Box)({
   background:
-    'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
+    'linear-gradient(to bottom right,rgba(87, 183, 191,1), rgb(198, 214, 217))',
 });
 
 const TestimonyImg = styled(Box)({
@@ -55,7 +55,7 @@ const LandingPage = () => {
             justifyContent: 'center',
             alignItems: 'center',
             background:
-              'linear-gradient(249.64deg, rgba(89, 96, 107, 0.352) 0%, rgba(187, 200, 148, 0.4) 99.48%)',
+              'linear-gradient(to bottom right,rgba(87, 183, 191,1), rgb(198, 214, 217))',
           }}
         >
           <Box
