@@ -40,8 +40,8 @@ const OrderStatus = (props) =>{
 
     return(
     <OrdersWrapper>
-        <div>
-           Orders: {orderSize}</div>
+        <div style={{color:'#FA8279'}}>
+          {orderSize} New bookings need to be confirmed now</div>
         <div>12 Coming bookings today</div>
 
         <ViewAndEditButton>

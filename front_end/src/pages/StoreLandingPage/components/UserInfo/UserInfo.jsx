@@ -9,7 +9,7 @@ const UserInfoWrapper = styled.div`
     /* width: 80vw; */
     /* background-image:url(${homebg}); */
     /* background-size: cover; */
-    margin-top:124px;
+    /* margin-top:20px; */
     border-radius: 20px;
     backdrop-filter: blur(8px);
     background-color: #ffffff7b;

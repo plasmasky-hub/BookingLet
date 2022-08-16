@@ -19,7 +19,7 @@ const StyledLogo = styled(Box)`
 
   img {
     /* height: 34px; */
-    width: 100%;
+    width: 10%;
   }
 `;
 
