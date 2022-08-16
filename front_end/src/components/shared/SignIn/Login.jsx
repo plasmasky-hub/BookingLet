@@ -7,7 +7,7 @@ import loginImg from '../../../assets/loginImg.png';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { useEffect } from 'react';
-// import theme from '../../../theme';
+import { useTheme } from '@emotion/react';
 
 import { useLoginMutation } from '../../../store/api/userApi';
 
@@ -23,29 +23,43 @@ import {
   Link,
   Checkbox,
   FormControlLabel,
+  useMediaQuery,
 } from '@mui/material';
 
 // const newtheme = { ...theme };
 
-const LoginModalBox = styled(Box)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  justify-content: center;
-  align-items: center;
-  transform: translate(-50%, -50%);
-  background: rgba(47, 68, 73, 0.5);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+const LoginModalBox = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  background: 'rgba(47, 68, 73, 0.5)',
+  backdropFilter: 'blur(15px)',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: '10px',
+  boxShadow: '24px',
+  color: 'white',
+  display: 'flex',
 
-  width: 900px;
-  height: 593px;
 
-  border-radius: 10px;
-  box-shadow: 24px;
+  [theme.breakpoints.down('sm')]: {
+    width: '300px',
+    height: '80vh',
+  },
+  [theme.breakpoints.between('sm', 'md')]: {
+    width: '500px',
+    height: '80vh',
+  },
+  [theme.breakpoints.between('md', 'lg')]: {
+    width: '800px',
+    // height: '500px',
+  },
+  [theme.breakpoints.up('lg')]: {
+    width: '900px',
+    // height: '503px',
+  },
 
-  color: white;
-`;
+}));
 
 const LoginFormContainer = styled(Box)`
   border-radius: 25px;
@@ -55,30 +69,50 @@ const LoginImage = styled(Box)`
   font-size: 0.6rem;
   height: 100%;
   width: 100%;
+  background-image: url(${loginImg});
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-position: center;
 
-  img {
-    height: 100%;
+  /* img {
+    // height: 100%;
     width: 100%;
     object-fit: cover;
     object-position: left;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
+  } */
 `;
-const LoginTitle = styled(Typography)`
-  color: white;
-  font-size: 35px;
-  font-weight: 600;
-  margin-top: 20px;
-  text-shadow: 1px 1px 5px black;
-`;
+const LoginTitle = styled(Typography)(({ theme }) => ({
+  color: 'white',
+  fontSize: '35px',
+  fontWeight: '600',
+  marginTop: '20px',
+  textShadow: '1px 1px 5px black',
 
-const LoginSubTitle = styled(Typography)`
-  font-size: 25px;
-  font-weight: 300;
-  margin-bottom: 10px;
-  text-shadow: 1px 0px 3px black;
-`;
+  [theme.breakpoints.down('md')]: {
+    marginTop: '0px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '0px',
+    fontSize:'26pt',
+  },
+}));
+
+const LoginSubTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '25px',
+  fontWeight: '300',
+  marginBottom: '10px',
+  textShadow: '1px 0px 3px black',
+
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '15px',
+    fontWeight: '200',
+    marginBottom: '10px',  
+  },
+}))
 
 const LoginInputField = styled(TextField)`
   margin-top: 15px;
@@ -96,20 +130,28 @@ const StaySignIn = styled(FormControlLabel)`
   width: 100%;
 `;
 
-const LoginButton = styled(Button)`
+const LoginButton = styled(Button)(({ theme }) => ({
   /* background-color: #ececea; */
-  height: 80%;
-  width: 300px;
-  font-size: 1.3rem;
-  border-radius: 5px;
-  background-color: #7b8b6f;
-`;
+  height: '80%',
+  fontSize: '1.3rem',
+  borderRadius: '5px',
+  backgroundColor: '#7b8b6f',
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
+
+}));
 
 export const LoginModal = (props) => {
   const [login, { isLoading }] = useLoginMutation();
   const [user, setUser] = useState('');
   const [token, setToken] = useState('');
   // const [isLogin, setIsLogin] = useState('false');
+
+  const theme = useTheme();
+  const showImg = useMediaQuery(theme.breakpoints.down('md'));
+
 
   const handleClickShowPassword = () => {
     formik.setValues({
@@ -198,18 +240,23 @@ export const LoginModal = (props) => {
   return (
     <LoginModalBox>
       <Grid container spacing={0} alignItems="stretch">
-        <Grid item xs={5}>
-          <LoginImage>
-            <img src={loginImg} alt="Login"></img>
-          </LoginImage>
+        <Grid item xs={0} md={5}>
+          { showImg ? null 
+          : (
+              <LoginImage>
+                {/* <img src={loginImg} alt="Login"></img> */}
+              </LoginImage>
+            )}
         </Grid>
 
         <Grid
           item
-          xs={7}
+          xs={12}
+          md={7}
           container
           direction={'column'}
-          spacing={1}
+          spcaing-md-1
+          spacing={0}
           justifyContent={'space-around'}
           // alignItems={'center'}
           sx={{ padding: 3 }}
@@ -306,21 +353,23 @@ export const LoginModal = (props) => {
           <Grid item xs={1}>
             <Grid
               container
-              spacing={1}
+              // spacing-md-1
+              spacing={0}
               direction="row"
               justifyContent="center"
+              display={'flex'}
               sx={{ mt: 2, fontStyle: 'italic' }}
             >
-              <Grid item>
+              <Grid item xs={12}>
                 <Typography> Don't have an account? </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={6}>
                 <Link onClick={converter} color="inherit">
                   {' '}
                   Register{' '}
                 </Link>
               </Grid>
-              <Grid item>
+              <Grid item xs={6}>
                 <Typography> now!</Typography>
               </Grid>
             </Grid>
