@@ -57,7 +57,7 @@ function App() {
             ></Route>
           </Routes>
         </Layout>
-        <Footer />
+        {/* <Footer /> */}
       </PageLayout>
     </BrowserRouter>
   );

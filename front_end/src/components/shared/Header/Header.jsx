@@ -7,8 +7,11 @@ import { LoginModal } from '../SignIn/Login';
 import { RegisterModal } from '../SignIn/Register';
 
 import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
-import { Box, Button, Modal } from '@mui/material';
+import { Box, Button, Modal, useMediaQuery } from '@mui/material';
+import { useTheme } from '@emotion/react';
+
 
 const StyledHeader = styled(Box)`
   width: 100vw;
@@ -26,14 +29,23 @@ const StyledHeader = styled(Box)`
   z-index: 2;
 `;
 
-const ButtonWrapper = styled(Box)`
-  width: 350px;
-  height: 36px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 80px;
-`;
+const ButtonWrapper = styled(Box)( ({ theme }) => ({
+  height: '36px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingRight: '10px',
+
+  [theme.breakpoints.down(500)]: {
+    width: '100px',
+  },
+  [theme.breakpoints.up(500)]: {
+    width: '250px',
+  },
+  [theme.breakpoints.up('md')]: {
+    paddingRight: '30px',
+  },
+}));
 
 const StyledLoginButton = styled(Button)`
   width: 135px;
@@ -70,6 +82,9 @@ const Header = () => {
   const [loginIsOpen, setLoginOpen] = useState(false);
   const [registerIsOpen, setRegisterOpen] = useState(false);
   // var token = localStorage.getItem('token');
+
+  const theme = useTheme();
+  const showIcon = useMediaQuery(theme.breakpoints.down(500));
 
   // await localStorage.setItem('loggedIn', loggedIn);
 
@@ -114,16 +129,22 @@ const Header = () => {
         <UserPanel setLoggedIn={setLoggedIn} />
       ) : (
         <ButtonWrapper>
-          <StyledLoginButton
-            variant="text"
-            startIcon={<LoginIcon />}
-            // onClick={() => loginOpen()}>
-            onClick={() => loginOpen()}
-            // callback={() => this.loginCallback()}
-          >
-            Log in
-          </StyledLoginButton>
-
+          { showIcon ? (
+            <LoginIcon fontSize = 'large'  onClick={() => loginOpen()}/>
+          ) : (
+            <>
+              <StyledLoginButton
+                variant="text"
+                startIcon={<LoginIcon />}
+                // onClick={() => loginOpen()}>
+                onClick={() => loginOpen()}
+                // callback={() => this.loginCallback()}
+              >
+                Log in
+              </StyledLoginButton>
+            </>
+          )}
+          
           <Modal
             open={loginIsOpen}
             // onClose={loginClose}
@@ -140,9 +161,16 @@ const Header = () => {
             />
           </Modal>
 
-          <RegisterButton variant="contained" onClick={registerOpen}>
-            Register
-          </RegisterButton>
+          { showIcon ? (
+            <PersonAddAlt1Icon fontSize='large' onClick={registerOpen}/>
+          ) : (
+            <>
+              <RegisterButton variant="contained" onClick={registerOpen}>
+                Register
+              </RegisterButton >
+            </>
+          )}
+          
           <Modal
             open={registerIsOpen}
             onClose={registerClose}

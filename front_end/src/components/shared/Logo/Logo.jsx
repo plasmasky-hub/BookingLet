@@ -4,24 +4,33 @@ import logo from '../../../assets/Logo.png';
 // import Link from '@mui/material/Link';
 import { useNavigate } from 'react-router-dom';
 
-const StyledLogo = styled(Box)`
-  display: flex;
-  flex-grow: 1;
-  font-family: Helvetica, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #000;
-  /* padding-left: 80px; */
-  cursor: pointer;
-  height: 100%;
-  width: 100%;
-  align-items: center;
+const StyledLogo = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexGrow: '1',
+  fontFamily: 'Helvetica, sans-serif',
+  fontSize: '1.5rem',
+  fontWeight: '700',
+  color: '#000',
+  cursor: 'pointer',
+  height: '100%',
+  alignItems: 'center',
 
-  img {
-    /* height: 34px; */
-    width: 100%;
+  [theme.breakpoints.down('md')]: {
+    paddingLeft: '10px',
+  },
+  [theme.breakpoints.up('md')]: {
+    paddingLeft: '30px',
+  },
+
+  '& img': {
+    [theme.breakpoints.down('md')]: {
+      width: '150px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '250px',
+    },
   }
-`;
+}));
 
 export const Logo = () => {
   const navigate = useNavigate();

@@ -40,7 +40,7 @@ const ServiceIntroImg = styled(Box)({
 const LandingPage = () => {
   const { data, isSuccess } = useGetStoresQuery('');
 
-  return (
+  return (/*
     <Box 
       sx={{
         // background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
@@ -48,7 +48,7 @@ const LandingPage = () => {
       }}
     >
       <LandingBanner />
-      {/* Section of Introduction */}
+      // Section of Introduction 
       <Box
         sx={{
           display: 'flex',
@@ -254,7 +254,7 @@ const LandingPage = () => {
           </Box>
         </Box>
       </Box>
-      {/* Section of Testimony */}
+      // Section of Testimony 
       <Box
         sx={{
           width: '100%',
@@ -307,14 +307,15 @@ const LandingPage = () => {
           <TestimonyImg />
         </Box>
       </Box>
-      {/* Section of Store Categories */}
+      // Section of Store Categories 
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <ServicesPanel sx={{ width: 1240 }}>
           {isSuccess && <StoreDisplay data={data} />}
           <Register />
         </ServicesPanel>
       </Box>
-    </Box>
+    </Box> */
+    <></>
   );
 };
 
