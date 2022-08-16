@@ -12,7 +12,7 @@ const Text = styled(TextField)`
 `;
 
 const StoreInfText = (
-  {email}
+  {email,Form,setForm}
 ) => (
   <Fragment>
     <Text
@@ -21,6 +21,12 @@ const StoreInfText = (
       // defaultValue="Han’s Massage"
       defaultValue={email}
       variant="filled"
+      onChange={(e) =>
+        setForm({
+          ...Form,
+          email: e.target.value,
+        })
+      }
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

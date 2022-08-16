@@ -14,7 +14,7 @@ import Footer from './components/shared/Footer';
 import Layout from './components/shared/Layout';
 import EditStore from './pages/StoreSettingPage/components/EditStore';
 import PersonalSetting from './pages/PersonalSetting';
-import ErrorHandle from './pages/ErrorHandlePage/ErrorHandle';
+import AddNewStore from './pages/AddNewStore/AddNewStore';
 
 function App() {
   return (
@@ -39,6 +39,11 @@ function App() {
             ></Route>
 
             <Route
+              path="/AddNewStore"
+              element={<AddNewStore />}
+            ></Route>
+
+            <Route
               path="/UserBookingPage/"
               element={<UserBookingPage />}
             ></Route>
@@ -50,7 +55,6 @@ function App() {
               path="/StoreSettingPage/:id"
               element={<StoreSettingPage />}
             ></Route>
-            <Route path="/Error" element={<ErrorHandle />}></Route>
           </Routes>
         </Layout>
         <Footer />

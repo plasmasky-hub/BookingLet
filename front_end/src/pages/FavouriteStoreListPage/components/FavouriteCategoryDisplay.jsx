@@ -10,13 +10,13 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   margin: 100px auto;
-
   width: 1159px;
   top:171px;
   left: 145px;
 
   h2 {
-    
+    color: #fff;
+    font-size:40px;
     height: 26px;
     top: 171px;
   }
