@@ -17,11 +17,12 @@ const StoreInfWrapper = styled.div`
   /* width: 1347px;
   height: 1036px; */
   width: 1140px;
-  height: 825.5px;
+  height: 775.5px;
   /* height: 725.5px; */
   background-color: #fbfbfb;
-  margin-left: 97px;
-  margin-top: 38px;
+  /* margin-left: 27px; */
+  /* margin-left: 97px; */
+  /* margin-top: 38px; */
 `;
 
 const TopContainer = styled.div`
@@ -55,7 +56,7 @@ const StoreTitle = styled.div`
 
 const WholeContainer = styled.div`
   padding-top: 10px;
-  margin-left: 10px;
+  margin-left: 13px;
 `;
 
 const SmallTextContainer = styled.div`
@@ -142,7 +143,7 @@ const PhotoContainer = styled.div`
   /* margin-top: 38px;
   margin-left: 628px; */
   margin-left: 518px;
-  margin-top: 113px;
+  margin-top: 110px;
   position: absolute;
 `;
 

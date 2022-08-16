@@ -16,11 +16,13 @@ import {
 } from "../../store/api/userApi";
 
 const StoreInfWrapper = styled.div`
-  width: 1233px;
+  width: 1140px;
+  /* width: 1233px; */
   height: 862px;
   background-color: #fbfbfb;
-  margin-left: 97px;
+  /* margin-left: 97px; */
   margin-top: 38px;
+  padding-top: 10px;
 `;
 
 const TopContainer = styled.div`
@@ -159,6 +161,7 @@ const PersonalForm = ({ personaldata, id }) => {
   const navigate = useNavigate();
   console.log(userObj, "y");
   console.log(Form, "o");
+  console.log(id, "bbb");
   // console.log(isSuccess && personaldata.name);
   return (
     <>
