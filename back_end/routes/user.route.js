@@ -2,6 +2,7 @@ const express = require('express');
 const {
   getAllUsers,
   addUser,
+  updatePassword,
   updateUserByID,
   getUserByID,
   deleteUserByID,
@@ -20,6 +21,7 @@ const userRouter = express.Router();
 
 userRouter.get('', getAllUsers);
 userRouter.post('', addUser);
+userRouter.put('/updatePassword', updatePassword);
 userRouter.get('/:id', getUserByID);
 userRouter.put('/:id', updateUserByID);
 userRouter.delete('/:id', deleteUserByID);

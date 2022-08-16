@@ -1,23 +1,24 @@
-import theme from "../../../theme";
-import styled from "@emotion/styled";
-import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import { Typography, Box, Button } from "@mui/material";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ListItemText from "@mui/material/ListItemText";
-import BookmarkAddedOutlinedIcon from "@mui/icons-material/BookmarkAddedOutlined";
-import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
-import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import Divider from "@mui/material/Divider";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import theme from '../../../theme';
+import styled from '@emotion/styled';
+import React, { useState } from 'react';
+import Avatar from '@mui/material/Avatar';
+import { Typography, Box, Button } from '@mui/material';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ListItemText from '@mui/material/ListItemText';
+import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import Divider from '@mui/material/Divider';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
-const newtheme = { ...theme, iconColor: "#7F96AF" };
+const newtheme = { ...theme, iconColor: '#7F96AF' };
+
 
 const ProfileBox = styled.div`
   width: 280px;
@@ -103,25 +104,25 @@ export const UserPanel = (props) => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse( localStorage.getItem("user") ); 
   // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
   // console.log(typeof(user));
   // console.log(user.name);
 
   const UserInfo = {
-    name: user.name,
-    role: user.role,
-    id: user._id,
-  };
-
-  async function logout() {
-    props.setLoggedIn(false);
-    await localStorage.setItem("loggedIn", false);
-    await localStorage.setItem("user", null);
-    await localStorage.setItem("token", "");
+    "name": user.name,
+    "role": user.role,
+    "id" : user._id,
   }
 
-  async function handleNavigate(url) {
+  async function logout(){
+    props.setLoggedIn(false);
+    // await localStorage.setItem('loggedIn', false);
+    await localStorage.setItem('user', '');
+    await localStorage.setItem('token', '');
+  }
+
+  async function handleNavigate (url) {
     setOpen(false);
     await navigate(url);
     window.scrollTo(0, 0);
@@ -129,15 +130,15 @@ export const UserPanel = (props) => {
 
   const routeToStoreLandingPage = () => {
     handleNavigate(`/StoreLandingPage`);
-  };
+  }
 
   const routeToFavStore = () => {
     handleNavigate(`/FavouriteStoreListPage/${UserInfo.id}`);
-  };
+  }
 
   const routeToUserBooking = () => {
     handleNavigate(`/UserBookingPage`);
-  };
+  }
 
   // console.log(UserInfo);
 
@@ -147,9 +148,9 @@ export const UserPanel = (props) => {
         <Typography
           sx={{
             fontWeight: 400,
-            fontSize: "16px",
-            lineHeight: "14px",
-            mb: "4px",
+            fontSize: '16px',
+            lineHeight: '14px',
+            mb: '4px',
           }}
           onClick={() => setOpen(true)}
         >
@@ -158,9 +159,9 @@ export const UserPanel = (props) => {
         <Typography
           sx={{
             fontWeight: 400,
-            fontSize: "16px",
-            lineHeight: "14px",
-            color: "#7B8B6F",
+            fontSize: '16px',
+            lineHeight: '14px',
+            color: '#7B8B6F',
           }}
           onClick={() => setOpen(true)}
         >
@@ -176,9 +177,9 @@ export const UserPanel = (props) => {
         elevation={0}
         onClose={() => setOpen(false)}
         sx={{
-          "& .MuiPaper-root": {
-            background: "rgba(47, 68, 73, 0.5)",
-            backdropFilter: "blur(15px)",
+          '& .MuiPaper-root': {
+            background: 'rgba(47, 68, 73, 0.5)',
+            backdropFilter: 'blur(15px)',
           },
         }}
       >
@@ -191,13 +192,13 @@ export const UserPanel = (props) => {
             <ListWrapper>
               <List sx={{ width: 295 }}>
                 <Divider />
-                <ListItemButton onClick={() => navigate(`/PersonalSetting`)}>
+                <ListItemButton>
                   <ListItemIcon>
                     <InfoOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}
                     />
                   </ListItemIcon>
-                  <ListItemText primary={"My Info"} sx={{ color: "white" }} />
+                  <ListItemText primary={'My Info'} sx={{ color: 'white' }} />
                 </ListItemButton>
                 <Divider variant="middle" />
                 <ListItemButton onClick={routeToUserBooking}>
@@ -207,8 +208,8 @@ export const UserPanel = (props) => {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary={"My Bookings"}
-                    sx={{ color: "white" }}
+                    primary={'My Bookings'}
+                    sx={{ color: 'white' }}
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
@@ -219,26 +220,29 @@ export const UserPanel = (props) => {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary={"My Favorite Store"}
-                    sx={{ color: "white" }}
+                    primary={'My Favorite Store'}
+                    sx={{ color: 'white' }}
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
 
-                {UserInfo.role === "Customer" ? null : (
-                  <ListItemButton onClick={routeToStoreLandingPage}>
-                    <ListItemIcon>
-                      <HowToRegOutlinedIcon
-                        sx={{ color: `${newtheme.palette.secondary.main}` }}
+                {UserInfo.role === 'Customer'
+                  ? null 
+                  : <ListItemButton 
+                      onClick={ routeToStoreLandingPage }
+                    >
+                      <ListItemIcon>
+                        <HowToRegOutlinedIcon
+                          sx={{ color: `${newtheme.palette.secondary.main}` }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={'My Stores'}
+                        sx={{ color: 'white' }}
                       />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={"My Stores"}
-                      sx={{ color: "white" }}
-                    />
                   </ListItemButton>
-                )}
-
+                }
+                
                 <Divider variant="middle" />
                 <ListItemButton>
                   <ListItemIcon>
@@ -246,14 +250,14 @@ export const UserPanel = (props) => {
                       sx={{ color: `${newtheme.palette.secondary.main}` }}
                     />
                   </ListItemIcon>
-                  <ListItemText primary={"Help"} sx={{ color: "white" }} />
+                  <ListItemText primary={'Help'} sx={{ color: 'white' }} />
                 </ListItemButton>
                 <Divider />
               </List>
             </ListWrapper>
           </UserContent>
-          <UserLogOutBtn
-            variant="text"
+          <UserLogOutBtn 
+            variant="text" 
             startIcon={<LogoutIcon />}
             onClick={logout}
           >
