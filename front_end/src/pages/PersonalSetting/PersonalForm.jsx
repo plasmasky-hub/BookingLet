@@ -155,7 +155,6 @@ const PersonalForm = ({ personaldata, id }) => {
     email: Form.email,
     name: Form.name,
     tel: Form.tel,
-    
   };
 
   const navigate = useNavigate();
@@ -180,7 +179,7 @@ const PersonalForm = ({ personaldata, id }) => {
             {/* <StoreName>Last Name</StoreName>
           <StoreInfText /> */}
             <StoreName>Mobile</StoreName>
-            <StoreInfTextTel mobile={Form.tel} setForm={setForm} Form={Form} />
+            <StoreInfTextTel tel={Form.tel} setForm={setForm} Form={Form} />
             <StoreName>E-mail</StoreName>
             <StoreInfTextEmail
               email={Form.email}

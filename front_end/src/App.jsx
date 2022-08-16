@@ -16,6 +16,7 @@ import EditStore from './pages/StoreSettingPage/components/EditStore';
 import PersonalSetting from './pages/PersonalSetting';
 import ErrorHandle from './pages/ErrorHandlePage/ErrorHandle';
 import PrivateRoutes from './utils/PrivateRoutes';
+import AddNewStore from './pages/AddNewStore/AddNewStore'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                 element={<StoreSettingPage />}
               />
               <Route path="/EditStore" element={<EditStore />} />
+              <Route path="/AddNewStore" element={<AddNewStore />} />
             </Route>
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/StoreListPage" element={<StoreListPage />}></Route>
