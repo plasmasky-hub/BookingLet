@@ -192,7 +192,7 @@ export const UserPanel = (props) => {
             <ListWrapper>
               <List sx={{ width: 295 }}>
                 <Divider />
-                <ListItemButton>
+                <ListItemButton onClick={()=>navigate(`/PersonalSetting`)}>
                   <ListItemIcon>
                     <InfoOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}

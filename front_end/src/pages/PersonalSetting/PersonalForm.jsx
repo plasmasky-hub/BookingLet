@@ -152,7 +152,8 @@ const PersonalForm = ({ personaldata, id }) => {
     },
     email: Form.email,
     name: Form.name,
-    tel: Form.mobile,
+    tel: Form.tel,
+    
   };
 
   const navigate = useNavigate();
@@ -225,18 +226,33 @@ const PersonalForm = ({ personaldata, id }) => {
 
             <StoreInfButton
               variant="contained"
-              onClick={() => {
-                UpdateUser({ id, userObj });
-                console.log(id, "yyy");
-                setForm({ ...Form });
+              // onClick={() => {
+              //   // UpdateUser({ id, userObj });
+              //   // console.log(id, "yyy");
+              //   // setForm({ ...Form });
+              //   if (userObj) {
+              //     let r = await UpdateUser({id, userObj });
+              //     setForm({ ...Form });
+              //     // await UpdateStore({newForm,id});
+              //     console.log(r, "y");
+              //   }
+              // }}
+              onClick={async () => {
+                if (userObj) {
+                  let r = await UpdateUser({ userObj, id });
+                  setForm({ ...Form });
+                  // await UpdateStore({newForm,id});
+                  console.log(r, "rrr");
+                }
               }}
-              //   onClick={async () => {
-              //     if (newForm) {
-              //       let r = await UpdateUser({ newForm });
-              //       // await UpdateStore({newForm,id});
-              //       console.log(r, "y");
-              //     }
-              //   }}
+                // onClick={async () => {
+                //   if (userObj) {
+                //     let r = await UpdateUser({id, userObj });
+                //     setForm({ ...Form });
+                //     // await UpdateStore({newForm,id});
+                //     console.log(r, "y");
+                //   }
+                // }}
             >
               Save
             </StoreInfButton>
