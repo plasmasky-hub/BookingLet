@@ -2,7 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 import UserInfo from "./components/UserInfo/UserInfo";
 import StoreState from "./components/StoreState/StoreState";
-import bubbles from "../../assets/WechatIMG827.png"
+// import bubbles from "../../assets/WechatIMG827.png"
 import homebg from '../../assets/storeLandingImg.jpg';
 import { Box } from '@mui/material';
 
@@ -12,25 +12,25 @@ const PageContainer = styled.div`
     justify-content:center;
     align-items: center;
     /* background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )', */
-    background-image: url(${homebg});
+    /* background-image: url(${homebg}); */
     
     background-size: contain;
     background-repeat: no-repeat;
-    /* background-color: #ffffff50;
-    backdrop-filter: blur(8px); */
+    /* background-color: #ffffff50; */
+    /* backdrop-filter: blur(8px);  */
     padding: 25px;
 
 `
 
 const GlassPad = styled(Box)( ({theme}) => ({
-    marginTop:'124px',
+    marginTop:'100px',
 
     justifyContent: 'center',
-    width: '1100px',
-    borderRadius: '20px',
-    backdropFilter: 'blur(8px)',
-    backgroundColor: '#ffffff7b',
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)',
+    width: '1240px',
+    // borderRadius: '20px',
+    // backdropFilter: 'blur(8px)',
+    // backgroundColor: '#ffffff7b',
+    // boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)',
 
 }));
 

@@ -16,7 +16,7 @@ const StoreInfoWrapper = styled(Box)( ({theme}) => ({
     [theme.breakpoints.up(1000)]: {
         justifyContent: 'center',
         alignItems: 'center',
-        width:'1000px',
+        width:'1200px',
     },
     
     /* background-color: #aabb9d; */
@@ -24,28 +24,31 @@ const StoreInfoWrapper = styled(Box)( ({theme}) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    /* background-color: #ffffff5a;
-    backdrop-filter: blur(20px);
-    /* border-radius: 15px; */
-    /* padding: 30px; */
-    margin: 'auto',
+    // background-color: #ffffff5a;
+    // backdrop-filter: blur(20px);
+    // border-radius: 15px;
+    // padding: 30px;
+    marginTop:'50px',
+    borderRadius: '20px',
+    backdropFilter: 'blur(8px)',
+    backgroundColor: '#ffffff7b',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)',
+    padding:'30px',
 
 }));
 
 const StoreContainer = styled(Box)( ({theme}) => ({
-
-    width: '100%',
+    width: '1000px',
     height: '257px',
-    // background-image: url(${foodBg}) ;
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '20px',
+    margin: '20px auto',
     padding: '30px',
     //filter: brightness(50%);
-    backgroundColor: '#ffffff71',
+    // backgroundColor: '#ffffff71',
     backgroundSize: "cover",
     borderRadius: '32px',
-
+    backgroundImage: `url(${foodBg})`,
     boxShadow: '0 0 16px rgb(0 0 0 / 50%)',
     backdropFilter: 'blur(20px)',
     // '@hr'{

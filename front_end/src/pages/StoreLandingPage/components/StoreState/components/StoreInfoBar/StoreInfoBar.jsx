@@ -7,7 +7,7 @@ import { useGetStoreQuery } from '../../../../../../store/api/storeApi';
 const StoreInfoBarWrapper =styled.div`
     display:flex;
     justify-content:space-between;
-    color:#000;
+    color:#ffff;
     position: relative;
 `
 const VerticalDivider = styled.div`
@@ -20,7 +20,7 @@ const NameAndCateory = styled.div`
     display:flex;
     font-family: 'Helvetica';
     font-style: normal;
-    color: #000;
+    color: #ffff;
 `
 
 const StoreName =styled.div`
@@ -35,6 +35,7 @@ const StoreCategory = styled.div`
     font-size: 15px;
     line-height: 20px;
     text-align:center;
+    padding-top:10px;
 `
 
 const StoreInfoBar = ({storeId}) =>{
@@ -67,12 +68,12 @@ return (
                 <VerticalDivider />
                 <StoreCategory> {makeCategoryName(store.rootCategories)}</StoreCategory>
                 </NameAndCateory>
-                    <div>{makeAddress(store.location.street)},{makeAddress(store.location.suburb)},{makeAddress(store.location.city)},{makeAddress(store.location.state)},{makeAddress(store.location.postcode)}</div>
+                    <i>{makeAddress(store.location.street)},{makeAddress(store.location.suburb)},{makeAddress(store.location.city)},{makeAddress(store.location.state)},{makeAddress(store.location.postcode)}</i>
             </div>
         )}
-        <FormControlLabel 
+        {/* <FormControlLabel 
         control={<Switch defaultChecked color="buttonOrange" />} 
-        label="current status" />
+        label="current status" /> */}
     </StoreInfoBarWrapper>
 )};
  
