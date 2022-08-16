@@ -22,7 +22,8 @@ const StoreInfWrapper = styled.div`
   background-color: #fbfbfb;
   /* margin-left: 27px; */
   /* margin-left: 97px; */
-  /* margin-top: 38px; */
+  margin-top: 58px;
+  margin-left: 48px;
 `;
 
 const TopContainer = styled.div`
