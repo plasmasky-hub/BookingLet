@@ -58,6 +58,7 @@ async function updatePassword(req, res) {
 
 
 async function updateUserByID(req, res) {
+  console.log(req.body,'ooo');
   if (req.body.location.state === undefined || req.body.location.city === undefined || req.body.location.postcode === undefined) {
     return res.json('location cannot be null');
   } else if (req.body.location.postcode < 200 || req.body.location.postcode > 9999) {
@@ -89,18 +90,20 @@ async function getUserByID(req, res) {
       error: 'User info not found!'
     });
   }
+
   
-    switch (user.location.state) {
-        case 'NSW': user.location.state = 1; break;
-        case 'VIC': user.location.state = 2; break;
-        case 'SA': user.location.state = 3; break;
-        case 'TAS': user.location.state = 4; break;
-        case 'WA': user.location.state = 5; break;
-        case 'NT': user.location.state = 6; break;
-        case 'ACT': user.location.state = 7; break;
-        case 'QSL': user.location.state = 8; break;
-        default: user.location.state = null;
-    }
+    // switch (user.location.state) {
+    //     case 'NSW': user.location.state = 1; break;
+    //     case 'VIC': user.location.state = 2; break;
+    //     case 'SA': user.location.state = 3; break;
+    //     case 'TAS': user.location.state = 4; break;
+    //     case 'WA': user.location.state = 5; break;
+    //     case 'NT': user.location.state = 6; break;
+    //     case 'ACT': user.location.state = 7; break;
+    //     case 'QSL': user.location.state = 8; break;
+    //     default: user.location.state = null;
+    // }
+
 
   res.json(user);
 }
@@ -120,17 +123,17 @@ async function deleteUserByID(req, res) {
 }
 
 async function getUserStores(req, res) {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    console.log("🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user", user)
+  const { id } = req.params;
+  const user = await User.findById(id);
+  console.log("🚀 ~ file: user.controller.js ~ line 126 ~ getUserStores ~ user", user)
 
-    if (!user) {
-      return res.status(404).json({ error: 'User info not found!' });
-    }
+  if (!user) {
+    return res.status(404).json({ error: 'User info not found!' });
+  }
 
-    const userStores = await User.findById(id).populate('stores').exec();
-    res.json(userStores);
-  
+  const userStores = await User.findById(id).populate('stores').exec();
+  res.json(userStores);
+
 }
 
 
