@@ -83,7 +83,7 @@ const Header = () => {
     // console.log(typeof(current));
     // console.log("🚀 ~ file: Header.jsx ~ line 82 ~ useEffect ~ current", current)
     const token = localStorage.getItem('token');
-    token === '' ? setLoggedIn(false) : setLoggedIn(true);
+    token === '' || token === null ? setLoggedIn(false) : setLoggedIn(true);
 
   },[])
 
