@@ -11,11 +11,19 @@ import {
   useAddServiceInfoMutation,
 } from '../../../store/api/serviceInfoApi';
 import EditServiceInfo from './EditServiceInfo';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ServiceInfoWrapper = styled(Paper)`
   width: 470px;
   background-color: #c1cbd7;
   padding: 60px 50px 20px 50px;
+  input,
+  textarea {
+    width: 100%;
+    border: none;
+    padding: 4px 8px;
+  }
 `;
 
 const Title = styled.p`
@@ -35,9 +43,6 @@ const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 35fr 65fr;
   margin-bottom: 10px;
-  input {
-    width: 100%;
-  }
 `;
 
 const FlexWrapper = styled.div`
@@ -48,6 +53,7 @@ const FlexWrapper = styled.div`
 
 const StyledSelect = styled.select`
   padding: 5px;
+  border: none;
 `;
 
 const Buttons = styled.div`
@@ -86,13 +92,19 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
     Form.durationType === 'changeable'
       ? {
           durationType: Form.durationType,
-          changeableDuration: { minimum: Form.minimum, maximum: Form.maximum },
+          changeableDuration: {
+            minimum: Form.minimum,
+            maximum: Form.maximum,
+          },
         }
       : Form.durationType === 'fixed'
-      ? { durationType: Form.durationType, fixedDuration: Form.minimum }
+      ? {
+          durationType: Form.durationType,
+          fixedDuration: Form.minimum,
+        }
       : { durationType: Form.durationType };
 
-  const newService = {
+  let newService = {
     name: Form.name,
     rootCategory: Form.rootCategory,
     subCategories: [Form.subCategories],
@@ -100,9 +112,12 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
     duration: duration,
     maxPersonPerSection: Form.maxPersonPerSection,
     maxServicePerSection: Form.maxServicePerSection,
-    price: Form.price,
-    description: Form.description,
   };
+
+  if (Form.price) newService.price = Form.price;
+  if (Form.description) newService.description = Form.description;
+
+  const isError = Object.values(newService).includes('');
   const { data: service } = useGetServiceInfoQuery(display.serviceId);
 
   const { data: rootCategory, isSuccess } = useGetRootCategoriesQuery();
@@ -129,11 +144,10 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                 <label>Service Name:</label>
                 <input
                   value={show ? service.name : Form.name}
-                  onChange={(e) =>
-                    service && setForm({ ...Form, name: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...Form, name: e.target.value })}
                 />
               </GridWrapper>
+
               <GridWrapper>
                 <label>Category :</label>
                 <StyledSelect
@@ -203,7 +217,7 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                       onChange={(e) =>
                         setForm({
                           ...Form,
-                          minimum: parseInt(e.target.value),
+                          minimum: e.target.value,
                         })
                       }
                       style={{
@@ -213,6 +227,8 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                             ? '70%'
                             : '60px',
                       }}
+                      required
+                      type="number"
                     />
                     {((!show && Form.durationType === 'changeable') ||
                       (show &&
@@ -230,10 +246,12 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                           onChange={(e) =>
                             setForm({
                               ...Form,
-                              maximum: parseInt(e.target.value),
+                              maximum: e.target.value,
                             })
                           }
                           style={{ width: '60px' }}
+                          required
+                          type="number"
                         />
                       </>
                     )}
@@ -252,9 +270,11 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                   onChange={(e) =>
                     setForm({
                       ...Form,
-                      maxPersonPerSection: parseInt(e.target.value),
+                      maxPersonPerSection: e.target.value,
                     })
                   }
+                  required
+                  type="number"
                 />
               </GridWrapper>
               <GridWrapper>
@@ -268,9 +288,10 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                   onChange={(e) =>
                     setForm({
                       ...Form,
-                      maxServicePerSection: parseInt(e.target.value),
+                      maxServicePerSection: e.target.value,
                     })
                   }
+                  type="number"
                 />
               </GridWrapper>
               <SubTitle>Optional Field</SubTitle>
@@ -291,56 +312,57 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
                 style={{ fontSize: '14px', width: '100%' }}
               />
             </fieldset>
-          </form>
 
-          <Buttons>
-            {show ? (
-              <StyledButton
-                onClick={() => {
-                  setIsEdit(!isEdit);
-                }}
-                style={{ padding: '5px 30px' }}
-              >
-                Edit
-              </StyledButton>
-            ) : (
-              <StyledButton
-                onClick={() => {
-                  addService(newService);
-                  setForm({ ...x });
-                }}
-                style={{ padding: '5px 30px' }}
-              >
-                Save
-              </StyledButton>
-            )}
-            {show && (
-              <StyledButton
-                onClick={() => {
-                  deleteService(display.serviceId);
-                  setDisplay({ ...display, serviceId: 0 });
-                }}
-                style={{ backgroundColor: '#E27777' }}
-              >
-                Delete
-              </StyledButton>
-            )}
-            {show && (
-              <StyledButton
-                onClick={() =>
-                  setDisplay({
-                    ...display,
-                    ServiceList: display.ServiceCalendar ? true : false,
-                    StoreInfo: display.ServiceCalendar ? true : false,
-                    ServiceCalendar: display.ServiceCalendar ? false : true,
-                  })
-                }
-                style={{ backgroundColor: '#D69636' }}
-              >
-                {display.ServiceCalendar ? 'Back' : 'Calendar'}
-              </StyledButton>
-            )}
-          </Buttons>
+            <Buttons>
+              {show ? (
+                <StyledButton
+                  onClick={() => {
+                    setIsEdit(!isEdit);
+                  }}
+                  style={{ padding: '5px 30px' }}
+                >
+                  Edit
+                </StyledButton>
+              ) : (
+                <StyledButton
+                  onClick={() => {
+                    isError && toast.error('Please fill in all the fields!');
+                    isError || addService(newService);
+                    isError || setForm({ ...x });
+                  }}
+                  style={{ padding: '5px 30px' }}
+                >
+                  Save
+                </StyledButton>
+              )}
+              {show && (
+                <StyledButton
+                  onClick={() => {
+                    deleteService(display.serviceId);
+                    setDisplay({ ...display, serviceId: 0 });
+                  }}
+                  style={{ backgroundColor: '#E27777' }}
+                >
+                  Delete
+                </StyledButton>
+              )}
+              {show && (
+                <StyledButton
+                  onClick={() =>
+                    setDisplay({
+                      ...display,
+                      ServiceList: display.ServiceCalendar ? true : false,
+                      StoreInfo: display.ServiceCalendar ? true : false,
+                      ServiceCalendar: display.ServiceCalendar ? false : true,
+                    })
+                  }
+                  style={{ backgroundColor: '#D69636' }}
+                >
+                  {display.ServiceCalendar ? 'Back' : 'Calendar'}
+                </StyledButton>
+              )}
+            </Buttons>
+          </form>
         </>
       )}
       {isEdit && show && (
@@ -352,6 +374,19 @@ const ServiceInfo = ({ id, display, setDisplay }) => {
           setIsEdit={setIsEdit}
         />
       )}
+      <ToastContainer
+        style={{ fontSize: '16px' }}
+        theme="dark"
+        position="top-center"
+        autoClose={7000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </ServiceInfoWrapper>
   );
 };
