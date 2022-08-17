@@ -47,6 +47,8 @@ const BookingPage = () => {
     setOpen(false);
   };
 
+  const auth = localStorage.getItem('token');
+
   return (
     <>
       {isError && <p>{error}</p>}
@@ -79,7 +81,9 @@ const BookingPage = () => {
             >
               <DialogContent>
                 <DialogContentText>
-                  Please log in first before booking!
+                  {auth
+                    ? 'Please fill in all the required fields!'
+                    : 'Please log in first before booking!'}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
