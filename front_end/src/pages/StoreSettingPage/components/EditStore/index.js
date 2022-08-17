@@ -103,7 +103,7 @@ const StoreInfButton = styled(Button)`
 const ButtonContainer = styled(Button)`
   width: 250px;
   margin-top: 20px;
-  margin-left: 480px;
+  margin-left: 450px;
   display: flex;
   justify-content: space-around;
 `;
@@ -287,6 +287,7 @@ const EditStore = ({ store, display, setDisplay }) => {
                     StoreInfo: true,
                     ServiceList: true,
                     ServiceInfo: true,
+                    EditStore: false,
                   })
                 }
               >
