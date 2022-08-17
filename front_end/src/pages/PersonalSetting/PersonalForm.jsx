@@ -23,6 +23,7 @@ const StoreInfWrapper = styled.div`
   margin-left: 47px;
   margin-top: 38px;
   padding-top: 10px;
+  border-radius:10px;
 `;
 
 const TopContainer = styled.div`
