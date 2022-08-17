@@ -1,17 +1,17 @@
 import { React, useState } from "react";
 // import styled from "styled-components";
-import StoreInfText from "../EditStore/components/StoreInfText/StoreInfText";
-import StoreSmallText from "../EditStore/components/StoreInfSmallText/StoreSmallText";
-import StoreInfFilter from "../EditStore/components/StoreInfFilter/StoreInfFilter";
+import StoreInfText from "../StoreSettingPage/components/EditStore/components/StoreInfText/StoreInfText";
+import StoreSmallText from "../StoreSettingPage/components/EditStore/components/StoreInfSmallText/StoreSmallText";
+import StoreInfFilter from "../StoreSettingPage/components/EditStore/components/StoreInfFilter/StoreInfFilter";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import StoreInfSmallPostcode from "../EditStore/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
-import Description from "./components/Description/Description";
-import StoreInfTextAddress1 from "./components/StoreInfTextAddress1";
-import StoreInfTextAddress2 from "./components/StoreInfTextAddress2";
-import StoreInfTextTel from "./components/StoreInfTextTel/StoreInfTextTel";
-import { useUpdateStoreMutation } from "../../../../store/api/storeApi";
+import StoreInfSmallPostcode from "../StoreSettingPage/components/EditStore/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
+import Description from "../StoreSettingPage/components/EditStore/components/Description/Description";
+import StoreInfTextAddress1 from "../StoreSettingPage/components/EditStore/components/StoreInfTextAddress1";
+import StoreInfTextAddress2 from "../StoreSettingPage/components/EditStore/components/StoreInfTextAddress2";
+import { useAddStoreMutation } from "../../store/api/storeApi";
+import { useNavigate } from 'react-router-dom';
 
 const StoreInfWrapper = styled.div`
   /* width: 1347px;
@@ -22,7 +22,8 @@ const StoreInfWrapper = styled.div`
   background-color: #fbfbfb;
   /* margin-left: 27px; */
   /* margin-left: 97px; */
-  /* margin-top: 38px; */
+  margin-top: 58px;
+  margin-left: 48px;
 `;
 
 const TopContainer = styled.div`
@@ -157,25 +158,21 @@ const DescriptionWrapper = styled.div`
   margin-top: -10px;
 `;
 
-const MobileContainer = styled.div`
-  margin-top: -10px;
-`;
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-const EditStore = ({ store, display, setDisplay }) => {
-  const userId = JSON.parse(localStorage.getItem("user"))._id;
-  const [UpdateStore] = useUpdateStoreMutation();
+const AddNewStore = ({ store, display, setDisplay }) => {
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const [addStore] = useAddStoreMutation();
   // const { data, isSuccess } = useGetUserQuery(userId);
 
   const [Form, setForm] = useState({
-    name: store.name,
-    address1: store.location.street,
-    address2: store.location.suburb,
-    city: store.location.city,
-    postcode: store.location.postcode,
-    citystate: store.location.state,
-    descrip: store.description,
+    name: "",
+    address1: "",
+    address2: "",
+    city: "",
+    postcode: "",
+    citystate: "",
+    descrip: "",
   });
 
   const newForm = {
@@ -188,15 +185,18 @@ const EditStore = ({ store, display, setDisplay }) => {
     },
     description: Form.descrip,
     name: Form.name,
-    tel: "0422388787",
+    tel: '0422388787',
+    owner: "62e33d84e15ae94ec1dced42",
+    rootCategories: ["62d42f329a144d0fc58980c9"]
   };
+  const navigate = useNavigate();
 
-  const id = store.id;
+  // const id = store.id;
 
-  console.log(store, "d");
-  console.log(store.location.state);
-  console.log(Form, "f");
-  console.log(newForm, "g");
+  // console.log(store, 'd');
+  // console.log(store.location.state);
+  console.log(Form, 'oo');
+  console.log(newForm, 'p');
 
   return (
     <>
@@ -205,18 +205,19 @@ const EditStore = ({ store, display, setDisplay }) => {
           <WholeContainer>
             <Title>Store Information</Title>
             <PhotoContainer>
-              {/* <StoreInfName>Photo</StoreInfName> */}
-              {/* <Photo /> */}
+              {/* <StoreInfName>Photo</StoreInfName>
+              <Photo /> */}
               <StoreInfName>Photos of menu (Optional)</StoreInfName>
               <PhotoMenu />
               <DescriptionWrapper>
-                <StoreInfName>Description</StoreInfName>
-                <Description
-                  descrip={Form.descrip}
-                  setForm={setForm}
-                  Form={Form}
-                />
-              </DescriptionWrapper>
+              <StoreInfName>Description</StoreInfName>
+              <Description
+                descrip={Form.descrip}
+                setForm={setForm}
+                Form={Form}
+              />
+            </DescriptionWrapper>
+
             </PhotoContainer>
             <TopContainer>
               <StoreTitle>Store Name</StoreTitle>
@@ -236,39 +237,34 @@ const EditStore = ({ store, display, setDisplay }) => {
                 setForm={setForm}
                 Form={Form}
               />
-              {/* <StoreName>Mobile</StoreName>
-              <StoreInfTextTel
-                mobile={Form.tel}
-                setForm={setForm}
-                Form={Form}
-              /> */}
             </TopContainer>
+
             <SmallTextContainer>
-                <SmallTextWrapper>
-                  <StoreName>City</StoreName>
-                  <StoreSmallText
-                    city={Form.city}
-                    setForm={setForm}
-                    Form={Form}
-                  />
-                </SmallTextWrapper>
-                <SmallTextWrapper>
-                  <StoreName>Postcode</StoreName>
-                  <StoreInfSmallPostcode
-                    postcode={Form.postcode}
-                    setForm={setForm}
-                    Form={Form}
-                  />
-                </SmallTextWrapper>
-                {/* <SmallTextWrapper>
-          <StoreName>State</StoreName> */}
-                <StoreInfFilter
-                  citystate={Form.citystate}
+              <SmallTextWrapper>
+                <StoreName>City</StoreName>
+                <StoreSmallText
+                  city={Form.city}
                   setForm={setForm}
                   Form={Form}
                 />
-                {/* </SmallTextWrapper> */}
-              </SmallTextContainer>
+              </SmallTextWrapper>
+              <SmallTextWrapper>
+                <StoreName>Postcode</StoreName>
+                <StoreInfSmallPostcode
+                  postcode={Form.postcode}
+                  setForm={setForm}
+                  Form={Form}
+                />
+              </SmallTextWrapper>
+              {/* <SmallTextWrapper>
+          <StoreName>State</StoreName> */}
+              <StoreInfFilter
+                citystate={Form.citystate}
+                setForm={setForm}
+                Form={Form}
+              />
+              {/* </SmallTextWrapper> */}
+            </SmallTextContainer>
 
             <CheckboxContainer>
               <Checkbox {...label} />I have read and agree to the Terms &
@@ -280,15 +276,7 @@ const EditStore = ({ store, display, setDisplay }) => {
               <StoreInfButton
                 left
                 variant="contained"
-                onClick={() =>
-                  setDisplay({
-                    ...display,
-                    StoreSetting: false,
-                    StoreInfo: true,
-                    ServiceList: true,
-                    ServiceInfo: true,
-                  })
-                }
+                onClick={()=>navigate(`/StoreLandingPage`)}
               >
                 Back
               </StoreInfButton>
@@ -297,16 +285,10 @@ const EditStore = ({ store, display, setDisplay }) => {
                 variant="contained"
                 onClick={async () => {
                   if (newForm) {
-                    let r = await UpdateStore({ newForm, id });
+                    let r = await addStore(newForm);
+                    setForm({ ...Form });
                     // await UpdateStore({newForm,id});
                     console.log(r, "b");
-                    setDisplay({
-                      ...display,
-                      EditStore: false,
-                      StoreInfo: true,
-                      ServiceList: true,
-                      ServiceInfo: true,
-                    });
                   }
                 }}
               >
@@ -320,4 +302,4 @@ const EditStore = ({ store, display, setDisplay }) => {
   );
 };
 
-export default EditStore;
+export default AddNewStore;
