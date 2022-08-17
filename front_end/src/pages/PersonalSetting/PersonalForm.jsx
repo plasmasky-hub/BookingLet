@@ -16,11 +16,13 @@ import {
 } from "../../store/api/userApi";
 
 const StoreInfWrapper = styled.div`
-  width: 1233px;
+  width: 1140px;
+  /* width: 1233px; */
   height: 862px;
   background-color: #fbfbfb;
-  margin-left: 97px;
+  /* margin-left: 97px; */
   margin-top: 38px;
+  padding-top: 10px;
 `;
 
 const TopContainer = styled.div`
@@ -152,12 +154,13 @@ const PersonalForm = ({ personaldata, id }) => {
     },
     email: Form.email,
     name: Form.name,
-    tel: Form.mobile,
+    tel: Form.tel,
   };
 
   const navigate = useNavigate();
   console.log(userObj, "y");
   console.log(Form, "o");
+  console.log(id, "bbb");
   // console.log(isSuccess && personaldata.name);
   return (
     <>
@@ -176,7 +179,7 @@ const PersonalForm = ({ personaldata, id }) => {
             {/* <StoreName>Last Name</StoreName>
           <StoreInfText /> */}
             <StoreName>Mobile</StoreName>
-            <StoreInfTextTel mobile={Form.tel} setForm={setForm} Form={Form} />
+            <StoreInfTextTel tel={Form.tel} setForm={setForm} Form={Form} />
             <StoreName>E-mail</StoreName>
             <StoreInfTextEmail
               email={Form.email}
@@ -225,18 +228,33 @@ const PersonalForm = ({ personaldata, id }) => {
 
             <StoreInfButton
               variant="contained"
-              onClick={() => {
-                UpdateUser({ id, userObj });
-                console.log(id, "yyy");
-                setForm({ ...Form });
+              // onClick={() => {
+              //   // UpdateUser({ id, userObj });
+              //   // console.log(id, "yyy");
+              //   // setForm({ ...Form });
+              //   if (userObj) {
+              //     let r = await UpdateUser({id, userObj });
+              //     setForm({ ...Form });
+              //     // await UpdateStore({newForm,id});
+              //     console.log(r, "y");
+              //   }
+              // }}
+              onClick={async () => {
+                if (userObj) {
+                  let r = await UpdateUser({ userObj, id });
+                  setForm({ ...Form });
+                  // await UpdateStore({newForm,id});
+                  console.log(r, "rrr");
+                }
               }}
-              //   onClick={async () => {
-              //     if (newForm) {
-              //       let r = await UpdateUser({ newForm });
-              //       // await UpdateStore({newForm,id});
-              //       console.log(r, "y");
-              //     }
-              //   }}
+                // onClick={async () => {
+                //   if (userObj) {
+                //     let r = await UpdateUser({id, userObj });
+                //     setForm({ ...Form });
+                //     // await UpdateStore({newForm,id});
+                //     console.log(r, "y");
+                //   }
+                // }}
             >
               Save
             </StoreInfButton>

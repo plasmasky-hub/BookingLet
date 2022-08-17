@@ -20,9 +20,40 @@ async function addUser(req, res) {
   const { name, tel, email, role, password } = req.body;
 
   const newUser = new User({ name, tel, email, role, password });
+
+  await newUser.hashPassword();
   await newUser.save();
 
   res.status(201).json(newUser);
+}
+
+async function updatePassword(req, res) {
+  console.log('Updating password...');
+  const { userId, password } = req.body;
+
+  const schema = Joi.object({
+    password: Joi.string().required().min(6).max(30),
+  });
+  const validation = schema.validate({password:password});
+  console.log("🚀 ~ file: user.controller.js ~ line 38 ~ updatePassword ~ validation", validation)
+  
+  if ( validation.error ) {
+    return res.status(401).json(validation.error);
+  }
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({
+      error: 'User info not found!'
+    });
+  };
+
+  user.password = password;
+  await user.hashPassword(password);
+  await user.save();
+
+  return res.json(user);
+
 }
 
 
@@ -230,6 +261,7 @@ module.exports = {
   getAllUsers,
   getUserByID,
   addUser,
+  updatePassword,
   updateUserByID,
   deleteUserByID,
   getUserStores,

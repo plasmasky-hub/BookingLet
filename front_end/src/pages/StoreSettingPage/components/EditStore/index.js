@@ -10,16 +10,19 @@ import StoreInfSmallPostcode from "../EditStore/components/StoreInfSmallPostcode
 import Description from "./components/Description/Description";
 import StoreInfTextAddress1 from "./components/StoreInfTextAddress1";
 import StoreInfTextAddress2 from "./components/StoreInfTextAddress2";
+import StoreInfTextTel from "./components/StoreInfTextTel/StoreInfTextTel";
 import { useUpdateStoreMutation } from "../../../../store/api/storeApi";
 
 const StoreInfWrapper = styled.div`
-  width: 1347px;
-  height: 1036px;
-  /* width: 1140px;
-  height: 725.5px; */
+  /* width: 1347px;
+  height: 1036px; */
+  width: 1140px;
+  height: 775.5px;
+  /* height: 725.5px; */
   background-color: #fbfbfb;
-  margin-left: 97px;
-  margin-top: 38px;
+  /* margin-left: 27px; */
+  /* margin-left: 97px; */
+  /* margin-top: 38px; */
 `;
 
 const TopContainer = styled.div`
@@ -52,18 +55,18 @@ const StoreTitle = styled.div`
 `;
 
 const WholeContainer = styled.div`
-  padding-top: 50px;
-  margin-left: 50px;
+  padding-top: 10px;
+  margin-left: 13px;
 `;
 
 const SmallTextContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-left: 75px;
-  padding-top: 117px;
+  padding-top: 97px;
   width: 500px;
   height: 200px;
-  margin-top: -105px;
+  margin-top: -85px;
 `;
 
 const Title = styled.div`
@@ -126,7 +129,8 @@ const Photo = styled.div`
 `;
 
 const PhotoMenu = styled.div`
-  width: 478px;
+  width: 398px;
+  /* width: 478px; */
   height: 100px;
   margin-left: 88px;
   margin-bottom: 40px;
@@ -136,19 +140,25 @@ const PhotoMenu = styled.div`
 const PhotoContainer = styled.div`
   width: 154px;
   height: 100px;
-  margin-left: 628px;
-  margin-top: 98px;
+  /* margin-top: 38px;
+  margin-left: 628px; */
+  margin-left: 518px;
+  margin-top: 110px;
   position: absolute;
 `;
 
 const CheckboxContainer = styled(Button)`
   margin-left: 70px;
-  margin-top: 30px;
+  margin-top: 20px;
   color: #397cc2;
 `;
 
 const DescriptionWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: -10px;
+`;
+
+const MobileContainer = styled.div`
+  margin-top: -10px;
 `;
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -195,10 +205,18 @@ const EditStore = ({ store, display, setDisplay }) => {
           <WholeContainer>
             <Title>Store Information</Title>
             <PhotoContainer>
-              <StoreInfName>Photo</StoreInfName>
-              <Photo />
+              {/* <StoreInfName>Photo</StoreInfName> */}
+              {/* <Photo /> */}
               <StoreInfName>Photos of menu (Optional)</StoreInfName>
               <PhotoMenu />
+              <DescriptionWrapper>
+                <StoreInfName>Description</StoreInfName>
+                <Description
+                  descrip={Form.descrip}
+                  setForm={setForm}
+                  Form={Form}
+                />
+              </DescriptionWrapper>
             </PhotoContainer>
             <TopContainer>
               <StoreTitle>Store Name</StoreTitle>
@@ -218,43 +236,39 @@ const EditStore = ({ store, display, setDisplay }) => {
                 setForm={setForm}
                 Form={Form}
               />
+              {/* <StoreName>Mobile</StoreName>
+              <StoreInfTextTel
+                mobile={Form.tel}
+                setForm={setForm}
+                Form={Form}
+              /> */}
             </TopContainer>
-
             <SmallTextContainer>
-              <SmallTextWrapper>
-                <StoreName>City</StoreName>
-                <StoreSmallText
-                  city={Form.city}
-                  setForm={setForm}
-                  Form={Form}
-                />
-              </SmallTextWrapper>
-              <SmallTextWrapper>
-                <StoreName>Postcode</StoreName>
-                <StoreInfSmallPostcode
-                  postcode={Form.postcode}
-                  setForm={setForm}
-                  Form={Form}
-                />
-              </SmallTextWrapper>
-              {/* <SmallTextWrapper>
+                <SmallTextWrapper>
+                  <StoreName>City</StoreName>
+                  <StoreSmallText
+                    city={Form.city}
+                    setForm={setForm}
+                    Form={Form}
+                  />
+                </SmallTextWrapper>
+                <SmallTextWrapper>
+                  <StoreName>Postcode</StoreName>
+                  <StoreInfSmallPostcode
+                    postcode={Form.postcode}
+                    setForm={setForm}
+                    Form={Form}
+                  />
+                </SmallTextWrapper>
+                {/* <SmallTextWrapper>
           <StoreName>State</StoreName> */}
-              <StoreInfFilter
-                citystate={Form.citystate}
-                setForm={setForm}
-                Form={Form}
-              />
-              {/* </SmallTextWrapper> */}
-            </SmallTextContainer>
-
-            <DescriptionWrapper>
-              <StoreInfName>Description</StoreInfName>
-              <Description
-                descrip={Form.descrip}
-                setForm={setForm}
-                Form={Form}
-              />
-            </DescriptionWrapper>
+                <StoreInfFilter
+                  citystate={Form.citystate}
+                  setForm={setForm}
+                  Form={Form}
+                />
+                {/* </SmallTextWrapper> */}
+              </SmallTextContainer>
 
             <CheckboxContainer>
               <Checkbox {...label} />I have read and agree to the Terms &

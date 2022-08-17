@@ -14,13 +14,16 @@ import { useAddStoreMutation } from "../../store/api/storeApi";
 import { useNavigate } from 'react-router-dom';
 
 const StoreInfWrapper = styled.div`
-  width: 1347px;
-  height: 1036px;
-  /* width: 1140px;
-  height: 725.5px; */
+  /* width: 1347px;
+  height: 1036px; */
+  width: 1140px;
+  height: 775.5px;
+  /* height: 725.5px; */
   background-color: #fbfbfb;
-  margin-left: 97px;
-  margin-top: 38px;
+  /* margin-left: 27px; */
+  /* margin-left: 97px; */
+  margin-top: 58px;
+  margin-left: 48px;
 `;
 
 const TopContainer = styled.div`
@@ -35,7 +38,7 @@ const TopContainer = styled.div`
 const StoreName = styled.div`
   width: 84px;
   height: 20px;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -45,7 +48,7 @@ const StoreName = styled.div`
 const StoreTitle = styled.div`
   width: 384px;
   height: 20px;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -53,18 +56,18 @@ const StoreTitle = styled.div`
 `;
 
 const WholeContainer = styled.div`
-  padding-top: 50px;
-  margin-left: 90px;
+  padding-top: 10px;
+  margin-left: 13px;
 `;
 
 const SmallTextContainer = styled.div`
   display: flex;
   justify-content: space-around;
   margin-left: 75px;
-  padding-top: 117px;
+  padding-top: 97px;
   width: 500px;
   height: 200px;
-  margin-top: -105px;
+  margin-top: -85px;
 `;
 
 const Title = styled.div`
@@ -73,7 +76,7 @@ const Title = styled.div`
   height: 32px;
   margin-left: 85px;
   padding-top: 40px;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -92,9 +95,9 @@ const SmallTextWrapper = styled.div`
 const StoreInfButton = styled(Button)`
   width: 92px;
   height: 34px;
-  background-color: ${(props) => (props.left ? '#D76D6D' : '#7B8B6F')};
+  background-color: ${(props) => (props.left ? "#D76D6D" : "#7B8B6F")};
   &:hover {
-    background: ${(props) => (props.left ? '#D76D6D' : '#7B8B6F')};
+    background: ${(props) => (props.left ? "#D76D6D" : "#7B8B6F")};
   }
 `;
 
@@ -110,7 +113,7 @@ const StoreInfName = styled.div`
   width: 210px;
   margin-left: 92px;
   margin-top: 20px;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -127,7 +130,8 @@ const Photo = styled.div`
 `;
 
 const PhotoMenu = styled.div`
-  width: 478px;
+  width: 398px;
+  /* width: 478px; */
   height: 100px;
   margin-left: 88px;
   margin-bottom: 40px;
@@ -137,19 +141,21 @@ const PhotoMenu = styled.div`
 const PhotoContainer = styled.div`
   width: 154px;
   height: 100px;
-  margin-left: 628px;
-  margin-top: 98px;
+  /* margin-top: 38px;
+  margin-left: 628px; */
+  margin-left: 518px;
+  margin-top: 110px;
   position: absolute;
 `;
 
 const CheckboxContainer = styled(Button)`
   margin-left: 70px;
-  margin-top: 30px;
+  margin-top: 20px;
   color: #397cc2;
 `;
 
 const DescriptionWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: -10px;
 `;
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -199,10 +205,19 @@ const AddNewStore = ({ store, display, setDisplay }) => {
           <WholeContainer>
             <Title>Store Information</Title>
             <PhotoContainer>
-              <StoreInfName>Photo</StoreInfName>
-              <Photo />
+              {/* <StoreInfName>Photo</StoreInfName>
+              <Photo /> */}
               <StoreInfName>Photos of menu (Optional)</StoreInfName>
               <PhotoMenu />
+              <DescriptionWrapper>
+              <StoreInfName>Description</StoreInfName>
+              <Description
+                descrip={Form.descrip}
+                setForm={setForm}
+                Form={Form}
+              />
+            </DescriptionWrapper>
+
             </PhotoContainer>
             <TopContainer>
               <StoreTitle>Store Name</StoreTitle>
@@ -251,15 +266,6 @@ const AddNewStore = ({ store, display, setDisplay }) => {
               {/* </SmallTextWrapper> */}
             </SmallTextContainer>
 
-            <DescriptionWrapper>
-              <StoreInfName>Description</StoreInfName>
-              <Description
-                descrip={Form.descrip}
-                setForm={setForm}
-                Form={Form}
-              />
-            </DescriptionWrapper>
-
             <CheckboxContainer>
               <Checkbox {...label} />I have read and agree to the Terms &
               Conditions of Bookinglet
@@ -285,12 +291,6 @@ const AddNewStore = ({ store, display, setDisplay }) => {
                     console.log(r, "b");
                   }
                 }}
-                // onClick={() => {
-                //   addStore(newForm);
-                //   setForm({ ...Form });
-                //   let r = await UpdateStore({ newForm, id });
-                //   console.log(r, "b");
-                // }}
               >
                 Save
               </StoreInfButton>
