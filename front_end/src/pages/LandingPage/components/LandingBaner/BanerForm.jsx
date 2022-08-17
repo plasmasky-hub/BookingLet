@@ -24,7 +24,7 @@ const BannerButton = styled(Button)({
   borderStyle: 'none',
   cursor: 'pointer',
   '&.MuiButton-root': {
-    backgroundColor: '#D08888',
+    backgroundColor: '#E56050',
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 700,
