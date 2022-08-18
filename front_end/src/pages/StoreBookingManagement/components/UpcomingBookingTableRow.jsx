@@ -61,7 +61,7 @@ const StyledItemTitle = styled.h4`
 //   cursor: pointer;
 // `;
 
-const CollapsibleTableRowWrapper = styled.div`
+const CollapsibleTableRowWrapper = styled.table`
   min-width: 1000px;
   width: 100%;
   height: 90px;
@@ -219,60 +219,58 @@ export const UpcomingBookingTableRow = ({ data }) => {
           <Table>
             <TableBody>
               <TableRow>
-                <tableCell>
-                  <Collapse in={open} timeout="auto" unmountOnExit>
-                    <CollapsibleTableRowWrapper>
-                      <TableRow
-                        sx={{
-                          minWidth: "1000px",
-                          height: "80px",
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "flex-start",
-                          alignItems: "center",
-                          pt: 2,
-                        }}
-                      >
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            {CollapedTableRowTitle[0]}
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>
-                            {data._id}
-                          </StyledCollapedTableRowText>
-                        </TableCell>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            {CollapedTableRowTitle[1]}
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>
-                            {data.userId.tel}
-                          </StyledCollapedTableRowText>
-                        </TableCell>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            {CollapedTableRowTitle[2]}
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>{`${data.bookingTime.substring(
-                            0,
-                            10
-                          )} ${data.bookingTime.substring(
-                            12,
-                            16
-                          )}`}</StyledCollapedTableRowText>
-                        </TableCell>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            {CollapedTableRowTitle[3]}
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>
-                            {data.optionInfo}
-                          </StyledCollapedTableRowText>
-                        </TableCell>
-                      </TableRow>
-                    </CollapsibleTableRowWrapper>
-                  </Collapse>
-                </tableCell>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <CollapsibleTableRowWrapper>
+                    <TableRow
+                      sx={{
+                        minWidth: "1000px",
+                        height: "80px",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        pt: 2,
+                      }}
+                    >
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          {CollapedTableRowTitle[0]}
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>
+                          {data._id}
+                        </StyledCollapedTableRowText>
+                      </TableCell>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          {CollapedTableRowTitle[1]}
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>
+                          {data.userId.tel}
+                        </StyledCollapedTableRowText>
+                      </TableCell>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          {CollapedTableRowTitle[2]}
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>{`${data.bookingTime.substring(
+                          0,
+                          10
+                        )} ${data.bookingTime.substring(
+                          12,
+                          16
+                        )}`}</StyledCollapedTableRowText>
+                      </TableCell>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          {CollapedTableRowTitle[3]}
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>
+                          {data.optionInfo}
+                        </StyledCollapedTableRowText>
+                      </TableCell>
+                    </TableRow>
+                  </CollapsibleTableRowWrapper>
+                </Collapse>
               </TableRow>
             </TableBody>
           </Table>

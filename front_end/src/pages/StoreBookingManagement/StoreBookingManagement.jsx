@@ -24,15 +24,15 @@ const ServiceName = styled.h1`
   font-weight: 700;
 `;
 
-const ViewOrdersButton = styled.button`
-  background-color: #d69636;
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-style: none;
-  border-radius: 5px;
-  padding: 5px 15px;
-`;
+// const ViewOrdersButton = styled.button`
+//   background-color: #d69636;
+//   color: #fff;
+//   font-size: 0.8rem;
+//   font-weight: 600;
+//   border-style: none;
+//   border-radius: 5px;
+//   padding: 5px 15px;
+// `;
 
 export const StoreBookingManagement = () => {
   let { id } = useParams();
@@ -46,7 +46,7 @@ export const StoreBookingManagement = () => {
             <ServiceName key={serviceInfo.id}>{serviceInfo.name}</ServiceName>
           ))}
 
-          <ViewOrdersButton>View orders in calendar</ViewOrdersButton>
+          {/* <ViewOrdersButton>View orders in calendar</ViewOrdersButton> */}
           <UpcomingBookings store={store} />
           <PreviousBookings store={store} />
         </StoreBookingWrapper>
