@@ -45,14 +45,14 @@ const OrderStatus = (props) =>{
         <div>12 Coming bookings today</div>
 
         <ViewAndEditButton>
-            <EditStoreInfoButton sx={{ mr:2,textTransform: 'capitalize',borderRadius: 3 ,backgroundColor: "#FA8279", color:"#FFFF"  }}
+            <EditStoreInfoButton sx={{ mr:2,textTransform: 'capitalize',borderRadius: 5,backgroundColor: "#FA8279", color:"#FFFF"  }}
                 variant="contained" 
                 onClick={ () => navigate(`/StoreSettingPage/${props.storeId}`) }
             >
                 Edit Store Information
             </EditStoreInfoButton>
             <ViewStoreButton 
-                sx={{textTransform: 'capitalize' ,borderRadius: 3 ,backgroundColor: "#93B3F4", color:"#FFFF" }}
+                sx={{textTransform: 'capitalize' ,borderRadius: 5 ,backgroundColor: "#93B3F4", color:"#FFFF" }}
                 variant="contained"   
             >
                 View Store Bookings

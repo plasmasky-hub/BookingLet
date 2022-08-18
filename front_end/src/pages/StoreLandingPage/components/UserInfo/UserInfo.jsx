@@ -46,7 +46,7 @@ const RegisterButton =styled.div`
   background-color: #FA8279;
   border-style: none;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 20px;
   color: aliceblue;
   font-weight: 600;
   font-size: 20px;
