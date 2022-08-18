@@ -2,9 +2,12 @@ import React from "react";
 import styled from 'styled-components';
 import UserInfo from "./components/UserInfo/UserInfo";
 import StoreState from "./components/StoreState/StoreState";
+
 // import bubbles from "../../assets/WechatIMG827.png"
 import homebg from '../../assets/storeLandingImg.jpg';
 import { Box } from '@mui/material';
+import {useGetUserStoresQuery} from '../../store/api/userApi';
+
 
 const PageContainer = styled.div`
     /* margin: auto; */
@@ -44,6 +47,7 @@ const StoreLandingPage = () => {
         "name": user.name,
         "role": user.role,
         "id": user._id,
+        // "backgroudPhoto": user.stores.backgroudPhoto,
     }
 
     return (
