@@ -10,13 +10,13 @@ import StoreIcon from '@mui/icons-material/Store';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { useGetStoresQuery } from '../../store/api/storeApi';
-
-// import newBannerBg from '../../assets/WechatIMG825.png';
-
+import BgImage from '../../assets/test1.jpg';
 
 const ServicesPanel = styled(Box)({
   // background:
-  //   'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
+  //   'linear-gradient(to bottom right,rgba(87, 183, 191,1), rgb(198, 214, 217))',
+  // backgroundImage: `url(${BgImage})`,
+  // backgroundSize: 'contain',
 });
 
 const TestimonyImg = styled(Box)({
@@ -40,22 +40,14 @@ const ServiceIntroImg = styled(Box)({
 const LandingPage = () => {
   const { data, isSuccess } = useGetStoresQuery('');
 
-  return (/*
-    <Box 
-      sx={{
-        // background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb );',
-        // backgroundImage: 'url(newBannerBg)',
-      }}
-    >
+  return (
+    <>
       <LandingBanner />
-      // Section of Introduction 
+      {/* Section of Introduction */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          // background:
-          // 'linear-gradient( -50deg, #57b6bf, #D7F6F6 45%, #d5f2f2db 50%, #C6D6D9 );',
-
         }}
       >
         <Box
@@ -66,8 +58,7 @@ const LandingPage = () => {
             justifyContent: 'center',
             alignItems: 'center',
             // background:
-              // 'linear-gradient(249.64deg, rgba(89, 96, 107, 0.352) 0%, rgba(187, 200, 148, 0.4) 99.48%)',
-              // 'linear-gradient( -50deg, #57b6bf, #D7F6F6 45%, #d5f2f2db 50%, #C6D6D9 );',
+            //   'linear-gradient(to bottom right,rgba(87, 183, 191,1), rgb(198, 214, 217))',
           }}
         >
           <Box
@@ -79,11 +70,11 @@ const LandingPage = () => {
               justifyContent: 'center',
               flexDirection: 'column',
               mt: '40px',
-              background: '#ffffff51',
-              //   'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 101.65%)',
+              background:
+                'linear-gradient(250.42deg, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0.08) 101.65%)',
               borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(20px)',
+              backdropFilter: 'blur(50px)',
             }}
           >
             <Box sx={{ width: '330px', position: 'relative', mb: 5 }}>
@@ -102,7 +93,7 @@ const LandingPage = () => {
                   fontWeight: 700,
                   fontSize: '40px',
                   lineHeight: '46px',
-                  color: 'white',
+                  color: 'black',
                   position: 'absolute',
                   top: '36px',
                   left: '60px',
@@ -133,7 +124,7 @@ const LandingPage = () => {
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <PersonOutlineIcon
-                    sx={{ color: 'white', fontSize: '36px', ml: 1, mr: 1 }}
+                    sx={{ color: 'black', fontSize: '36px', ml: 1, mr: 1 }}
                   />
                   <Box>
                     <Typography
@@ -141,7 +132,7 @@ const LandingPage = () => {
                         fontWeight: 700,
                         fontSize: '22px',
                         lineHeight: '25px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -152,7 +143,7 @@ const LandingPage = () => {
                         fontWeight: 400,
                         fontSize: '14px',
                         lineHeight: '16px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -162,7 +153,7 @@ const LandingPage = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <StoreIcon
-                    sx={{ color: 'white', fontSize: '36px', ml: 1, mr: 1 }}
+                    sx={{ color: 'black', fontSize: '36px', ml: 1, mr: 1 }}
                   />
                   <Box>
                     <Typography
@@ -170,7 +161,7 @@ const LandingPage = () => {
                         fontWeight: 700,
                         fontSize: '22px',
                         lineHeight: '25px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -181,7 +172,7 @@ const LandingPage = () => {
                         fontWeight: 400,
                         fontSize: '14px',
                         lineHeight: '16px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -191,7 +182,7 @@ const LandingPage = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <AccessTimeIcon
-                    sx={{ color: 'white', fontSize: '36px', ml: 1, mr: 1 }}
+                    sx={{ color: 'black', fontSize: '36px', ml: 1, mr: 1 }}
                   />
                   <Box>
                     <Typography
@@ -199,7 +190,7 @@ const LandingPage = () => {
                         fontWeight: 700,
                         fontSize: '22px',
                         lineHeight: '25px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -210,7 +201,7 @@ const LandingPage = () => {
                         fontWeight: 400,
                         fontSize: '14px',
                         lineHeight: '16px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -220,7 +211,7 @@ const LandingPage = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <PhoneAndroidIcon
-                    sx={{ color: 'white', fontSize: '36px', ml: 1, mr: 1 }}
+                    sx={{ color: 'black', fontSize: '36px', ml: 1, mr: 1 }}
                   />
                   <Box>
                     <Typography
@@ -228,7 +219,7 @@ const LandingPage = () => {
                         fontWeight: 700,
                         fontSize: '22px',
                         lineHeight: '25px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -239,7 +230,7 @@ const LandingPage = () => {
                         fontWeight: 400,
                         fontSize: '14px',
                         lineHeight: '16px',
-                        color: 'white',
+                        color: 'black',
                         m: '4px',
                       }}
                     >
@@ -254,7 +245,7 @@ const LandingPage = () => {
           </Box>
         </Box>
       </Box>
-      // Section of Testimony 
+      {/* Section of Testimony */}
       <Box
         sx={{
           width: '100%',
@@ -273,7 +264,7 @@ const LandingPage = () => {
               sx={{
                 fontWeight: 'bold',
                 fontSize: 32,
-                color: '#000',
+                color: 'black',
                 lineHeight: '48px',
               }}
             >
@@ -284,7 +275,7 @@ const LandingPage = () => {
               sx={{
                 fontWeight: 400,
                 fontSize: 16,
-                color: '#000',
+                color: 'black',
                 lineHeight: '18px',
                 fontStyle: 'italic',
                 pt: 1,
@@ -297,7 +288,7 @@ const LandingPage = () => {
               sx={{
                 fontWeight: 400,
                 fontSize: 16,
-                color: '#000',
+                color: 'black',
                 lineHeight: '18px',
               }}
             >
@@ -307,15 +298,14 @@ const LandingPage = () => {
           <TestimonyImg />
         </Box>
       </Box>
-      // Section of Store Categories 
+      {/* Section of Store Categories */}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <ServicesPanel sx={{ width: 1240 }}>
           {isSuccess && <StoreDisplay data={data} />}
           <Register />
         </ServicesPanel>
       </Box>
-    </Box> */
-    <></>
+    </>
   );
 };
 

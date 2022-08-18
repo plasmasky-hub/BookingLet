@@ -24,15 +24,10 @@ const BannerButton = styled(Button)({
   borderStyle: 'none',
   cursor: 'pointer',
   '&.MuiButton-root': {
-    backgroundColor: '#dc5546cc',
+    backgroundColor: '#E56050',
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 700,
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)',
-    "&:hover": {
-      //you want this to be the same as the backgroundColor above
-      backgroundColor: "#E56050"
-    }
   },
 });
 
@@ -56,24 +51,13 @@ const WrapperFilter = styled.div`
 //   margin-top: 50px;
 const Wrapper = styled.div`
   width: 565px;
-  /* height: 340px; */
-  margin-top: 0px;
+  height: 240px;
+  margin-top: 35px;
   padding: 15px;
   background: rgba(217, 217, 217, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(20px);
   border-radius: 10px;
-`;
-
-const BannerLabel = styled.div`
-  color: #000;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 37px;
-  width: 374px;
-  height: 76px;
 `;
 
 const WrapperCategory = styled.div``;
@@ -112,8 +96,6 @@ const BanerForm = () => {
 
   return (
     <Wrapper>
-      <BannerLabel>What would you like to book today?</BannerLabel>
-
       <WrapperFilter>
         <WrapperCategory>
           <LocalizationProviderNew dateAdapter={AdapterDateFns}>

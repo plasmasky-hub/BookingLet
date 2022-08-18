@@ -33,7 +33,6 @@ const Cards = styled(Paper)`
     font-family: Arial, Helvetica, sans-serif;
     margin-bottom: auto;
     }
-    
 `
 
 const MemberPhoto = styled.div`
@@ -67,6 +66,7 @@ export default function MemberCard() {
       <Cards elevation={3}>
         <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-SX8ipZnrlQqKLZuiYFk0-8IxYJmX9KwGUNSKpnJ5L-Thh1O95hOZKq4yyTmVQD-XLdPqjCqolRtNKGmWpmK-rSM5nOfWWQU3htWmKpQ3.png"/>
         <h4>Kris Wang</h4>
+
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames dignissim facilisis felis mollis pulvinar in.</p>
         <ButtonIcons aria-label="delete" onClick={(e) => {
         e.preventDefault();
@@ -76,10 +76,12 @@ export default function MemberCard() {
         </ButtonIcons>
       </Cards>
       <Cards elevation={3}>
+
         <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-34wOTOTmZwrSSdJiEz9a-egQLKXLotk1sj0mfi8TT-xpK3Fk6qh2MemlexMHzE-ZIA5n2ePmWz4l7uuafpJ-GyCB3foS6YVP5hp5Ielg-hRsijtRoprWAPgUxsBUf-WFeUuPCcj9VzwdjMhlVn-FEm6qlm5S1IZM9zIfE1h.png"/>
         <h4>Williams</h4>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fames dignissim facilisis felis mollis pulvinar in.</p>
         <ButtonIcons aria-label="delete">
+
             <LinkedInIcon />
         </ButtonIcons>
       </Cards>
