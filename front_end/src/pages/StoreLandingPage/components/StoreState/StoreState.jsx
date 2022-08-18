@@ -59,7 +59,7 @@ const StoreInfoWrapper = styled(Box)( ({theme}) => ({
 
 }));
 
-const StoreContainer = styled(Box)( ({theme}) => ({
+const StoreContainer = styled(Box)( ({theme, store}) => ({
     width: '1000px',
     height: '257px',
     alignItems: 'center',
@@ -88,6 +88,7 @@ const StoreContainer = styled(Box)( ({theme}) => ({
 // >>>>>>> Stashed changes
     //filter: brightness(50%);
     // backgroundColor: '#ffffff71',
+    background:`linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, .4)),url(${store.backgroundPhoto})`,
     backgroundSize: "cover",
     borderRadius: '32px',
     // backgroundImage: `url(${foodBg})`,
@@ -102,8 +103,8 @@ const StoreContainer = styled(Box)( ({theme}) => ({
 }));
 
  const StoreState= (props) => {
-    const id = '62d43d784d61d2e252076471';
-    // const id = props.userId;
+    // const id = '62d43d784d61d2e252076471';
+    const id = props.userId;
     console.log("🚀 ~ file: StoreState.jsx ~ line 55 ~ StoreState ~ id", id)
     const background =props.userBackgroundPhoto;
     const {
@@ -128,22 +129,17 @@ const StoreContainer = styled(Box)( ({theme}) => ({
             {isError && <p>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {isSuccess && (
-                user.stores !== undefined && ( user?.stores.map((store) => 
-// <<<<<<< Updated upstream
-//                     (<StoreContainer
-//                         // style={{backgroundImage:`url(${makeBackgroundPhoto(user.backgroundPhoto)})`}}
-//                         style={{backgroundImage:`url(${store.backgroundPhoto})`}} 
-//                         // style={{backgroundImage:`url(${background})`}}    
-// =======
-                    (<StoreContainer 
-                        style={{backgroundImage:`url(${store.backgroundPhoto})`}} 
+                user.stores.length !== undefined && ( user?.stores.map((store) => 
+                    (
+                        <StoreContainer store={store}>
+                            {/* <div style={{background:'rgba(0,0,0,0.5)',overflow:'hidden',zIndex:'99'}}> */}
 
-                    >
-                        <StoreInfoBar storeId={store._id} />
-                    
-                        <hr />
-                        <OrderStatus  storeId={store._id} orders={store.orders}/>
-                    </StoreContainer>
+                                <StoreInfoBar storeId={store._id} />
+                                <hr />
+                                <OrderStatus  storeId={store._id} orders={store.orders}/>
+                            {/* </div> */}
+
+                        </StoreContainer>
                     )
                 ))
                 
