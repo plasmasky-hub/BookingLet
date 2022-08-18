@@ -9,10 +9,9 @@ import Checkbox from "@mui/material/Checkbox";
 import StoreInfTextEmail from "../StoreSettingPage/components/EditStore/components/StoreInfTextEmail/StoreInfTextEmail";
 import StoreInfTextTel from "../StoreSettingPage/components/EditStore/components/StoreInfTextTel/StoreInfTextTel";
 import StoreInfSmallPostcode from "../StoreSettingPage/components/EditStore/components/StoreInfSmallPostcode/StoreInfSmallPostcode";
-import { useNavigate } from 'react-router-dom';
-import {
-  useUpdateUserMutation,
-} from "../../store/api/userApi";
+import { useNavigate } from "react-router-dom";
+import { useUpdateUserMutation } from "../../store/api/userApi";
+import { ToastContainer, toast } from 'react-toastify';
 
 const StoreInfWrapper = styled.div`
   width: 1140px;
@@ -22,7 +21,7 @@ const StoreInfWrapper = styled.div`
   margin-left: 47px;
   margin-top: 38px;
   padding-top: 10px;
-  border-radius:10px;
+  border-radius: 10px;
 `;
 
 const TopContainer = styled.div`
@@ -165,6 +164,19 @@ const PersonalForm = ({ personaldata, id }) => {
   return (
     <>
       (
+      <ToastContainer
+        style={{ fontSize: "16px" }}
+        theme="dark"
+        position="top-center"
+        autoClose={7000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <StoreInfWrapper>
         <WholeContainer>
           <Title>My Profile</Title>
@@ -243,18 +255,10 @@ const PersonalForm = ({ personaldata, id }) => {
                 if (userObj) {
                   let r = await UpdateUser({ userObj, id });
                   setForm({ ...Form });
+                return toast.success(`successfully updated`);
                   // await UpdateStore({newForm,id});
-                  console.log(r, "rrr");
                 }
               }}
-                // onClick={async () => {
-                //   if (userObj) {
-                //     let r = await UpdateUser({id, userObj });
-                //     setForm({ ...Form });
-                //     // await UpdateStore({newForm,id});
-                //     console.log(r, "y");
-                //   }
-                // }}
             >
               Save
             </StoreInfButton>

@@ -50,7 +50,7 @@ const WrapperFilter = styled.div`
 // margin-left: 200px;
 //   margin-top: 50px;
 const Wrapper = styled.div`
-  width: 565px;
+  width: 600px;
   height: 240px;
   margin-top: 35px;
   padding: 15px;

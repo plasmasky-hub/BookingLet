@@ -468,7 +468,7 @@ const Excel = (props) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <Title>Business Hours</Title>
+      <Title>Store Business Hours</Title>
       <WeekBar>
         {
           props.headers.map((head, index) =>
