@@ -15,7 +15,7 @@ const Container = styled.div`
   left: 145px;
 
   h2 {
-    color: #fff;
+    color: #000;
     font-size:40px;
     height: 26px;
     top: 171px;
