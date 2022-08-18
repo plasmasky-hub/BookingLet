@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { Stack, Chip } from "@mui/material";
+import { Stack, Chip, Table, TableBody } from "@mui/material";
 import { ServiceDropdown } from "./ServiceDropdown";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { BookingManageWrapper } from "./UpcomingBookings";
@@ -155,9 +155,14 @@ export const PreviousBookings = (props) => {
             </ServiceDropdownWrapper>
           </BookingManageWrapper>
           {orders.length === 0 && <>no orders</>}
-          {orders?.map((order) => {
-            return <PrevBookingTableRow data={order} key={order._id} />;
-          })}
+          <Table>
+            <TableBody>
+              {orders?.map((order) => {
+                return <PrevBookingTableRow data={order} key={order._id} />;
+              })}
+            </TableBody>
+          </Table>
+
           <BasicPagination
             pageQty={pageQty}
             handlePageClick={handlePageClick}

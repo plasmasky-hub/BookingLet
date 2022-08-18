@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { ServiceDropdown } from "./ServiceDropdown";
-import { SwitchButton } from "./SwitchButton";
+// import { SwitchButton } from "./SwitchButton";
 import { UpcomingBookingTableRow } from "./UpcomingBookingTableRow";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
@@ -93,7 +93,7 @@ export const UpcomingBookings = (props) => {
               currentOption={currentService}
               onChangeEvent={handleSelectService}
             />
-            <SwitchButton orders={orders} onChangeEvent={handleSwitchButton} />
+            {/* <SwitchButton orders={orders} onChangeEvent={handleSwitchButton} /> */}
           </BookingManageWrapper>
           {orders.length === 0 && <>no orders</>}
           {orders.map((order) => {

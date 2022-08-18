@@ -121,50 +121,48 @@ export const PrevBookingTableRow = ({ data }) => {
           <Table>
             <TableBody>
               <TableRow>
-                <TableCell>
-                  <Collapse in={open} timeout="auto" unmountOnExit>
-                    <CollapsibleTableRowWrapper>
-                      <TableRow direction="column" sx={{ minWidth: "1000px" }}>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            <strong>{CollapedTableRowTitle[0]}</strong>
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>
-                            {data._id}
-                          </StyledCollapedTableRowText>
-                        </TableCell>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            <strong>{CollapedTableRowTitle[1]}</strong>
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>
-                            {data.userId.tel}
-                          </StyledCollapedTableRowText>
-                        </TableCell>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            <strong>{CollapedTableRowTitle[2]}</strong>
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>{`${data.bookingTime.substring(
-                            0,
-                            10
-                          )} ${data.bookingTime.substring(
-                            12,
-                            16
-                          )}`}</StyledCollapedTableRowText>
-                        </TableCell>
-                        <TableCell>
-                          <StyledCollapedTableRowTitle>
-                            <strong>{CollapedTableRowTitle[3]}</strong>
-                          </StyledCollapedTableRowTitle>
-                          <StyledCollapedTableRowText>
-                            {data.optionInfo}
-                          </StyledCollapedTableRowText>
-                        </TableCell>
-                      </TableRow>
-                    </CollapsibleTableRowWrapper>
-                  </Collapse>
-                </TableCell>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <CollapsibleTableRowWrapper>
+                    <TableRow direction="column" sx={{ minWidth: "1000px" }}>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          <strong>{CollapedTableRowTitle[0]}</strong>
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>
+                          {data._id}
+                        </StyledCollapedTableRowText>
+                      </TableCell>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          <strong>{CollapedTableRowTitle[1]}</strong>
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>
+                          {data.userId.tel}
+                        </StyledCollapedTableRowText>
+                      </TableCell>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          <strong>{CollapedTableRowTitle[2]}</strong>
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>{`${data.bookingTime.substring(
+                          0,
+                          10
+                        )} ${data.bookingTime.substring(
+                          12,
+                          16
+                        )}`}</StyledCollapedTableRowText>
+                      </TableCell>
+                      <TableCell>
+                        <StyledCollapedTableRowTitle>
+                          <strong>{CollapedTableRowTitle[3]}</strong>
+                        </StyledCollapedTableRowTitle>
+                        <StyledCollapedTableRowText>
+                          {data.optionInfo}
+                        </StyledCollapedTableRowText>
+                      </TableCell>
+                    </TableRow>
+                  </CollapsibleTableRowWrapper>
+                </Collapse>
               </TableRow>
             </TableBody>
           </Table>
