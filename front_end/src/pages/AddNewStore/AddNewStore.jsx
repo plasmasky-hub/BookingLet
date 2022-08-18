@@ -10,8 +10,9 @@ import StoreInfSmallPostcode from "../StoreSettingPage/components/EditStore/comp
 import Description from "../StoreSettingPage/components/EditStore/components/Description/Description";
 import StoreInfTextAddress1 from "../StoreSettingPage/components/EditStore/components/StoreInfTextAddress1";
 import StoreInfTextAddress2 from "../StoreSettingPage/components/EditStore/components/StoreInfTextAddress2";
+import { ToastContainer, toast } from "react-toastify";
 import { useAddStoreMutation } from "../../store/api/storeApi";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const StoreInfWrapper = styled.div`
   /* width: 1347px;
@@ -24,7 +25,7 @@ const StoreInfWrapper = styled.div`
   /* margin-left: 97px; */
   margin-top: 58px;
   margin-left: 52px;
-  border-radius:10px;
+  border-radius: 10px;
 `;
 
 const TopContainer = styled.div`
@@ -159,10 +160,10 @@ const DescriptionWrapper = styled.div`
   margin-top: -10px;
 `;
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const AddNewStore = ({ store, display, setDisplay }) => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
+  const userId = JSON.parse(localStorage.getItem("user"))._id;
   const [addStore] = useAddStoreMutation();
   // const { data, isSuccess } = useGetUserQuery(userId);
 
@@ -186,9 +187,9 @@ const AddNewStore = ({ store, display, setDisplay }) => {
     },
     description: Form.descrip,
     name: Form.name,
-    tel: '0422388787',
+    tel: "0422388787",
     owner: "62e33d84e15ae94ec1dced42",
-    rootCategories: ["62d42f329a144d0fc58980c9"]
+    rootCategories: ["62d42f329a144d0fc58980c9"],
   };
   const navigate = useNavigate();
 
@@ -196,11 +197,24 @@ const AddNewStore = ({ store, display, setDisplay }) => {
 
   // console.log(store, 'd');
   // console.log(store.location.state);
-  console.log(Form, 'oo');
-  console.log(newForm, 'p');
+  console.log(Form, "oo");
+  console.log(newForm, "p");
 
   return (
     <>
+      <ToastContainer
+        style={{ fontSize: "16px" }}
+        theme="dark"
+        position="top-center"
+        autoClose={7000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {
         <StoreInfWrapper>
           <WholeContainer>
@@ -211,14 +225,13 @@ const AddNewStore = ({ store, display, setDisplay }) => {
               <StoreInfName>Photos of menu (Optional)</StoreInfName>
               <PhotoMenu />
               <DescriptionWrapper>
-              <StoreInfName>Description</StoreInfName>
-              <Description
-                descrip={Form.descrip}
-                setForm={setForm}
-                Form={Form}
-              />
-            </DescriptionWrapper>
-
+                <StoreInfName>Description</StoreInfName>
+                <Description
+                  descrip={Form.descrip}
+                  setForm={setForm}
+                  Form={Form}
+                />
+              </DescriptionWrapper>
             </PhotoContainer>
             <TopContainer>
               <StoreTitle>Store Name</StoreTitle>
@@ -277,7 +290,7 @@ const AddNewStore = ({ store, display, setDisplay }) => {
               <StoreInfButton
                 left
                 variant="contained"
-                onClick={()=>navigate(`/StoreLandingPage`)}
+                onClick={() => navigate(`/StoreLandingPage`)}
               >
                 Back
               </StoreInfButton>
@@ -288,8 +301,9 @@ const AddNewStore = ({ store, display, setDisplay }) => {
                   if (newForm) {
                     let r = await addStore(newForm);
                     setForm({ ...Form });
+                    return toast.success(`successfully updated`);
                     // await UpdateStore({newForm,id});
-                    console.log(r, "b");
+                    // console.log(r, "b");
                   }
                 }}
               >
