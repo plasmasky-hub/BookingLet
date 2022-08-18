@@ -187,6 +187,7 @@ const BanerForm = () => {
         }}
         onClick={() => {
           navigate(`/StoreListPage${searchQuery}`);
+          window.scrollTo(0, 0);
         }}
       >
         SEARCH

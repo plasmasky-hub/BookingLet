@@ -140,6 +140,10 @@ export const UserPanel = (props) => {
     handleNavigate(`/UserBookingPage`);
   }
 
+  const routeToPersonalSetting = () => {
+    handleNavigate(`/PersonalSetting`);
+  }
+
   // console.log(UserInfo);
 
   return (
@@ -192,7 +196,7 @@ export const UserPanel = (props) => {
             <ListWrapper>
               <List sx={{ width: 295 }}>
                 <Divider />
-                <ListItemButton onClick={()=>navigate(`/PersonalSetting`)}>
+                <ListItemButton onClick={routeToPersonalSetting}>
                   <ListItemIcon>
                     <InfoOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}
