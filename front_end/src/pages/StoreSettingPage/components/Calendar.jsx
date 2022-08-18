@@ -90,7 +90,7 @@ const Popup = styled.div`
   height: 200px;
   position: absolute;
   margin-top: -350px;
-  margin-left: ${props => props.rowIndex * 70 + 80}px;
+  margin-left: ${props => props.rowIndex * 70 - 280}px;  //+80, not -280, at first design
   z-index: 9;
 `;
 
