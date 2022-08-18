@@ -36,12 +36,6 @@ const BookingPanel = ({ id, setOpen }) => {
   const [step, setStep] = useState(0);
 
   const Display = Forms[step];
-  let user = localStorage.getItem('user');
-  if (user === '[object Object]' || user === 'null') {
-    user = '';
-  }
-  const userName = user ? user.name : null;
-  const userEmail = user ? user.email : null;
 
   const [FormData, setFormData] = useState({
     date: new Date(),
@@ -50,8 +44,6 @@ const BookingPanel = ({ id, setOpen }) => {
     duration: '',
     mobile: '',
     note: '',
-    name: userName,
-    email: userEmail,
     send: false,
     startTime: '',
     endTime: '',
@@ -115,6 +107,7 @@ const BookingPanel = ({ id, setOpen }) => {
           setStep={setStep}
           Forms={Forms}
           setOpen={setOpen}
+          FormData={FormData}
         />
       </FlexWrapper>
     </PanelWrapper>

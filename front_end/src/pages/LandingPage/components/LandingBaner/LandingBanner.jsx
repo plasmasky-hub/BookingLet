@@ -2,7 +2,8 @@ import React from "react";
 import BanerForm from "./BanerForm";
 import styled from "styled-components";
 // import homebg from '../../../../assets/home-bg.jpg';
-import bannerbg from "../../../../assets/home-banner.jpg";
+import bannerbg from '../../../../assets/home-banner.jpg';
+import calendar from '../../../../assets/calendar.png';
 // import Stack from '@mui/material/Stack';
 import { Typography, Box } from "@mui/material";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
@@ -21,14 +22,28 @@ const BannerWrapper = styled.div`
   height: calc(100vh - 120px);
   min-height: 750px;
   box-sizing: border-box;
-  background-image: url(${bannerbg});
-  background-repeat: no-repeat;
+  background-image: url(${bannerbg}); 
   background-size: cover;
+  /* background: linear-gradient(to bottom right,rgba(87, 183, 191,1), rgb(198, 214, 217)) ; */
+  display:flex;
 `;
 
+// const CalendarBackground = styled.div`
+//   /* background-image: url(${calendar}); */
+//   width:70%;
+//   height:70%;
+//   background-repeat: no-repeat;
+//   background-size: contain;
+//   position:absolute;
+//   right:8%;
+//   top:10%;
+//   z-index:3;
+// `
+
 const BannerContainer = styled.div`
-  margin-left: 240px;
+  margin-left: 350px;
   padding-top: 200px;
+  z-index:5;
 `;
 
 const BannerLabel = styled.div`
@@ -46,6 +61,8 @@ const LandingBanner = ({ FormData, setFormData }) => (
       <BannerLabel>What would you like to book today?</BannerLabel>
       <BanerForm FormData={FormData} setFormData={setFormData} />
     </BannerContainer>
+
+    {/* <CalendarBackground /> */}
     <Box
       sx={{
         width: 1100,
@@ -60,7 +77,7 @@ const LandingBanner = ({ FormData, setFormData }) => (
         sx={{
           width: 220,
           height: 140,
-          background: "#D18888",
+          background: "#E56050",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -110,7 +127,7 @@ const LandingBanner = ({ FormData, setFormData }) => (
         sx={{
           width: 220,
           height: 140,
-          background: "#7993AC",
+          background: "#F99746",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -160,7 +177,8 @@ const LandingBanner = ({ FormData, setFormData }) => (
         sx={{
           width: 220,
           height: 140,
-          background: "#DF75C8",
+
+          background: "#77b867",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -211,7 +229,8 @@ const LandingBanner = ({ FormData, setFormData }) => (
         sx={{
           width: 220,
           height: 140,
-          background: "#9AA88F",
+
+          background: "#58BFD6",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -262,7 +281,7 @@ const LandingBanner = ({ FormData, setFormData }) => (
         sx={{
           width: 220,
           height: 140,
-          background: "#D7994D",
+          background: "#7F70DB",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",

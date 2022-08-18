@@ -13,6 +13,7 @@ const ContentWrapper = styled.div`
   display: flex;
   margin: 100px auto;
   width: fit-content;
+  height: 729px;
   box-sizing: border-box;
 `;
 

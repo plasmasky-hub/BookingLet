@@ -1,1 +1,1 @@
-export { default } from './Editstore';
+export { default } from './EditStore';
