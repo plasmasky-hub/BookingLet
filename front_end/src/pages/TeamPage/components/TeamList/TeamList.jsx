@@ -47,6 +47,7 @@ const BoxList = styled(Box)`
     margin-top: 100px;
     justify-content: center;
     align-items:center;
+
 `
 const BoxTitle = styled(Box)`
     display:flex;
@@ -55,6 +56,7 @@ const BoxTitle = styled(Box)`
     margin: 0 auto;
 `
 export default function TeamList() {
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -82,7 +84,9 @@ export default function TeamList() {
       <TabPanel value={value} index={0} >
         <DevelopsCard/>
       </TabPanel>
+
       <TabPanel value={value} index={1} >  
+
         <DevopsCard/>
       </TabPanel>
       <TabPanel value={value} index={2}>

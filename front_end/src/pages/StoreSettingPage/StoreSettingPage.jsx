@@ -4,7 +4,7 @@ import Calendar from './components/Calendar';
 import StoreInfo from './components/StoreInfo';
 import { useGetStoreQuery } from '../../store/api/storeApi';
 import { useParams } from 'react-router-dom';
-import EditStore from './components/EditStore';
+import EditStore from './components/EditStore/Editstore';
 import ServiceInfo from './components/ServiceInfo';
 import ServiceList from './components/ServiceList';
 import ServiceCalendar from './components/ServiceCalendar';
@@ -13,6 +13,7 @@ const ContentWrapper = styled.div`
   display: flex;
   margin: 100px auto;
   width: fit-content;
+  height: 729px;
   box-sizing: border-box;
 `;
 
