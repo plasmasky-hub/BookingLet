@@ -12,7 +12,6 @@ import StoreInfSmallPostcode from "../StoreSettingPage/components/EditStore/comp
 import { useNavigate } from 'react-router-dom';
 import {
   useUpdateUserMutation,
-  useGetUserQuery,
 } from "../../store/api/userApi";
 
 const StoreInfWrapper = styled.div`
@@ -20,9 +19,10 @@ const StoreInfWrapper = styled.div`
   /* width: 1233px; */
   height: 862px;
   background-color: #fbfbfb;
-  /* margin-left: 97px; */
+  margin-left: 47px;
   margin-top: 38px;
   padding-top: 10px;
+  border-radius:10px;
 `;
 
 const TopContainer = styled.div`
@@ -93,7 +93,7 @@ const StoreInfButton = styled(Button)`
 const ButtonContainer = styled(Button)`
   width: 250px;
   margin-top: 20px;
-  margin-left: 480px;
+  margin-left: 430px;
   display: flex;
   justify-content: space-around;
 `;
@@ -221,7 +221,7 @@ const PersonalForm = ({ personaldata, id }) => {
             <StoreInfButton
               left
               variant="contained"
-              onClick={() => navigate(`/LandingPage`)}
+              onClick={() => navigate(`/`)}
             >
               Back
             </StoreInfButton>

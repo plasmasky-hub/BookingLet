@@ -12,7 +12,7 @@ import PageLayout from './components/shared/PageLayout';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import Layout from './components/shared/Layout';
-import EditStore from './pages/StoreSettingPage/components/EditStore';
+import EditStore from './pages/StoreSettingPage/components/EditStore/Editstore';
 import PersonalSetting from './pages/PersonalSetting';
 import ErrorHandle from './pages/ErrorHandlePage/ErrorHandle';
 import PrivateRoutes from './utils/PrivateRoutes';

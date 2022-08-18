@@ -23,7 +23,7 @@ const StyledHeader = styled(Box)`
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
-  z-index: 2;
+  z-index: 99;
 `;
 
 const ButtonWrapper = styled(Box)`
