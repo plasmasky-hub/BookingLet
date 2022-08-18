@@ -17,6 +17,7 @@ import PersonalSetting from "./pages/PersonalSetting";
 import ErrorHandle from "./pages/ErrorHandlePage/ErrorHandle";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import AddNewStore from "./pages/AddNewStore/AddNewStore";
+import { StoreBookingManagement } from "./pages/StoreBookingManagement/StoreBookingManagement";
 
 function App() {
   return (
@@ -44,6 +45,10 @@ function App() {
             <Route path="/StoreListPage" element={<StoreListPage />}></Route>
             <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
             <Route path="/TeamPage" element={<TeamPage />}></Route>
+            <Route
+              path="/StoreBookingManagement/:id"
+              element={<StoreBookingManagement />}
+            ></Route>
             <Route path="/*" element={<ErrorHandle />}></Route>
           </Routes>
         </Layout>
