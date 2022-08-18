@@ -4,7 +4,7 @@ import StoreInfoBar from './components/StoreInfoBar/StoreInfoBar';
 import foodBg from '../../../../assets/foodBg.jpeg';
 import {useGetUserStoresQuery} from '../../../../store/api/userApi';
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 // =======
 // const StoreInfoWrapper = styled.div`
@@ -102,7 +102,14 @@ const StoreContainer = styled(Box)( ({theme, store}) => ({
 
 }));
 
- const StoreState= (props) => {
+const NoStore = styled(Typography)( ({theme}) => ({
+    fontSize : '60px',
+    fontStyle : 'bold',
+    color : 'rgba(0, 0, 0, 0.4)',
+
+}));
+
+const StoreState= (props) => {
     // const id = '62d43d784d61d2e252076471';
     const id = props.userId;
     console.log("🚀 ~ file: StoreState.jsx ~ line 55 ~ StoreState ~ id", id)
@@ -129,7 +136,8 @@ const StoreContainer = styled(Box)( ({theme, store}) => ({
             {isError && <p>{error}</p>}
             {isLoading && <p>Loading...</p>}
             {isSuccess && (
-                user.stores.length !== undefined && ( user?.stores.map((store) => 
+                user.stores.length !== 0 
+                ? ( user?.stores.map((store) => 
                     (
                         <StoreContainer store={store}>
                             {/* <div style={{background:'rgba(0,0,0,0.5)',overflow:'hidden',zIndex:'99'}}> */}
@@ -140,8 +148,10 @@ const StoreContainer = styled(Box)( ({theme, store}) => ({
                             {/* </div> */}
 
                         </StoreContainer>
-                    )
-                ))
+                    ))
+                ):(
+                    <NoStore>No Store</NoStore>
+                )
                 
             )}
         </StoreInfoWrapper>
