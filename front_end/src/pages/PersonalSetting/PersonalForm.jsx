@@ -12,7 +12,6 @@ import StoreInfSmallPostcode from "../StoreSettingPage/components/EditStore/comp
 import { useNavigate } from 'react-router-dom';
 import {
   useUpdateUserMutation,
-  useGetUserQuery,
 } from "../../store/api/userApi";
 
 const StoreInfWrapper = styled.div`
