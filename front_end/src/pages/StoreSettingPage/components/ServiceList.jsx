@@ -29,7 +29,7 @@ const List = styled.ul`
   margin: 0;
   padding: 0;
   li {
-    background-color: #f0f0f0;
+    background-color: #fff;
     padding: 8px 0;
     cursor: pointer;
     display: flex;
