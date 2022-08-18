@@ -76,6 +76,16 @@ const StoreContainer = styled(Box)( ({theme}) => ({
 //     margin:20px auto;
 //     padding: 30px;
 // >>>>>>> Stashed changes
+// =======
+// const StoreContainer = styled.div`
+//     width: 90%;
+//     height: 257px;
+//     /* background-image:url(${foodBg}) ; */
+//     align-items:center;
+//     justify-content:center;
+//     margin:20px auto;
+//     padding: 30px;
+// >>>>>>> Stashed changes
     //filter: brightness(50%);
     // backgroundColor: '#ffffff71',
     backgroundSize: "cover",
@@ -119,10 +129,15 @@ const StoreContainer = styled(Box)( ({theme}) => ({
             {isLoading && <p>Loading...</p>}
             {isSuccess && (
                 user.stores !== undefined && ( user?.stores.map((store) => 
-                    (<StoreContainer
-                        // style={{backgroundImage:`url(${makeBackgroundPhoto(user.backgroundPhoto)})`}}
+// <<<<<<< Updated upstream
+//                     (<StoreContainer
+//                         // style={{backgroundImage:`url(${makeBackgroundPhoto(user.backgroundPhoto)})`}}
+//                         style={{backgroundImage:`url(${store.backgroundPhoto})`}} 
+//                         // style={{backgroundImage:`url(${background})`}}    
+// =======
+                    (<StoreContainer 
                         style={{backgroundImage:`url(${store.backgroundPhoto})`}} 
-                        // style={{backgroundImage:`url(${background})`}}    
+
                     >
                         <StoreInfoBar storeId={store._id} />
                     
