@@ -8,9 +8,11 @@ import { Box } from '@mui/material';
 // `;
 
 const Layout = styled(Box)({
-  width: 1240,
-  background:
-    'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
+  width: '1240px',
+  background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter:'blur(100)'
+  // background:
+  //   'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
 });
 
 export default Layout;
