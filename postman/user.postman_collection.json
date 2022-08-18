@@ -8,16 +8,39 @@
 	"item": [
 		{
 			"name": "GET all users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiNyBKdWx5IHRlc3QgMiIsInJvbGUiOiJDdXN0b21lciIsImlhdCI6MTY1NzE3OTQ5MSwiZXhwIjoxNjU3MTgzMDkxfQ.DkVdqkQZU9-XPR5P8AgfkFKxwXc2rsp1uFgHle2gZis",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": {\n        \"_id\": \"62c6702f60a91b24ca72a974\",\n        \"name\": \"7 July test 2\",\n        \"tel\": \"0322223466\",\n        \"email\": \"xj@gmail.com\",\n        \"password\": \"$2b$10$6xV2EvoA7NXLqtDQ13MdU.P8ciLIT0aht9J0m6AY7OkbFFd3lRXcu\",\n        \"orders\": [],\n        \"role\": \"Admin\",\n        \"stores\": [],\n        \"favouriteStores\": [],\n        \"__v\": 0\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "localhost:8000/user",
+					"raw": "localhost:8000/v1/user",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
+						"v1",
 						"user"
 					]
 				}
@@ -48,13 +71,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/store",
+					"raw": "localhost:8000/v1/store/62a1aa0a2c9f493974ea830e",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"store"
+						"v1",
+						"store",
+						"62a1aa0a2c9f493974ea830e"
 					]
 				}
 			},
@@ -157,6 +182,102 @@
 					"port": "8000",
 					"path": [
 						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : \"62d43c99d7961f03c65307e6\",\r\n    \"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/user/updatePassword",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"7 July test 4\",\r\n    \"tel\" : \"0322223466\",\r\n    \"email\" : \"xj@gmail.com\",\r\n    \"password\" : \"234567\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"meliharpavel@sah-ilk-han.com\",\r\n    \"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/v1/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"user",
+						"login"
 					]
 				}
 			},

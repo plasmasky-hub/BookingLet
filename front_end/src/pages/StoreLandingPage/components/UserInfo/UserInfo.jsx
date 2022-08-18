@@ -67,7 +67,7 @@ const UserInfo = (props) =>{
         <UserInfoContainer>
             <Avatar sx={{ width: 119, height: 119 }} />
             <UserName>Hi, {name}<br/> Manage your stores here</UserName>
-            <RegisterButton onClick={()=>navigate(`/StoreSettingPage/62d43d784d61d2e252076471`)}>Register a new store</RegisterButton>
+            <RegisterButton onClick={()=>navigate(`/AddNewStore`)}>Register a new store</RegisterButton>
         </UserInfoContainer>
         <UserBannerBackground />
     </UserInfoWrapper>

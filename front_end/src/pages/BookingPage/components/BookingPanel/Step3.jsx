@@ -87,7 +87,7 @@ const Step3 = ({ FormData, setFormData }) => {
         rows={4}
         size="small"
         showlabel="true"
-        label="Add any additional note for your order"
+        label="optional"
       />
       <CheckboxWrapper>
         <Checkbox

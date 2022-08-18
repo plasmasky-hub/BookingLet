@@ -12,11 +12,28 @@ const StyledButton = styled(Button)`
   padding: 7px 25px 4px 25px;
 `;
 
-const ForwardButton = ({ step, setStep, Forms }) => {
+const ForwardButton = ({ step, setStep, Forms, setOpen, FormData }) => {
   const text = ['Find', 'Next', 'Next', 'Submit'];
+  let auth = localStorage.getItem('token');
+  const { service, people, duration, startTime, mobile } = FormData;
+  const isFilled =
+    step === 0
+      ? service && people
+      : step === 1
+      ? duration && startTime
+      : step === 2
+      ? mobile
+      : true;
 
   return step < Forms.length - 1 ? (
-    <StyledButton onClick={() => setStep(step + 1)} variant="contained">
+    <StyledButton
+      onClick={() => {
+        auth = localStorage.getItem('token');
+        auth && isFilled && setStep(step + 1);
+        (auth && isFilled) || setOpen(true);
+      }}
+      variant="contained"
+    >
       {text[step]}
     </StyledButton>
   ) : null;

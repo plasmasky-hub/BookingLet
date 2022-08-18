@@ -117,8 +117,8 @@ export const UserPanel = (props) => {
 
   async function logout(){
     props.setLoggedIn(false);
-    await localStorage.setItem('loggedIn', false);
-    await localStorage.setItem('user', null);
+    // await localStorage.setItem('loggedIn', false);
+    await localStorage.setItem('user', '');
     await localStorage.setItem('token', '');
   }
 
@@ -192,7 +192,7 @@ export const UserPanel = (props) => {
             <ListWrapper>
               <List sx={{ width: 295 }}>
                 <Divider />
-                <ListItemButton>
+                <ListItemButton onClick={()=>navigate(`/PersonalSetting`)}>
                   <ListItemIcon>
                     <InfoOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}

@@ -72,7 +72,6 @@ const Step2 = ({ FormData, setFormData }) => {
         .filter((e) => e.availability === true)
         .map((e) => e.timeSlice)
     : null;
-  console.log('data:', data, 'chartData:', chartData);
   /*******************************************************/
   //Bar Chart
   /*******************************************************/

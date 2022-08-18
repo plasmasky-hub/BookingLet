@@ -15,6 +15,8 @@ import Layout from './components/shared/Layout';
 import EditStore from './pages/StoreSettingPage/components/EditStore';
 import PersonalSetting from './pages/PersonalSetting';
 import ErrorHandle from './pages/ErrorHandlePage/ErrorHandle';
+import PrivateRoutes from './utils/PrivateRoutes';
+import AddNewStore from './pages/AddNewStore/AddNewStore'
 
 function App() {
   return (
@@ -23,34 +25,26 @@ function App() {
         <Header />
         <Layout>
           <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/StoreLandingPage" element={<StoreLandingPage />} />
+              <Route path="/PersonalSetting" element={<PersonalSetting />} />
+              <Route path="/UserBookingPage/" element={<UserBookingPage />} />
+              <Route
+                path="/FavouriteStoreListPage/:_id"
+                element={<FavouriteStoreListPage />}
+              />
+              <Route
+                path="/StoreSettingPage/:id"
+                element={<StoreSettingPage />}
+              />
+              <Route path="/EditStore" element={<EditStore />} />
+              <Route path="/AddNewStore" element={<AddNewStore />} />
+            </Route>
             <Route path="/" element={<LandingPage />}></Route>
-            <Route path="/LandingPage" element={<LandingPage />}></Route>
             <Route path="/StoreListPage" element={<StoreListPage />}></Route>
             <Route path="/BookingPage/:_id" element={<BookingPage />}></Route>
             <Route path="/TeamPage" element={<TeamPage />}></Route>
-            <Route
-              path="/StoreLandingPage"
-              element={<StoreLandingPage />}
-            ></Route>
-            <Route path="/EditStore" element={<EditStore />}></Route>
-            <Route
-              path="/PersonalSetting"
-              element={<PersonalSetting />}
-            ></Route>
-
-            <Route
-              path="/UserBookingPage/"
-              element={<UserBookingPage />}
-            ></Route>
-            <Route
-              path="/FavouriteStoreListPage/:_id"
-              element={<FavouriteStoreListPage />}
-            ></Route>
-            <Route
-              path="/StoreSettingPage/:id"
-              element={<StoreSettingPage />}
-            ></Route>
-            <Route path="/Error" element={<ErrorHandle />}></Route>
+            <Route path="/*" element={<ErrorHandle />}></Route>
           </Routes>
         </Layout>
         <Footer />

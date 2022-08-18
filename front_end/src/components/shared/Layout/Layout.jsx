@@ -9,12 +9,10 @@ import { Box } from '@mui/material';
 
 const Layout = styled(Box)({
   width: '1240px',
-  backdropFilter: 'blur(100px)',
+  background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter:'blur(100)'
   // background:
-    // 'linear-gradient(249.64deg, #57b6bf 100%, #D7F6F6 99.48%, #d5f2f2db, #c6d6d90)',
-    // background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )',
-    // background:'linear-gradient( to top left , #cefaff, #b8b7fd, #f56fbbbb )',
-
+  //   'linear-gradient(249.64deg, rgba(187, 200, 148, 0.4) 0%, rgba(89, 96, 107, 0.352) 99.48%)',
 });
 
 export default Layout;
