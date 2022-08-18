@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import BgImage from '../../../assets/test1.png';
 
 const PageLayout = styled(Box)({
   width: '100vw',
@@ -7,7 +8,17 @@ const PageLayout = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: '#2F4449',
+  //  background:
+  //              'linear-gradient(to bottom right,rgba(87, 183, 191,1), rgb(198, 214, 217))',
+  
+  backgroundImage: `url(${BgImage})`,
+  backgroundSize: 'cover',
+  backgroundRepeat:'no-repeat',
+  
+ 
+ 
+  
+  
 });
 
 export default PageLayout;
