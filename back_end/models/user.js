@@ -22,7 +22,8 @@ const Schema = new mongoose.Schema({
         required: true,
     },
     photo: {
-        type: String
+        type: String,
+        default: 'https://jr-bookinglet-2.s3.ap-southeast-2.amazonaws.com/user-avatar/BookingletDefaultUser.png'
     },
     location: {
         state: { type: String },

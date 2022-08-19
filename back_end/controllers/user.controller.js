@@ -34,10 +34,10 @@ async function updatePassword(req, res) {
   const schema = Joi.object({
     password: Joi.string().required().min(6).max(30),
   });
-  const validation = schema.validate({password:password});
+  const validation = schema.validate({ password: password });
   console.log("🚀 ~ file: user.controller.js ~ line 38 ~ updatePassword ~ validation", validation)
-  
-  if ( validation.error ) {
+
+  if (validation.error) {
     return res.status(401).json(validation.error);
   }
 
@@ -58,25 +58,34 @@ async function updatePassword(req, res) {
 
 
 async function updateUserByID(req, res) {
-  console.log(req.body,'ooo');
-  if (req.body.location.state === undefined || req.body.location.city === undefined || req.body.location.postcode === undefined) {
-    return res.json('location cannot be null');
+  console.log(req.body, 'ooo');
+  if (req.body.location === undefined || req.body.location.state === undefined || req.body.location.city === undefined || req.body.location.postcode === undefined) {
+    return res.json({ Error: 'Location cannot be null' });
   } else if (req.body.location.postcode < 200 || req.body.location.postcode > 9999) {
-    return res.json('Please input correct postcode !');
+    return res.json({ Error: 'Please input correct postcode !' });
+  }
+
+  if (req.body.photo && typeof (req.body.photo) !== 'string') {
+    return res.json({ Error: 'User avatar format incorrect!' });
   }
 
   const { id } = req.params;
-  const checkResult = checkUserInfo(req.body);
 
-  if (!(checkResult === undefined)) {
-    console.log('Invalid user info format!');
-    console.log(checkResult);
-    return res.json(checkResult);
+  const regTel = /^\d{4}\d{3}\d{3}$/;
+  const regEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  if (req.body.name.length === undefined || req.body.name.length < 2 || req.body.name.length > 30) {
+    return res.json({ Error: 'Name must be within 2-30 characters' });
+  }
+  if (req.body.tel === undefined || !regTel.test(req.body.tel)) {
+    return res.json({ Error: 'Tel format incorrect!' });
+  }
+  if (req.body.email === undefined || !regEmail.test(req.body.email)) {
+    return res.json({ Error: 'Email format incorrect!' });
   }
 
-  const { name, tel, email, location } = req.body;
-  const user = await User.findByIdAndUpdate(id, { name, tel, email, location }, { new: true }).exec();
-  if (!user) { return res.status(404).json({ error: 'User not found!' }); }
+  const { name, tel, email, location, photo } = req.body;
+  const user = await User.findByIdAndUpdate(id, { name, tel, email, location, photo }, { new: true }).exec();
+  if (!user) { return res.status(404).json({ Error: 'User not found!' }); }
 
   res.json(user);
 }
@@ -90,21 +99,6 @@ async function getUserByID(req, res) {
       error: 'User info not found!'
     });
   }
-
-  
-    // switch (user.location.state) {
-    //     case 'NSW': user.location.state = 1; break;
-    //     case 'VIC': user.location.state = 2; break;
-    //     case 'SA': user.location.state = 3; break;
-    //     case 'TAS': user.location.state = 4; break;
-    //     case 'WA': user.location.state = 5; break;
-    //     case 'NT': user.location.state = 6; break;
-    //     case 'ACT': user.location.state = 7; break;
-    //     case 'QSL': user.location.state = 8; break;
-    //     default: user.location.state = null;
-    // }
-
-
   res.json(user);
 }
 
