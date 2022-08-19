@@ -165,7 +165,7 @@ export const UserPanel = (props) => {
             fontWeight: 400,
             fontSize: '16px',
             lineHeight: '14px',
-            color: '#7B8B6F',
+            color: '#E56050',
           }}
           onClick={() => setOpen(true)}
         >
