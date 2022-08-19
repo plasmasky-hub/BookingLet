@@ -133,9 +133,9 @@ const CheckboxContainer = styled(Button)`
 const PersonalSetting = () => {
   const userId = JSON.parse(localStorage.getItem("user"))._id;
   const [UpdateUser] = useUpdateUserMutation();
-  console.log(userId,'d');
+  //console.log(userId,'d');
   const { data:personaldata, isSuccess } = useGetUserQuery(userId);
-  console.log(personaldata,'f')
+  //console.log(personaldata,'f')
   
   return (
     <>
