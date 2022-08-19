@@ -16,6 +16,7 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '../../../store/api/userApi';
 
 const newtheme = { ...theme, iconColor: '#7F96AF' };
 
@@ -114,6 +115,8 @@ export const UserPanel = (props) => {
     id: user._id,
   };
 
+  const { data } = useGetUserQuery(UserInfo.id);
+
   async function logout() {
     props.setLoggedIn(false);
     // await localStorage.setItem('loggedIn', false);
@@ -139,7 +142,11 @@ export const UserPanel = (props) => {
     handleNavigate(`/UserBookingPage`);
   };
 
-  // console.log(UserInfo);
+  const routeToPersonalSetting = () => {
+    handleNavigate(`/PersonalSetting`);
+  };
+
+  console.log(data);
 
   return (
     <ProfileBox>
@@ -160,7 +167,7 @@ export const UserPanel = (props) => {
             fontWeight: 400,
             fontSize: '16px',
             lineHeight: '14px',
-            color: '#7B8B6F',
+            color: '#E56050',
           }}
           onClick={() => setOpen(true)}
         >
@@ -168,7 +175,7 @@ export const UserPanel = (props) => {
         </Typography>
       </UserInfoBox>
       <StyledAvatar
-        src="UserInfo.photo"
+        src={data?.photo}
         onClick={() => setOpen(true)}
         aria-label={UserInfo.name}
       />
@@ -189,13 +196,13 @@ export const UserPanel = (props) => {
         <StyledSideBar>
           <UserContent>
             <UserProfile>
-              <StyledUserImg />
+              <StyledUserImg src={data?.photo} />
               <StyledName>{UserInfo.name}</StyledName>
             </UserProfile>
             <ListWrapper>
               <List sx={{ width: 295 }}>
                 <Divider />
-                <ListItemButton onClick={() => navigate(`/PersonalSetting`)}>
+                <ListItemButton onClick={routeToPersonalSetting}>
                   <ListItemIcon>
                     <InfoOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}

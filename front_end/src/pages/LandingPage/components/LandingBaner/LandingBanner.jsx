@@ -46,7 +46,7 @@ const BannerContainer = styled.div`
   z-index:5;
 `;
 
-const BannerLabel = styled.div`
+const BannerLabel = styled(Box)`
   color: #ffffff;
   font-size: 32px;
   font-weight: bold;
@@ -65,12 +65,14 @@ const LandingBanner = ({ FormData, setFormData }) => (
     {/* <CalendarBackground /> */}
     <Box
       sx={{
+       
         width: 1100,
         display: "flex",
         position: "absolute",
         top: "calc(100vh - 180px)",
         left: "50vw",
         marginLeft: "-560px",
+       
       }}
     >
       <Box
@@ -84,6 +86,12 @@ const LandingBanner = ({ FormData, setFormData }) => (
           alignItems: "center",
           position: "relative",
           cursor: "pointer",
+          "&:hover": {
+            height: 150,
+          },
+          ":last-child": {
+            marginBottom: "auto",
+          },
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -134,6 +142,9 @@ const LandingBanner = ({ FormData, setFormData }) => (
           alignItems: "center",
           position: "relative",
           cursor: "pointer",
+          "&:hover": {
+            height: 150,
+          },
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -185,6 +196,9 @@ const LandingBanner = ({ FormData, setFormData }) => (
           alignItems: "center",
           position: "relative",
           cursor: "pointer",
+          "&:hover": {
+            height: 150,
+          },
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -237,6 +251,9 @@ const LandingBanner = ({ FormData, setFormData }) => (
           alignItems: "center",
           position: "relative",
           cursor: "pointer",
+          "&:hover": {
+            height: 150,
+          },
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -288,10 +305,13 @@ const LandingBanner = ({ FormData, setFormData }) => (
           alignItems: "center",
           position: "relative",
           cursor: "pointer",
+          "&:hover": {
+            height: 150,
+          },
         }}
         onClick={(e) => {
           e.preventDefault();
-          window.location.replace("/#Entertainment");
+          window.location.replace("/#Sports");
         }}
       >
         {" "}

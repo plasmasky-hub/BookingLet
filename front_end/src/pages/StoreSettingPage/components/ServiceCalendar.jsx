@@ -552,7 +552,7 @@ const Excel = (props) => {
 
     return (
         <div style={{ position: 'relative' }}>
-            <Title>Weekly Calendar</Title>
+            <Title>Service Weekly Calendar</Title>
             <SyncButton onClick={() => synchronizeTime(timePairArr)}>Sync business time to calendar</SyncButton>
 
             <WeekBar>

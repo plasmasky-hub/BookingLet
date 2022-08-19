@@ -33,10 +33,17 @@ const EditStoreInfoButton = styled(Button)`
     width:25%;
 
 `
+
+
 const OrderStatus = (props) =>{ 
     
     const navigate = useNavigate();
     const orderSize = props.orders.length;
+
+    const handleNavigate = (path) => {
+        navigate(path);
+        window.scrollTo(0, 0);
+    }
 
     return(
     <OrdersWrapper>
@@ -47,13 +54,14 @@ const OrderStatus = (props) =>{
         <ViewAndEditButton>
             <EditStoreInfoButton sx={{ mr:2,textTransform: 'capitalize',borderRadius: 5,backgroundColor: "#FA8279", color:"#FFFF"  }}
                 variant="contained" 
-                onClick={ () => navigate(`/StoreSettingPage/${props.storeId}`) }
+                onClick={ () => handleNavigate(`/StoreSettingPage/${props.storeId}`) }
             >
                 Edit Store Information
             </EditStoreInfoButton>
             <ViewStoreButton 
                 sx={{textTransform: 'capitalize' ,borderRadius: 5 ,backgroundColor: "#93B3F4", color:"#FFFF" }}
                 variant="contained"   
+                onClick={ () => handleNavigate(`/StoreBookingManagement/${props.storeId}`) }
             >
                 View Store Bookings
             </ViewStoreButton>
