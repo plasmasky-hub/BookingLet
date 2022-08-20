@@ -1,14 +1,23 @@
-import styled from '@emotion/styled';
-import { Box, TableRow, TableCell, Paper, Collapse } from '@mui/material';
-import { useState } from 'react';
-import BodyRelaxing from '../../../../assets/BodyRelaxing.png';
+import styled from "@emotion/styled";
+import {
+  Box,
+  TableRow,
+  TableCell,
+  Paper,
+  Collapse,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const StyledTableContainer = styled(Box)`
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   background-color: #f0f0f0;
   margin-bottom: 8px;
@@ -20,44 +29,38 @@ const TableCellImg = styled.img`
 `;
 
 const TableHead = {
-  name: 'Facial',
-  date: 'Date',
-  time: 'Time',
-  status: 'Status',
+  name: "Facial",
+  date: "Date",
+  time: "Time",
+  status: "Status",
 };
 
-// const TableFoot = {
-//   address: "Adelaide",
-//   date: "18/06/2022",
-//   time: "13:00 - 14:00",
-//   status: ["Confirmed", "Unconfirmed", "Cancelled"],
-// };
-
-// const StatusColor = ["#7B8B6F", "#CEA02C", "#D76D6D"];
-
-// const StyledButtonGroup = styled(ButtonGroup)`
-//   width: 150px;
-//   height: 25px;
-// `;
-
-// const ConfirmButton = styled(Button)`
-//   width: 75px;
-// `;
-
-// const CancelButton = styled(Button)`
-//   width: 75px;
-// `;
+const ShowDetailsWrapper = styled.div`
+  width: 75px;
+  height: 18px;
+  color: #8e8e8e;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+`;
 
 const CollapsibleTableWrapper = styled(Box)`
   min-width: 1000px;
   width: 100%;
-  height: 160px;
-  background-color: #fff;
+  height: 180px;
+  /* background-color: #fff; */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: start;
 `;
 
 const CollapsibleTable = styled(Box)`
+  min-width: 1000px;
+  width: 100%;
+  padding: 10px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -73,103 +76,79 @@ const CollapsedNotice = styled(Box)`
   width: 100%;
   font-style: italic;
   color: #d76d6d;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 0 0 5px 40px;
 `;
 
-export const BookingTable = ({ data, clicked }) => {
-  // const [statusIndex, setStatusIndex] = useState(1);
-  //console.log(data)
+export const BookingTable = ({ data }) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
 
-  console.log(typeof data.bookingTime);
   return (
     <>
       {data && (
         <>
           <StyledTableContainer component={Paper}>
-            <TableRow direction="column" sx={{ width: '1000px' }}>
-              <TableCell sx={{ px: 3 }}>
-                <TableCellImg src={BodyRelaxing} />
+            <TableRow direction="column" sx={{ width: "1000px" }}>
+              <TableCell>
+                <TableCellImg src={data.storeId.photo[0]} />
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.address}</h4>
-                {/* <p>{TableFoot.address}</p> */}
+                <h4>
+                  <strong>{TableHead.address}</strong>
+                </h4>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.date}</h4>
-                <p>{data.orderTime.date.toString().substring(0, 10)}</p>
-              </TableCell>
-              <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.time}</h4>
+                <h4>
+                  <strong>{TableHead.date}</strong>
+                </h4>
                 <p>
-                  {data.orderTime.startTime.length < 4
-                    ? `0${data.orderTime.startTime.substring(
-                        0,
-                        1
-                      )}:${data.orderTime.startTime.substring(1, 4)}`
-                    : `${data.orderTime.startTime.substring(
-                        0,
-                        2
-                      )}:${data.orderTime.startTime.substring(2, 4)}`}
+                  {new Intl.DateTimeFormat("en-AU", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }).format(Date.parse(data.bookingTime))}
                 </p>
               </TableCell>
               <TableCell sx={{ pr: 8 }}>
-                <h4>{TableHead.status}</h4>
-                <p
-                  style={{ color: data.bookingStatus ? '#7B8B6F' : '#CEA02C' }}
-                >
-                  {data.bookingStatus ? 'Confirmed' : 'Unconfirmed'}
+                <h4>
+                  <strong>{TableHead.time}</strong>
+                </h4>
+                <p>
+                  {new Intl.DateTimeFormat("en-AU", {
+                    hour: "2-digit",
+                    minute: "numeric",
+                    hourCycle: "h23",
+                  }).format(Date.parse(data.bookingTime))}
                 </p>
               </TableCell>
-              <TableCell sx={{ cursor: 'pointer' }}>
-                <p onClick={handleClick}>Order detail</p>
-                {/* <StyledButtonGroup
-              variant="contained"
-              aria-label="outlined primary button group"
-            >
-              {statusIndex === 1 ? (
-                <ConfirmButton
-                  onClick={() => {
-                    setStatusIndex(0);
+              <TableCell sx={{ pr: 8 }}>
+                <h4>
+                  <strong>{TableHead.status}</strong>
+                </h4>
+                <p
+                  style={{ color: data.bookingStatus ? "#7B8B6F" : "#CEA02C" }}
+                >
+                  {data.bookingStatus ? "Confirmed" : "Unconfirmed"}
+                </p>
+              </TableCell>
+              <TableCell sx={{ cursor: "pointer" }}>
+                <ShowDetailsWrapper
+                  onClick={handleClick}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
                   }}
                 >
-                  Confirm
-                </ConfirmButton>
-              ) : (
-                <ConfirmButton
-                  onClick={() => {
-                    setStatusIndex(0);
-                  }}
-                  disabled
-                >
-                  Confirm
-                </ConfirmButton>
-              )}
-
-              {statusIndex === 1 ? (
-                <CancelButton
-                  onClick={() => {
-                    setStatusIndex(2);
-                  }}
-                >
-                  Cancel
-                </CancelButton>
-              ) : (
-                <CancelButton
-                  onClick={() => {
-                    setStatusIndex(2);
-                  }}
-                  disabled
-                >
-                  Cancel
-                </CancelButton>
-              )}
-            </StyledButtonGroup> */}
+                  <IconButton aria-label="expand row" size="small">
+                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                  </IconButton>
+                  <Typography>Details</Typography>
+                </ShowDetailsWrapper>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -189,20 +168,27 @@ export const BookingTable = ({ data, clicked }) => {
                     <CollapsedTitle>
                       <p>Service Name</p>
                       <p>Time of Booking</p>
-                      <p style={{ color: '#8E8E8E' }}>Note</p>
+                      <p style={{ color: "#8E8E8E" }}>Note</p>
                     </CollapsedTitle>
                     <div>
                       <p>{data.serviceInfoId.name}</p>
-                      <p>{`${data.bookingTime.substring(
-                        0,
-                        10
-                      )} ${data.bookingTime.substring(11, 19)}`}</p>
+                      <p>{`${new Intl.DateTimeFormat("en-AU", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }).format(
+                        Date.parse(data.bookingTime)
+                      )} ${new Intl.DateTimeFormat("en-AU", {
+                        hour: "2-digit",
+                        minute: "numeric",
+                        hourCycle: "h23",
+                      }).format(Date.parse(data.bookingTime))}`}</p>
                       <p></p>
                     </div>
                   </CollapsibleTable>
                   <CollapsedNotice>
                     Waiting for confirmation from store. If no response, order
-                    will be seen as confirmed.
+                    will be considered as confirmed.
                   </CollapsedNotice>
                 </CollapsibleTableWrapper>
               </Collapse>

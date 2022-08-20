@@ -24,7 +24,7 @@ const BannerButton = styled(Button)({
   borderStyle: 'none',
   cursor: 'pointer',
   '&.MuiButton-root': {
-    backgroundColor: '#D08888',
+    backgroundColor: '#E56050',
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 700,
@@ -50,7 +50,7 @@ const WrapperFilter = styled.div`
 // margin-left: 200px;
 //   margin-top: 50px;
 const Wrapper = styled.div`
-  width: 565px;
+  width: 600px;
   height: 240px;
   margin-top: 35px;
   padding: 15px;
@@ -187,6 +187,7 @@ const BanerForm = () => {
         }}
         onClick={() => {
           navigate(`/StoreListPage${searchQuery}`);
+          window.scrollTo(0, 0);
         }}
       >
         SEARCH

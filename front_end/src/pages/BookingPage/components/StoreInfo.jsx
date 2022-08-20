@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
-import food from '../../../assets/food.jpg';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useAddOrCancelFavoriteStoreMutation } from '../../../store/api/userApi';
 
@@ -62,7 +61,18 @@ const ExpandButton = styled(Button)`
   padding-left: 0;
 `;
 
-const StoreInfo = ({ store: { name, description, location }, id }) => {
+const StoreInfo = ({
+  store: { name, description, location, favoriteUsers, photo },
+  id,
+}) => {
+  let user = localStorage.getItem('user');
+  if (user === '[object Object]' || user === 'null') user = '';
+  const userId = user ? JSON.parse(user)._id : null;
+
+  const favorite = favoriteUsers.includes(userId);
+  const [isFavorite, setIsFavorite] = useState(favorite);
+  const buttonText = isFavorite ? 'cancel favourite' : 'Add to my favourite';
+
   const [AddOrCancelFavoriteStore] = useAddOrCancelFavoriteStoreMutation();
 
   const { street, city, state, postcode } = location;
@@ -74,8 +84,6 @@ const StoreInfo = ({ store: { name, description, location }, id }) => {
   const handleClick = () => {
     setExpand(!expand);
   };
-
-  const userId = '62d43c99d7961f03c65307e6';
 
   return (
     <StoreInfoWrapper elevation={3}>
@@ -92,19 +100,18 @@ const StoreInfo = ({ store: { name, description, location }, id }) => {
           </ExpandButton>
         </StoreIntro>
         <StoreImg>
-          <img src={food} alt="StoreImage" />
+          <img src={photo[0]} alt="StoreImage" />
         </StoreImg>
       </ContentWrapper>
       <BookingButton
         variant="contained"
-        onClick={async () => {
-          if (userId && id) {
-            await AddOrCancelFavoriteStore({ userId, id });
-          }
+        onClick={() => {
+          AddOrCancelFavoriteStore({ userId, id });
+          setIsFavorite(!favorite);
         }}
       >
         <BookmarkIcon fontSize="inherit" />
-        &nbsp;Add to my favourite
+        &nbsp;{buttonText}
       </BookingButton>
     </StoreInfoWrapper>
   );

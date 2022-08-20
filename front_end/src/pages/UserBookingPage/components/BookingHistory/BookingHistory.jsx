@@ -1,12 +1,9 @@
-import styled from '@emotion/styled';
-import { useState } from 'react';
-import { Container, Chip, Stack } from '@mui/material';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import { BookingTable } from '../BookingTable/BookingTable';
-import {
-  useGetOrdersQuery,
-  // useUpdateOrderQuery,
-} from '../../../../store/api/orderApi';
+import styled from "@emotion/styled";
+import { useState } from "react";
+import { Container, Chip, Stack } from "@mui/material";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { BookingTable } from "../BookingTable/BookingTable";
+import { useGetOrdersQuery } from "../../../../store/api/orderApi";
 
 const BookingPageWrapper = styled(Container)`
   width: 100%;
@@ -25,12 +22,10 @@ const StyledChips = styled(Chip)`
   transition: ease-in-out 0.4s;
 `;
 
-const chipItems = ['All', 'Unconfirmed', 'Confirmed'];
+const chipItems = ["All", "Unconfirmed", "Confirmed"];
 
-export const BookingHistory = () => {
-  const userId = JSON.parse(localStorage.getItem('user'))._id;
-
-  const { data, isSuccess } = useGetOrdersQuery(userId);
+export const BookingHistory = ({ user }) => {
+  const { data, isSuccess } = useGetOrdersQuery(user._id);
 
   const [clicked, setClicked] = useState(0);
 
@@ -39,25 +34,25 @@ export const BookingHistory = () => {
       label={chipItem}
       key={chipItem}
       onClick={() => setClicked(index)}
-      sx={{ backgroundColor: index === clicked && '#7B8B6F' }}
+      sx={{ backgroundColor: index === clicked && "#7B8B6F" }}
     ></StyledChips>
   ));
+  const orders = data?.orders;
 
   let filterOrders = isSuccess
     ? clicked === 0
-      ? data
+      ? orders
       : clicked === 1
-      ? data.filter((e) => !e.bookingStatus)
+      ? orders.filter((e) => !e.bookingStatus)
       : clicked === 2
-      ? data.filter((e) => e.bookingStatus)
-      : data.filter((e) => e.bookingStatus)
-    : '';
-  console.log(filterOrders);
+      ? orders.filter((e) => e.bookingStatus)
+      : orders.filter((e) => e.bookingStatus)
+    : [];
+
   if (!filterOrders) return <>no orders</>;
-  if (filterOrders === '') return <>no orders</>;
+  if (filterOrders === "") return <>no orders</>;
 
   return (
-    // <>booking</>
     <>
       {isSuccess && filterOrders && (
         <BookingPageWrapper>
@@ -72,7 +67,7 @@ export const BookingHistory = () => {
             {statusIndicator}
           </Stack>
           {filterOrders.map((order) => (
-            <BookingTable data={order} key={order.id} />
+            <BookingTable data={order} key={order._id} />
           ))}
         </BookingPageWrapper>
       )}

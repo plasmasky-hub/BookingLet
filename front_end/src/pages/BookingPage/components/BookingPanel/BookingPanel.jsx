@@ -32,12 +32,10 @@ const FlexWrapper = styled.div`
   justify-content: center;
 `;
 
-const BookingPanel = ({ id }) => {
+const BookingPanel = ({ id, setOpen }) => {
   const [step, setStep] = useState(0);
 
   const Display = Forms[step];
-  const userName = JSON.parse(localStorage.getItem('user')).name;
-  const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
   const [FormData, setFormData] = useState({
     date: new Date(),
@@ -46,8 +44,6 @@ const BookingPanel = ({ id }) => {
     duration: '',
     mobile: '',
     note: '',
-    name: userName,
-    email: userEmail,
     send: false,
     startTime: '',
     endTime: '',
@@ -106,7 +102,13 @@ const BookingPanel = ({ id }) => {
       </form>
       <FlexWrapper>
         <BackButton step={step} setStep={setStep} Forms={Forms} />
-        <ForwardButton step={step} setStep={setStep} Forms={Forms} />
+        <ForwardButton
+          step={step}
+          setStep={setStep}
+          Forms={Forms}
+          setOpen={setOpen}
+          FormData={FormData}
+        />
       </FlexWrapper>
     </PanelWrapper>
   );

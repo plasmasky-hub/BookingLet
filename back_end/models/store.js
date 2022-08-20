@@ -79,6 +79,10 @@ const schema = new mongoose.Schema(
     photo: [{
       type: String
     }],
+    backgroundPhoto: {
+      type: String,
+      default: 'https://raw.githubusercontent.com/RedRe4per/MyPicture/main/JR-P3/default.jpg'
+    },
     menuPhoto: [{
       type: String
     }],

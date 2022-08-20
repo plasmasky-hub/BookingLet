@@ -107,7 +107,7 @@ const LoginButton = styled(Button)`
 
 export const LoginModal = (props) => {
   const [login, { isLoading }] = useLoginMutation();
-  const [user, setUser] = useState(Object);
+  const [user, setUser] = useState('');
   const [token, setToken] = useState('');
   // const [isLogin, setIsLogin] = useState('false');
 
@@ -182,7 +182,7 @@ export const LoginModal = (props) => {
           'user',
           JSON.stringify(loginResult.data.user)
         );
-        await localStorage.setItem('loggedIn', true);
+        // await localStorage.setItem('loggedIn', true);
 
         showLocalStorage();
 

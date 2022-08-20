@@ -4,7 +4,7 @@ import Calendar from './components/Calendar';
 import StoreInfo from './components/StoreInfo';
 import { useGetStoreQuery } from '../../store/api/storeApi';
 import { useParams } from 'react-router-dom';
-import StoreSetting from './components/StoreSetting';
+import EditStore from './components/EditStore/Editstore';
 import ServiceInfo from './components/ServiceInfo';
 import ServiceList from './components/ServiceList';
 import ServiceCalendar from './components/ServiceCalendar';
@@ -13,6 +13,7 @@ const ContentWrapper = styled.div`
   display: flex;
   margin: 100px auto;
   width: fit-content;
+  height: 729px;
   box-sizing: border-box;
 `;
 
@@ -23,7 +24,7 @@ const StoreSettingPage = () => {
   const [display, setDisplay] = useState({
     StoreCalendar: false,
     StoreInfo: true,
-    StoreSetting: false,
+    EditStore: false,
     ServiceInfo: true,
     ServiceList: true,
     ServiceCalendar: false,
@@ -34,18 +35,22 @@ const StoreSettingPage = () => {
     <>
       {isSuccess && (
         <ContentWrapper>
-          {display.StoreCalendar && <Calendar id={id} />}
-          {display.StoreInfo && (
-            <StoreInfo store={data} display={display} setDisplay={setDisplay} />
-          )}
-          {display.StoreSetting && <StoreSetting />}
           {display.ServiceList && (
             <ServiceList id={id} display={display} setDisplay={setDisplay} />
           )}
           {display.ServiceInfo && (
             <ServiceInfo id={id} display={display} setDisplay={setDisplay} />
           )}
-          {display.ServiceCalendar && <ServiceCalendar id={display.serviceId} storeId={id}/>}
+          {display.StoreInfo && (
+            <StoreInfo store={data} display={display} setDisplay={setDisplay} />
+          )}
+          {display.ServiceCalendar && (
+            <ServiceCalendar id={display.serviceId} storeId={id} />
+          )}
+          {display.StoreCalendar && <Calendar id={id} />}
+          {display.EditStore && (
+            <EditStore store={data} display={display} setDisplay={setDisplay} />
+          )}
         </ContentWrapper>
       )}
     </>

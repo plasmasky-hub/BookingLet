@@ -16,9 +16,9 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '../../../store/api/userApi';
 
 const newtheme = { ...theme, iconColor: '#7F96AF' };
-
 
 const ProfileBox = styled.div`
   width: 280px;
@@ -104,25 +104,27 @@ export const UserPanel = (props) => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const user = JSON.parse( localStorage.getItem("user") ); 
+  const user = JSON.parse(localStorage.getItem('user'));
   // console.log("🚀 ~ file: UserPanel.jsx ~ line 104 ~ UserPanel ~ user", user)
   // console.log(typeof(user));
   // console.log(user.name);
 
   const UserInfo = {
-    "name": user.name,
-    "role": user.role,
-    "id" : user._id,
-  }
+    name: user.name,
+    role: user.role,
+    id: user._id,
+  };
 
-  async function logout(){
+  const { data } = useGetUserQuery(UserInfo.id);
+
+  async function logout() {
     props.setLoggedIn(false);
-    await localStorage.setItem('loggedIn', false);
-    await localStorage.setItem('user', null);
+    // await localStorage.setItem('loggedIn', false);
+    await localStorage.setItem('user', '');
     await localStorage.setItem('token', '');
   }
 
-  async function handleNavigate (url) {
+  async function handleNavigate(url) {
     setOpen(false);
     await navigate(url);
     window.scrollTo(0, 0);
@@ -130,17 +132,21 @@ export const UserPanel = (props) => {
 
   const routeToStoreLandingPage = () => {
     handleNavigate(`/StoreLandingPage`);
-  }
+  };
 
   const routeToFavStore = () => {
     handleNavigate(`/FavouriteStoreListPage/${UserInfo.id}`);
-  }
+  };
 
   const routeToUserBooking = () => {
     handleNavigate(`/UserBookingPage`);
-  }
+  };
 
-  // console.log(UserInfo);
+  const routeToPersonalSetting = () => {
+    handleNavigate(`/PersonalSetting`);
+  };
+
+  console.log(data);
 
   return (
     <ProfileBox>
@@ -161,14 +167,18 @@ export const UserPanel = (props) => {
             fontWeight: 400,
             fontSize: '16px',
             lineHeight: '14px',
-            color: '#7B8B6F',
+            color: '#E56050',
           }}
           onClick={() => setOpen(true)}
         >
           {UserInfo.role}
         </Typography>
       </UserInfoBox>
-      <StyledAvatar onClick={() => setOpen(true)} aria-label={UserInfo.name} />
+      <StyledAvatar
+        src={data?.photo}
+        onClick={() => setOpen(true)}
+        aria-label={UserInfo.name}
+      />
       <SwipeableDrawer
         anchor="right"
         open={open}
@@ -186,13 +196,13 @@ export const UserPanel = (props) => {
         <StyledSideBar>
           <UserContent>
             <UserProfile>
-              <StyledUserImg />
+              <StyledUserImg src={data?.photo} />
               <StyledName>{UserInfo.name}</StyledName>
             </UserProfile>
             <ListWrapper>
               <List sx={{ width: 295 }}>
                 <Divider />
-                <ListItemButton>
+                <ListItemButton onClick={routeToPersonalSetting}>
                   <ListItemIcon>
                     <InfoOutlinedIcon
                       sx={{ color: `${newtheme.palette.secondary.main}` }}
@@ -226,23 +236,20 @@ export const UserPanel = (props) => {
                 </ListItemButton>
                 <Divider variant="middle" />
 
-                {UserInfo.role === 'Customer'
-                  ? null 
-                  : <ListItemButton 
-                      onClick={ routeToStoreLandingPage }
-                    >
-                      <ListItemIcon>
-                        <HowToRegOutlinedIcon
-                          sx={{ color: `${newtheme.palette.secondary.main}` }}
-                        />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={'My Stores'}
-                        sx={{ color: 'white' }}
+                {UserInfo.role === 'Customer' ? null : (
+                  <ListItemButton onClick={routeToStoreLandingPage}>
+                    <ListItemIcon>
+                      <HowToRegOutlinedIcon
+                        sx={{ color: `${newtheme.palette.secondary.main}` }}
                       />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={'My Stores'}
+                      sx={{ color: 'white' }}
+                    />
                   </ListItemButton>
-                }
-                
+                )}
+
                 <Divider variant="middle" />
                 <ListItemButton>
                   <ListItemIcon>
@@ -256,8 +263,8 @@ export const UserPanel = (props) => {
               </List>
             </ListWrapper>
           </UserContent>
-          <UserLogOutBtn 
-            variant="text" 
+          <UserLogOutBtn
+            variant="text"
             startIcon={<LogoutIcon />}
             onClick={logout}
           >
