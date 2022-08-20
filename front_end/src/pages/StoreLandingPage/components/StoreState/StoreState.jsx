@@ -113,7 +113,6 @@ const StoreState= (props) => {
     // const id = '62d43d784d61d2e252076471';
     const id = props.userId;
     console.log("🚀 ~ file: StoreState.jsx ~ line 55 ~ StoreState ~ id", id)
-    const background =props.userBackgroundPhoto;
     const {
       data: user,
       isLoading,
@@ -144,7 +143,7 @@ const StoreState= (props) => {
 
                                 <StoreInfoBar storeId={store._id} />
                                 <hr />
-                                <OrderStatus  storeId={store._id} orders={store.orders}/>
+                                <OrderStatus  storeId={store._id} orders={store.orders} favoriteUsersSize= {store.favoriteUsersSize}/>
                             {/* </div> */}
 
                         </StoreContainer>
