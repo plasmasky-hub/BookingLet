@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { NoOrder } from "../../../components/shared/NoOrders";
 import { ServiceDropdown } from "./ServiceDropdown";
-// import { SwitchButton } from "./SwitchButton";
+import { SwitchButton } from "./SwitchButton";
 import { UpcomingBookingTableRow } from "./UpcomingBookingTableRow";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
@@ -44,25 +45,19 @@ export const UpcomingBookings = (props) => {
     setCurrentService(e.target.value);
   };
 
-  const [switchStatus, setSwitchStatus] = useState(true);
+  const [switchStatus, setSwitchStatus] = useState(false);
 
   const handleSwitchButton = (e) => {
-    setSwitchStatus(e.target.value);
+    setSwitchStatus(e.target.checked);
   };
 
-  const { data: ordersInfo } = useGetOrdersByParamsQuery(
-    {
-      storeId: id,
-      periodLimiter: "coming",
-      page: currentPage,
-      serviceInfoId: currentService,
-      onlyShowUnconfirmedBooking: switchStatus,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-      pollingInterval: 2000,
-    }
-  );
+  const { data: ordersInfo, refetch } = useGetOrdersByParamsQuery({
+    storeId: id,
+    periodLimiter: "coming",
+    page: currentPage,
+    serviceInfoId: currentService,
+    onlyShowUnconfirmedBooking: switchStatus,
+  });
 
   const [orders, setOrders] = useState(ordersInfo?.orders);
 
@@ -70,15 +65,27 @@ export const UpcomingBookings = (props) => {
     setOrders(ordersInfo?.orders);
   }, [ordersInfo]);
 
+  useEffect(() => {
+    refetch();
+  }, [currentPage, refetch]);
+
+  useEffect(() => {
+    refetch();
+  }, [currentService, refetch]);
+
+  useEffect(() => {
+    refetch();
+  }, [switchStatus, refetch]);
+
   const handlePageClick = (_event, page) => {
     setCurrentPage(page);
   };
   const store = props.store;
   // const { data: store } = useGetStoreQuery(id);
-
   // if (!ordersInfo) return <>no orders</>;
   // if (orders.length === 0) return <>no orders</>;
-  if (ordersInfo === undefined) return <>no orders</>;
+
+  if (ordersInfo === undefined) return <NoOrder />;
 
   const pageQty = ordersInfo?.pageQty;
 
@@ -93,16 +100,25 @@ export const UpcomingBookings = (props) => {
               currentOption={currentService}
               onChangeEvent={handleSelectService}
             />
-            {/* <SwitchButton orders={orders} onChangeEvent={handleSwitchButton} /> */}
+            <SwitchButton
+              switchStatus={switchStatus}
+              onChangeEvent={handleSwitchButton}
+            />
           </BookingManageWrapper>
-          {orders.length === 0 && <>no orders</>}
-          {orders.map((order) => {
-            return <UpcomingBookingTableRow data={order} key={order._id} />;
-          })}
-          <BasicPagination
-            pageQty={pageQty}
-            handlePageClick={handlePageClick}
-          />
+          {orders.length === 0 ? (
+            <NoOrder />
+          ) : (
+            [
+              orders.map((order) => {
+                return <UpcomingBookingTableRow data={order} key={order._id} />;
+              }),
+              <BasicPagination
+                pageQty={pageQty}
+                handlePageClick={handlePageClick}
+                key="upcoming_pagination"
+              />,
+            ]
+          )}
         </UpcomingBookingWrappepr>
       )}
     </>

@@ -137,6 +137,7 @@ const StyledCollapedTableRowText = styled.p`
 
 export const UpcomingBookingTableRow = ({ data }) => {
   const [open, setOpen] = useState(false);
+
   return (
     <>
       {data && (
@@ -163,7 +164,7 @@ export const UpcomingBookingTableRow = ({ data }) => {
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
-                    }).format(Date.parse(data.bookingTime))}
+                    }).format(Date.parse(data.orderTime.date))}
                   </p>
                 </TableCell>
                 <TableCell>
@@ -175,7 +176,7 @@ export const UpcomingBookingTableRow = ({ data }) => {
                       hour: "2-digit",
                       minute: "numeric",
                       hourCycle: "h23",
-                    }).format(Date.parse(data.bookingTime))}
+                    }).format(Date.parse(data.orderTime.timestamp))}
                   </p>
                 </TableCell>
                 <TableCell>

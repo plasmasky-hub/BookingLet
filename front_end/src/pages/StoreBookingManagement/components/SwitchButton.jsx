@@ -15,18 +15,24 @@ const BookingManagementFilter = styled.div`
 `;
 
 export const SwitchButton = (props) => {
-  const orders = props.orders;
-  const onChangeEvent = props.onChange;
+  const switchStatus = props.switchStatus;
+  const onChangeEvent = props.onChangeEvent;
+
   return (
     <>
-      {orders && (
+      {
         <BookingManagementFilter>
-          <Switch size="small" onChange={(e) => onChangeEvent(e)} />
+          <Switch
+            color="buttonBlue"
+            size="small"
+            onChange={(e) => onChangeEvent(e)}
+            checked={switchStatus}
+          />
           <BookingManageCategory>
             Only show unconfirmed bookings
           </BookingManageCategory>
         </BookingManagementFilter>
-      )}
+      }
     </>
   );
 };

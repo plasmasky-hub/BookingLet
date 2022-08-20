@@ -9,6 +9,7 @@ import { PrevBookingTableRow } from "./PrevBookingTableRow";
 import { useParams } from "react-router-dom";
 import { useGetOrdersByParamsQuery } from "../../../store/api/orderApi";
 import { BasicPagination } from "./Pagination";
+import { NoOrder } from "../../../components/shared/NoOrders";
 
 const PreviousBookingWrappepr = styled.div`
   min-width: 1000px;
@@ -78,24 +79,34 @@ export const PreviousBookings = (props) => {
     setCurrentService(e.target.value);
   };
 
-  const { data: ordersInfo, isSuccess } = useGetOrdersByParamsQuery(
-    {
-      storeId: id,
-      periodLimiter: currentPeriod,
-      page: currentPage,
-      serviceInfoId: currentService,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-      pollingInterval: 2000,
-    }
-  );
+  const {
+    data: ordersInfo,
+    isSuccess,
+    refetch,
+  } = useGetOrdersByParamsQuery({
+    storeId: id,
+    periodLimiter: currentPeriod,
+    page: currentPage,
+    serviceInfoId: currentService,
+  });
 
   const [orders, setOrders] = useState(ordersInfo?.orders);
 
   useEffect(() => {
     setOrders(ordersInfo?.orders);
   }, [ordersInfo]);
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, refetch]);
+
+  useEffect(() => {
+    refetch();
+  }, [currentPeriod, refetch]);
+
+  useEffect(() => {
+    refetch();
+  }, [currentService, refetch]);
 
   const handlePageClick = (_event, page) => {
     setCurrentPage(page);
@@ -154,19 +165,24 @@ export const PreviousBookings = (props) => {
               />
             </ServiceDropdownWrapper>
           </BookingManageWrapper>
-          {orders.length === 0 && <>no orders</>}
-          <Table>
-            <TableBody>
-              {orders?.map((order) => {
-                return <PrevBookingTableRow data={order} key={order._id} />;
-              })}
-            </TableBody>
-          </Table>
-
-          <BasicPagination
-            pageQty={pageQty}
-            handlePageClick={handlePageClick}
-          />
+          {orders.length === 0 ? (
+            <NoOrder />
+          ) : (
+            [
+              <Table key="prev_table">
+                <TableBody>
+                  {orders?.map((order) => {
+                    return <PrevBookingTableRow data={order} key={order._id} />;
+                  })}
+                </TableBody>
+              </Table>,
+              <BasicPagination
+                pageQty={pageQty}
+                handlePageClick={handlePageClick}
+                key="prev_pagination"
+              />,
+            ]
+          )}
         </PreviousBookingWrappepr>
       )}
     </>
