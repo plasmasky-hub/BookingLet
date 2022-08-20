@@ -2,13 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
-const errorHandler = require('./middleware/errorHandler');
+const errorHandler = require('./src/middleware/errorHandler');
 const app = express();
 require('express-async-errors');
 const swaggerUi = require('swagger-ui-express');
 
-const router = require('./routes');
-const swaggerJsDoc = require('./utils/swagger');
+const router = require('./src/routes');
+const swaggerJsDoc = require('./src/utils/swagger');
 
 app.use(helmet());
 app.use(cors());
