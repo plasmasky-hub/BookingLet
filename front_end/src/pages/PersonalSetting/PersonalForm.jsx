@@ -363,7 +363,6 @@ const PersonalForm = ({ personaldata, id }) => {
           </ButtonContainer>
         </WholeContainer>
       </StoreInfWrapper>
-      )
     </>
   );
 };
