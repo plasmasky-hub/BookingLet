@@ -39,6 +39,7 @@ const OrderStatus = (props) =>{
     
     const navigate = useNavigate();
     const orderSize = props.orders.length;
+    const favoriteUsersSize = props.favoriteUsersSize;
 
     const handleNavigate = (path) => {
         navigate(path);
@@ -49,7 +50,7 @@ const OrderStatus = (props) =>{
     <OrdersWrapper>
         <div style={{color:'#FA8279'}}>
           {orderSize} New bookings need to be confirmed now</div>
-        <div>12 Coming bookings today</div>
+        <div> {favoriteUsersSize} users have add this store to their favorite. </div>
 
         <ViewAndEditButton>
             <EditStoreInfoButton sx={{ mr:2,textTransform: 'capitalize',borderRadius: 5,backgroundColor: "#FA8279", color:"#FFFF"  }}
