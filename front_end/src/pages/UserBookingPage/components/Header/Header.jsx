@@ -80,7 +80,7 @@ export const UserBookingHeader = ({ user }) => {
                 <strong>{UserDataArr[2]}</strong>: {user.location?.state}
               </span>
             </UserInfoContent>
-            <Link to={'/Personal Setting'}>
+            <Link to={'/PersonalSetting'}>
               <UploadButton
                 variant="outlined"
                 component="span"
