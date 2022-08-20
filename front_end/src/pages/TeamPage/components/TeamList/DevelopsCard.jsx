@@ -109,10 +109,7 @@ export default function DevelopsCard() {
           aria-label="Linkedin"
           onClick={(e) => {
             e.preventDefault();
-            window.open(
-              'https://www.linkedin.com/in/derek-z-987714246/',
-              '_blank'
-            );
+            window.open('https://www.linkedin.com/in/zhu-derek/', '_blank');
           }}
         >
           <LinkedInIcon />
@@ -121,7 +118,7 @@ export default function DevelopsCard() {
       <Cards elevation={3}>
         <MemberPhoto src="https://dynamic-assets.gather.town/sprite/avatar-nleRmaVuDp43pW3GYO3T-dI6m4h1Fbg6fflrj0GVT-C0ykfrlDx7AkQsLyLcNS-z3y0nUr4eDNKtW90WqEl-Thh1O95hOZKq4yyTmVQD-rUJFkqJ4QbY7F4iKtOMG-zPtbvV9Dm9Jx9jpWsnjv-fs2Udegytxxdo9Po7S05.png" />
         <h4>Seven Wang</h4>
-        <p>A front-end developer who loves to challenge myself at work. </p>
+        <p>A front-end developer who loves to challenge herself at work. </p>
         <ButtonIcons
           aria-label="Linkedin"
           onClick={(e) => {
