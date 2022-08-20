@@ -29,7 +29,7 @@ YiFan Yang
 
 Sonia Ni
 
-Xinglin Chen
+Xinglin (Austin) Chen
 
 Xiaoyu Fan
 
