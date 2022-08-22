@@ -4,6 +4,7 @@ import { Container, Chip, Stack } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { BookingTable } from "../BookingTable/BookingTable";
 import { useGetOrdersQuery } from "../../../../store/api/orderApi";
+import { NoOrder } from "../../../../components/shared/NoOrders";
 
 const BookingPageWrapper = styled(Container)`
   width: 100%;
@@ -49,8 +50,8 @@ export const BookingHistory = ({ user }) => {
       : orders.filter((e) => e.bookingStatus)
     : [];
 
-  if (!filterOrders) return <>no orders</>;
-  if (filterOrders === "") return <>no orders</>;
+  if (!filterOrders) return <NoOrder />;
+  if (filterOrders === "") return <NoOrder />;
 
   return (
     <>
