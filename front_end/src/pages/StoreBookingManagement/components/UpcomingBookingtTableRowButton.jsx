@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
@@ -88,7 +88,7 @@ const ShowActionResult = ({ message }) => {
 
 const UpcomingBookingStatus = ["Confirm", "Decline"];
 
-const ShowMessageText = ["confirmed", "canceled"];
+const ShowMessageText = ["confirmed", "cancelled"];
 
 export const UpcomingBookingtTableRowButton = ({ data }) => {
   const [
@@ -105,6 +105,10 @@ export const UpcomingBookingtTableRowButton = ({ data }) => {
   const [isShowConfirmedMessage, setIsShowConfirmedMessage] = useState(
     data.bookingStatus
   );
+
+  useEffect(() => {
+    setIsClick(isClick || data.bookingStatus || data.cancelStatus);
+  }, [data, isClick]);
 
   const onConfirm = (_e, isConfirmed) => {
     setIsClick(true);

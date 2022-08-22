@@ -70,7 +70,7 @@ export const PrevBookingTableRow = ({ data }) => {
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
-                    }).format(Date.parse(data.bookingTime))}
+                    }).format(Date.parse(data.orderTime.date))}
                   </p>
                 </TableCell>
                 <TableCell>
@@ -82,7 +82,7 @@ export const PrevBookingTableRow = ({ data }) => {
                       hour: "2-digit",
                       minute: "numeric",
                       hourCycle: "h23",
-                    }).format(Date.parse(data.bookingTime))}
+                    }).format(Date.parse(data.orderTime.timestamp))}
                   </p>
                 </TableCell>
                 <TableCell>
